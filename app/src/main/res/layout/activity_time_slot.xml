@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/time_slot_calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarStyle="outsideOverlay" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"
+            android:paddingTop="3dp" />
+
+        <TextView
+            android:id="@+id/tvGetDHeader1"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#ffffff"
+            android:padding="6dp"
+            android:text="@string/tvBookAPHeader"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/common_text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"
+            android:paddingTop="3dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@+id/time_slot_schedule_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:horizontalSpacing="3dp"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="3dp" />
+
+        <TextView
+            android:id="@+id/time_slot_tv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="No slots available for the selected date."
+            android:textColor="@color/error_color"
+            android:textSize="@dimen/big_text_size" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/time_slot_btnCancelSch"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:background="@color/colorPrimary"
+        android:padding="5dp"
+        android:text="Cancel"
+        android:visibility="gone"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</LinearLayout>

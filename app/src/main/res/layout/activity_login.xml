@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bgcolor"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical"
+    android:padding="@dimen/ten_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_blue"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_user_name" />
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/login_edt_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:paddingTop="4dp"
+                    android:hint="@string/prompt_email"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="32dp"
+            android:background="@color/calendar_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_new_password" />
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp">
+
+                <EditText
+                    android:id="@+id/login_edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:background="@null"
+                    android:paddingTop="4dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="32dp"
+            android:background="@color/calendar_divider"/>
+
+        <CheckBox
+            android:id="@+id/login_chkbx_remember"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:checked="false"
+            android:text="Remember me"
+            app:buttonTint="@color/colorPrimary"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/login_btn_login"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/five_margin"
+            android:background="@drawable/card_layout"
+            android:text="@string/action_sign_in"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/common_text_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,135 @@
+<resources>
+    <string name="app_name"><b>H</b>ealth <b>S</b>pring</string>
+    <string name="empty_list">No Record Found</string>
+    <string name="runtime_permissions_txt">Please enable all permissions from app settings.</string>
+    <!---Login-->
+    <string name="login_screen">Login</string>
+    <string name="logout_screen">Logout</string>
+    <string name="prompt_email">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+
+    <!---Dashboard-->
+    <string name="dashboard_profile">Profile</string>
+    <string name="dashboard_appointments">Appointments</string>
+    <string name="dashboard_patientqueue">Patient Queue</string>
+    <string name="dashboard_searchpatient">Search Patient</string>
+    <string name="dashboard_aboutpalash">About</string>
+
+    <!---ChangePassword-->
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="change">Change Password</string>
+    <string name="setting">Settings</string>
+
+    <!---app crash-->
+    <string name="crash_toast_text">"Sending Crash Report."</string>
+
+    <!---DoctorProfile-->
+    <string name="profile_perfix">Prefix</string>
+    <string name="profile_fname">First Name</string>
+    <string name="profile_mname">Middle Name</string>
+    <string name="profile_lname">Last Name</string>
+    <string name="profile_specialization">Specialization</string>
+    <string name="profile_dob">Date Of Birth</string>
+    <string name="profile_edu">Education</string>
+    <string name="profile_gender">Gender</string>
+    <string name="profile_email">Email ID</string>
+    <string name="profile_mob">Mobile No.</string>
+    <string name="profile_maritalstatus">Marital Status</string>
+    <string name="profile_blood">Blood Group</string>
+
+    <!---Search Patient-->
+    <string name="serach">Search Patient...</string>
+    <string name="dashboard_patientregistration">Patient Registration</string>
+    <string name="dashboard_visit_list">Patient Visit List</string>
+    <string name="dashboard_visit_book">Patient Book Visit</string>
+
+    <!---Doctor List-->
+    <string name="book">Book</string>
+    <string name="dashboard_doctorlist">Doctor List</string>
+
+    <!---Time Slot -->
+    <string name="dashboard_timeslot">Time Slot</string>
+    <string name="tvBookAPHeader">Available Time Slots</string>
+    <string name="time_slots">Time Slots</string>
+    <string name="title_activity_appointment">Appointments</string>
+
+    <!---Appointment -->
+    <string name="dashboard_Appointment">Book Appointment</string>
+    <string name="patientname">Patient Name</string>
+    <string name="docotrname">Doctor Name</string>
+    <string name="appointmentreason">Appointment Reason</string>
+    <string name="department">Department</string>
+    <string name="complaint">Complaint</string>
+    <string name="remark">Remark</string>
+    <string name="date">Date</string>
+    <string name="appointmentrereason">Appointment Reschedule Reason</string>
+    <string name="appointmentreschedule">Appointment Reschedule </string>
+    <string name="time">Time</string>
+    <string name="appointmentcanclereason">Appointment Cancel Reason</string>
+    <string name="sumbmit">Submit</string>
+    <string name="closeDrawer">Navigation View</string>
+    <string name="openDrawer">Navigation View Closed</string>
+
+    <string name="patient_emr">Patient EMR</string>>
+    <string name="emr_vitals">Vitals</string>
+    <string name="emr_diagnosis">Diagnosis</string>
+    <string name="emr_cpoe_medicine">CPOE Prescription</string>
+    <string name="emr_cpoe_investigation">Investigation</string>
+    <string name="emr_complaint">Complaints</string>
+    <string name="emr_followup">Follow Up</string>
+    <string name="emr_referral">Referral</string>
+
+    <string name="drug_name">Drug Name</string>
+    <string name="dose">Dose</string>
+    <string name="route">Route</string>
+    <string name="frequency">Frequency</string>
+    <string name="days">Days</string>
+    <string name="quntity">Qty</string>
+    <string name="reason">Instruction</string>
+
+    <string name="food">Food Name</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="medicine_drug_name">Medicine Name</string>
+    <string name="medicine_dose">Medicine Dose</string>
+    <string name="medicine_route">Medicine Route</string>
+    <string name="medicine_frequency">Medicine Frequency</string>
+    <string name="medicine_days">Days</string>
+    <string name="medicine_quntity">Quantity</string>
+    <string name="medicine_reason">Medicine Instruction</string>
+
+    <string name="diagnosis_add">Add Diagnosis</string>
+    <string name="diagnosis_name">Diagnosis Name</string>
+    <string name="diagnosis_code">Diagnosis Code</string>
+    <string name="diagnosis_type">Diagnosis Type</string>
+    <string name="diagnosis_remark">Diagnosis Remark</string>
+
+    <string name="vitals_add">Add Vitals </string>
+    <string name="vitals_name">Vitals Name</string>
+    <string name="vitals_datetime">Date Time</string>
+    <string name="vitals_value">Value</string>
+    <string name="vitals_unit">Unit</string>
+    <string name="vitals_minvalue">Minvalue</string>
+    <string name="vitals_maxvalue">Maxvalue</string>
+
+    <string name="cpoeservice_name">Service Name</string>
+    <string name="cpoeservice_type">Service Type</string>
+    <string name="cpoeservice_rate">Rate</string>
+    <string name="cpoeservice_priority">Priority</string>
+    <string name="cpoeinvestigation_add">Add Investigation </string>
+    <string name="referral_add">Add Referral </string>
+    <string name="cpoemedicine_add">Add CPOE Prescription</string>
+
+    <string name="drug">Drug</string>
+    <string name="molecule">Molecule</string>
+
+    <string name="Synchronization">Synchronization</string>
+    <string name="please_wait">Please wait</string>
+
+    <string name="offline_alert">Something went wrong.You still want to save record offline?</string>
+    <string name="network_alert">Network is unreachable. Please check your network and try again.</string>
+    <string name="login_alert">Invalid username or password. Please try again</string>
+
+</resources>

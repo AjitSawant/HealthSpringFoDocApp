@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_current_medication_add"
+        android:icon="@drawable/ic_add"
+        android:title="add"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_current_medication_save"
+        android:icon="@drawable/ic_save"
+        android:title="Save"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_current_medication_cancle"
+        android:icon="@drawable/ic_delete"
+        android:title="Cancel"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_current_medication_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="Cancel"
+        android:visible="false"
+        app:showAsAction="always" />
+
+</menu>

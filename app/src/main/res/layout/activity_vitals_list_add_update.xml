@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/border_whitedark"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_margin">
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/five_margin"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/vitals_list_edt_datetime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/vitals_datetime"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:enabled="false"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/small_text_size"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/vitals_list_spinner_vitals_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                app:ms_alignLabels="true"
+                app:ms_arrowSize="@dimen/small_text_size"
+                app:ms_baseColor="@color/text_color"
+                app:ms_enableErrorLabel="false"
+                app:ms_enableFloatingLabel="true"
+                app:ms_highlightColor="@color/text_color"
+                app:ms_hintColor="@color/text_color"
+                app:ms_multiline="false" />
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/five_margin"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/vitals_list_edt_vlaue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="@string/vitals_value"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/small_text_size"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/five_margin"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/vitals_list_edt_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="@string/vitals_unit"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/small_text_size"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/five_margin"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/vitals_list_edt_minvalue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="@string/vitals_minvalue"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/small_text_size" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/five_margin"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/vitals_list_edt_maxvalue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="@string/vitals_maxvalue"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/small_text_size" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
+
+
+

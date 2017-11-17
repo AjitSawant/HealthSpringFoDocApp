@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    android:orientation="vertical"
+    android:padding="@dimen/ten_margin"
+    tools:context=".activity.PatientQueueActivity">
+
+    <Chronometer
+        android:id="@+id/patient_queue_chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:background="@drawable/border_card"
+        android:layout_marginBottom="@dimen/five_margin"
+        android:padding="@dimen/five_margin">
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextLabel_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/patientqueue_edt_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Serach Patient Name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/ten_margin"
+                android:singleLine="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/patientqueue_bnt_search"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:layout_margin="1dp"
+            android:background="@drawable/card_layout"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="3dp"
+            android:text="Clear"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_text_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/patient_queue_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="4dp"
+        android:smoothScrollbar="true"
+        android:divider="@android:color/transparent"
+        android:visibility="gone"></ListView>
+
+    <TextView
+        android:id="@+id/patient_queue_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/empty_list"
+        android:textSize="@dimen/fifteen_margin" />
+
+</LinearLayout>

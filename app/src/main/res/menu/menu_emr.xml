@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/action_vitals"
+            android:checked="false"
+            android:icon="@drawable/emr_vitals"
+            android:title="@string/emr_vitals" />
+
+        <item
+            android:id="@+id/action_diagnosis"
+            android:checked="false"
+            android:icon="@drawable/emr_diagnosis"
+            android:title="@string/emr_diagnosis" />
+
+        <item
+            android:id="@+id/action_cpoe_service"
+            android:checked="false"
+            android:icon="@drawable/emr_service"
+            android:visible="true"
+            android:title="@string/emr_cpoe_investigation" />
+
+        <item
+            android:id="@+id/action_cpoe_medicine"
+            android:checked="false"
+            android:icon="@drawable/emr_medicine"
+            android:title="@string/emr_cpoe_medicine" />
+
+        <item
+            android:id="@+id/action_cpoe_complaint"
+            android:checked="false"
+            android:icon="@drawable/emr_history"
+            android:title="@string/emr_complaint" />
+
+        <item
+            android:id="@+id/action_refarral"
+            android:checked="false"
+            android:icon="@drawable/emr_examination"
+            android:title="@string/emr_referral" />
+
+        <item
+            android:id="@+id/action_followup"
+            android:checked="false"
+            android:icon="@drawable/emr_allergy"
+            android:title="@string/emr_followup" />
+
+    </group>
+</menu>

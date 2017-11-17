@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Search / will display always -->
+    <item
+        android:id="@+id/menu_visit_list_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/serach"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_visit_list_add"
+        android:icon="@drawable/ic_add_patient"
+        android:title="Add"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_visit_list_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="Refresh"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar" />
+
+    <android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_activity_drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_margin">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/five_margin"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layout_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:background="@drawable/bnt_dashboard"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:src="@drawable/dash_profile_male" />
+
+                    <TextView
+                        android:id="@+id/dash_tv_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="@string/dashboard_profile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="20sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_appointments"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/five_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:src="@drawable/dash_appointment" />
+
+                    <TextView
+                        android:id="@+id/dash_tv_appointment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="@string/dashboard_appointments"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text_size" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_patient_queue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/five_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:src="@drawable/dash_patient_queue" />
+
+                    <TextView
+                        android:id="@+id/dash_tv_patient_queue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="@string/dashboard_patientqueue"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text_size" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/five_margin"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layout_search_patient"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/five_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:src="@drawable/dash_search_patient" />
+
+                    <TextView
+                        android:id="@+id/dash_tv_patient_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="@string/dashboard_searchpatient"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text_size" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_day_summery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/five_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:src="@drawable/dash_day_summary" />
+
+                    <TextView
+                        android:id="@+id/dash_tv_daysummery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text_size" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_aboutus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:src="@drawable/dash_about_palash" />
+
+                    <TextView
+                        android:id="@+id/dash_tv_about"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="@string/dashboard_aboutpalash"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_listrunner"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/dash_about_palash" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:itemIconTint="@color/text_color"
+            app:itemTextColor="@color/text_color"
+            app:headerLayout="@layout/header"
+            app:menu="@menu/menu_drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

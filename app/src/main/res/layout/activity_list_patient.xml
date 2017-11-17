@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    android:orientation="vertical"
+    android:padding="@dimen/ten_margin">
+
+    <Chronometer
+        android:id="@+id/patient_list_chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layout_patient_list_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/border_card"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:id="@+id/layout_search_by_date_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/patient_register_start_date_edt"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:gravity="center_vertical"
+                android:hint="Enter start date"
+                android:inputType="number"
+                android:paddingLeft="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/patient_register_end_date_edt"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:gravity="center_vertical"
+                android:hint="Enter end date"
+                android:inputType="number"
+                android:paddingLeft="8dp"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/patient_report_date_search_btn"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/card_layout"
+                android:text="Search"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_search_by_patient_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/patient_list_edt_search"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:gravity="center_vertical"
+                android:hint="Enter Name"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:paddingLeft="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/patient_list_bnt_clear"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/card_layout"
+                android:gravity="center"
+                android:text="Clear"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- <LinearLayout
+         android:id="@+id/layout_patient_list_search"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="@dimen/five_margin"
+         android:background="@drawable/border_whitedark"
+         android:orientation="horizontal"
+         android:padding="@dimen/five_margin"
+         android:visibility="gone">
+
+         <android.support.design.widget.TextInputLayout
+             style="@style/TextLabel_setting"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1">
+
+             <EditText
+                 android:id="@+id/patient_list_edt_search"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:hint="Enter Patient Name"
+                 android:maxLines="1"
+                 android:paddingLeft="@dimen/ten_margin"
+                 android:singleLine="true"
+                 android:textColor="@color/text_color"
+                 android:textSize="@dimen/small_text_size" />
+
+         </android.support.design.widget.TextInputLayout>
+
+         <TextView
+             android:id="@+id/patient_list_bnt_clear"
+             android:layout_width="60dp"
+             android:layout_height="30dp"
+             android:layout_gravity="bottom"
+             android:layout_margin="1dp"
+             android:background="@drawable/card_layout"
+             android:gravity="center_vertical|center_horizontal"
+             android:padding="3dp"
+             android:text="Clear"
+             android:textColor="@color/white"
+             android:textSize="@dimen/small_text_size"
+             android:textStyle="bold" />
+     </LinearLayout>-->
+
+    <ListView
+        android:id="@+id/search_patient_List"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="4dp"
+        android:visibility="gone"></ListView>
+
+    <TextView
+        android:id="@+id/search_patient_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/empty_list"
+        android:textSize="@dimen/fifteen_margin" />
+
+
+</LinearLayout>

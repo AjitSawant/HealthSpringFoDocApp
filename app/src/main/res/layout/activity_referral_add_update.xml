@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1">
+
+                <AutoCompleteTextView
+                    android:id="@+id/referral_edt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789() "
+                    android:hint="@string/cpoeservice_name"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textAutoComplete|textAutoCorrect"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/ten_margin"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/small_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/service_name_spinner_search_btn"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/card_layout"
+                android:gravity="center"
+                android:text="Search"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextLabel_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
+
+            <EditText
+                android:id="@+id/referral_edt_rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/cpoeservice_rate"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/ten_margin"
+                android:singleLine="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/referral_spinner_department"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
+            app:ms_arrowColor="@color/text_color"
+            app:ms_arrowSize="20sp"
+            app:ms_hint="@string/department"
+            app:ms_baseColor="@color/text_color"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="true"
+            app:ms_highlightColor="@color/text_color"
+            app:ms_hintColor="@color/text_color"
+            app:ms_multiline="false" />
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/referral_spinner_doctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
+            android:visibility="visible"
+            app:ms_arrowColor="@color/text_color"
+            app:ms_arrowSize="20sp"
+            app:ms_baseColor="@color/text_color"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="true"
+            app:ms_highlightColor="@color/text_color"
+            app:ms_hint="Referral Doctor"
+            app:ms_hintColor="@color/text_color"
+            app:ms_multiline="false" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/no_doctor_alert"
+            style="@style/TextLabel_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Referral Doctor"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/ten_margin"
+                android:focusable="false"
+                android:singleLine="true"
+                android:text="No doctor found. Please try another search."
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/small_text_size" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</LinearLayout>
+
+
+

@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+
+    defaultConfig {
+        applicationId "com.palash.healthspring"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    /*compile files('libs/mpandroidchartlibrary-2-2-4.jar')*/
+    compile 'com.github.ganfra:material-spinner:1.1.1'
+    compile files('libs/buzzboxSDK-0.5.3.jar')
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.3'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.8.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.3'
+    compile 'com.squareup:android-times-square:1.6.5@aar'
+    compile files('libs/okhttp-2.2.0.jar')
+    compile files('libs/okio-1.2.0.jar')
+    compile files('libs/android-async-http-1.4.4.jar')
+}

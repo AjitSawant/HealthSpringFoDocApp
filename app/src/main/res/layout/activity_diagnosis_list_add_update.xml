@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextLabel_setting"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/diagnosis_list_edt_diagnosis_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/diagnosis_name"
+                android:imeOptions="actionSearch"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/ten_margin"
+                android:singleLine="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/diagnosis_name_spinner_search_btn"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/card_layout"
+            android:textColor="@color/white"
+            android:text="Search"/>
+    </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextLabel_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/diagnosis_list_edt_dignosis_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/diagnosis_code"
+                android:maxLines="1"
+                android:enabled="false"
+                android:paddingLeft="@dimen/ten_margin"
+                android:singleLine="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+        </android.support.design.widget.TextInputLayout>
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/diagnosis_list_spinner_diagnosis_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
+            app:ms_arrowColor="@color/text_color"
+            app:ms_arrowSize="@dimen/small_text_size"
+            app:ms_baseColor="@color/text_color"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="true"
+            app:ms_highlightColor="@color/text_color"
+            app:ms_hint="@string/diagnosis_type"
+            app:ms_hintColor="@color/text_color"
+            app:ms_multiline="false" />
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextLabel_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/diagnosis_list_edt_remark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/diagnosis_remark"
+                android:maxLines="3"
+                android:paddingLeft="@dimen/ten_margin"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
+
+
+
