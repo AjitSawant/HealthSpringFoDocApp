@@ -129,9 +129,8 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 @Override
                 public void onClick(View v) {
 
-                    MasterFlagTask();
-
                     Patient elPatient = patientlist.get(position);
+
                     bookAppointment.setID(elDoctorProfile.getID());
                     bookAppointment.setUnitID(elPatient.getUnitID());
                     bookAppointment.setPatientID(elPatient.getID());
@@ -155,6 +154,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                     }
 
                     bookAppointment.setDoctorID(elDoctorProfile.getDoctorID());
+                    bookAppointment.setDoctorUnitID(elDoctorProfile.getUnitID());
                     bookAppointment.setDoctorName(Name);
                     bookAppointment.setSpecialization(elDoctorProfile.getSpecialization());
                     bookAppointment.setDoctorEducation(elDoctorProfile.getEducation());

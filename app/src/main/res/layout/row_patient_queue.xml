@@ -19,7 +19,6 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/common_text_size" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,23 +98,24 @@
                 android:textSize="@dimen/common_text_size" />
 
             <TextView
+                android:id="@+id/row_patient_queue_tv_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:text="DOB"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/small_text_size" />
+
+            <TextView
                 android:id="@+id/row_patient_queue_tv_bloodgroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:text="Blood Group"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/colorOrange"
                 android:textSize="@dimen/small_text_size" />
 
-            <TextView
-                android:id="@+id/row_patient_queue_tv_dob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:layout_marginTop="6dp"
-                android:text="DOB"
-                android:textColor="@color/colorGreen"
-                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/row_patient_queue_tv_marital_status"

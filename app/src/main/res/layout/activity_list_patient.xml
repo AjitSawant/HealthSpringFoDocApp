@@ -36,6 +36,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
+                android:focusable="false"
+                android:longClickable="false"
                 android:background="@drawable/bnt_dashboard"
                 android:gravity="center_vertical"
                 android:hint="Enter start date"
@@ -53,6 +55,8 @@
                 android:background="@drawable/bnt_dashboard"
                 android:gravity="center_vertical"
                 android:hint="Enter end date"
+                android:focusable="false"
+                android:longClickable="false"
                 android:inputType="number"
                 android:paddingLeft="8dp"
                 android:textSize="14sp" />

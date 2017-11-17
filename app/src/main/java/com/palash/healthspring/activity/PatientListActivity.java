@@ -175,12 +175,12 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                         String dayDifference = Long.toString(differenceDates);
 
                         if (date1.before(date2) || date1.equals(date2)) {
-                            if (Integer.parseInt(dayDifference) < 5) {
+                            if (Integer.parseInt(dayDifference) < 7) {
                                 patient_register_end_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
                             } else {
                                 endDate = "";
                                 patient_register_end_date_edt.setText("");
-                                Toast.makeText(context, "Date difference should be maximum 5 days", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Date difference should be maximum 7 days", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             endDate = "";
@@ -206,7 +206,11 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             patient_register_end_date_edt.setText(format.format(new Date()));
             startDate = localSetting.formatDate(patient_register_start_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
             endDate = localSetting.formatDate(patient_register_end_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
-            new GetPatientListTask().execute();
+            if (localSetting.isNetworkAvailable(context)) {
+                new GetPatientListTask().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
         super.onResume();
     }

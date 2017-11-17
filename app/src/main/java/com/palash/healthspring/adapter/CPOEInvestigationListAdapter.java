@@ -88,7 +88,7 @@ public class CPOEInvestigationListAdapter extends BaseAdapter {
                 holder.row_cpoeservice_tv_priority.setText("-");
             }
 
-            if (elCPOEService.getRate() != null && elCPOEService.getRate().length() > 0 && (!elCPOEService.getRate().equals("0.0"))) {
+            if (elCPOEService.getRate() != null && elCPOEService.getRate().length() > 0) {
                 holder.row_cpoeservice_tv_rate.setText("RS. " + elCPOEService.getRate().trim());
             } else {
                 holder.row_cpoeservice_tv_rate.setText("-");

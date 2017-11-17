@@ -285,6 +285,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             bookAppointmentArrayList = bookAppointmentAdapter.listLast();
 
                             bookAppointment = new BookAppointment();
+                            bookAppointment.setDoctorUnitID(bookAppointmentArrayList.get(0).getDoctorUnitID());
+                            bookAppointment.setDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
                             bookAppointment.setUnitID(bookAppointmentArrayList.get(0).getUnitID());
                             bookAppointment.setPatientID(bookAppointmentArrayList.get(0).getPatientID());
                             bookAppointment.setFirstName(bookAppointmentArrayList.get(0).getFirstName());
@@ -296,7 +298,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             bookAppointment.setBloodGroupID(bookAppointmentArrayList.get(0).getBloodGroupID());
                             bookAppointment.setContact1(bookAppointmentArrayList.get(0).getContact1());
                             bookAppointment.setEmailId(bookAppointmentArrayList.get(0).getEmailId());
-                            bookAppointment.setDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
+
                             //bookAppointment.setComplaintId(bookAppointmentArrayList.get(0).getComplaintId());
                             bookAppointment.setAppointmentDate(bookAppointmentArrayList.get(0).getAppointmentDate());
                             bookAppointment.setFromTime(bookAppointmentArrayList.get(0).getFromTime());
@@ -441,6 +443,20 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
                                     startActivity(new Intent(context, AppointmentListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                    finish();
+                                }
+                            })
+                            .setIcon(R.mipmap.ic_launcher).show();
+                } else if (responseCode == Constants.HTTP_AMBIGUOUS_300) {
+                    localSetting.hideDialog(progressDialog);
+                    new AlertDialog
+                            .Builder(context)
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage("Appointment booking failed. Selected slot is already booked. Please try another slot.")
+                            .setCancelable(false)
+                            .setPositiveButton("Go back", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
                                     finish();
                                 }
                             })
