@@ -216,6 +216,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                 } else {
                     Name = FirstName + " " + LastName;
                 }
+
                 patient_name.setText(Name);
                 if (bookAppointment.getContact1() != null && bookAppointment.getContact1().length() > 0) {
                     patient_contact.setVisibility(View.VISIBLE);

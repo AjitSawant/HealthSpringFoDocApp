@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
-import com.palash.healthspring.adapter.CPOEPrescriptionListAdapter;
 import com.palash.healthspring.adapter.SpinnerAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
@@ -169,8 +168,8 @@ public class ComplaintsFragment extends Fragment {
                             selectedItemPosition = selectedItemPosition - 1;
                             if (selectedChiefComplaintsList.size() == 0) {
                                 selectedChiefComplaintsList.add(masterComplaintList.get(selectedItemPosition).getDescription());
-                                chiefComplaints_edit.setText(selectedChiefComplaintsList.toString().replace("[", "").replace("]", ""));                                Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
+                                chiefComplaints_edit.setText(selectedChiefComplaintsList.toString().replace("[", "").replace("]", ""));
+                                //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                             } else if (selectedChiefComplaintsList.size() > 0) {
                                 Boolean flag = false;
                                 int pos = 0;
@@ -183,10 +182,10 @@ public class ComplaintsFragment extends Fragment {
 
                                 if (flag == true) {
                                     selectedChiefComplaintsList.remove(pos);
-                                    Toast.makeText(context, "Complaint removed", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(context, "Complaint removed", Toast.LENGTH_SHORT).show();
                                 } else {
                                     selectedChiefComplaintsList.add(masterComplaintList.get(selectedItemPosition).getDescription());
-                                    Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                                 }
                                 chiefComplaints_edit.setText(selectedChiefComplaintsList.toString().replace("[", "").replace("]", ""));
                             } else {
@@ -214,8 +213,9 @@ public class ComplaintsFragment extends Fragment {
                             selectedItemPosition = selectedItemPosition - 1;
                             if (selectedAssociateComplaintsList.size() == 0) {
                                 selectedAssociateComplaintsList.add(masterComplaintList.get(selectedItemPosition).getDescription());
-                                assosciateComplaints_edit.setText(selectedAssociateComplaintsList.toString().replace("[", "").replace("]", ""));                                Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
+                                assosciateComplaints_edit.setText(selectedAssociateComplaintsList.toString().replace("[", "").replace("]", ""));
                                 Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                             } else if (selectedAssociateComplaintsList.size() > 0) {
                                 Boolean flag = false;
                                 int pos = 0;
@@ -228,10 +228,10 @@ public class ComplaintsFragment extends Fragment {
 
                                 if (flag == true) {
                                     selectedAssociateComplaintsList.remove(pos);
-                                    Toast.makeText(context, "Complaint removed", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(context, "Complaint removed", Toast.LENGTH_SHORT).show();
                                 } else {
                                     selectedAssociateComplaintsList.add(masterComplaintList.get(selectedItemPosition).getDescription());
-                                    Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                                 }
                                 assosciateComplaints_edit.setText(selectedAssociateComplaintsList.toString().replace("[", "").replace("]", ""));
                             } else {

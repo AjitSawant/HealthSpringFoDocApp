@@ -37,6 +37,7 @@ import java.util.Locale;
  * Created by manishas on 6/2/2016.
  */
 public class TimeSlotActivity extends AppCompatActivity {
+
     private Context context;
     private LocalSetting localSetting;
     private DatabaseContract databaseContract;

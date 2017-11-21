@@ -440,7 +440,7 @@ public class SynchronizationTask implements Task {
                 for (int i = 0; i < cpoeServiceList.size(); i++) {
                     try {
                         Log.d(Constants.TAG, "Data Synchronising start date:" + DateFormat.getDateTimeInstance().format(new Date()));
-                        response = serviceConsumer.POST(Constants.CPOESERVICE_ADD_URL, objectMapper.unMap(cpoeServiceList.get(i)));
+                        response = serviceConsumer.POST(Constants.CPOESERVICE_ADD_UPDATE_URL, objectMapper.unMap(cpoeServiceList.get(i)));
                         Log.d(Constants.TAG, "Data Synchronising end date:" + DateFormat.getDateTimeInstance().format(new Date()));
                         if (response != null) {
                             responseString = response.body().string();

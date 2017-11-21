@@ -59,7 +59,6 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
     private DatabaseAdapter.CPOEMedicineAdapter cpoeMedicineAdapterDB;
-    //private DatabaseAdapter.MedicienNameAdapter medicineNameAdapterDB;
     private DatabaseAdapter.MedicienRouteAdapter medicineRouteAdapterDB;
     private DatabaseAdapter.MedicienFrequencyAdapter medicineFrequencyAdapterDB;
     private DatabaseAdapter.MedicienInstructionAdapter medicineInstructionAdapterDB;
@@ -636,8 +635,8 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
                     localSetting.hideDialog(progressDialog);
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    new AlertDialog
+                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    /*new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -656,7 +655,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();
+                            .show();*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();

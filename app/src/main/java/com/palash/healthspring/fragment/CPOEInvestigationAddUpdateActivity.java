@@ -110,7 +110,6 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         bookAppointmentAdapterDB = databaseAdapter.new BookAppointmentAdapter();
         bookAppointmentArrayList = bookAppointmentAdapterDB.listLast();
         cpoeServiceAdapterDB = databaseAdapter.new CPOEServiceAdapter();
-        //serviceNameAdapterDB = databaseAdapter.new ServiceNameAdapter();
         priorityAdapterDB = databaseAdapter.new PriorityAdapter();
         departmentAdapterDB = databaseAdapter.new DepartmentAdapter();
 
@@ -224,6 +223,8 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                 System.out.println("Could not parse " + nfe);
             }
             cpoeservice_spinner_priority.setSelection(pos_priority);
+
+            cpoeServiceAdapterDB.removeCurrentUpdateNotes();
         }
     }
 
@@ -369,187 +370,6 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         }
     }
 
-    /*public class cpoeServiceAddTask extends AsyncTask<Void, Void, String> {
-        private int responseCode = 0;
-        private TransparentProgressDialog progressDialog = null;
-        private JsonObjectMapper objMapper = null;
-        private WebServiceConsumer serviceConsumer = null;
-        private Response response = null;
-        private String jSonData = "";
-        private String responseMSG = "";
-        private String responseString = "";
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = localSetting.showDialog(context);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                objMapper = new JsonObjectMapper();
-                jSonData = objMapper.unMap(cpoeService);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
-                response = serviceConsumer.POST(Constants.CPOESERVICE_ADD_URL, jSonData);
-                if (response != null) {
-                    responseCode = response.code();
-                    responseMSG = response.message().toString();
-                    responseString = response.body().string();
-                    Log.d(Constants.TAG, "Response code:" + responseCode);
-                    Log.d(Constants.TAG, "Response MSG:" + responseMSG);
-                    Log.d(Constants.TAG, "Response string:" + responseString);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Service added successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
-                } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Service updated successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
-                } else {
-                    localSetting.hideDialog(progressDialog);
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(context.getResources().getString(R.string.offline_alert))
-                            .setCancelable(true)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cpoeServiceAdapterDB.createUnSync(cpoeService);
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            super.onPostExecute(result);
-        }
-    }
-
-    public class cpoeServiceUpdateTask extends AsyncTask<Void, Void, String> {
-        private int responseCode = 0;
-        private TransparentProgressDialog progressDialog = null;
-        private JsonObjectMapper objMapper = null;
-        private WebServiceConsumer serviceConsumer = null;
-        private Response response = null;
-        private String jSonData = "";
-        private String responseMSG = "";
-        private String responseString = "";
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = localSetting.showDialog(context);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                objMapper = new JsonObjectMapper();
-                jSonData = objMapper.unMap(cpoeService);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
-                response = serviceConsumer.POST(Constants.CPOESERVICE_UPDATE_URL, jSonData);
-                if (response != null) {
-                    responseCode = response.code();
-                    responseMSG = response.message().toString();
-                    responseString = response.body().string();
-                    Log.d(Constants.TAG, "Response code:" + responseCode);
-                    Log.d(Constants.TAG, "Response MSG:" + responseMSG);
-                    Log.d(Constants.TAG, "Response string:" + responseString);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Service update successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
-                } else {
-                    localSetting.hideDialog(progressDialog);
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(context.getResources().getString(R.string.offline_alert))
-                            .setCancelable(true)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cpoeServiceAdapterDB.updateUnSync(cpoeService);
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            super.onPostExecute(result);
-        }
-    }*/
-
     public class GetServiceNameListTask extends AsyncTask<Void, Void, String> {
         private int responseCode = 0;
         private TransparentProgressDialog progressDialog = null;
@@ -684,8 +504,8 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
                     localSetting.hideDialog(progressDialog);
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    new AlertDialog
+                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    /*new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -704,7 +524,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();
+                            .show();*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();

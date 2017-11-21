@@ -32,23 +32,23 @@
             <TextView
                 android:id="@+id/appointment_edt_fromdate"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
-                android:focusable="false"
-                android:longClickable="false"
                 android:background="@drawable/bnt_dashboard"
+                android:focusable="false"
                 android:gravity="center_vertical"
                 android:hint="Enter start date"
                 android:inputType="number"
+                android:longClickable="false"
                 android:paddingLeft="8dp"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/appointment_edt_todate"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
             <Button
                 android:id="@+id/appointment_list_search_bnt"
                 android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -84,7 +84,7 @@
             <EditText
                 android:id="@+id/appointment_edt_patient_name"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
@@ -99,7 +99,7 @@
             <TextView
                 android:id="@+id/appointment_list_bnt_clear"
                 android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

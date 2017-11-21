@@ -14,6 +14,7 @@ import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
 import com.palash.healthspring.fragment.CPOEInvestigationAddUpdateActivity;
+import com.palash.healthspring.fragment.ReferralAddUpdateActivity;
 import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
@@ -99,14 +100,14 @@ public class ReferralDoctorServiceListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (localSetting.fragment_name.equals("PatientQueue")) {
+                if (localSetting.fragment_name.equals("PatientQueue")) {
                     if (referralDoctorPerServicearrayList.get(position).getID() != null && referralDoctorPerServicearrayList.get(position).getID().length() > 0) {
                         referralServiceListDBAdapter.updateCurrentNotes(referralDoctorPerServicearrayList.get(position).getID());
                     } else {
                         referralServiceListDBAdapter.updateUnSyncCurrentNotes(referralDoctorPerServicearrayList.get(position).get_ID());
                     }
-                    context.startActivity(new Intent(context, CPOEInvestigationAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
-                }*/
+                    context.startActivity(new Intent(context, ReferralAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
+                }
             }
         });
         return convertView;

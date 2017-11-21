@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
@@ -62,15 +64,17 @@ public class VisitBookActivity extends AppCompatActivity {
     private ArrayList<Department> departmentslist;
     private ArrayList<Complaint> complaintslist;
 
-    private EditText visit_book_edt_patient_name;
-    private EditText visit_book_edt_patient_contact;
-    private EditText visit_book_edt_patient_mail;
-    private EditText visit_book_edt_doctor_name;
-    private EditText visit_book_edt_doctor_spcilization;
-    private EditText visit_book_edt_doctor_education;
-    private EditText visit_book_edt_doctor_contactno;
+    private TextView visit_book_edt_patient_name;
+    private TextView visit_book_edt_patient_contact;
+    private TextView visit_book_edt_patient_mail;
+    private TextView visit_book_edt_doctor_name;
+    private TextView visit_book_edt_patient_gender;
+    private TextView visit_book_edt_doctor_spcilization;
+    private TextView visit_book_edt_doctor_education;
+    private TextView visit_book_edt_doctor_contactno;
     private EditText visit_book_edt_date;
     private EditText visit_book_edt_time;
+    private LinearLayout visit_book_edt_doctor_mobile_layout;
 
     private MaterialSpinner visit_book_spinner_appointmetreason;
     private MaterialSpinner visit_book_spinner_department;
@@ -114,13 +118,15 @@ public class VisitBookActivity extends AppCompatActivity {
 
     private void InitView() {
         try {
-            visit_book_edt_patient_name = (EditText) findViewById(R.id.visit_book_edt_patient_name);
-            visit_book_edt_patient_contact = (EditText) findViewById(R.id.visit_book_edt_patient_contact);
-            visit_book_edt_patient_mail = (EditText) findViewById(R.id.visit_book_edt_patient_mail);
-            visit_book_edt_doctor_name = (EditText) findViewById(R.id.visit_book_edt_doctor_name);
-            visit_book_edt_doctor_spcilization = (EditText) findViewById(R.id.visit_book_edt_doctor_spcilization);
-            visit_book_edt_doctor_education = (EditText) findViewById(R.id.visit_book_edt_doctor_education);
-            visit_book_edt_doctor_contactno = (EditText) findViewById(R.id.visit_book_edt_doctor_contactno);
+            visit_book_edt_patient_name = (TextView) findViewById(R.id.visit_book_edt_patient_name);
+            visit_book_edt_patient_contact = (TextView) findViewById(R.id.visit_book_edt_patient_contact);
+            visit_book_edt_patient_mail = (TextView) findViewById(R.id.visit_book_edt_patient_mail);
+            visit_book_edt_doctor_name = (TextView) findViewById(R.id.visit_book_edt_doctor_name);
+            visit_book_edt_patient_gender = (TextView) findViewById(R.id.visit_book_edt_patient_gender);
+            visit_book_edt_doctor_spcilization = (TextView) findViewById(R.id.visit_book_edt_doctor_spcilization);
+            visit_book_edt_doctor_education = (TextView) findViewById(R.id.visit_book_edt_doctor_education);
+            visit_book_edt_doctor_contactno = (TextView) findViewById(R.id.visit_book_edt_doctor_contactno);
+            visit_book_edt_doctor_mobile_layout = (LinearLayout) findViewById(R.id.visit_book_edt_doctor_mobile_layout);
             visit_book_edt_date = (EditText) findViewById(R.id.visit_book_edt_date);
             visit_book_edt_time = (EditText) findViewById(R.id.visit_book_edt_time);
             visit_book_spinner_department = (MaterialSpinner) findViewById(R.id.visit_book_spinner_department);
@@ -198,10 +204,26 @@ public class VisitBookActivity extends AppCompatActivity {
             visit_book_edt_patient_name.setText(PatientName);
             visit_book_edt_patient_contact.setText(bookAppointmentArrayList.get(0).getContact1());
             visit_book_edt_patient_mail.setText(bookAppointmentArrayList.get(0).getEmailId());
-            visit_book_edt_doctor_name.setText(bookAppointmentArrayList.get(0).getDoctorName());
+            visit_book_edt_doctor_name.setText("Dr. " + bookAppointmentArrayList.get(0).getDoctorName());
             visit_book_edt_doctor_spcilization.setText(bookAppointmentArrayList.get(0).getSpecialization());
             visit_book_edt_doctor_education.setText(bookAppointmentArrayList.get(0).getDoctorEducation());
             visit_book_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
+
+            if (bookAppointmentArrayList.get(0).getDoctorMobileNo() != null && bookAppointmentArrayList.get(0).getDoctorMobileNo().trim().length() > 0) {
+                visit_book_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
+                visit_book_edt_doctor_mobile_layout.setVisibility(View.VISIBLE);
+            } else {
+                visit_book_edt_doctor_mobile_layout.setVisibility(View.GONE);
+            }
+
+            if (bookAppointmentArrayList.get(0).getGenderID() != null && bookAppointmentArrayList.get(0).getGenderID().trim().length() > 0) {
+                if (bookAppointmentArrayList.get(0).getGenderID().equals("1")) {
+                    visit_book_edt_patient_gender.setText("Male");
+                } else {
+                    visit_book_edt_patient_gender.setText("Female");
+                }
+            }
+
             Calendar c = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
             String date = df.format(c.getTime());

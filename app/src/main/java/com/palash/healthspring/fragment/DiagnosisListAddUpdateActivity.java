@@ -459,8 +459,8 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                 } else if (responseCode == Constants.HTTP_AMBIGUOUS_300) {
                     localSetting.alertbox(context, "Only one primary Diagnosis allowed.", false);
                 } else {
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    new AlertDialog
+                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    /*new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -479,7 +479,7 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();
+                            .show();*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -546,87 +546,4 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
             super.onPostExecute(result);
         }
     }
-
-    /*public class DiagnosisListUpDateTask extends AsyncTask<Void, Void, String> {
-        private int responseCode = 0;
-        private TransparentProgressDialog progressDialog = null;
-        private JsonObjectMapper objMapper = null;
-        private WebServiceConsumer serviceConsumer = null;
-        private Response response = null;
-        private String jSonData = "";
-        private String responseMSG = "";
-        String responseString = "";
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = localSetting.showDialog(context);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                objMapper = new JsonObjectMapper();
-                jSonData = objMapper.unMap(diagnosisList);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
-                response = serviceConsumer.POST(Constants.DIAGNOSIS_UPDATE_URL, jSonData);
-                if (response != null) {
-                    responseCode = response.code();
-                    responseMSG = response.message().toString();
-                    responseString = response.body().string();
-                    Log.d(Constants.TAG, "Response code:" + responseCode);
-                    Log.d(Constants.TAG, "Response MSG:" + responseMSG);
-                    Log.d(Constants.TAG, "Response string:" + responseString);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Diagnosis updated successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
-                } else {
-                    localSetting.hideDialog(progressDialog);
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(context.getResources().getString(R.string.offline_alert))
-                            .setCancelable(true)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    diagnosisListAdapterDB.updateUnSync(diagnosisList);
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            super.onPostExecute(result);
-        }
-    }*/
 }

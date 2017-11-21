@@ -16,12 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@drawable/border_lighter_gray"
+        android:layout_margin="4dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="@android:color/darker_gray"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="8dp">
@@ -78,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:divider="@android:color/darker_gray"
+            android:divider="@color/lighter_gray"
             android:dividerHeight="0.01dp"
             android:visibility="visible"></ListView>
 
@@ -109,14 +111,13 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bgcolor"
-            android:padding="6dp"
+            android:background="@drawable/border_lighter_gray"
+            android:layout_margin="4dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/border_whitedark"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/ten_margin"
                 android:paddingLeft="@dimen/ten_margin"

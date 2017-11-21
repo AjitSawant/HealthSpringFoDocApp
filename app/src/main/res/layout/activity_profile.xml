@@ -30,7 +30,7 @@
             android:gravity="center_horizontal"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/blue_box"
             android:textSize="@dimen/common_text_size" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:gravity="center_horizontal"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/blue_box"
             android:textSize="@dimen/common_text_size" />
 
 
@@ -62,20 +62,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginTop="@dimen/five_margin"
-                android:background="@color/bluelight400"
+                android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:padding="3dp"
                 android:singleLine="true"
                 android:text="Personal Information"
                 android:textColor="@color/white"
-                android:textSize="@dimen/common_text_size"
-                android:textStyle="bold" />
+                android:textSize="@dimen/small_text_size"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/border_lighter_gray"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/five_margin"
                 android:paddingRight="@dimen/five_margin"
@@ -197,19 +196,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginTop="@dimen/five_margin"
-                android:background="@color/bluelight400"
+                android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:padding="3dp"
                 android:text="Education"
                 android:textColor="@color/white"
-                android:textSize="@dimen/common_text_size"
-                android:textStyle="bold" />
+                android:textSize="@dimen/small_text_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/border_lighter_gray"
                 android:orientation="vertical"
                 android:padding="@dimen/five_margin">
 
@@ -256,20 +254,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginTop="@dimen/five_margin"
-                android:background="@color/bluelight400"
+                android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:padding="3dp"
                 android:text="Contact Details"
                 android:textColor="@color/white"
-                android:textSize="@dimen/common_text_size"
-                android:textStyle="bold" />
+                android:textSize="@dimen/small_text_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_margin"
-                android:background="@color/white"
+                android:background="@drawable/border_lighter_gray"
                 android:orientation="vertical"
                 android:padding="@dimen/five_margin">
 

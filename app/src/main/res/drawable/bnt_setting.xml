@@ -4,7 +4,7 @@
     <item android:drawable="@drawable/border_bluedark" android:state_pressed="true"/>
  <!-- pressed -->
  
-    <item android:drawable="@drawable/border_blue"/>
+    <item android:drawable="@drawable/border_lighter_gray"/>
  <!-- default -->
 
 </selector>

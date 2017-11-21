@@ -154,6 +154,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                 view = infalInflater.inflate(R.layout.row_appointment_list_child, null);
             }
             ImageView row_appointment_iv_gender = (ImageView) view.findViewById(R.id.row_appointment_iv_gender);
+            TextView row_appointment_tv_dept = (TextView) view.findViewById(R.id.row_appointment_tv_dept);
             TextView row_appointment_tv_reason = (TextView) view.findViewById(R.id.row_appointment_tv_reason);
             TextView row_appointment_tv_date = (TextView) view.findViewById(R.id.row_appointment_tv_date);
             TextView row_appointment_tv_from_time = (TextView) view.findViewById(R.id.row_appointment_tv_from_time);
@@ -178,6 +179,13 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                 row_appointment_tv_reason.setVisibility(View.VISIBLE);
             } else {
                 row_appointment_tv_reason.setVisibility(View.GONE);
+            }
+
+            if (appointment.getDepartment() != null && appointment.getDepartment().length() > 0) {
+                row_appointment_tv_dept.setText(appointment.getDepartment());
+                row_appointment_tv_dept.setVisibility(View.VISIBLE);
+            } else {
+                row_appointment_tv_dept.setVisibility(View.GONE);
             }
 
             if (appointment.getAppointmentDate() != null && appointment.getAppointmentDate().length() > 0) {
@@ -250,7 +258,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
             }
 
             // schedule and cancel button hide                        // commented by Ajit
-            row_appointment_bnt_reschedual.setVisibility(View.GONE);
+            //row_appointment_bnt_reschedual.setVisibility(View.GONE);
             row_appointment_bnt_cancle.setVisibility(View.GONE);
             row_appointment_bnt_visit.setVisibility(View.GONE);
 
@@ -384,7 +392,6 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
         } catch (Exception ex) {
             return view;
         }
-
     }
 
     @Override
@@ -420,7 +427,6 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
         protected String doInBackground(Void... params) {
             String responseString = "";
             try {
-
                 serviceConsumer = new WebServiceConsumer(context, null, null);
                 response = serviceConsumer.POST(Constants.VISIT_MARK_APPOINTMENT_URL, jSonData);
                 if (response != null) {

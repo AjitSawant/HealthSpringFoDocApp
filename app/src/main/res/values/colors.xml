@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--<color name="colorPrimary">#039BE5</color>
     <color name="colorPrimary">#039BE5</color>
-    <color name="colorPrimaryDark">#0277BD</color>
     <color name="colorAccent">#0277BD</color>
-    <color name="bluelight300">#B3E5FC</color>
     <color name="bluelight400">#29B6F6</color>
     <color name="colorTrans">#66039BE5</color>
+    <color name="blue_box">#B303A9F4</color>-->
+
+    <color name="colorPrimary">#5cd65c</color>
+    <color name="colorPrimaryDark">#5cd65c</color>
+    <color name="colorAccent">#5cd65c</color>
+    <color name="colorTrans">#665cd65c</color>
+    <color name="blue_box">#29B6F6</color>
+    <color name="bluelight400">#5cd65c</color>
+    <color name="bluelight300">#B3E5FC</color>
+    <color name="colorBlueTrans">#6680bfff</color>
     <color name="white">#FFFFFF</color>
     <color name="text_color">@android:color/black</color>
     <color name="white_box">#B3FFFFFF</color>
-    <color name="blue_box">#B303A9F4</color>
     <color name="bgcolor">#eeeeee</color>
     <color name="lighter_gray">#ddd</color>
     <color name="colorOrange">#F15441</color>

@@ -386,38 +386,6 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void VitalsListUpDateBindView() {
-        try {
-            new AlertDialog
-                    .Builder(context)
-                    .setTitle(getResources().getString(R.string.app_name))
-                    .setMessage("Do you really want to update vitals details?")
-                    .setCancelable(true)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (vitalArrayList != null && vitalArrayList.size() > 0) {
-                                CurrentDate = simpleDF.format(c.getTime());
-
-                                int pos_vitals = vitals_list_spinner_vitals_name.getSelectedItemPosition();
-                                elVitalsList.setDate(CurrentDate);
-                                elVitalsList.setTime(CurrentDate);
-                                elVitalsList.setVitalID(vitalArrayList.get(pos_vitals).getID());
-                                elVitalsList.setVitalsDecription(vitalArrayList.get(pos_vitals).getDescription());
-                                elVitalsList.setValue(vitals_list_edt_vlaue.getText().toString());
-                                elVitalsList.setUnit(vitals_list_edt_unit.getText().toString());
-                                elVitalsList.setIsSync("1");
-                                new VitalsListAddUpdateTask().execute();
-                            }
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .setIcon(R.mipmap.ic_launcher)
-                    .show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public class VitalsListAddUpdateTask extends AsyncTask<Void, Void, String> {
         private TransparentProgressDialog progressDialog = null;
@@ -460,8 +428,8 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
         @Override
         protected void onPostExecute(String result) {
             try {
+                localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                    localSetting.hideDialog(progressDialog);
                     new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
@@ -476,7 +444,6 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             })
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
                     new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
@@ -491,9 +458,8 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             })
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
-                    localSetting.hideDialog(progressDialog);
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    new AlertDialog
+                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    /*new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -512,9 +478,8 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();
+                            .show();*/
                 }
-
                 refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -522,8 +487,6 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
             super.onPostExecute(result);
         }
     }
-
-
 
     /*public class VitalsListUpDateTask extends AsyncTask<Void, Void, String> {
         private int responseCode = 0;

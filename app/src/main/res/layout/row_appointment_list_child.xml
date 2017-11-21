@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -12,16 +11,26 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/row_appointment_tv_reason"
+            android:id="@+id/row_appointment_tv_dept"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:padding="@dimen/five_margin"
-            android:text="Appointment Reason"
-            android:textColor="@color/colorPrimary"
+            android:text="Department Name"
+            android:textColor="@color/blue_box"
             android:textAllCaps="false"
-            android:textSize="@dimen/common_text_size" />
+            android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/row_appointment_tv_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/five_margin"
+            android:paddingBottom="@dimen/five_margin"
+            android:text="Appointment Reason"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -145,7 +154,6 @@
                             android:singleLine="true"
                             android:visibility="visible"
                             android:text="Contact"
-                            android:textColor="@color/colorOrange"
                             android:textSize="@dimen/small_text_size" />
 
                         <TextView
@@ -155,7 +163,6 @@
                             android:layout_marginTop="6dp"
                             android:gravity="left|center_vertical"
                             android:text="Email"
-                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/small_text_size"
                             android:visibility="visible" />
                     </LinearLayout>

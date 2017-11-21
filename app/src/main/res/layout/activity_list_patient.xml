@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/patient_register_start_date_edt"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
@@ -48,7 +48,7 @@
             <TextView
                 android:id="@+id/patient_register_end_date_edt"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
             <Button
                 android:id="@+id/patient_report_date_search_btn"
                 android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -84,7 +84,7 @@
             <EditText
                 android:id="@+id/patient_list_edt_search"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
@@ -99,7 +99,7 @@
             <TextView
                 android:id="@+id/patient_list_bnt_clear"
                 android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

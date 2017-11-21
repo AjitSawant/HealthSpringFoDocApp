@@ -1,6 +1,7 @@
 package com.palash.healthspring.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.palash.healthspring.R;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.CPOEPrescription;
+import com.palash.healthspring.fragment.CPOEPrescriptionAddUpdateActivity;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
@@ -134,14 +136,14 @@ public class CPOEPrescriptionListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (localSetting.fragment_name.equals("PatientQueue")) {
+                if (localSetting.fragment_name.equals("PatientQueue")) {
                     if (cpoeMedicineArrayList.get(position).getID() != null && cpoeMedicineArrayList.get(position).getID().length() > 0) {
                         cpoeMedicineAdapter.updateCurrentNotes(cpoeMedicineArrayList.get(position).getID());
                     } else {
                         cpoeMedicineAdapter.updateUnSyncCurrentNotes(cpoeMedicineArrayList.get(position).get_ID());
                     }
                     context.startActivity(new Intent(context, CPOEPrescriptionAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
-                }*/
+                }
             }
         });
         return convertView;

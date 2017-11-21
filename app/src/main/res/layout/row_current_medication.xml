@@ -61,12 +61,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="3dp"
-        android:background="@color/colorTrans"></View>
+        android:background="@color/colorBlueTrans"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorTrans"
+        android:background="@color/colorBlueTrans"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -87,7 +87,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:layout_width="0dp"
@@ -106,7 +106,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:layout_width="0dp"
@@ -147,7 +147,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:id="@+id/row_current_medication_tv_dose"
@@ -166,7 +166,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:id="@+id/row_current_medication_tv_reason"
@@ -187,12 +187,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorTrans"></View>
+        android:background="@color/colorBlueTrans"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorTrans"
+        android:background="@color/colorBlueTrans"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -213,7 +213,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:layout_width="0dp"
@@ -232,7 +232,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:layout_width="0dp"
@@ -272,7 +272,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:id="@+id/row_current_medication_tv_frequency"
@@ -291,7 +291,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorTrans"></View>
+            android:background="@color/colorBlueTrans"></View>
 
         <TextView
             android:id="@+id/row_current_medication_tv_qty"

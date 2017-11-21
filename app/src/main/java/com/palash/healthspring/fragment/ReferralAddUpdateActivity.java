@@ -27,7 +27,6 @@ import com.palash.healthspring.api.WebServiceConsumer;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
-import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.Department;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.Flag;
@@ -58,12 +57,12 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.CPOEServiceAdapter cpoeServiceAdapterDB;
     private DatabaseAdapter.DepartmentAdapter departmentAdapterDB;
+    private DatabaseAdapter.ReferralServiceListDBAdapter referralServiceListDBAdapter;
 
     private ReferralDoctorPerService elReferralDoctorPerService;
     private Flag masterflag;
     private ArrayList<DoctorProfile> doctorProfileList;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
-    private ArrayList<CPOEService> cpoeServiceArrayList;
     private ArrayList<ServiceName> serviceNameArrayList;
     private ArrayList<Department> departmentArrayList;
     private ArrayList<ReferralDoctorPerService> referralDoctorPerServiceArrayList = new ArrayList<>();
@@ -100,7 +99,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
 
         isUpdate = getIntent().getStringExtra("isUpdate");
         if (isUpdate.equals("Yes")) {
-            //LoadUpdateRecordData();
+            LoadUpdateRecordData();
         }
     }
 
@@ -119,6 +118,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
         bookAppointmentArrayList = bookAppointmentAdapterDB.listLast();
         cpoeServiceAdapterDB = databaseAdapter.new CPOEServiceAdapter();
         departmentAdapterDB = databaseAdapter.new DepartmentAdapter();
+        referralServiceListDBAdapter = databaseAdapter.new ReferralServiceListDBAdapter();
 
         elReferralDoctorPerService = new ReferralDoctorPerService();
         doctorProfileList = doctorProfileAdapter.listAll();
@@ -132,6 +132,19 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
         masterflag.setFlag(Constants.EMR_DEPARTMENT_MASTER_TASK);
         masterFlagAdapter.create(masterflag);
         SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
+    }
+
+    private void LoadUpdateRecordData() {
+        referralDoctorPerServiceArrayList = referralServiceListDBAdapter.CurrentUpdateNotes();
+        if (referralDoctorPerServiceArrayList != null && referralDoctorPerServiceArrayList.size() > 0) {
+            elReferralDoctorPerService = referralDoctorPerServiceArrayList.get(0);
+            serviceID = elReferralDoctorPerService.getServiceID();
+            serviceName = elReferralDoctorPerService.getServiceName();
+            referral_edt_name.setText(elReferralDoctorPerService.getServiceName());
+            referral_edt_rate.setText(elReferralDoctorPerService.getRate());
+
+            referralServiceListDBAdapter.removeCurrentUpdateNotes();
+        }
     }
 
     private void InitiView() {
@@ -179,6 +192,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                         if (position > 0) {
                             position = position - 1;
                         }
+
                         if (!serviceID.equals("")) {
                             if (departmentArrayList != null && departmentArrayList.size() > 0) {
                                 Log.d(Constants.TAG + "" + "DeptPosition : ", "" + position);
@@ -246,24 +260,6 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
 
         return true;
     }
-
-    /*private void LoadUpdateRecordData() {
-        cpoeServiceArrayList = cpoeServiceAdapterDB.CurrentUpdateNotes();
-        if (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) {
-            cpoeService = cpoeServiceArrayList.get(0);
-            serviceID = cpoeService.getServiceID();
-            serviceName = cpoeService.getServiceName();
-            referral_edt_name.setText(cpoeService.getServiceName());
-            referral_edt_rate.setText(cpoeService.getRate());
-            int pos_priority = 0;
-            try {
-                pos_priority = Integer.parseInt(cpoeServiceArrayList.get(0).getPriority());
-            } catch (NumberFormatException nfe) {
-                System.out.println("Could not parse " + nfe);
-            }
-            referral_spinner_department.setSelection(pos_priority);
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -563,8 +559,8 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
         @Override
         protected void onPostExecute(String result) {
             try {
+                localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                    localSetting.hideDialog(progressDialog);
                     new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
@@ -579,7 +575,6 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             })
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
                     new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
@@ -594,8 +589,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             })
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
-                    localSetting.hideDialog(progressDialog);
-                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
                     /*new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))

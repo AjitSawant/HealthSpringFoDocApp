@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
@@ -54,17 +56,19 @@ public class BookAppointmentActivity extends AppCompatActivity {
     private MaterialSpinner appointment_spinner_appointmetreason;
     private MaterialSpinner appointment_spinner_department;
     private MaterialSpinner appointment_spinner_complaint;
-    private EditText appointment_edt_patient_name;
-    private EditText appointment_edt_patient_contact;
-    private EditText appointment_edt_patient_mail;
-    private EditText appointment_edt_doctor_name;
-    private EditText appointment_edt_doctor_spcilization;
-    private EditText appointment_edt_doctor_education;
-    private EditText appointment_edt_doctor_contactno;
+    private TextView appointment_edt_patient_name;
+    private TextView appointment_edt_patient_gender;
+    private TextView appointment_edt_patient_contact;
+    private TextView appointment_edt_patient_mail;
+    private TextView appointment_edt_doctor_name;
+    private TextView appointment_edt_doctor_spcilization;
+    private TextView appointment_edt_doctor_education;
+    private TextView appointment_edt_doctor_contactno;
     private EditText appointment_edt_date;
     private EditText appointment_edt_time;
     private EditText appointment_edt_remark;
     private EditText appointment_edt_reschedule_reason;
+    private LinearLayout appointment_book_edt_doctor_mobile_layout;
 
     private SpinnerAdapter.AppointmentReasonAdapter appointmentReasonAdapter;
     private SpinnerAdapter.DepartmentAdapter departmentAdapter;
@@ -118,13 +122,15 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
     private void InitView() {
         try {
-            appointment_edt_patient_name = (EditText) findViewById(R.id.appointment_edt_patient_name);
-            appointment_edt_patient_contact = (EditText) findViewById(R.id.appointment_edt_patient_contact);
-            appointment_edt_patient_mail = (EditText) findViewById(R.id.appointment_edt_patient_mail);
-            appointment_edt_doctor_name = (EditText) findViewById(R.id.appointment_edt_doctor_name);
-            appointment_edt_doctor_spcilization = (EditText) findViewById(R.id.appointment_edt_doctor_spcilization);
-            appointment_edt_doctor_education = (EditText) findViewById(R.id.appointment_edt_doctor_education);
-            appointment_edt_doctor_contactno = (EditText) findViewById(R.id.appointment_edt_doctor_contactno);
+            appointment_edt_patient_name = (TextView) findViewById(R.id.appointment_edt_patient_name);
+            appointment_edt_patient_gender = (TextView) findViewById(R.id.appointment_edt_patient_gender);
+            appointment_edt_patient_contact = (TextView) findViewById(R.id.appointment_edt_patient_contact);
+            appointment_edt_patient_mail = (TextView) findViewById(R.id.appointment_edt_patient_mail);
+            appointment_edt_doctor_name = (TextView) findViewById(R.id.appointment_edt_doctor_name);
+            appointment_edt_doctor_spcilization = (TextView) findViewById(R.id.appointment_edt_doctor_spcilization);
+            appointment_edt_doctor_education = (TextView) findViewById(R.id.appointment_edt_doctor_education);
+            appointment_edt_doctor_contactno = (TextView) findViewById(R.id.appointment_edt_doctor_contactno);
+            appointment_book_edt_doctor_mobile_layout = (LinearLayout) findViewById(R.id.appointment_book_edt_doctor_mobile_layout);
             appointment_edt_date = (EditText) findViewById(R.id.appointment_edt_date);
             appointment_edt_time = (EditText) findViewById(R.id.appointment_edt_time);
             appointment_edt_remark = (EditText) findViewById(R.id.appointment_edt_remark);
@@ -232,20 +238,46 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 appointment_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
                 appointment_edt_time.setText(bookAppointmentArrayList.get(0).getFromTime() + " - " + bookAppointmentArrayList.get(0).getToTime());
                 appointment_edt_date.setText(bookAppointmentArrayList.get(0).getAppointmentDate());
-                int department = 0;
-                int appointmetreason = 0;
-                //int complaint = 0;
+                appointment_edt_remark.setText(bookAppointmentArrayList.get(0).getRemark());
+
+                if (bookAppointmentArrayList.get(0).getDoctorMobileNo() != null && bookAppointmentArrayList.get(0).getDoctorMobileNo().trim().length() > 0) {
+                    appointment_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
+                    appointment_book_edt_doctor_mobile_layout.setVisibility(View.VISIBLE);
+                } else {
+                    appointment_book_edt_doctor_mobile_layout.setVisibility(View.GONE);
+                }
+
+
+                if (bookAppointmentArrayList.get(0).getGenderID() != null && bookAppointmentArrayList.get(0).getGenderID().trim().length() > 0) {
+                    if (bookAppointmentArrayList.get(0).getGenderID().equals("1") ) {
+                        appointment_edt_patient_gender.setText("Male");
+                    }else{
+                        appointment_edt_patient_gender.setText("Female");
+                    }
+                }
+
                 try {
-                    department = Integer.parseInt(bookAppointmentArrayList.get(0).getDepartmentID());
-                    appointmetreason = Integer.parseInt(bookAppointmentArrayList.get(0).getAppointmentReasonID());
-                    //complaint = Integer.parseInt(bookAppointmentArrayList.get(0).getComplaintId());
+                    if (departmentslist != null && departmentslist.size() > 0) {
+                        boolean matchFlag = false;
+                        int pos = 0;
+                        for (int i = 0; i < departmentslist.size(); i++) {
+                            if (bookAppointmentArrayList.get(0).getDepartmentID().equals(departmentslist.get(i).getID())) {
+                                matchFlag = true;
+                                pos = i;
+                            }
+                        }
+                        if (matchFlag == true) {
+                            pos = pos + 1;
+                            appointment_spinner_department.setSelection(pos);
+                        }
+                    }
+
+                    if (appointmentReasonslist != null && appointmentReasonslist.size() > 0) {
+                        appointment_spinner_appointmetreason.setSelection(Integer.parseInt(bookAppointmentArrayList.get(0).getAppointmentReasonID()));
+                    }
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
                 }
-                appointment_spinner_department.setSelection(department);
-                appointment_spinner_appointmetreason.setSelection(appointmetreason);
-                // appointment_spinner_complaint.setSelection(complaint);
-                appointment_edt_remark.setText(bookAppointmentArrayList.get(0).getRemark());
             }
         } catch (Exception e) {
             e.printStackTrace();
