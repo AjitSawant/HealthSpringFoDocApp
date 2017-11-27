@@ -124,10 +124,12 @@ public class DiagnosisFragment extends Fragment {
     public void onResume() {
         emr_diagnosis_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_diagnosis_chronometer.start();
-        if(localSetting.isNetworkAvailable(context)) {
-            new GetDiagnosisListTask().execute();
-        }else{
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        if (Constants.backFromAddEMR == false) {
+            if (localSetting.isNetworkAvailable(context)) {
+                new GetDiagnosisListTask().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
         super.onResume();
     }
@@ -236,6 +238,7 @@ public class DiagnosisFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_add:
                 //MasterFlagTask();
+                Constants.backFromAddEMR = false;
                 context.startActivity(new Intent(context, DiagnosisListAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
             case R.id.menu_current_medication_refresh:

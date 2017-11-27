@@ -72,13 +72,11 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
     private SpinnerAdapter.AppointmentReasonAdapter appointmentReasonAdapter;
     private SpinnerAdapter.DepartmentAdapter departmentAdapter;
-    //private SpinnerAdapter.ComplaintAdapter complaintAdapter;
 
     private Flag flag;
     private BookAppointment bookAppointment;
     private ArrayList<AppointmentReason> appointmentReasonslist;
     private ArrayList<Department> departmentslist;
-    //private ArrayList<Complaint> complaintslist;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
     private ArrayList<DoctorProfile> doctorProfileArrayList;
     private DatabaseAdapter.FlagAdapter flagAdapter;
@@ -138,6 +136,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
             appointment_spinner_department = (MaterialSpinner) findViewById(R.id.appointment_spinner_department);
             appointment_spinner_appointmetreason = (MaterialSpinner) findViewById(R.id.appointment_spinner_appointmetreason);
             appointment_spinner_complaint = (MaterialSpinner) findViewById(R.id.appointment_spinner_complaint);
+
             if (localSetting.Activityname.equals("PatientList")) {
                 setTitle(R.string.dashboard_Appointment);
                 appointment_edt_reschedule_reason.setVisibility(View.GONE);
@@ -145,6 +144,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 appointment_edt_reschedule_reason.setVisibility(View.VISIBLE);
                 setTitle("Reschedule Appointment");
             }
+
             BindView();
             appointment_spinner_complaint.setVisibility(View.GONE);
         } catch (Exception e) {

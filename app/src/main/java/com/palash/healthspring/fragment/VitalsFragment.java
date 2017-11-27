@@ -125,10 +125,12 @@ public class VitalsFragment extends Fragment {
     public void onResume() {
         emr_vitals_list_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_vitals_list_chronometer.start();
-        if(localSetting.isNetworkAvailable(context)) {
-            new GetVitalsListTask().execute();
-        }else{
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        if (Constants.backFromAddEMR == false) {
+            if (localSetting.isNetworkAvailable(context)) {
+                new GetVitalsListTask().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
         super.onResume();
     }
@@ -194,6 +196,7 @@ public class VitalsFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_add:
                 //MasterFlagTask();
+                Constants.backFromAddEMR = false;
                 context.startActivity(new Intent(context, VitalsAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
             case R.id.menu_current_medication_refresh:
@@ -247,7 +250,7 @@ public class VitalsFragment extends Fragment {
             if (responseCode == Constants.HTTP_OK_200) {
                 vitalsListArrayList = jsonObjectMapper.map(responseString, VitalsList.class);
                 if (vitalsListArrayList != null && vitalsListArrayList.size() > 0) {
-                    vitalsListAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(),bookAppointmentArrayList.get(0).getVisitID());
+                    vitalsListAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                     for (int index = 0; index < vitalsListArrayList.size(); index++) {
                         vitalsListAdapterDB.create(vitalsListArrayList.get(index));
                     }

@@ -119,7 +119,9 @@ public class FollowUpFragment extends Fragment {
     public void onResume() {
         emr_followup_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_followup_chronometer.start();
-        new GetFollowUp().execute();
+        if (Constants.backFromAddEMR == false) {
+            new GetFollowUp().execute();
+        }
         super.onResume();
     }
 
@@ -183,6 +185,7 @@ public class FollowUpFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_add:
                 //context.startActivity(new Intent(context, CPOEPrescriptionAddUpdateActivity.class).putExtra("isUpdate", "No"));
+                Constants.backFromAddEMR = false;
                 return true;
             case R.id.menu_current_medication_refresh:
                 new GetFollowUp().execute();

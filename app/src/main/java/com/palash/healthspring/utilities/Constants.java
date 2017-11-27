@@ -19,9 +19,10 @@ public class Constants {
     public static final int HTTP_AMBIGUOUS_300 = 300;
     public static final int HTTP_Expectation_Failed_417 = 417;
     public static boolean refreshPatient = false;
+    public static boolean backFromAddEMR = false;
 
-    public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
-    //public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
+    //public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
+    public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
 
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
     public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList?UnitId=";

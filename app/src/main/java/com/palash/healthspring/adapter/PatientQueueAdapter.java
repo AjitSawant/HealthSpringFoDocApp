@@ -81,6 +81,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.row_patient_queue, null);
                 holder.row_patient_queue_iv_gender = (ImageView) convertView.findViewById(R.id.row_patient_queue_iv_gender);
+                holder.row_patient_queue_tv_dept = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_dept);
                 holder.row_patient_queue_tv_reason = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_reason);
                 holder.row_patient_queue_tv_date = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_date);
                 holder.row_patient_queue_tv_from_time = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_from_time);
@@ -104,6 +105,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder.row_patient_queue_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personfemale));
             }
 
+            holder.row_patient_queue_tv_dept.setText(patientQueue.getDepartment());
             holder.row_patient_queue_tv_reason.setText(patientQueue.getVisitDescription());
             holder.row_patient_queue_tv_date.setText(patientQueue.getDate());
 
@@ -211,6 +213,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
 
     private class ViewHolder {
         ImageView row_patient_queue_iv_gender;
+        TextView row_patient_queue_tv_dept;
         TextView row_patient_queue_tv_reason;
         TextView row_patient_queue_tv_date;
         TextView row_patient_queue_tv_from_time;

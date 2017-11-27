@@ -102,11 +102,13 @@ public class VisitListAdapter extends BaseAdapter {
             String firstName = visitList.getFirstName();
             String lastName = visitList.getLastName();
             String middleName = visitList.getMiddleName();
+
             if (middleName != null && middleName.length() > 0) {
                 holder.row_visit_list_tv_name.setText(firstName + " " + middleName + " " + lastName);
             } else {
                 holder.row_visit_list_tv_name.setText(firstName + " " + lastName);
             }
+
             if (visitList.getDepartment() != null && visitList.getDepartment().length() > 0) {
                 holder.layout_row_visit_list_tv_department.setVisibility(View.VISIBLE);
                 holder.row_visit_list_tv_department.setText(visitList.getDepartment().trim());

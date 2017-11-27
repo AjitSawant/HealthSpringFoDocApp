@@ -124,10 +124,12 @@ public class CPOEInvestigationFragment extends Fragment {
     public void onResume() {
         emr_cpoeservice_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_cpoeservice_chronometer.start();
-        if (localSetting.isNetworkAvailable(context)) {
-            new GetCPOEService().execute();
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        if (Constants.backFromAddEMR == false) {
+            if (localSetting.isNetworkAvailable(context)) {
+                new GetCPOEService().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
         super.onResume();
     }
@@ -193,6 +195,7 @@ public class CPOEInvestigationFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_add:
                 MasterFlagTask();
+                Constants.backFromAddEMR = false;
                 context.startActivity(new Intent(context, CPOEInvestigationAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
             case R.id.menu_current_medication_refresh:

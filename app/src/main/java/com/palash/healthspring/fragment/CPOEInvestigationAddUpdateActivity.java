@@ -260,6 +260,12 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
     }
 
     @Override
+    public void onBackPressed() {
+        Constants.backFromAddEMR=true;
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_save:
@@ -279,6 +285,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                 SetSpinnerAdapter();
                 return true;
             case android.R.id.home:
+                Constants.backFromAddEMR=true;
                 onBackPressed();
                 return true;
             default:

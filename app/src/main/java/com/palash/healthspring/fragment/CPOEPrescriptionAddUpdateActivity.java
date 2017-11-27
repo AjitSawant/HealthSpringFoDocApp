@@ -407,6 +407,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                 SetSpinnerAdapter();
                 return true;
             case android.R.id.home:
+                Constants.backFromAddEMR=true;
                 onBackPressed();
                 return true;
             default:
@@ -428,6 +429,12 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Constants.backFromAddEMR=true;
+        finish();
     }
 
     private void Clear() {

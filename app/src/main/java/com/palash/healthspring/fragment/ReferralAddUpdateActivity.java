@@ -293,6 +293,12 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
     }
 
     @Override
+    public void onBackPressed() {
+        Constants.backFromAddEMR=true;
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_save:
@@ -308,6 +314,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                 Clear();
                 return true;
             case android.R.id.home:
+                Constants.backFromAddEMR=true;
                 onBackPressed();
                 return true;
             default:

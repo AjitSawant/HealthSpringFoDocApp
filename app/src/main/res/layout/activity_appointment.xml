@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="@dimen/ten_margin">
+    android:padding="@dimen/ten_margin"
+    android:baselineAligned="false">
 
     <Chronometer
         android:id="@+id/appointment_chronometer"

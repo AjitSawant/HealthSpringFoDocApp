@@ -289,6 +289,12 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
     }
 
     @Override
+    public void onBackPressed() {
+        Constants.backFromAddEMR=true;
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_save:
@@ -307,6 +313,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                 return true;
             case android.R.id.home:
                 onBackPressed();
+                Constants.backFromAddEMR=true;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -9,15 +9,28 @@
     android:padding="@dimen/five_margin">
 
     <TextView
-        android:id="@+id/row_patient_queue_tv_reason"
+        android:id="@+id/row_patient_queue_tv_dept"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
         android:padding="@dimen/five_margin"
         android:textAllCaps="false"
+        android:text="Department Name"
+        android:textColor="@color/blue_box"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/row_patient_queue_tv_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="@dimen/five_margin"
+        android:paddingRight="@dimen/five_margin"
+        android:paddingBottom="@dimen/five_margin"
+        android:textAllCaps="false"
         android:text="Appointment Reason"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/common_text_size" />
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -95,7 +108,7 @@
                 android:textAllCaps="false"
                 android:text="Patient Name"
                 android:textStyle="bold"
-                android:textSize="@dimen/common_text_size" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/row_patient_queue_tv_dob"

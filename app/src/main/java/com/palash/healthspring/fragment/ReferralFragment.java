@@ -20,14 +20,12 @@ import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
-import com.palash.healthspring.adapter.CPOEInvestigationListAdapter;
 import com.palash.healthspring.adapter.ReferralDoctorServiceListAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
-import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
@@ -126,10 +124,12 @@ public class ReferralFragment extends Fragment {
     public void onResume() {
         emr_referral_service_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_referral_service_chronometer.start();
-        if (localSetting.isNetworkAvailable(context)) {
-            new GetReferralDoctorService().execute();
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        if (Constants.backFromAddEMR == false) {
+            if (localSetting.isNetworkAvailable(context)) {
+                new GetReferralDoctorService().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
         super.onResume();
     }
@@ -195,6 +195,7 @@ public class ReferralFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_add:
                 MasterFlagTask();
+                Constants.backFromAddEMR = false;
                 context.startActivity(new Intent(context, ReferralAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
             case R.id.menu_current_medication_refresh:

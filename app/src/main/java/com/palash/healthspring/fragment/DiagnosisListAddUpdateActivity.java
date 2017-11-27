@@ -246,6 +246,12 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        Constants.backFromAddEMR=true;
+        finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_current_medication, menu);
         menu.findItem(R.id.menu_current_medication_save).setVisible(true);
@@ -274,6 +280,7 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                 SetSpinnerAdapter();
                 return true;
             case android.R.id.home:
+                Constants.backFromAddEMR=true;
                 onBackPressed();
                 return true;
             default:

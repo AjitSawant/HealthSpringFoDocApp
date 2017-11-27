@@ -126,10 +126,12 @@ public class CPOEPrescriptionFragment extends Fragment {
     public void onResume() {
         emr_cpoemedicine_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_cpoemedicine_chronometer.start();
-        if(localSetting.isNetworkAvailable(context)) {
-            new GetPrescription().execute();
-        }else{
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        if (Constants.backFromAddEMR == false) {
+            if (localSetting.isNetworkAvailable(context)) {
+                new GetPrescription().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
         super.onResume();
     }
@@ -195,6 +197,7 @@ public class CPOEPrescriptionFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_current_medication_add:
                 MasterFlagTask();
+                Constants.backFromAddEMR = false;
                 context.startActivity(new Intent(context, CPOEPrescriptionAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
             case R.id.menu_current_medication_refresh:

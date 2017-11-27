@@ -25,6 +25,7 @@ import com.palash.healthspring.fragment.DiagnosisFragment;
 import com.palash.healthspring.fragment.FollowUpFragment;
 import com.palash.healthspring.fragment.ReferralFragment;
 import com.palash.healthspring.fragment.VitalsFragment;
+import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
@@ -97,6 +98,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
             fragmentTransaction.commit();
             setTitle(R.string.emr_vitals);
             Title = context.getResources().getString(R.string.emr_vitals);
+            Constants.backFromAddEMR = false;
 
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -112,6 +114,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             vitalsFragmentTransaction.commit();
                             setTitle(R.string.emr_vitals);
                             Title = context.getResources().getString(R.string.emr_vitals);
+                            Constants.backFromAddEMR = false;
                             return true;
                         case R.id.action_diagnosis:
                             DiagnosisFragment diagnosisFragment = new DiagnosisFragment();
@@ -120,6 +123,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             diagnosisFragmentTransaction.commit();
                             setTitle(R.string.emr_diagnosis);
                             Title = context.getResources().getString(R.string.emr_diagnosis);
+                            Constants.backFromAddEMR = false;
                             return true;
                         case R.id.action_cpoe_service:
                             CPOEInvestigationFragment cpoeServiceFragment = new CPOEInvestigationFragment();
@@ -128,6 +132,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             cpoeServiceFragmentTransaction.commit();
                             setTitle(R.string.emr_cpoe_investigation);
                             Title = context.getResources().getString(R.string.emr_cpoe_investigation);
+                            Constants.backFromAddEMR = false;
                             return true;
                         case R.id.action_cpoe_medicine:
                             CPOEPrescriptionFragment cpoeMedicineFragment = new CPOEPrescriptionFragment();
@@ -136,6 +141,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             cpoeMedicineFragmentTransaction.commit();
                             setTitle(R.string.emr_cpoe_medicine);
                             Title = context.getResources().getString(R.string.emr_cpoe_medicine);
+                            Constants.backFromAddEMR = false;
                             return true;
                         case R.id.action_cpoe_complaint:
                             ComplaintsFragment complaintsFragment = new ComplaintsFragment();
@@ -144,6 +150,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             complaintsFragmentTransaction.commit();
                             setTitle(R.string.emr_complaint);
                             Title = context.getResources().getString(R.string.emr_complaint);
+                            Constants.backFromAddEMR = false;
                             return true;
                         case R.id.action_followup:
                             FollowUpFragment followUpFragment = new FollowUpFragment();
@@ -152,6 +159,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             followupFragmentTransaction.commit();
                             setTitle(R.string.emr_followup);
                             Title = context.getResources().getString(R.string.emr_followup);
+                            Constants.backFromAddEMR = false;
                             return true;
                         case R.id.action_refarral:
                             ReferralFragment referralFragment = new ReferralFragment();
@@ -160,6 +168,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             referralFragmentTransaction.commit();
                             setTitle(R.string.emr_referral);
                             Title = context.getResources().getString(R.string.emr_referral);
+                            Constants.backFromAddEMR = false;
                             return true;
                         default:
                             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
