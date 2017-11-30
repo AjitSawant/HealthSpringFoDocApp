@@ -8,15 +8,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BookAppointment {
+
     private String ID;
     private String UnitID;
     private String PatientID;
+    private String MRNo;
     private String FirstName;
     private String MiddleName;
     private String LastName;
     private String GenderID;
     private String DOB;
+    private String Age;
+    private String RegistrationDate;
+    private String ClinicName;
     private String MaritalStatusID;
+    private String MaritalStatus;
     private String Contact1;
     private String EmailId;
     private String BloodGroupID;
@@ -63,6 +69,42 @@ public class BookAppointment {
 
     public void setPatientID(String patientID) {
         PatientID = patientID;
+    }
+
+    @JsonProperty("MRNo")
+    public String getMRNo() {
+        return MRNo;
+    }
+
+    public void setMRNo(String MRNo) {
+        this.MRNo = MRNo;
+    }
+
+    @JsonProperty("Age")
+    public String getAge() {
+        return Age;
+    }
+
+    public void setAge(String age) {
+        Age = age;
+    }
+
+    @JsonProperty("RegistrationDate")
+    public String getRegistrationDate() {
+        return RegistrationDate;
+    }
+
+    public void setRegistrationDate(String registrationDate) {
+        RegistrationDate = registrationDate;
+    }
+
+    @JsonProperty("ClinicName")
+    public String getClinicName() {
+        return ClinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        ClinicName = clinicName;
     }
 
     @JsonProperty("FirstName")
@@ -126,6 +168,15 @@ public class BookAppointment {
 
     public void setMaritalStatusID(String maritalStatusID) {
         MaritalStatusID = maritalStatusID;
+    }
+
+    @JsonProperty("MaritalStatus")
+    public String getMaritalStatus() {
+        return MaritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        MaritalStatus = maritalStatus;
     }
 
     @JsonProperty("EmailId")

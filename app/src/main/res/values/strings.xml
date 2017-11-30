@@ -72,6 +72,7 @@
     <string name="sumbmit">Submit</string>
     <string name="closeDrawer">Navigation View</string>
     <string name="openDrawer">Navigation View Closed</string>
+    <string name="select_unit">Select Clinic</string>
 
     <string name="patient_emr">Patient EMR</string>>
     <string name="emr_vitals">Vitals</string>

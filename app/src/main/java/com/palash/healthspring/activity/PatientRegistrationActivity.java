@@ -52,10 +52,10 @@ public class PatientRegistrationActivity extends AppCompatActivity {
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
-    private DatabaseAdapter.PrefixAdapter prefixAdapter;
-    private DatabaseAdapter.GenderAdapter genderAdapter;
-    private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
-    private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;
+    //private DatabaseAdapter.PrefixAdapter prefixAdapter;
+    //private DatabaseAdapter.GenderAdapter genderAdapter;
+    //private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
+    //private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
 
     private Patient patient;
@@ -107,15 +107,15 @@ public class PatientRegistrationActivity extends AppCompatActivity {
             databaseAdapter = new DatabaseAdapter(databaseContract);
             masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
-            genderAdapter = databaseAdapter.new GenderAdapter();
-            maritalStatusAdapter = databaseAdapter.new MaritalStatusAdapter();
-            prefixAdapter = databaseAdapter.new PrefixAdapter();
-            bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
+            //genderAdapter = databaseAdapter.new GenderAdapter();
+            //maritalStatusAdapter = databaseAdapter.new MaritalStatusAdapter();
+            //prefixAdapter = databaseAdapter.new PrefixAdapter();
+            //bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
             listProfile = doctorProfileAdapter.listAll();
-            listGender = genderAdapter.listAll();
-            listMaritalStatus = maritalStatusAdapter.listAll();
-            listPrefix = prefixAdapter.listAll();
-            listbloodGroups = bloodGroupAdapter.listAll();
+            //listGender = genderAdapter.listAll();
+            //listMaritalStatus = maritalStatusAdapter.listAll();
+            //listPrefix = prefixAdapter.listAll();
+            //listbloodGroups = bloodGroupAdapter.listAll();
         } catch (Exception e) {
             e.printStackTrace();
         }

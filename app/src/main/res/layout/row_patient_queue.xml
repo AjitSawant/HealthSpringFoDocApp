@@ -29,7 +29,7 @@
         android:paddingBottom="@dimen/five_margin"
         android:textAllCaps="false"
         android:text="Appointment Reason"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorGreen"
         android:textSize="15sp" />
 
     <LinearLayout

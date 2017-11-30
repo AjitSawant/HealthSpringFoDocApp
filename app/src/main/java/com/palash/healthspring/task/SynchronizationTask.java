@@ -190,7 +190,7 @@ public class SynchronizationTask implements Task {
         }
     }
 
-    public void PatientQueueTask() {
+   /* public void PatientQueueTask() {
         try {
             responseCode = 0;
             responseString = null;
@@ -220,9 +220,9 @@ public class SynchronizationTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public void VisitListTask() {
+    /*public void VisitListTask() {
         try {
             responseCode = 0;
             responseString = null;
@@ -248,7 +248,7 @@ public class SynchronizationTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void EMRVitalsTask() {
         try {

@@ -21,8 +21,8 @@ public class Constants {
     public static boolean refreshPatient = false;
     public static boolean backFromAddEMR = false;
 
-    //public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
-    public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
+    public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
+    //public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
 
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
     public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList?UnitId=";
@@ -36,6 +36,7 @@ public class Constants {
     public static final String UPDATE_PASSWORD_URL = BASE_URL + "Profile/UpdatePassword";
     public static final String GET_PREFIX_URL = BASE_URL + "Master/GetPrefix";
     public static final String GET_DOCTOR_TYPE_URL = BASE_URL + "Master/GetDoctorType";
+    public static final String GET_UNIT_MASTER_URL = BASE_URL + "Master/GetUnitMaster";
     public static final String GET_SPECIALIZATION_URL = BASE_URL + "Master/GetSpecilization";
     public static final String GET_APPOINTMENT_URL = BASE_URL + "Appointment/GetApointmentsByDoctorID?DoctorID=";
     public static final String GET_APPOINTMENT_REASON_URL = BASE_URL + "Master/GetAppointmentReason";

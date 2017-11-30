@@ -9,6 +9,7 @@ public class Synchronization {
     private String DoctorID;
     private String UnitID;
     private String DoctorProfileCount;
+    private String UnitMasterCount;
     private String AppointmentCount;
     private String PatientCount;
     private String DoctorTypeCount;
@@ -55,7 +56,6 @@ public class Synchronization {
     @JsonProperty("DepartmentCount")
     public String getDepartmentCount() {
         return DepartmentCount;
-
     }
 
     public void setDepartmentCount(String departmentCount) {
@@ -87,6 +87,15 @@ public class Synchronization {
 
     public void setDoctorProfileCount(String doctorProfileCount) {
         DoctorProfileCount = doctorProfileCount;
+    }
+
+    @JsonProperty("UnitMasterCount")
+    public String getUnitMasterCount() {
+        return UnitMasterCount;
+    }
+
+    public void setUnitMasterCount(String unitMasterCount) {
+        UnitMasterCount = unitMasterCount;
     }
 
     @JsonProperty("AppointmentCount")

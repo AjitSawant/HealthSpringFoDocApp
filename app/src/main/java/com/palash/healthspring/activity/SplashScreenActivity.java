@@ -19,7 +19,6 @@ import com.palash.healthspring.utilities.ShimmerTextView;
 
 import java.util.ArrayList;
 
-
 public class SplashScreenActivity extends RuntimePermissionsActivity {
     private Context context;
     private LocalSetting localSetting;

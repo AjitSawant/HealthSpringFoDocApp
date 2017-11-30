@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
+import com.palash.healthspring.activity.PatientConsoleActivity;
 import com.palash.healthspring.activity.TimeSlotActivity;
 import com.palash.healthspring.activity.VisitListActivity;
 import com.palash.healthspring.database.DatabaseAdapter;
@@ -101,6 +102,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_mrno = (TextView) convertView.findViewById(R.id.row_search_patient_mrno_txt);
                 holder.patient_row_bnt_book = (TextView) convertView.findViewById(R.id.patient_row_bnt_book);
                 holder.patient_row_bnt_visit = (TextView) convertView.findViewById(R.id.patient_row_bnt_visit);
+                holder.patient_row_bnt_patient_console = (TextView) convertView.findViewById(R.id.patient_row_bnt_patient_console);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -109,9 +111,9 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
             final Patient elPatient = getItem(position);
 
             if (elPatient.getMiddleName() != null && elPatient.getMiddleName().length() != 0) {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName());
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName() +" ( MRNO : "+ elPatient.getMRNo()+" )");
             } else {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName());
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName()+" ( MRNO : "+ elPatient.getMRNo()+" )");
             }
 
             if (elPatient.getGender().equalsIgnoreCase("Male")) {
@@ -120,7 +122,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_img.setImageResource(R.drawable.personfemale);
             }
 
-            holder.patient_mrno.setText(elPatient.getAge() + " Yrs." + " " + "M.R.No:" + elPatient.getMRNo());
+            holder.patient_mrno.setText(elPatient.getAge() + " Yrs." + "  " + "Registered Clinic : " + elPatient.getClinicName());
 
             holder.patient_row_bnt_book.getId();
             holder.patient_row_bnt_book.setTag(position);
@@ -130,7 +132,6 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 public void onClick(View v) {
 
                     Patient elPatient = patientlist.get(position);
-
                     bookAppointment.setID(elDoctorProfile.getID());
                     bookAppointment.setUnitID(elPatient.getUnitID());
                     bookAppointment.setPatientID(elPatient.getID());
@@ -212,6 +213,52 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                     Constants.refreshPatient = false;
                 }
             });
+
+            holder.patient_row_bnt_patient_console.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Patient elPatient = patientlist.get(position);
+                    bookAppointment.setID(elDoctorProfile.getID());
+                    bookAppointment.setUnitID(elPatient.getUnitID());
+                    bookAppointment.setPatientID(elPatient.getID());
+                    bookAppointment.setMRNo(elPatient.getMRNo());
+                    bookAppointment.setAge(elPatient.getAge());
+                    bookAppointment.setRegistrationDate(elPatient.getRegistrationDate());
+                    bookAppointment.setClinicName(elPatient.getClinicName());
+                    bookAppointment.setFirstName(elPatient.getFirstName());
+                    bookAppointment.setLastName(elPatient.getLastName());
+                    bookAppointment.setMiddleName(elPatient.getMiddleName());
+                    bookAppointment.setEmailId(elPatient.getEmail());
+                    bookAppointment.setContact1(elPatient.getContactNo1());
+                    bookAppointment.setGenderID(elPatient.getGenderID());
+                    bookAppointment.setBloodGroupID(elPatient.getBloodGroupID());
+                    bookAppointment.setDOB(elPatient.getDateOfBirth());
+                    bookAppointment.setMaritalStatusID(elPatient.getMaritalStatusID());
+                    bookAppointment.setMaritalStatus(elPatient.getMaritalStatus());
+                    bookAppointmentAdapter.create(bookAppointment);
+
+                    String FirstName = elDoctorProfile.getFirstName();
+                    String MiddleName = elDoctorProfile.getMiddleName();
+                    String LastName = elDoctorProfile.getLastName();
+                    String Name;
+                    if (MiddleName != null && MiddleName.trim().length() > 0) {
+                        Name = FirstName + " " + MiddleName + " " + LastName;
+                    } else {
+                        Name = FirstName + " " + LastName;
+                    }
+                    bookAppointment.setDoctorID(elDoctorProfile.getDoctorID());
+                    bookAppointment.setDoctorUnitID(elDoctorProfile.getUnitID());
+                    bookAppointment.setDoctorName(Name);
+                    bookAppointment.setSpecialization(elDoctorProfile.getSpecialization());
+                    bookAppointment.setDoctorEducation(elDoctorProfile.getEducation());
+                    bookAppointment.setDoctorMobileNo(elDoctorProfile.getPFNumber());
+                    bookAppointmentAdapter.updateDoctor(bookAppointment);
+
+                    localSetting.Activityname = "PatientConsole";
+                    localSetting.Save();
+                    context.startActivity(new Intent(context, PatientConsoleActivity.class));
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -224,6 +271,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
         TextView patient_mrno;
         TextView patient_row_bnt_book;
         TextView patient_row_bnt_visit;
+        TextView patient_row_bnt_patient_console;
     }
 
     private void MasterFlagTask() {

@@ -44,7 +44,7 @@ public class PatientQueueActivity extends AppCompatActivity {
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.PatientQueueAdapter patientQueueAdapterDB;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
-    private Flag flag;
+
     private ArrayList<DoctorProfile> doctorProfileList;
     private ArrayList<PatientQueue> patientQueueArrayList = null;
 
@@ -158,7 +158,7 @@ public class PatientQueueActivity extends AppCompatActivity {
     }
 
     private void RefreshList() {
-        patientQueueArrayList = patientQueueAdapterDB.listToday(patientName);
+        patientQueueArrayList = patientQueueAdapterDB.listToday(doctorProfileList.get(0).getUnitID(),patientName);
         if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
             patientQueueAdapter = new PatientQueueAdapter(context, patientQueueArrayList);
             patient_queue_list.setAdapter(patientQueueAdapter);
@@ -263,13 +263,13 @@ public class PatientQueueActivity extends AppCompatActivity {
             if (responseCode == Constants.HTTP_OK_200) {
                 patientQueueArrayList = jsonObjectMapper.map(responseString, PatientQueue.class);
                 if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
-                    patientQueueAdapterDB.delete();
+                    patientQueueAdapterDB.delete(doctorProfileList.get(0).getUnitID());
                     for (int index = 0; index < patientQueueArrayList.size(); index++) {
                         patientQueueAdapterDB.create(patientQueueArrayList.get(index));
                     }
                 }
             } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
-                patientQueueAdapterDB.delete();
+                patientQueueAdapterDB.delete(doctorProfileList.get(0).getUnitID());
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();

@@ -30,6 +30,7 @@ public class Patient {
     private String Email;
     private String PrefixId;
     private String Age;
+    private String ClinicName;
 
     public Patient() {
 
@@ -214,6 +215,7 @@ public class Patient {
     public void setBloodGroupID(String bloodGroupID) {
         BloodGroupID = bloodGroupID;
     }
+
     @JsonProperty("BloodGroup")
     public String getBloodGroup() {
         return BloodGroup;
@@ -221,5 +223,14 @@ public class Patient {
 
     public void setBloodGroup(String bloodGroup) {
         BloodGroup = bloodGroup;
+    }
+
+    @JsonProperty("ClinicName")
+    public String getClinicName() {
+        return ClinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        ClinicName = clinicName;
     }
 }

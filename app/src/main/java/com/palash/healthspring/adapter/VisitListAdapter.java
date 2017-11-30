@@ -135,8 +135,8 @@ public class VisitListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     bookAppointment.setVisitID(visitListArrayList.get(position).getID());
                     bookAppointmentAdapter.updateVisitID(bookAppointment);
-                    //localSetting.fragment_name = "VisitList";
-                    localSetting.fragment_name = "PatientQueue";
+                    localSetting.fragment_name = "VisitList";
+                    //localSetting.fragment_name = "PatientQueue";
                     localSetting.Save();
                     context.startActivity(new Intent(context, EMRNavigationDrawerActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }

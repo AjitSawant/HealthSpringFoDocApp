@@ -247,7 +247,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
                     appointment_book_edt_doctor_mobile_layout.setVisibility(View.GONE);
                 }
 
-
                 if (bookAppointmentArrayList.get(0).getGenderID() != null && bookAppointmentArrayList.get(0).getGenderID().trim().length() > 0) {
                     if (bookAppointmentArrayList.get(0).getGenderID().equals("1") ) {
                         appointment_edt_patient_gender.setText("Male");

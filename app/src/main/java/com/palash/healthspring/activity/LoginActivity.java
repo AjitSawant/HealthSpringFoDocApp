@@ -232,6 +232,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (profile != null) {
                 profile.setRememberMe(String.valueOf(RememberMe));
                 profile.setLoginStatus(Constants.STATUS_LOG_IN);
+                doctorProfileAdapter.delete();
                 doctorProfileAdapter.create(profile);
 
                 startActivity(new Intent(context, DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));

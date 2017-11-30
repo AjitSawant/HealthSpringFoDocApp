@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,10 +21,36 @@
             android:padding="@dimen/ten_margin">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_card">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/unitMasterSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_text_size"
+                    android:background="@null"
+                    android:visibility="visible"
+                    app:ms_arrowColor="@color/text_color"
+                    app:ms_arrowSize="12sp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"
+                    app:ms_enableErrorLabel="false"
+                    app:ms_enableFloatingLabel="true"
+                    app:ms_hint="@string/select_unit"
+                    app:ms_floatingLabelText="Selected Clinic"
+                    app:ms_hintColor="@color/text_color"
+                    app:ms_thickness="0dp"
+                    app:ms_multiline="false" />
+            </LinearLayout>
+
+            <LinearLayout
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/five_margin"
+                android:layout_marginTop="@dimen/five_margin"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 

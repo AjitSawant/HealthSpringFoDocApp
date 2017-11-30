@@ -54,7 +54,6 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.CPOEServiceAdapter cpoeServiceAdapterDB;
-    //private DatabaseAdapter.ServiceNameAdapter serviceNameAdapterDB;
     private DatabaseAdapter.PriorityAdapter priorityAdapterDB;
     private DatabaseAdapter.DepartmentAdapter departmentAdapterDB;
 
@@ -63,7 +62,6 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
     private ArrayList<BookAppointment> bookAppointmentArrayList;
     private ArrayList<CPOEService> cpoeServiceArrayList;
     private ArrayList<ServiceName> serviceNameArrayList;
-    private ArrayList<ServiceName> serviceNameArrayListDB;
     private ArrayList<Priority> priorityArrayList;
     private ArrayList<Department> departmentArrayList;
 

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class SynchronizationActivity extends AppCompatActivity {
 
     private Context context;
+    private LocalSetting localSetting;
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
@@ -47,6 +48,7 @@ public class SynchronizationActivity extends AppCompatActivity {
 
     private void InitSetting() {
         context = SynchronizationActivity.this;
+        localSetting = new LocalSetting();
         databaseContract = new DatabaseContract(context);
         databaseAdapter = new DatabaseAdapter(databaseContract);
         masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();

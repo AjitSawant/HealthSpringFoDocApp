@@ -10,7 +10,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.palash.healthspring.R;
 import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
@@ -105,25 +104,39 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder.row_patient_queue_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personfemale));
             }
 
-            holder.row_patient_queue_tv_dept.setText(patientQueue.getDepartment());
-            holder.row_patient_queue_tv_reason.setText(patientQueue.getVisitDescription());
+            if (patientQueue.getDepartment() != null && patientQueue.getDepartment().length() > 0) {
+                holder.row_patient_queue_tv_dept.setText(patientQueue.getDepartment());
+                holder.row_patient_queue_tv_dept.setVisibility(View.VISIBLE);
+            } else {
+                holder.row_patient_queue_tv_dept.setVisibility(View.GONE);
+            }
+
+            if (patientQueue.getVisitDescription() != null && patientQueue.getVisitDescription().length() > 0) {
+                holder.row_patient_queue_tv_reason.setText(patientQueue.getVisitDescription());
+                holder.row_patient_queue_tv_reason.setVisibility(View.VISIBLE);
+            } else {
+                holder.row_patient_queue_tv_reason.setVisibility(View.GONE);
+            }
+
             holder.row_patient_queue_tv_date.setText(patientQueue.getDate());
 
             if (patientQueue.getToTime() != null && patientQueue.getToTime().length() > 0) {
                 holder.row_patient_queue_tv_from_time.setVisibility(View.VISIBLE);
-                holder.row_patient_queue_tv_from_time.setText(localSetting.formatDate(patientQueue.getFromTime(),"HH:mm:ss", Constants.OFFLINE_TIME));
-                holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getToTime(),"HH:mm:ss", Constants.OFFLINE_TIME));
+                holder.row_patient_queue_tv_from_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
+                holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getToTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
             } else {
-                holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getFromTime(),"HH:mm:ss", Constants.OFFLINE_TIME));
+                holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
                 holder.row_patient_queue_tv_from_time.setVisibility(View.INVISIBLE);
             }
+
             String firstName = patientQueue.getFirstName();
             String lastName = patientQueue.getLastName();
             String middleName = patientQueue.getMiddleName();
+
             if (middleName != null && middleName.length() > 0) {
-                holder.row_patient_queue_tv_name.setText(firstName + " " + middleName + " " + lastName + " " + "(Visit ID : " + patientQueue.getVisitID() + ")");
+                holder.row_patient_queue_tv_name.setText(firstName + " " + middleName + " " + lastName + " " + "( MRNO : " + patientQueue.getMRNo() + " )");
             } else {
-                holder.row_patient_queue_tv_name.setText(firstName + " " + lastName + " " + "(Visit ID : " + patientQueue.getVisitID() + ")");
+                holder.row_patient_queue_tv_name.setText(firstName + " " + lastName + " " + "( MRNO : " + patientQueue.getMRNo() + " )");
             }
 
             if (patientQueue.getDateOfBirth() != null && patientQueue.getDateOfBirth().length() > 0) {
@@ -164,7 +177,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(patientQueueArrayList.get(position).getIsBilledSubmitID()!=null && patientQueueArrayList.get(position).getIsBilledSubmitID().length()>0) {
+                    if (patientQueueArrayList.get(position).getIsBilledSubmitID() != null && patientQueueArrayList.get(position).getIsBilledSubmitID().length() > 0) {
                         bookAppointment.setUnitID(patientQueueArrayList.get(position).getPatientUnitID());
                         bookAppointment.setPatientID(patientQueueArrayList.get(position).getPatientId());
                         bookAppointment.setFirstName(patientQueueArrayList.get(position).getFirstName());
@@ -200,8 +213,8 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
 
                         Intent EMRIntent = new Intent(context, EMRNavigationDrawerActivity.class);
                         context.startActivity(EMRIntent);
-                    }else{
-                       localSetting.alertbox(context,"Billing is not generated. Bill is required for EMR.",false);
+                    } else {
+                        localSetting.alertbox(context, "Billing is not generated. Bill is required for EMR.", false);
                     }
                 }
             });

@@ -16,6 +16,7 @@ import com.palash.healthspring.entity.Complaint;
 import com.palash.healthspring.entity.DaignosisMaster;
 import com.palash.healthspring.entity.DaignosisTypeMaster;
 import com.palash.healthspring.entity.Department;
+import com.palash.healthspring.entity.ELUnitMaster;
 import com.palash.healthspring.entity.Gender;
 import com.palash.healthspring.entity.MaritalStatus;
 import com.palash.healthspring.entity.MedicienFrequency;
@@ -289,6 +290,60 @@ public class SpinnerAdapter {
 
                 holder.row_txt_id.setText(bloodGrouplist.get(position).getID());
                 holder.row_txt_description.setText(bloodGrouplist.get(position).getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class UnitMasterListAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELUnitMaster> elUnitMasterList; // Values to be displayed
+
+        public UnitMasterListAdapter(Context context, ArrayList<ELUnitMaster> elUnitMasterList) {
+            mContext = context;
+            this.elUnitMasterList = elUnitMasterList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elUnitMasterList.size();
+        }
+
+        @Override
+        public ELUnitMaster getItem(int position) {
+            return elUnitMasterList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elUnitMasterList.get(position).getUnitID());
+                holder.row_txt_description.setText(elUnitMasterList.get(position).getUnitDesc());
             } catch (Exception e) {
                 e.printStackTrace();
             }

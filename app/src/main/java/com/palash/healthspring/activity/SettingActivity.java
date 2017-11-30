@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
@@ -88,8 +89,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         bnt_synchronization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SynchronizationActivity.class);
-                startActivity(intent);
+                if (localSetting.isNetworkAvailable(context)) {
+                    Intent intent = new Intent(context, SynchronizationActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                }
             }
         });
         setting_chronometer = (Chronometer) findViewById(R.id.set_chronometer);
@@ -118,7 +123,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         masterflag = masterFlagAdapterDB.listCurrent();
         if (masterflag != null && masterflag.getDateTime() != null && masterflag.getDateTime().length() > 0) {
             txt_set_sych.setText("Click on start to synchronize hospital records\nLast synchronization : " + masterflag.getDateTime());
-        }else{
+        } else {
             txt_set_sych.setText("Click on start to synchronize hospital records\nLast synchronization : No synchronization");
         }
     }

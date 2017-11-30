@@ -53,6 +53,7 @@ public class TimeSlotActivity extends AppCompatActivity {
 
     private TimeSlotAdapter timeSlotAdapter;
 
+    //private MaterialCalendarView time_slot_calendar_view;
     private CalendarPickerView time_slot_calendar_view;
     private TextView time_slot_tv_empty;
     private GridView time_slot_schedule_list;
@@ -92,6 +93,7 @@ public class TimeSlotActivity extends AppCompatActivity {
     private void InitView() {
         try {
             timeSlot = new TimeSlot();
+            //time_slot_calendar_view = (MaterialCalendarView) findViewById(R.id.time_slot_calendar_view);
             time_slot_calendar_view = (CalendarPickerView) findViewById(R.id.time_slot_calendar_view);
             time_slot_schedule_list = (GridView) findViewById(R.id.time_slot_schedule_list);
             time_slot_tv_empty = (TextView) findViewById(R.id.time_slot_tv_empty);
@@ -99,7 +101,19 @@ public class TimeSlotActivity extends AppCompatActivity {
             nextThreeMonths.add(Calendar.MONTH, 3);
             dates = new ArrayList<Date>();
             dates.add(today.getTime());
+
             time_slot_calendar_view.init(new Date(), nextThreeMonths.getTime()).withSelectedDates(dates);
+            /*time_slot_calendar_view.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
+                @Override
+                public void onDateSelected(Date date) {
+                    GetTimeSlot(date);
+                }
+
+                @Override
+                public void onDateUnselected(Date date) {
+                }
+            });*/
+
             time_slot_calendar_view.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
                 @Override
                 public void onDateSelected(Date date) {

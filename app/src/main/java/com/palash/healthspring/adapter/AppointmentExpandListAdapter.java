@@ -138,10 +138,10 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
 
             TextView heading = (TextView) convertView.findViewById(R.id.tvAppointmentListHeader);
             heading.setText(headerTitle);
-            return convertView;
         } catch (Exception ex) {
-            return convertView;
+            ex.printStackTrace();
         }
+        return convertView;
     }
 
     @Override
@@ -258,7 +258,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
             }
 
             // schedule and cancel button hide                        // commented by Ajit
-            //row_appointment_bnt_reschedual.setVisibility(View.GONE);
+            row_appointment_bnt_reschedual.setVisibility(View.GONE);
             row_appointment_bnt_cancle.setVisibility(View.GONE);
             row_appointment_bnt_visit.setVisibility(View.GONE);
 

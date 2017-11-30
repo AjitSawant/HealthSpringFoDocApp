@@ -42,9 +42,7 @@ import java.util.Locale;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-/**
- * Created by manishas on 7/13/2016.
- */
+
 public class VisitBookActivity extends AppCompatActivity {
 
     private Context context;

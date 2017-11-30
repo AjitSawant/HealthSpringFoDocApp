@@ -109,7 +109,7 @@
             android:layout_margin="8dp"
             android:checked="false"
             android:text="Remember me"
-            app:buttonTint="@color/colorPrimary"
+            app:buttonTint="@color/blue_box"
             android:textColor="@color/text_color" />
 
         <Button

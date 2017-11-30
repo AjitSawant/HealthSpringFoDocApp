@@ -109,7 +109,6 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
             flagAdapter = databaseAdapter.new FlagAdapter();
             appointmentAdapter = databaseAdapter.new AppointmentAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
-
             doctorProfileList = doctorProfileAdapter.listAll();
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,6 +157,7 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
             });
 
             appointment_edt_todate.setFocusable(false);
+
             appointment_edt_todate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -422,9 +422,11 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
                 appointmentListAdapter.notifyDataSetChanged();
                 appointment_List.expandGroup(0);
                 appointment_List.setVisibility(View.VISIBLE);
+                layout_search_by_patient_name.setVisibility(View.VISIBLE);
                 appointment_empty.setVisibility(View.GONE);
             } else {
                 appointment_List.setVisibility(View.GONE);
+                layout_search_by_patient_name.setVisibility(View.GONE);
                 appointment_empty.setVisibility(View.VISIBLE);
                 appointment_empty.setText("No Record Found");
                 appointment_empty.setTextColor(Color.GRAY);

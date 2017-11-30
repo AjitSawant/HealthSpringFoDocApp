@@ -127,81 +127,6 @@ public class DatabaseContract {
                 + ")";
     }
 
-    public static final class Gender implements BaseColumns {
-
-        private Gender() {
-        }
-
-        public static final String TABLE_NAME = "T_Gender";
-        public static final String DEFAULT_SORT_ORDER = "_id ASC";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_DESCRIPTION = "Description";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + Gender._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_DESCRIPTION
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
-                + ")";
-    }
-
-    public static final class MaritalStatus implements BaseColumns {
-
-        private MaritalStatus() {
-        }
-
-        public static final String TABLE_NAME = "T_MaritalStatus";
-        public static final String DEFAULT_SORT_ORDER = "_id ASC";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_DESCRIPTION = "Description";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + MaritalStatus._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_DESCRIPTION
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
-                + ")";
-    }
-
-    public static final class Prefix implements BaseColumns {
-
-        private Prefix() {
-        }
-
-        public static final String TABLE_NAME = "T_Prefix";
-        public static final String DEFAULT_SORT_ORDER = "_id ASC";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_DESCRIPTION = "Description";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + Prefix._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_DESCRIPTION
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
-                + ")";
-    }
-
     public static final class DoctorType implements BaseColumns {
 
         private DoctorType() {
@@ -224,6 +149,30 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"
+                + ")";
+    }
+
+    public static final class UnitMaster implements BaseColumns {
+
+        private UnitMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_UnitMaster";
+
+        public static final String COLUMN_NAME_UNITID = "UnitID";
+        public static final String COLUMN_NAME_UNIT_CODE = "UnitCode";
+        public static final String COLUMN_NAME_UNIT_DESC = "UnitDesc";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + UnitMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_UNITID
+                + " TEXT,"
+                + COLUMN_NAME_UNIT_CODE
+                + " TEXT,"
+                + COLUMN_NAME_UNIT_DESC
+                + " TEXT"
                 + ")";
     }
 
@@ -333,31 +282,6 @@ public class DatabaseContract {
                 + ")";
     }
 
-    public static final class BloodGroup implements BaseColumns {
-
-        private BloodGroup() {
-        }
-
-        public static final String TABLE_NAME = "T_BloodGroup";
-        public static final String DEFAULT_SORT_ORDER = "_id ASC";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_DESCRIPTION = "Description";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + BloodGroup._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_DESCRIPTION
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
-                + ")";
-    }
-
     public static final class BookAppointment implements BaseColumns {
 
         private BookAppointment() {
@@ -369,12 +293,17 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNIT_ID = "UnitID";
         public static final String COLUMN_NAME_PATIENT_ID = "PatientID";
+        public static final String COLUMN_NAME_MRNo = "MRNo";
+        public static final String COLUMN_NAME_AGE = "Age";
+        public static final String COLUMN_NAME_REGISTRATION_DATE = "RegistrationDate";
+        public static final String COLUMN_NAME_CLINIC_NAME = "ClinicName";
         public static final String COLUMN_NAME_FIRST_NAME = "FirstName";
         public static final String COLUMN_NAME_MIDDLE_NAME = "MiddleName";
         public static final String COLUMN_NAME_LAST_NAME = "LastName";
         public static final String COLUMN_NAME_GENDER_ID = "GenderID";
         public static final String COLUMN_NAME_DOB = "DOB";
         public static final String COLUMN_NAME_MATRITAL_STATUS_ID = "MaritalStatusID";
+        public static final String COLUMN_NAME_MATRITAL_STATUS = "MaritalStatus";
         public static final String COLUMN_NAME_CONTACT1 = "Contact1";
         public static final String COLUMN_NAME_EMAIL_ID = "EmailId";
         public static final String COLUMN_NAME_DEPARTMENT_ID = "DepartmentID";
@@ -406,6 +335,14 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_PATIENT_ID
                 + " TEXT,"
+                + COLUMN_NAME_MRNo
+                + " TEXT,"
+                + COLUMN_NAME_AGE
+                + " TEXT,"
+                + COLUMN_NAME_REGISTRATION_DATE
+                + " TEXT,"
+                + COLUMN_NAME_CLINIC_NAME
+                + " TEXT,"
                 + COLUMN_NAME_FIRST_NAME
                 + " TEXT,"
                 + COLUMN_NAME_MIDDLE_NAME
@@ -417,6 +354,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_DOB
                 + " TEXT,"
                 + COLUMN_NAME_MATRITAL_STATUS_ID
+                + " TEXT,"
+                + COLUMN_NAME_MATRITAL_STATUS
                 + " TEXT,"
                 + COLUMN_NAME_CONTACT1
                 + " TEXT,"
@@ -1527,6 +1466,107 @@ public class DatabaseContract {
     }
 
 
+     /*public static final class BloodGroup implements BaseColumns {
+
+        private BloodGroup() {
+        }
+
+        public static final String TABLE_NAME = "T_BloodGroup";
+        public static final String DEFAULT_SORT_ORDER = "_id ASC";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_DESCRIPTION = "Description";
+        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + BloodGroup._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_DESCRIPTION
+                + " TEXT,"
+                + COLUMN_NAME_IS_SYNC
+                + " INTEGER DEFAULT 0"
+                + ")";
+    }
+
+    public static final class Gender implements BaseColumns {
+
+        private Gender() {
+        }
+
+        public static final String TABLE_NAME = "T_Gender";
+        public static final String DEFAULT_SORT_ORDER = "_id ASC";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_DESCRIPTION = "Description";
+        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + Gender._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_DESCRIPTION
+                + " TEXT,"
+                + COLUMN_NAME_IS_SYNC
+                + " INTEGER DEFAULT 0"
+                + ")";
+    }
+
+    public static final class MaritalStatus implements BaseColumns {
+
+        private MaritalStatus() {
+        }
+
+        public static final String TABLE_NAME = "T_MaritalStatus";
+        public static final String DEFAULT_SORT_ORDER = "_id ASC";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_DESCRIPTION = "Description";
+        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + MaritalStatus._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_DESCRIPTION
+                + " TEXT,"
+                + COLUMN_NAME_IS_SYNC
+                + " INTEGER DEFAULT 0"
+                + ")";
+    }
+
+    public static final class Prefix implements BaseColumns {
+
+        private Prefix() {
+        }
+
+        public static final String TABLE_NAME = "T_Prefix";
+        public static final String DEFAULT_SORT_ORDER = "_id ASC";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_DESCRIPTION = "Description";
+        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + Prefix._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_DESCRIPTION
+                + " TEXT,"
+                + COLUMN_NAME_IS_SYNC
+                + " INTEGER DEFAULT 0"
+                + ")";
+    }*/
+
+
     /*public static final class MedicienName implements BaseColumns {
 
         private MedicienName() {
@@ -1675,14 +1715,8 @@ public class DatabaseContract {
                 Log.d(Constants.TAG, "Creating table 3: " + DoctorProfile.CREATE_TABLE);
                 db.execSQL(DoctorProfile.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
-                db.execSQL(Gender.CREATE_TABLE);
-
-                Log.d(Constants.TAG, "Creating table 5: " + MaritalStatus.CREATE_TABLE);
-                db.execSQL(MaritalStatus.CREATE_TABLE);
-
-                Log.d(Constants.TAG, "Creating table 6: " + Prefix.CREATE_TABLE);
-                db.execSQL(Prefix.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 4: " + UnitMaster.CREATE_TABLE);
+                db.execSQL(UnitMaster.CREATE_TABLE);
 
                 Log.d(Constants.TAG, "Creating table 7: " + DoctorType.CREATE_TABLE);
                 db.execSQL(DoctorType.CREATE_TABLE);
@@ -1704,9 +1738,6 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 13: " + Complaint.CREATE_TABLE);
                 db.execSQL(Complaint.CREATE_TABLE);
-
-                Log.d(Constants.TAG, "Creating table 14: " + BloodGroup.CREATE_TABLE);
-                db.execSQL(BloodGroup.CREATE_TABLE);
 
                 Log.d(Constants.TAG, "Creating table 15: " + PatientQueue.CREATE_TABLE);
                 db.execSQL(PatientQueue.CREATE_TABLE);
@@ -1750,7 +1781,15 @@ public class DatabaseContract {
                 Log.d(Constants.TAG, "Creating table 31: " + ReferralServiceList.CREATE_TABLE);
                 db.execSQL(ReferralServiceList.CREATE_TABLE);
 
-                /*Log.d(Constants.TAG, "Creating table 17: " + MedicienName.CREATE_TABLE);
+                /*Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
+                db.execSQL(Gender.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 5: " + MaritalStatus.CREATE_TABLE);
+                db.execSQL(MaritalStatus.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 6: " + Prefix.CREATE_TABLE);
+                db.execSQL(Prefix.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 14: " + BloodGroup.CREATE_TABLE);
+                db.execSQL(BloodGroup.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 17: " + MedicienName.CREATE_TABLE);
                 db.execSQL(MedicienName.CREATE_TABLE);
                 Log.d(Constants.TAG, "Creating table 24: " + ServiceName.CREATE_TABLE);
                 db.execSQL(ServiceName.CREATE_TABLE);
