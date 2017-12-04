@@ -149,8 +149,12 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                     calendar.set(Calendar.YEAR, year);
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, day);
+
                     startDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
+                    endDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
+
                     patient_register_start_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
+                    patient_register_end_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
                 }
             };
 
@@ -368,6 +372,8 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                     layout_search_by_patient_name.setVisibility(View.GONE);
                 }
             } else {
+                search_patient_empty.setVisibility(View.VISIBLE);
+                search_patient_List.setVisibility(View.GONE);
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             localSetting.hideDialog(progressDialog);

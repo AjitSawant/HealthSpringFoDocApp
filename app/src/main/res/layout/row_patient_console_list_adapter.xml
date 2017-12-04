@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/row_patient_console_tv_visit_date"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Visit Date"
+            android:textColor="@color/blue_box"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/row_patient_console_tv_visit_type"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Visit Type"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/row_patient_console_tv_clinic_name"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Clinic"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/row_patient_console_tv_doctor_name"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Doctor"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:id="@+id/row_patient_console_layout_visit_prescription"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/row_patient_console_img_visit_prescription"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_cancle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_patient_console_layout_visit_radiology"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/row_patient_console_img_visit_radiology"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_cancle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_patient_console_layout_visit_pathology"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/row_patient_console_img_visit_pathology"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_cancle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_patient_console_layout_visit_SuggestedService"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/row_patient_console_img_visit_SuggestedService"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_cancle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_patient_console_layout_visit_referral"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/row_patient_console_img_visit_referral"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_cancle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_patient_console_layout_visit_emr"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/row_patient_console_img_visit_emr"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_cancle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_patient_console_layout_visit_document"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/row_patient_console_img_visit_document"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_cancle" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

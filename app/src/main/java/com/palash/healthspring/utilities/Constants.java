@@ -20,15 +20,15 @@ public class Constants {
     public static final int HTTP_Expectation_Failed_417 = 417;
     public static boolean refreshPatient = false;
     public static boolean backFromAddEMR = false;
+    public static final String KEY_REQUEST_DATA = "request_data";
 
-    public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
-    //public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
+    //public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
+    public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
 
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
     public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList?UnitId=";
     public static final String TIME_SLOT_URL = BASE_URL + "timeslot/timeslot";
     public static final String PATIENT_REGISTRATION_URL = BASE_URL + "Patient/PatientRegistration";
-    public static final String KEY_REQUEST_DATA = "request_data";
 
     public static final String SYNCHRONIZATION_URL = BASE_URL + "Synchronization/Count";
     public static final String GET_GENDER_URL = BASE_URL + "Master/GetGender";
@@ -82,6 +82,7 @@ public class Constants {
     public static final String CPOEMEDICINE_PATIENT_LIST_URL = BASE_URL + "CPOEMedicine/ListPatientCPOEMedicine?UnitID=";
     public static final String COMPLAINT_LIST_URL = BASE_URL + "Complaint/ListPatientComplaints?UnitID=";
     public static final String REFERRAL_DOCTOR_EMR_LIST_PER_SERVICE_URL = BASE_URL + "Referral/ListReferralDoctorService?UnitID=";
+    public static final String GET_PATIENT_CONSOLE_LIST_URL = BASE_URL + "Patient/ListPatientConsole?UnitID=";
 
     public static final String REQUIRED_MSG = "Required !!!";
     public static final String SEARCH_DATE_FORMAT = "yyyy-MM-dd";

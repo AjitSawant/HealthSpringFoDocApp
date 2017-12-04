@@ -22,6 +22,7 @@ import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.MedicienFrequency;
 import com.palash.healthspring.entity.MedicienInstruction;
 import com.palash.healthspring.entity.MedicienRoute;
+import com.palash.healthspring.entity.PatientConsole;
 import com.palash.healthspring.entity.PatientQueue;
 import com.palash.healthspring.entity.Priority;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
@@ -6831,6 +6832,177 @@ public class DatabaseAdapter {
                 databaseContract.close();
             }
             return rowId;
+        }
+    }
+
+    public class PatientConsoleListDBAdapter {
+
+        String[] projection = {
+                DatabaseContract.PatientConsoleList._ID,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_ID,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitID,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitDate,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_visitDoctor,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_clinic,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_OPDNO,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitType,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_Prescription,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_EMR,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_Attachment,
+                DatabaseContract.PatientConsoleList.COLUMN_NAME_IS_UPDATE
+        };
+
+        private ContentValues PatientConsoleListToContentValues(PatientConsole elPatientConsole) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_ID, elPatientConsole.getID());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitID, elPatientConsole.getVisitID());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitDate, elPatientConsole.getVisitDate());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_visitDoctor, elPatientConsole.getVisitDoctor());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_clinic, elPatientConsole.getClinic());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_OPDNO, elPatientConsole.getOPDNO());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitType, elPatientConsole.getVisitType());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_Prescription, elPatientConsole.getPrescription());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_EMR, elPatientConsole.getEMR());
+                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_Attachment, elPatientConsole.getAttachment());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<PatientConsole> CursorToArrayList(Cursor result) {
+            ArrayList<PatientConsole> listPatientConsoleList = null;
+            try {
+                if (result != null) {
+                    listPatientConsoleList = new ArrayList<PatientConsole>();
+                    while (result.moveToNext()) {
+                        PatientConsole elPatientConsole = new PatientConsole();
+                        elPatientConsole.setID(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_ID)));
+                        elPatientConsole.setVisitID(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitID)));
+                        elPatientConsole.setVisitDate(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitDate)));
+                        elPatientConsole.setVisitDoctor(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_visitDoctor)));
+                        elPatientConsole.setClinic(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_clinic)));
+                        elPatientConsole.setOPDNO(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_OPDNO)));
+                        elPatientConsole.setVisitType(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitType)));
+                        elPatientConsole.setPrescription(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_Prescription)));
+                        elPatientConsole.setEMR(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_EMR)));
+                        elPatientConsole.setAttachment(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_Attachment)));
+                        listPatientConsoleList.add(elPatientConsole);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listPatientConsoleList;
+        }
+
+        public long create(PatientConsole elPatientConsole) {
+            long rowId = -1;
+            try {
+
+                if (Count(elPatientConsole.getID()) == 0) {
+                    ContentValues values = PatientConsoleListToContentValues(elPatientConsole);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.PatientConsoleList.TABLE_NAME, null, values);
+                    }
+                } else {
+                    update(elPatientConsole);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long update(PatientConsole elPatientConsole) {
+            long rowId = -1;
+            try {
+                ContentValues values = PatientConsoleListToContentValues(elPatientConsole);
+                String whereClause = null;
+                whereClause = DatabaseContract.PatientConsoleList.COLUMN_NAME_ID + "='" + elPatientConsole.getID() + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.PatientConsoleList.TABLE_NAME, values, whereClause, null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<PatientConsole> listAll() {
+            ArrayList<PatientConsole> listPatientConsoleList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.PatientConsoleList.TABLE_NAME,
+                        projection, null,
+                        null, null, null,null);
+                listPatientConsoleList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listPatientConsoleList;
+        }
+
+        public ArrayList<PatientConsole> listAll(String ID) {
+            ArrayList<PatientConsole> listPatientConsoleList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.PatientConsoleList.COLUMN_NAME_ID + "='" + ID + "'";
+                }
+                result = db.query(DatabaseContract.PatientConsoleList.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,null);
+                listPatientConsoleList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listPatientConsoleList;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.PatientConsoleList.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.PatientConsoleList.TABLE_NAME,
+                            projection, whereClause,
+                            null, null, null,null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
         }
     }
 

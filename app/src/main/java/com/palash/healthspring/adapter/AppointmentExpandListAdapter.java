@@ -55,7 +55,6 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
     private DatabaseAdapter.AppointmentReasonAdapter appointmentReasonAdapterDB;
-    private DatabaseAdapter.FlagAdapter flagAdapter;
 
     private String jSonData = "";
     private JsonObjectMapper objMapper = null;
@@ -84,7 +83,6 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
         databaseAdapter = new DatabaseAdapter(databaseContract);
         bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
         doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
-        flagAdapter = databaseAdapter.new FlagAdapter();
         appointmentReasonAdapterDB = databaseAdapter.new AppointmentReasonAdapter();
 
         doctorprofilelist = doctorProfileAdapter.listAll();

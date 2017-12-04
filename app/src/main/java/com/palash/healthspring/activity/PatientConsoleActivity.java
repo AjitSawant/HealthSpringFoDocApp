@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.palash.healthspring.R;
+import com.palash.healthspring.adapter.PatientConsoleListAdapter;
 import com.palash.healthspring.adapter.SpinnerAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
@@ -25,6 +26,7 @@ import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.ELUnitMaster;
+import com.palash.healthspring.entity.PatientConsole;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 import com.palash.healthspring.utilities.TransparentProgressDialog;
@@ -47,6 +49,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
 
     private SpinnerAdapter.UnitMasterListAdapter unitMasterListAdapter;
+    private PatientConsoleListAdapter patientConsoleListAdapter;
 
     private DoctorProfile doctorProfile;
     private ELUnitMaster elUnitMaster;
@@ -74,6 +77,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
     private ListView patient_console_list;
 
     private String selectedClinicID;
+    private String DoctorID = "0";
     private String FromDate = "";
     private String ToDate = "";
 
@@ -284,7 +288,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
             }
 
             if (bookAppointment.getRegistrationDate() != null && bookAppointment.getRegistrationDate().trim().length() > 0) {
-                patient_console_tv_regdate.setText(bookAppointment.getRegistrationDate());
+                patient_console_tv_regdate.setText(localSetting.formatDate(bookAppointment.getRegistrationDate(), "dd-mm-yyyy HH:mm:ss", Constants.OFFLINE_DATE));
             } else {
                 patient_console_tv_regdate.setText("-");
             }
@@ -379,7 +383,9 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
             try {
                 jsonObjectMapper = new JsonObjectMapper();
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
-                //response = webServiceConsumer.GET(Constants.GET_APPOINTMENT_URL + doctorProfileList.get(0).getDoctorID() + "&StartDate=" + FromDate + "&EndDate=" + ToDate);
+                response = webServiceConsumer.GET(Constants.GET_PATIENT_CONSOLE_LIST_URL + doctorProfile.getUnitID() + "&PatientID=" + bookAppointment.getPatientID()
+                        + "&PatientUnitID=" + bookAppointment.getUnitID() + "&DoctorID=" + DoctorID + "&VisitedUnitID=" + selectedClinicID + "&FromDate="
+                        + FromDate + "&ToDate=" + ToDate);
                 if (response != null) {
                     responseCode = response.code();
                     responseString = response.body().string();
@@ -394,21 +400,20 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
 
         @Override
         protected void onPostExecute(String result) {
-            /*if (responseCode == Constants.HTTP_OK_200) {
-                ArrayList<Appointment> appointmentList = jsonObjectMapper.map(responseString, Appointment.class);
-                if (appointmentList.size() != appointmentAdapter.TotalCount()) {
-                    appointmentAdapter.delete();
-                    layout_search_by_patient_name.setVisibility(View.VISIBLE);
-                    for (int index = 0; index < appointmentList.size(); index++) {
-                        appointmentAdapter.create(appointmentList.get(index));
-                    }
+            if (responseCode == Constants.HTTP_OK_200) {
+                ArrayList<PatientConsole> patientConsoleList = jsonObjectMapper.map(responseString, PatientConsole.class);
+                if (patientConsoleList != null && patientConsoleList.size() > 0) {
+                    patient_console_list.setVisibility(View.VISIBLE);
+                    patient_console_tv_no_data.setVisibility(View.GONE);
+                    patientConsoleListAdapter = new PatientConsoleListAdapter(context, patientConsoleList);
+                    patient_console_list.setAdapter(patientConsoleListAdapter);
+                    patientConsoleListAdapter.notifyDataSetChanged();
                 }
-            } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
-                layout_search_by_patient_name.setVisibility(View.GONE);
-                appointmentAdapter.delete();
             } else {
+                patient_console_list.setVisibility(View.GONE);
+                patient_console_tv_no_data.setVisibility(View.VISIBLE);
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
-            }*/
+            }
             localSetting.hideDialog(progressDialog);
             super.onPostExecute(result);
         }

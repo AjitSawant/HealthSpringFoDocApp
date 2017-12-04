@@ -122,7 +122,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_img.setImageResource(R.drawable.personfemale);
             }
 
-            holder.patient_mrno.setText(elPatient.getAge() + " Yrs." + "  " + "Registered Clinic : " + elPatient.getClinicName());
+            holder.patient_mrno.setText(elPatient.getAge() + " Yrs." + "  " + "Clinic : " + elPatient.getClinicName());
 
             holder.patient_row_bnt_book.getId();
             holder.patient_row_bnt_book.setTag(position);
@@ -257,6 +257,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                     localSetting.Activityname = "PatientConsole";
                     localSetting.Save();
                     context.startActivity(new Intent(context, PatientConsoleActivity.class));
+                    Constants.refreshPatient = false;
                 }
             });
         } catch (Exception e) {

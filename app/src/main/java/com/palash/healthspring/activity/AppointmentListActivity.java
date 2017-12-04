@@ -187,8 +187,12 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
                     calendar.set(Calendar.YEAR, year);
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, day);
+
+                    FromDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
                     ToDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
+
                     appointment_edt_fromdate.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
+                    appointment_edt_todate.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
                 }
             };
 

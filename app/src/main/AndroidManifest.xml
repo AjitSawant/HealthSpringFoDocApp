@@ -166,7 +166,12 @@
             android:name=".activity.PatientConsoleActivity"
             android:label="Patient Console"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.ViewPDFActivity"
+            android:label="Document"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden" />
 
         <!-- Buzzbox -->
         <activity android:name="com.buzzbox.mob.android.scheduler.NotificationClickActivity" />

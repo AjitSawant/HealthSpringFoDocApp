@@ -1465,6 +1465,53 @@ public class DatabaseContract {
                 + ")";
     }
 
+    public static final class PatientConsoleList implements BaseColumns {
+
+        private PatientConsoleList() {
+        }
+
+        public static final String TABLE_NAME = "T_PatientConsoleList";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_VisitID = "VisitID";
+        public static final String COLUMN_NAME_VisitDate = "VisitDate";
+        public static final String COLUMN_NAME_visitDoctor = "visitDoctor";
+        public static final String COLUMN_NAME_clinic = "clinic";
+        public static final String COLUMN_NAME_OPDNO = "OPDNO";
+        public static final String COLUMN_NAME_VisitType = "VisitType";
+        public static final String COLUMN_NAME_Prescription = "Prescription";
+        public static final String COLUMN_NAME_EMR = "EMR";
+        public static final String COLUMN_NAME_Attachment = "Attachment";
+        public static final String COLUMN_NAME_IS_UPDATE = "IsUpdate";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + PatientConsoleList._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_VisitID
+                + " TEXT,"
+                + COLUMN_NAME_VisitDate
+                + " TEXT,"
+                + COLUMN_NAME_visitDoctor
+                + " TEXT,"
+                + COLUMN_NAME_clinic
+                + " TEXT,"
+                + COLUMN_NAME_OPDNO
+                + " TEXT,"
+                + COLUMN_NAME_VisitType
+                + " TEXT,"
+                + COLUMN_NAME_Prescription
+                + " TEXT,"
+                + COLUMN_NAME_EMR
+                + " TEXT,"
+                + COLUMN_NAME_Attachment
+                + " TEXT,"
+                + COLUMN_NAME_IS_UPDATE
+                + " TEXT DEFAULT 0"
+                + ")";
+    }
 
      /*public static final class BloodGroup implements BaseColumns {
 
@@ -1780,6 +1827,9 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 31: " + ReferralServiceList.CREATE_TABLE);
                 db.execSQL(ReferralServiceList.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 31: " + PatientConsoleList.CREATE_TABLE);
+                db.execSQL(PatientConsoleList.CREATE_TABLE);
 
                 /*Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
                 db.execSQL(Gender.CREATE_TABLE);

@@ -197,11 +197,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void setUnitMasterData(){
+    private void setUnitMasterData() {
         listELUnitMaster = unitMasterAdapter.listAll();
         if (listELUnitMaster == null && listELUnitMaster.size() == 0) {
             GetUnitMasterList();
-        }else{
+        } else {
             RefreshUnitMatserSpinnerData();
         }
     }
@@ -210,7 +210,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     protected void onResume() {
         super.onResume();
         listProfile = doctorProfileAdapter.listAll();
-
     }
 
     private void RefreshUnitMatserSpinnerData() {
