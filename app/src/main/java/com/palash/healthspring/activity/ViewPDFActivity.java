@@ -38,6 +38,7 @@ public class ViewPDFActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         context = this;
         localSetting = new LocalSetting();
 
@@ -49,6 +50,7 @@ public class ViewPDFActivity extends AppCompatActivity {
         webView.setWebViewClient(new webViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDomStorageEnabled(true);
     }
 
     private void setWebView() {
@@ -58,6 +60,7 @@ public class ViewPDFActivity extends AppCompatActivity {
             network_error.setVisibility(View.GONE);
             webviewLayout.setVisibility(View.VISIBLE);
             webView.loadUrl(url);
+            //webView.loadUrl("https://docs.google.com/gview?embedded=true&url="+url);
         } else {
             network_error.setVisibility(View.VISIBLE);
             webviewLayout.setVisibility(View.GONE);
@@ -73,7 +76,6 @@ public class ViewPDFActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     private class webViewClient extends WebViewClient {
         @Override

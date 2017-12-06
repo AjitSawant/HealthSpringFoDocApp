@@ -533,6 +533,88 @@ public class DatabaseContract {
                 + ")";
     }
 
+    public static final class Patient implements BaseColumns {
+
+        private Patient() {
+        }
+
+        public static final String TABLE_NAME = "T_Patient";
+        public static final String DEFAULT_SORT_ORDER = "FirstName ASC";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_UNITID = "UnitID";
+        public static final String COLUMN_NAME_PATIENTCATEGORYID = "PatientCategoryID";
+        public static final String COLUMN_NAME_MRNO = "MRNo";
+        public static final String COLUMN_NAME_CLINIC = "ClinicName";
+        public static final String COLUMN_NAME_REGISTRATIONDATE = "RegistrationDate";
+        public static final String COLUMN_NAME_LAST_NAME = "LastName";
+        public static final String COLUMN_NAME_FIRST_NAME = "FirstName";
+        public static final String COLUMN_NAME_MIDDLE_NAME = "MiddleName";
+        public static final String COLUMN_NAME_FIMLIY_NAME = "FamilyName";
+        public static final String COLUMN_NAME_GENDER = "Gender";
+        public static final String COLUMN_NAME_DATEOFBIRTH = "DateOfBirth";
+        public static final String COLUMN_NAME_EDUCATION = "Education";
+        public static final String COLUMN_NAME_MARITALSTATUS = "MaritalStatus";
+        public static final String COLUMN_NAME_CONTACTNO1 = "ContactNo1";
+        public static final String COLUMN_NAME_EMAIL = "Email";
+        public static final String COLUMN_NAME_AGE = "Age";
+        public static final String COLUMN_NAME_GENDERID = "GenderID";
+        public static final String COLUMN_NAME_MARITALSTATUSID = "MaritalStatusID";
+        public static final String COLUMN_NAME_BLOOD_GROUP_ID = "BloodGroupID";
+        public static final String COLUMN_NAME_BLOOD_GROUP = "BloodGroup";
+        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + Patient._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_UNITID
+                + " TEXT,"
+                + COLUMN_NAME_PATIENTCATEGORYID
+                + " TEXT,"
+                + COLUMN_NAME_MRNO
+                + " TEXT,"
+                + COLUMN_NAME_CLINIC
+                + " TEXT,"
+                + COLUMN_NAME_REGISTRATIONDATE
+                + " TEXT,"
+                + COLUMN_NAME_FIRST_NAME
+                + " TEXT,"
+                + COLUMN_NAME_MIDDLE_NAME
+                + " TEXT,"
+                + COLUMN_NAME_LAST_NAME
+                + " TEXT,"
+                + COLUMN_NAME_FIMLIY_NAME
+                + " TEXT,"
+                + COLUMN_NAME_GENDER
+                + " TEXT,"
+                + COLUMN_NAME_DATEOFBIRTH
+                + " TEXT,"
+                + COLUMN_NAME_EDUCATION
+                + " TEXT,"
+                + COLUMN_NAME_MARITALSTATUS
+                + " TEXT,"
+                + COLUMN_NAME_CONTACTNO1
+                + " TEXT,"
+                + COLUMN_NAME_EMAIL
+                + " TEXT,"
+                + COLUMN_NAME_AGE
+                + " TEXT,"
+                + COLUMN_NAME_GENDERID
+                + " TEXT,"
+                + COLUMN_NAME_MARITALSTATUSID
+                + " TEXT,"
+                + COLUMN_NAME_BLOOD_GROUP_ID
+                + " TEXT,"
+                + COLUMN_NAME_BLOOD_GROUP
+                + " TEXT,"
+                + COLUMN_NAME_IS_SYNC
+                + " INTEGER DEFAULT 0"
+                + ")";
+    }
+
     public static final class PatientQueue implements BaseColumns {
 
         private PatientQueue() {
@@ -1047,6 +1129,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_STATUS = "Status";
         public static final String COLUMN_NAME_ADDEDBY = "AddedBy";
         public static final String COLUMN_NAME_ISSTATUS = "ISStatus";
+        public static final String COLUMN_NAME_ISLOCAL = "ISLocal";
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
         public static final String COLUMN_NAME_IS_UPDATE = "IsUpdate";
 
@@ -1086,6 +1169,8 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_ISSTATUS
                 + " TEXT,"
+                + COLUMN_NAME_ISLOCAL
+                + " TEXT DEFAULT 0,"
                 + COLUMN_NAME_IS_UPDATE
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
@@ -1785,6 +1870,9 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 13: " + Complaint.CREATE_TABLE);
                 db.execSQL(Complaint.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 14: " + Patient.CREATE_TABLE);
+                db.execSQL(Patient.CREATE_TABLE);
 
                 Log.d(Constants.TAG, "Creating table 15: " + PatientQueue.CREATE_TABLE);
                 db.execSQL(PatientQueue.CREATE_TABLE);

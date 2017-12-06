@@ -188,7 +188,7 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
     }
 
     private boolean validateControls() {
-        if (Diagnosis_name.equals("") || diagnosis_list_edt_diagnosis_name.getText().toString().equals("null") || diagnosis_list_edt_diagnosis_name.getText().toString().trim().equals("")
+        if (Diagnosis_name == null || Diagnosis_name.equals("") || diagnosis_list_edt_diagnosis_name.getText().toString().equals("null") || diagnosis_list_edt_diagnosis_name.getText().toString().trim().equals("")
                 || diagnosis_list_edt_diagnosis_name.getText().toString().trim().length() == 0) {
             Validate.Msgshow(context, "Please enter diagnosis name.");
             return false;
@@ -247,23 +247,23 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        Constants.backFromAddEMR=true;
+        Constants.backFromAddEMR = true;
         finish();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_save).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_cancle).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_cancle).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_save:
+            case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     if (isUpdate.equals("Yes")) {
                         DiagnosisListUpDateBindView();
@@ -272,15 +272,15 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                     }
                 }
                 return true;
-            case R.id.menu_current_medication_cancle:
+            case R.id.menu_toolbar_cancle:
                 Clear();
                 return true;
-            case R.id.menu_current_medication_refresh:
+            case R.id.menu_toolbar_refresh:
                 MasterFlagTask();
                 SetSpinnerAdapter();
                 return true;
             case android.R.id.home:
-                Constants.backFromAddEMR=true;
+                Constants.backFromAddEMR = true;
                 onBackPressed();
                 return true;
             default:

@@ -34,11 +34,9 @@
                     android:visibility="visible"
                     app:ms_arrowColor="@color/text_color"
                     app:ms_arrowSize="12sp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_margin="4dp"
                     app:ms_enableErrorLabel="false"
-                    app:ms_enableFloatingLabel="true"
-                    app:ms_hint="@string/select_unit"
+                    app:ms_enableFloatingLabel="false"
                     app:ms_floatingLabelText="Selected Clinic"
                     app:ms_hintColor="@color/text_color"
                     app:ms_thickness="0dp"
@@ -50,41 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/five_margin"
-                android:layout_marginTop="@dimen/five_margin"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/layout_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:background="@drawable/bnt_dashboard"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:padding="16dp"
-                        android:src="@drawable/dash_profile_male" />
-
-                    <TextView
-                        android:id="@+id/dash_tv_profile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="@string/dashboard_profile"
-                        android:textAllCaps="false"
-                        android:textColor="@color/text_color"
-                        android:textSize="20sp" />
-
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_appointments"
@@ -270,7 +236,7 @@
             app:itemIconTint="@color/text_color"
             app:itemTextColor="@color/text_color"
             app:headerLayout="@layout/header"
-            app:menu="@menu/menu_drawer" />
+            app:menu="@menu/menu_dashboard_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

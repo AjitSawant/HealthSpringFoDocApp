@@ -169,7 +169,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.ViewPDFActivity"
-            android:label="Document"
+            android:label="Report"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
 

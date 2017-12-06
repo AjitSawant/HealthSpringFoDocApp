@@ -131,7 +131,7 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
             appointment_edt_fromdate.setText(format.format(new Date()));
             appointment_edt_todate.setText(format.format(new Date()));
 
-            layout_search_by_patient_name.setVisibility(View.GONE);
+            //layout_search_by_patient_name.setVisibility(View.GONE);
             appointment_list_search_bnt.setOnClickListener(this);
             appointment_list_bnt_clear.setOnClickListener(this);
 
@@ -300,7 +300,9 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_appointment_list, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_search).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_book).setVisible(true);
         animatePanel(1);
         return super.onCreateOptionsMenu(menu);
     }
@@ -308,14 +310,14 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_appointment_list_search:
+            case R.id.menu_toolbar_search:
                 if (!isSearchPanelVisible) {
                     animatePanel(1);
                 } else {
                     animatePanel(2);
                 }
                 return true;
-            case R.id.menu_appointment_list_addnew:
+            case R.id.menu_toolbar_book:
                 Constants.refreshPatient = true;
                 startActivity(new Intent(context, PatientListActivity.class));
                 return true;
@@ -426,11 +428,11 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
                 appointmentListAdapter.notifyDataSetChanged();
                 appointment_List.expandGroup(0);
                 appointment_List.setVisibility(View.VISIBLE);
-                layout_search_by_patient_name.setVisibility(View.VISIBLE);
+                //layout_search_by_patient_name.setVisibility(View.VISIBLE);
                 appointment_empty.setVisibility(View.GONE);
             } else {
                 appointment_List.setVisibility(View.GONE);
-                layout_search_by_patient_name.setVisibility(View.GONE);
+                //layout_search_by_patient_name.setVisibility(View.GONE);
                 appointment_empty.setVisibility(View.VISIBLE);
                 appointment_empty.setText("No Record Found");
                 appointment_empty.setTextColor(Color.GRAY);
@@ -506,13 +508,13 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
                 ArrayList<Appointment> appointmentList = jsonObjectMapper.map(responseString, Appointment.class);
                 if (appointmentList.size() != appointmentAdapter.TotalCount()) {
                     appointmentAdapter.delete();
-                    layout_search_by_patient_name.setVisibility(View.VISIBLE);
+                    //layout_search_by_patient_name.setVisibility(View.VISIBLE);
                     for (int index = 0; index < appointmentList.size(); index++) {
                         appointmentAdapter.create(appointmentList.get(index));
                     }
                 }
             } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
-                layout_search_by_patient_name.setVisibility(View.GONE);
+                //layout_search_by_patient_name.setVisibility(View.GONE);
                 appointmentAdapter.delete();
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();

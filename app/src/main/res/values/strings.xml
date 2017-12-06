@@ -93,13 +93,13 @@
 
     <string name="food">Food Name</string>
     <string name="miscellaneous">Miscellaneous</string>
-    <string name="medicine_drug_name">Medicine Name</string>
-    <string name="medicine_dose">Medicine Dose</string>
-    <string name="medicine_route">Medicine Route</string>
-    <string name="medicine_frequency">Medicine Frequency</string>
+    <string name="medicine_drug_name">Medicine name</string>
+    <string name="medicine_dose">Medicine dose</string>
+    <string name="medicine_route">Medicine route</string>
+    <string name="medicine_frequency">Medicine frequency</string>
     <string name="medicine_days">Days</string>
     <string name="medicine_quntity">Quantity</string>
-    <string name="medicine_reason">Medicine Instruction</string>
+    <string name="medicine_reason">Medicine instruction</string>
 
     <string name="diagnosis_add">Add Diagnosis</string>
     <string name="diagnosis_name">Diagnosis Name</string>

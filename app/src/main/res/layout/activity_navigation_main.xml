@@ -36,6 +36,6 @@
             app:headerLayout="@layout/drawer_header"
             app:itemIconTint="@color/text_color"
             app:itemTextColor="@color/text_color"
-            app:menu="@menu/menu_emr" />
+            app:menu="@menu/menu_emr_drawer" />
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

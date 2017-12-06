@@ -184,21 +184,21 @@ public class CPOEInvestigationFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_add).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(true);
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_add).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_add:
+            case R.id.menu_toolbar_add:
                 MasterFlagTask();
                 Constants.backFromAddEMR = false;
                 context.startActivity(new Intent(context, CPOEInvestigationAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
-            case R.id.menu_current_medication_refresh:
+            case R.id.menu_toolbar_refresh:
                 new GetCPOEService().execute();
                 return true;
         }

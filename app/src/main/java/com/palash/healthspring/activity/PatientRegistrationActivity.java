@@ -203,15 +203,15 @@ public class PatientRegistrationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_patient_reg, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_patient_reg_save:
+            case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     PatientRegistration();
                 }

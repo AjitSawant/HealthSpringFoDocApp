@@ -52,6 +52,7 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
+    private DatabaseAdapter.PatientAdapter patientAdapterDB;
 
     private SearchPatientAdapter searchPatientAdapter;
 
@@ -98,6 +99,7 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
+            patientAdapterDB = databaseAdapter.new PatientAdapter();
             doctorProfileList = doctorProfileAdapter.listAll();
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,6 +212,7 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             patient_register_end_date_edt.setText(format.format(new Date()));
             startDate = localSetting.formatDate(patient_register_start_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
             endDate = localSetting.formatDate(patient_register_end_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+            RefreshPatientList();
             if (localSetting.isNetworkAvailable(context)) {
                 new GetPatientListTask().execute();
             } else {
@@ -229,6 +232,22 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
     public void onBackPressed() {
         finish();
         super.onBackPressed();
+    }
+
+    private void RefreshPatientList() {
+        patientList = patientAdapterDB.listPatient(doctorProfileList.get(0).getUnitID(), null);
+        if (patientList != null && patientList.size() > 0) {
+            searchPatientAdapter = new SearchPatientAdapter(context, patientList);
+            search_patient_List.setAdapter(searchPatientAdapter);
+            searchPatientAdapter.notifyDataSetChanged();
+            search_patient_empty.setVisibility(View.GONE);
+            search_patient_List.setVisibility(View.VISIBLE);
+            layout_search_by_patient_name.setVisibility(View.VISIBLE);
+        } else {
+            search_patient_empty.setVisibility(View.VISIBLE);
+            search_patient_List.setVisibility(View.GONE);
+            layout_search_by_patient_name.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -269,22 +288,23 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search_patient, menu);
-        menu.findItem(R.id.action_patientregistration).setVisible(false);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_add_patient).setVisible(false);
+        menu.findItem(R.id.menu_toolbar_search).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
+            case R.id.menu_toolbar_search:
                 if (!isSearchPanelVisible) {
                     animatePanel(1);
                 } else {
                     animatePanel(2);
                 }
                 return true;
-            case R.id.action_patientregistration:
+            case R.id.menu_toolbar_add_patient:
                 startActivity(new Intent(context, PatientRegistrationActivity.class));
                 return true;
             case android.R.id.home:
@@ -360,23 +380,23 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             if (responseCode == Constants.HTTP_OK_200) {
                 patientList = jsonObjectMapper.map(responseString, Patient.class);
                 if (patientList != null && patientList.size() > 0) {
-                    searchPatientAdapter = new SearchPatientAdapter(context, patientList);
-                    search_patient_List.setAdapter(searchPatientAdapter);
-                    searchPatientAdapter.notifyDataSetChanged();
-                    search_patient_empty.setVisibility(View.GONE);
-                    search_patient_List.setVisibility(View.VISIBLE);
-                    layout_search_by_patient_name.setVisibility(View.VISIBLE);
+                    patientAdapterDB.delete(doctorProfileList.get(0).getUnitID());
+                    for (int i = 0; i < patientList.size(); i++) {
+                        patientAdapterDB.create(patientList.get(i));
+                    }
                 } else {
                     search_patient_empty.setVisibility(View.VISIBLE);
                     search_patient_List.setVisibility(View.GONE);
                     layout_search_by_patient_name.setVisibility(View.GONE);
                 }
             } else {
+                patientAdapterDB.delete(doctorProfileList.get(0).getUnitID());
                 search_patient_empty.setVisibility(View.VISIBLE);
                 search_patient_List.setVisibility(View.GONE);
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             localSetting.hideDialog(progressDialog);
+            RefreshPatientList();
             super.onPostExecute(result);
         }
     }

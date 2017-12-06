@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.palash.healthspring.entity.Appointment;
 import com.palash.healthspring.entity.AppointmentReason;
@@ -22,7 +23,7 @@ import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.MedicienFrequency;
 import com.palash.healthspring.entity.MedicienInstruction;
 import com.palash.healthspring.entity.MedicienRoute;
-import com.palash.healthspring.entity.PatientConsole;
+import com.palash.healthspring.entity.Patient;
 import com.palash.healthspring.entity.PatientQueue;
 import com.palash.healthspring.entity.Priority;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
@@ -1905,6 +1906,228 @@ public class DatabaseAdapter {
             } catch (SQLException e) {
                 e.printStackTrace();
 
+            } finally {
+                databaseContract.close();
+            }
+        }
+    }
+
+    public class PatientAdapter {
+
+        String[] projection = {
+                DatabaseContract.Patient.COLUMN_NAME_ID,
+                DatabaseContract.Patient.COLUMN_NAME_UNITID,
+                DatabaseContract.Patient.COLUMN_NAME_PATIENTCATEGORYID,
+                DatabaseContract.Patient.COLUMN_NAME_MRNO,
+                DatabaseContract.Patient.COLUMN_NAME_CLINIC,
+                DatabaseContract.Patient.COLUMN_NAME_REGISTRATIONDATE,
+                DatabaseContract.Patient.COLUMN_NAME_LAST_NAME,
+                DatabaseContract.Patient.COLUMN_NAME_FIRST_NAME,
+                DatabaseContract.Patient.COLUMN_NAME_MIDDLE_NAME,
+                DatabaseContract.Patient.COLUMN_NAME_FIMLIY_NAME,
+                DatabaseContract.Patient.COLUMN_NAME_GENDER,
+                DatabaseContract.Patient.COLUMN_NAME_DATEOFBIRTH,
+                DatabaseContract.Patient.COLUMN_NAME_EDUCATION,
+                DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUS,
+                DatabaseContract.Patient.COLUMN_NAME_CONTACTNO1,
+                DatabaseContract.Patient.COLUMN_NAME_EMAIL,
+                DatabaseContract.Patient.COLUMN_NAME_AGE,
+                DatabaseContract.Patient.COLUMN_NAME_GENDERID,
+                DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUSID,
+                DatabaseContract.Patient.COLUMN_NAME_BLOOD_GROUP,
+                DatabaseContract.Patient.COLUMN_NAME_BLOOD_GROUP_ID
+        };
+
+        private ContentValues PatientToContentValues(Patient patient) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.Patient.COLUMN_NAME_ID, patient.getID());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_UNITID, patient.getUnitID());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_PATIENTCATEGORYID, patient.getPatientCategoryID());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_CLINIC, patient.getClinicName());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_MRNO, patient.getMRNo());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_REGISTRATIONDATE, patient.getRegistrationDate());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_LAST_NAME, patient.getLastName());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_FIRST_NAME, patient.getFirstName());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_MIDDLE_NAME, patient.getMiddleName());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_FIMLIY_NAME, patient.getFamilyName());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_GENDER, patient.getGender());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_DATEOFBIRTH, patient.getDateOfBirth());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_EDUCATION, patient.getEducation());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUS, patient.getMaritalStatus());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_CONTACTNO1, patient.getContactNo1());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_EMAIL, patient.getEmail());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_AGE, patient.getAge());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_GENDERID, patient.getGenderID());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUSID, patient.getMaritalStatusID());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_BLOOD_GROUP, patient.getBloodGroup());
+                values.put(DatabaseContract.Patient.COLUMN_NAME_BLOOD_GROUP_ID, patient.getBloodGroupID());
+            } catch (Exception e) {
+                Log.e(Constants.TAG, "" + e);
+            }
+            return values;
+        }
+
+        private ArrayList<Patient> CursorToArraylist(Cursor result) {
+            ArrayList<Patient> listPatient = null;
+            try {
+                if (result != null) {
+                    listPatient = new ArrayList<Patient>();
+                    while (result.moveToNext()) {
+                        Patient patient = new Patient();
+                        patient.setID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_ID)));
+                        patient.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_UNITID)));
+                        patient.setPatientCategoryID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_PATIENTCATEGORYID)));
+                        patient.setMRNo(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_MRNO)));
+                        patient.setClinicName(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_CLINIC)));
+                        patient.setRegistrationDate(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_REGISTRATIONDATE)));
+                        patient.setLastName(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_LAST_NAME)));
+                        patient.setFirstName(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_FIRST_NAME)));
+                        patient.setMiddleName(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_MIDDLE_NAME)));
+                        patient.setFamilyName(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_FIMLIY_NAME)));
+                        patient.setGender(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_GENDER)));
+                        patient.setDateOfBirth(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_DATEOFBIRTH)));
+                        patient.setEducation(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_EDUCATION)));
+                        patient.setMaritalStatus(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUS)));
+                        patient.setContactNo1(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_CONTACTNO1)));
+                        patient.setEmail(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_EMAIL)));
+                        patient.setAge(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_AGE)));
+                        patient.setGenderID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_GENDERID)));
+                        patient.setMaritalStatusID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUSID)));
+                        patient.setBloodGroup(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_BLOOD_GROUP)));
+                        patient.setBloodGroupID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_BLOOD_GROUP_ID)));
+                        listPatient.add(patient);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                Log.e(Constants.TAG, "" + e);
+            }
+            return listPatient;
+        }
+
+        public long create(Patient patient) {
+            long rowId = -1;
+            try {
+                ContentValues values = PatientToContentValues(patient);
+                if (values != null) {
+                    rowId = databaseContract.open().insert(
+                            DatabaseContract.Patient.TABLE_NAME, null, values);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long update(Patient patient) {
+            long rowId = -1;
+            try {
+                ContentValues values = PatientToContentValues(patient);
+                String whereClause = null;
+                whereClause = DatabaseContract.Patient.COLUMN_NAME_ID + "='" + patient.getID() + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.Patient.TABLE_NAME, values, whereClause, null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public int Count(String UnitID, String PatientName) {
+            int Count=0;
+            ArrayList<Patient> listPatient=listPatient(UnitID,PatientName);
+            if(listPatient.size()>0){
+                Count=listPatient.size();
+            }
+            return Count;
+        }
+
+        public ArrayList<Patient> listPatient(String UnitID, String PatientName) {
+            ArrayList<Patient> listPatient = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (PatientName != null && PatientName.length() > 0) {
+                    whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "' AND"
+                            + DatabaseContract.Patient.COLUMN_NAME_FIRST_NAME + " LIKE '" + PatientName + "%'";
+                } else {
+                    whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                }
+                result = db.query(DatabaseContract.Patient.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.Patient.DEFAULT_SORT_ORDER);
+                listPatient = CursorToArraylist(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Log.d(Constants.TAG, e.getMessage());
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listPatient;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.Patient.TABLE_NAME,
+                        projection, null,
+                        null, null, null,
+                        DatabaseContract.Patient.DEFAULT_SORT_ORDER);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Log.d(Constants.TAG, e.getMessage());
+            } finally {
+                databaseContract.close();
+
+            }
+            return Count;
+        }
+
+        public ArrayList<Patient> listAll() {
+            ArrayList<Patient> listPatient = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                result = db.query(DatabaseContract.Patient.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.Patient.DEFAULT_SORT_ORDER);
+                listPatient = CursorToArraylist(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Log.d(Constants.TAG, e.getMessage());
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listPatient;
+        }
+
+        public void delete(String UnitID) {
+            try {
+                String whereClause = null;
+                whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                databaseContract.open().delete(DatabaseContract.Patient.TABLE_NAME, whereClause, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
             } finally {
                 databaseContract.close();
             }
@@ -4001,6 +4224,7 @@ public class DatabaseAdapter {
                 DatabaseContract.VitalsList.COLUMN_NAME_ADDEDBY,
                 DatabaseContract.VitalsList.COLUMN_NAME_STATUS,
                 DatabaseContract.VitalsList.COLUMN_NAME_ISSTATUS,
+                DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL,
                 DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC,
                 DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE
         };
@@ -4025,6 +4249,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_ADDEDBY, vitalsList.getAddedBy());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_STATUS, vitalsList.getStatus());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_ISSTATUS, "1");
+                values.put(DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL, vitalsList.getISLocal());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC, vitalsList.getIsSync());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE, vitalsList.getIsUpdate());
             } catch (Exception e) {
@@ -4053,6 +4278,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_ADDEDBY, vitalsList.getAddedBy());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_STATUS, vitalsList.getStatus());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_ISSTATUS, "0");
+                values.put(DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL, vitalsList.getISLocal());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC, vitalsList.getIsSync());
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE, vitalsList.getIsUpdate());
             } catch (Exception e) {
@@ -4085,6 +4311,7 @@ public class DatabaseAdapter {
                         vitalsList.setAddedBy(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_ADDEDBY)));
                         vitalsList.setStatus(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_STATUS)));
                         vitalsList.setISStatus(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_ISSTATUS)));
+                        vitalsList.setISLocal(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL)));
                         vitalsList.setIsUpdate(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE)));
                         listVitalsList.add(vitalsList);
                     }
@@ -5347,7 +5574,6 @@ public class DatabaseAdapter {
                 databaseContract.open().delete(DatabaseContract.CPOEMedicine.TABLE_NAME, whereClause, null);
             } catch (SQLException e) {
                 e.printStackTrace();
-
             } finally {
                 databaseContract.close();
             }
@@ -6835,7 +7061,7 @@ public class DatabaseAdapter {
         }
     }
 
-    public class PatientConsoleListDBAdapter {
+    /*public class PatientConsoleListDBAdapter {
 
         String[] projection = {
                 DatabaseContract.PatientConsoleList._ID,
@@ -7004,7 +7230,7 @@ public class DatabaseAdapter {
             }
             return Count;
         }
-    }
+    }*/
 
     /*public class BloodGroupAdapter {
 

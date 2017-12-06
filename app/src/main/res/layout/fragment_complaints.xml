@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bgcolor"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="8dp">
 
     <Chronometer
         android:id="@+id/complaints_list_chronometer"
@@ -15,82 +15,117 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/border_lighter_gray"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Chief Complaints"
+                android:textColor="@color/blue_box"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/chiefComplaints_edit"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/border_primary_dark"
+                android:focusable="false"
+                android:gravity="top"
+                android:maxHeight="80dp"
+                android:padding="10dp"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_card">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/chiefComplaints_dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_primary_dark"
+                    android:textSize="12sp"
+                    app:ms_arrowColor="@color/text_color"
+                    app:ms_arrowSize="@dimen/small_text_size"
+                    app:ms_baseColor="@color/text_color"
+                    app:ms_enableErrorLabel="false"
+                    app:ms_enableFloatingLabel="false"
+                    app:ms_highlightColor="@color/text_color"
+                    app:ms_hint="Select Chief Complaints"
+                    app:ms_hintColor="@color/text_color"
+                    app:ms_multiline="false"
+                    app:ms_thickness="0dp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Presenting Complaints"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold" />
+            android:layout_height="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/bgcolor" />
 
-        <EditText
-            android:id="@+id/chiefComplaints_edit"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:focusable="false"
-            android:padding="10dp"
-            android:textSize="14sp"
-            android:gravity="top"
-            android:background="@drawable/border_primary_dark"
-            android:maxHeight="80dp"  />
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/chiefComplaints_dropdown"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/small_text_size"
-            app:ms_arrowColor="@color/text_color"
-            app:ms_arrowSize="@dimen/small_text_size"
-            app:ms_baseColor="@color/text_color"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="true"
-            app:ms_highlightColor="@color/text_color"
-            app:ms_hint="Select Chief Complaints"
-            app:ms_hintColor="@color/text_color"
-            android:layout_marginTop="2dp"
-            app:ms_multiline="false" />
+            android:background="@drawable/border_lighter_gray"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="10dp"
-            android:text="Associate Complaints"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="2dp"
+                android:text="Associate Complaints"
+                android:textColor="@color/blue_box"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/assosciateComplaints_edit"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:focusable="false"
-            android:padding="10dp"
-            android:textSize="14sp"
-            android:gravity="top"
-            android:background="@drawable/border_primary_dark"
-            android:maxHeight="80dp"  />
+            <EditText
+                android:id="@+id/assosciateComplaints_edit"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/border_primary_dark"
+                android:focusable="false"
+                android:gravity="top"
+                android:maxHeight="80dp"
+                android:padding="10dp"
+                android:textSize="14sp" />
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/assosciateComplaints_dropdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_primary_dark"
-            android:textSize="@dimen/small_text_size"
-            app:ms_arrowColor="@color/text_color"
-            app:ms_arrowSize="@dimen/small_text_size"
-            app:ms_baseColor="@color/text_color"
-            app:ms_enableErrorLabel="false"
-            app:ms_enableFloatingLabel="true"
-            app:ms_highlightColor="@color/text_color"
-            app:ms_hint="Select Associate Complaints"
-            app:ms_hintColor="@color/text_color"
-            app:ms_multiline="false"
-            android:layout_marginTop="2dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_card">
 
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/assosciateComplaints_dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_primary_dark"
+                    android:textSize="12sp"
+                    app:ms_arrowColor="@color/text_color"
+                    app:ms_arrowSize="@dimen/small_text_size"
+                    app:ms_baseColor="@color/text_color"
+                    app:ms_enableErrorLabel="false"
+                    app:ms_enableFloatingLabel="false"
+                    app:ms_highlightColor="@color/text_color"
+                    app:ms_hint="Select Associate Complaints"
+                    app:ms_hintColor="@color/text_color"
+                    app:ms_multiline="false"
+                    app:ms_thickness="0dp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

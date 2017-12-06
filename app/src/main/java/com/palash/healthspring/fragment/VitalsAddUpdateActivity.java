@@ -270,10 +270,10 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_save).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_cancle).setVisible(false);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(false);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_cancle).setVisible(false);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -297,17 +297,17 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_save:
+            case R.id.menu_toolbar_save:
                 if (vitalsListArrayList != null && vitalsListArrayList.size() > 0) {
                     VitalsListAddBindView();
                 } else {
                     Toast.makeText(context, "Please add vitals", Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.menu_current_medication_cancle:
+            case R.id.menu_toolbar_cancle:
                 Clear();
                 return true;
-            case R.id.menu_current_medication_refresh:
+            case R.id.menu_toolbar_refresh:
                 MasterFlagTask();
                 SetSpinnerAdapter();
                 return true;
@@ -349,6 +349,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                 elVitalsList.setAddedBy(bookAppointmentArrayList.get(0).getDoctorID());
                 elVitalsList.setDate(CurrentDate);
                 elVitalsList.setTime(CurrentDate);
+                elVitalsList.setISLocal("1");
                 elVitalsList.setIsSync("1");
 
                 vitalsListAdapterDB.createLocal(elVitalsList);

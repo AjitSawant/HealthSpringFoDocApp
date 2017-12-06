@@ -166,7 +166,7 @@ public class PatientConsoleListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     if (patientConsoleArrayList.get(position) != null && patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0) {
-                        String url = "http://192.168.1.70/HealthSpringAndroid/Reports/Patient/EMRPatientPrescription.aspx?UnitID=" + bookAppointment.getDoctorUnitID()
+                        String url = "https://192.168.1.70/HealthSpringAndroid/Reports/Patient/EMRPatientPrescription.aspx?UnitID=" + bookAppointment.getDoctorUnitID()
                                 + "&VisitID=" + patientConsoleArrayList.get(position).getVisitID() + "&PatientID=" + bookAppointment.getPatientID() + "&PatientUnitID=" + bookAppointment.getUnitID()
                                 + "&TemplateID=0&UserID=0";
 

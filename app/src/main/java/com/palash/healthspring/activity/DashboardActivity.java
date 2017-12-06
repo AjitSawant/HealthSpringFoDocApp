@@ -63,7 +63,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    private LinearLayout layout_profile;
     private LinearLayout layout_appointments;
     private LinearLayout layout_patientqueue;
     private LinearLayout layout_searchpatient;
@@ -99,7 +98,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-            layout_profile = (LinearLayout) findViewById(R.id.layout_profile);
             layout_appointments = (LinearLayout) findViewById(R.id.layout_appointments);
             layout_patientqueue = (LinearLayout) findViewById(R.id.layout_patient_queue);
             layout_searchpatient = (LinearLayout) findViewById(R.id.layout_search_patient);
@@ -107,7 +105,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             navigationView = (NavigationView) findViewById(R.id.navigation_view);
             drawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);
 
-            layout_profile.setOnClickListener(this);
             layout_patientqueue.setOnClickListener(this);
             layout_appointments.setOnClickListener(this);
             layout_searchpatient.setOnClickListener(this);
@@ -174,17 +171,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 public void onItemSelected(AdapterView<?> arg0, View arg1,
                                            int arg2, long arg3) {
                     int position = unitMasterSpinner.getSelectedItemPosition();
-                    if (position > 0) {
-                        position = position - 1;
-
+                    //if (position > 0) {
+                        //position = position - 1;
                         if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
                             DoctorProfile doctorProfile = doctorProfileAdapter.listAll().get(0);
                             doctorProfile.setUnitID(listELUnitMaster.get(position).getUnitID());
                             doctorProfile.setUnitName(listELUnitMaster.get(position).getUnitDesc());
-
                             doctorProfileAdapter.update(doctorProfile);
                         }
-                    }
+                    //}
                 }
 
                 @Override
@@ -231,7 +226,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
                     if (matchFlag == true) {
-                        pos = pos + 1;
+                        //pos = pos + 1;
                         unitMasterSpinner.setSelection(pos);
                     }
                 } catch (NumberFormatException nfe) {
@@ -296,15 +291,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_refresh:
+            case R.id.menu_toolbar_refresh:
                 GetUnitMasterList();
                 return true;
             default:

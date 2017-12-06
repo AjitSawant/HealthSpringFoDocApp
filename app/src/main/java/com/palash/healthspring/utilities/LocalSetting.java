@@ -2,20 +2,16 @@ package com.palash.healthspring.utilities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.widget.TextView;
 
 import com.palash.healthspring.R;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -218,7 +214,7 @@ public class LocalSetting {
         localEditor.commit();
     }
 
-    public String formatDate(String date, String FromFormate,String Toformat) {
+    public String formatDate(String date, String FromFormate, String Toformat) {
         String returnDate = "";
         SimpleDateFormat dateFormat = new SimpleDateFormat(FromFormate);
         SimpleDateFormat dateFormat2 = new SimpleDateFormat(Toformat);
@@ -247,6 +243,33 @@ public class LocalSetting {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
+    }
+
+    public String dateString(int date, int month, int year) {
+        //SimpleDateFormat dateFormat = new SimpleDateFormat();
+        String result = null;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date currentDate = new Date();
+            System.out.println(dateFormat.format(currentDate));
+            // convert date to calendar
+            Calendar c = Calendar.getInstance();
+            c.setTime(currentDate);
+
+            // manipulate date
+            c.add(Calendar.YEAR, -year);
+            c.add(Calendar.MONTH, -month);
+            c.add(Calendar.DATE, -date);
+
+            // convert calendar to date
+            Date currentDatePlusOne = c.getTime();
+
+            result = dateFormat.format(currentDatePlusOne);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 }

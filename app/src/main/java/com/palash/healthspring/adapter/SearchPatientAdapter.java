@@ -109,11 +109,10 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
             }
 
             final Patient elPatient = getItem(position);
-
             if (elPatient.getMiddleName() != null && elPatient.getMiddleName().length() != 0) {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName() +" ( MRNO : "+ elPatient.getMRNo()+" )");
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName() + " ( MRNO : " + elPatient.getMRNo() + " )");
             } else {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName()+" ( MRNO : "+ elPatient.getMRNo()+" )");
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName() + " ( MRNO : " + elPatient.getMRNo() + " )");
             }
 
             if (elPatient.getGender().equalsIgnoreCase("Male")) {
@@ -122,7 +121,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_img.setImageResource(R.drawable.personfemale);
             }
 
-            holder.patient_mrno.setText(elPatient.getAge() + " Yrs." + "  " + "Clinic : " + elPatient.getClinicName());
+            holder.patient_mrno.setText("Age : " + elPatient.getAge() + " Yrs." + "  " + "Clinic : " + elPatient.getClinicName());
 
             holder.patient_row_bnt_book.getId();
             holder.patient_row_bnt_book.setTag(position);
@@ -130,7 +129,6 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
             holder.patient_row_bnt_book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Patient elPatient = patientlist.get(position);
                     bookAppointment.setID(elDoctorProfile.getID());
                     bookAppointment.setUnitID(elPatient.getUnitID());
@@ -306,7 +304,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 } else {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < patientFilterlist.size(); i++) {
-                        String data ;
+                        String data;
                         if (patientFilterlist.get(i).getMiddleName() != null && patientFilterlist.get(i).getMiddleName().trim().length() > 0) {
                             data = patientFilterlist.get(i).getFirstName() + " " + patientFilterlist.get(i).getMiddleName() + " " + patientFilterlist.get(i).getLastName();
                         } else {

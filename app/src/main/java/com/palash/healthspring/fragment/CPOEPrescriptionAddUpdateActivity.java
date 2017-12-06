@@ -215,11 +215,13 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                 medicine_spinner_route.setAdapter(medicienRouteAdapter);
                 medicienRouteAdapter.notifyDataSetChanged();
             }
+
             if (medicienInstructionArrayList != null && medicienInstructionArrayList.size() > 0) {
                 medicienInstructionAdapter = new SpinnerAdapter.MedicienInstructionAdapter(context, medicienInstructionArrayList);
                 medicine_spinner_instruction.setAdapter(medicienInstructionAdapter);
                 medicienInstructionAdapter.notifyDataSetChanged();
             }
+
             if (medicienFrequencyArrayList != null && medicienFrequencyArrayList.size() > 0) {
                 medicienFrequencyAdapter = new SpinnerAdapter.MedicienFrequencyAdapter(context, medicienFrequencyArrayList);
                 medicine_spinner_frequentcy.setAdapter(medicienFrequencyAdapter);
@@ -380,17 +382,17 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_save).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_cancle).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_cancle).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_save:
+            case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     if (isUpdate.equals("Yes")) {
                         CPOEMedicineUpDateBindView();
@@ -399,10 +401,10 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                     }
                 }
                 return true;
-            case R.id.menu_current_medication_cancle:
+            case R.id.menu_toolbar_cancle:
                 Clear();
                 return true;
-            case R.id.menu_current_medication_refresh:
+            case R.id.menu_toolbar_refresh:
                 MasterFlagTask();
                 SetSpinnerAdapter();
                 return true;

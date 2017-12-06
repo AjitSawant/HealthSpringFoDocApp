@@ -282,20 +282,21 @@ public class VisitBookActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_appointment, menu);
-        menu.findItem(R.id.menu_refresh).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_appointment_save:
+            case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     VisitBookBindView();
                 }
                 return true;
-            case R.id.menu_refresh:
+            case R.id.menu_toolbar_refresh:
                 MasterflagTask();
                 InitAdapter();
                 return true;

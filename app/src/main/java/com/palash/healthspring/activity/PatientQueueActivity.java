@@ -26,7 +26,6 @@ import com.palash.healthspring.api.WebServiceConsumer;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.DoctorProfile;
-import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.PatientQueue;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
@@ -180,14 +179,16 @@ public class PatientQueueActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_patient_queue, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_search).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_patientqueue_search:
+            case R.id.menu_toolbar_search:
                 if (!isSearchPanelVisible) {
                     animatePanel(1);
                 } else {
@@ -197,7 +198,7 @@ public class PatientQueueActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.menu_visit_list_refresh:
+            case R.id.menu_toolbar_refresh:
                 new GetPatientQueueTask().execute();
                 return true;
             default:

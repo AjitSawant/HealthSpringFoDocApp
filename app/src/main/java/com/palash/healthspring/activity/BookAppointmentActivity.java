@@ -400,14 +400,15 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_appointment, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_appointment_save:
+            case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     if (localSetting.Activityname.equals("PatientList")) {
                         BookAppointmentBindView();

@@ -228,10 +228,10 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_save).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_cancle).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_cancle).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -266,7 +266,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_save:
+            case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     if (isUpdate.equals("Yes")) {
                         CPOEServiceUpdateBindView();
@@ -275,10 +275,10 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                     }
                 }
                 return true;
-            case R.id.menu_current_medication_cancle:
+            case R.id.menu_toolbar_cancle:
                 Clear();
                 return true;
-            case R.id.menu_current_medication_refresh:
+            case R.id.menu_toolbar_refresh:
                 MasterFlagTask();
                 SetSpinnerAdapter();
                 return true;

@@ -263,10 +263,10 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_save).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_cancle).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(false);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_cancle).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -301,7 +301,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_save:
+            case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     if (isUpdate.equals("Yes")) {
                         ReferralDoctorServiceUpdateBindView();
@@ -310,8 +310,11 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                     }
                 }
                 return true;
-            case R.id.menu_current_medication_cancle:
+            case R.id.menu_toolbar_cancle:
                 Clear();
+                return true;
+            case R.id.menu_toolbar_refresh:
+                new GetReferralDoctorListTask().execute();
                 return true;
             case android.R.id.home:
                 Constants.backFromAddEMR=true;

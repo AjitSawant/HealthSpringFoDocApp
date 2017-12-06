@@ -7,6 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp">
+
     <Chronometer
         android:id="@+id/emr_CPOEMedicien_chronometer"
         android:layout_width="wrap_content"
@@ -16,25 +17,26 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/border_lighter_gray"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/border_lighter_gray"
             android:orientation="vertical"
             android:padding="@dimen/ten_margin">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextLabel_setting"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <AutoCompleteTextView
                         android:id="@+id/cpoemedicine_add_edt_medicine_name"
@@ -44,25 +46,36 @@
                         android:imeOptions="actionSearch"
                         android:inputType="textAutoComplete|textAutoCorrect"
                         android:maxLines="1"
-                        android:paddingLeft="@dimen/ten_margin"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="6dp"
                         android:singleLine="true"
-                        android:textStyle="normal"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/small_text_size" />
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:textStyle="normal" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     android:id="@+id/medical_spinner_search_btn"
                     android:layout_width="70dp"
-                    android:layout_height="35dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginLeft="4dp"
                     android:background="@drawable/card_layout"
-                    android:textColor="@color/white"
-                    android:text="Search"/>
+                    android:gravity="center"
+                    android:text="Search"
+                    android:textSize="12sp"
+                    android:textColor="@color/white" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/darker_gray"/>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextLabel_setting"
@@ -73,50 +86,47 @@
                     android:id="@+id/cpoemedicine_add_edt_rate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/cpoeservice_rate"
-                    android:maxLength="3"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/ten_margin"
                     android:enabled="false"
-                    android:singleLine="true"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/small_text_size" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextLabel_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/cpoemedicine_add_edt_medicine_dose"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/medicine_dose"
-                    android:maxLength="3"
-                    android:inputType="number"
+                    android:hint="@string/cpoeservice_rate"
                     android:maxLines="1"
-                    android:digits="0123456789"
-                    android:paddingLeft="@dimen/ten_margin"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="6dp"
                     android:singleLine="true"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/small_text_size" />
+                    android:background="@android:color/transparent"
+                    android:textSize="12sp" />
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/darker_gray"/>
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/cpoemedicine_add_medicine_spinner_frequentcy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 app:ms_arrowColor="@color/text_color"
-                app:ms_arrowSize="@dimen/small_text_size"
+                app:ms_arrowSize="12sp"
                 app:ms_baseColor="@color/text_color"
                 app:ms_enableErrorLabel="false"
                 app:ms_enableFloatingLabel="true"
                 app:ms_highlightColor="@color/text_color"
                 app:ms_hint="@string/medicine_frequency"
-                android:textSize="@dimen/small_text_size"
                 app:ms_hintColor="@color/text_color"
-                app:ms_multiline="false" />
+                app:ms_alignLabels="true"
+                app:ms_multiline="false"
+                app:ms_thickness="0dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@android:color/darker_gray"/>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextLabel_setting"
@@ -127,17 +137,25 @@
                     android:id="@+id/cpoemedicine_add_medicine_edt_days"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/medicine_days"
-                    android:maxLength="3"
-                    android:maxLines="1"
-                    android:inputType="number"
                     android:digits="0123456789"
-                    android:paddingLeft="@dimen/ten_margin"
+                    android:hint="@string/medicine_days"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="6dp"
+                    android:background="@android:color/transparent"
                     android:singleLine="true"
                     android:textColor="@color/text_color"
-
-                    android:textSize="@dimen/small_text_size" />
+                    android:textSize="12sp" />
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/darker_gray"/>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextLabel_setting"
@@ -148,45 +166,97 @@
                     android:id="@+id/cpoemedicine_add_edt_medicine_quntity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/medicine_quntity"
-                    android:maxLength="6"
-                    android:maxLines="1"
                     android:enabled="false"
-                    android:paddingLeft="@dimen/ten_margin"
+                    android:hint="@string/medicine_quntity"
+                    android:maxLines="1"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="6dp"
+                    android:background="@android:color/transparent"
                     android:singleLine="true"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/small_text_size" />
+                    android:textSize="12sp" />
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/darker_gray"/>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextLabel_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/cpoemedicine_add_edt_medicine_dose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:digits="0123456789"
+                    android:hint="@string/medicine_dose"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="6dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:background="@android:color/transparent"
+                    android:textSize="12sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/darker_gray"/>
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/cpoemedicine_add_medicine_spinner_route"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 app:ms_arrowColor="@color/text_color"
-                app:ms_arrowSize="@dimen/small_text_size"
+                app:ms_arrowSize="12sp"
                 app:ms_baseColor="@color/text_color"
                 app:ms_enableErrorLabel="false"
-                android:textSize="@dimen/small_text_size"
                 app:ms_enableFloatingLabel="true"
                 app:ms_highlightColor="@color/text_color"
                 app:ms_hint="@string/medicine_route"
                 app:ms_hintColor="@color/text_color"
+                app:ms_thickness="0dp"
                 app:ms_multiline="false" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/darker_gray"/>
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/cpoemedicine_add_medicine_spinner_instruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 app:ms_arrowColor="@color/text_color"
-                app:ms_arrowSize="@dimen/small_text_size"
+                app:ms_arrowSize="12sp"
                 app:ms_baseColor="@color/text_color"
                 app:ms_enableErrorLabel="false"
                 app:ms_enableFloatingLabel="true"
-                android:textSize="@dimen/small_text_size"
                 app:ms_highlightColor="@color/text_color"
                 app:ms_hint="@string/medicine_reason"
                 app:ms_hintColor="@color/text_color"
+                app:ms_thickness="0dp"
                 app:ms_multiline="false" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@android:color/darker_gray"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

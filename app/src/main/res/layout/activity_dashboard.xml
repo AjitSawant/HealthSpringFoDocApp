@@ -34,11 +34,9 @@
                     android:visibility="visible"
                     app:ms_arrowColor="@color/text_color"
                     app:ms_arrowSize="12sp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_margin="4dp"
                     app:ms_enableErrorLabel="false"
-                    app:ms_enableFloatingLabel="true"
-                    app:ms_hint="@string/select_unit"
+                    app:ms_enableFloatingLabel="false"
                     app:ms_floatingLabelText="Selected Clinic"
                     app:ms_hintColor="@color/text_color"
                     app:ms_thickness="0dp"
@@ -49,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/five_margin"
-                android:layout_marginTop="@dimen/five_margin"
+                android:layout_marginTop="@dimen/ten_margin"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -231,7 +229,7 @@
             app:headerLayout="@layout/header"
             app:itemIconTint="@color/colorPrimaryDark"
             app:itemTextColor="@color/text_color"
-            app:menu="@menu/menu_drawer" />
+            app:menu="@menu/menu_dashboard_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

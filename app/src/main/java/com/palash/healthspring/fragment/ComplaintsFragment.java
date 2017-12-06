@@ -57,7 +57,6 @@ public class ComplaintsFragment extends Fragment {
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
-    private DatabaseAdapter.FlagAdapter flagAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.ComplaintsListDBAdapter complaintsListDBAdapter;
     private DatabaseAdapter.ComplaintAdapter masterCcomplaintAdapter;
@@ -83,7 +82,7 @@ public class ComplaintsFragment extends Fragment {
 
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat simpleDF;
-    private String noComplaints = "No Complaint";
+    private String noComplaints = "no complaints";
 
     public ComplaintsFragment() {
     }
@@ -109,7 +108,6 @@ public class ComplaintsFragment extends Fragment {
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-            flagAdapter = databaseAdapter.new FlagAdapter();
             masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             bookAppointmentAdapterDB = databaseAdapter.new BookAppointmentAdapter();
@@ -188,8 +186,11 @@ public class ComplaintsFragment extends Fragment {
                                     //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                                 }
                                 chiefComplaints_edit.setText(selectedChiefComplaintsList.toString().replace("[", "").replace("]", ""));
+                                if (selectedChiefComplaintsList.size() == 0) {
+                                    chiefComplaints_edit.setHint(noComplaints);
+                                }
                             } else {
-                                chiefComplaints_edit.setText(noComplaints);
+                                chiefComplaints_edit.setHint(noComplaints);
                             }
                         }
                         chiefComplaints_dropdown.setSelection(0);
@@ -214,7 +215,6 @@ public class ComplaintsFragment extends Fragment {
                             if (selectedAssociateComplaintsList.size() == 0) {
                                 selectedAssociateComplaintsList.add(masterComplaintList.get(selectedItemPosition).getDescription());
                                 assosciateComplaints_edit.setText(selectedAssociateComplaintsList.toString().replace("[", "").replace("]", ""));
-                                Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                                 //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                             } else if (selectedAssociateComplaintsList.size() > 0) {
                                 Boolean flag = false;
@@ -234,8 +234,11 @@ public class ComplaintsFragment extends Fragment {
                                     //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
                                 }
                                 assosciateComplaints_edit.setText(selectedAssociateComplaintsList.toString().replace("[", "").replace("]", ""));
+                                if (selectedAssociateComplaintsList.size() == 0) {
+                                    assosciateComplaints_edit.setHint(noComplaints);
+                                }
                             } else {
-                                assosciateComplaints_edit.setText(noComplaints);
+                                assosciateComplaints_edit.setHint(noComplaints);
                             }
                         }
                         assosciateComplaints_dropdown.setSelection(0);
@@ -281,18 +284,18 @@ public class ComplaintsFragment extends Fragment {
                 chiefComplaints_edit.setText(elComplaintsList.getChiefComplaints());
                 selectedChiefComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getChiefComplaints().split(",")));
             } else {
-                chiefComplaints_edit.setText(noComplaints);
+                chiefComplaints_edit.setHint(noComplaints);
             }
 
             if (elComplaintsList.getAssosciateComplaints() != null && elComplaintsList.getAssosciateComplaints().length() > 0) {
                 assosciateComplaints_edit.setText(elComplaintsList.getAssosciateComplaints());
                 selectedAssociateComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getAssosciateComplaints().split(",")));
             } else {
-                assosciateComplaints_edit.setText(noComplaints);
+                assosciateComplaints_edit.setHint(noComplaints);
             }
         } else {
-            chiefComplaints_edit.setText(noComplaints);
-            assosciateComplaints_edit.setText(noComplaints);
+            chiefComplaints_edit.setHint(noComplaints);
+            assosciateComplaints_edit.setHint(noComplaints);
         }
     }
 
@@ -319,21 +322,26 @@ public class ComplaintsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_current_medication, menu);
-        menu.findItem(R.id.menu_current_medication_save).setVisible(true);
-        menu.findItem(R.id.menu_current_medication_refresh).setVisible(true);
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_current_medication_refresh:
+            case R.id.menu_toolbar_refresh:
                 SetSpinnerAdapter();
                 new GetComplaints().execute();
                 return true;
-            case R.id.menu_current_medication_save:
-                AddComplaintView();
+            case R.id.menu_toolbar_save:
+                if (assosciateComplaints_edit.getText().toString().equals("") && assosciateComplaints_edit.getText().toString().trim().length() == 0
+                        && chiefComplaints_edit.getText().toString().equals(noComplaints) && chiefComplaints_edit.getText().toString().trim().length() == 0) {
+                    Toast.makeText(context, "Please add any complaints", Toast.LENGTH_SHORT).show();
+                } else {
+                    AddComplaintView();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

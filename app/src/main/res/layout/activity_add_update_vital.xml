@@ -14,10 +14,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
         android:layout_weight="1"
         android:background="@drawable/border_lighter_gray"
-        android:layout_margin="4dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -71,7 +71,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -103,40 +103,63 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="2dp">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/border_lighter_gray"
             android:layout_margin="4dp"
+            android:background="@drawable/border_card"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/ten_margin"
-                android:paddingLeft="@dimen/ten_margin"
-                android:paddingRight="@dimen/ten_margin">
+                android:padding="@dimen/ten_margin">
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/vitals_list_spinner_vitals_name"
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    app:ms_alignLabels="true"
-                    app:ms_arrowSize="@dimen/small_text_size"
-                    app:ms_baseColor="@color/text_color"
-                    app:ms_enableErrorLabel="false"
-                    app:ms_enableFloatingLabel="true"
-                    app:ms_highlightColor="@color/text_color"
-                    app:ms_hintColor="@color/text_color"
-                    app:ms_multiline="false" />
+                    android:background="@drawable/border_card">
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/vitals_list_spinner_vitals_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_card"
+                        android:textSize="12sp"
+                        app:ms_arrowColor="@color/text_color"
+                        app:ms_arrowSize="@dimen/small_text_size"
+                        app:ms_baseColor="@color/text_color"
+                        app:ms_enableErrorLabel="false"
+                        app:ms_enableFloatingLabel="false"
+                        app:ms_highlightColor="@color/text_color"
+                        app:ms_hintColor="@color/text_color"
+                        app:ms_multiline="false" />
+                </LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/vitals_list_spinner_vitals_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_primary_dark"
+                        android:textSize="12sp"
+                        app:ms_arrowColor="@color/text_color"
+                        app:ms_arrowSize="@dimen/small_text_size"
+                        app:ms_baseColor="@color/text_color"
+                        app:ms_enableErrorLabel="false"
+                        app:ms_enableFloatingLabel="false"
+                        app:ms_highlightColor="@color/text_color"
+                        app:ms_hintColor="@color/text_color"
+                        app:ms_multiline="false" />
+                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextLabel_setting"
@@ -167,8 +190,8 @@
                         style="@style/TextLabel_setting"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginTop="@dimen/five_margin">
+                        android:layout_marginTop="@dimen/five_margin"
+                        android:layout_weight="1">
 
                         <EditText
                             android:id="@+id/vitals_list_edt_minvalue"
@@ -186,8 +209,8 @@
                         style="@style/TextLabel_setting"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginTop="@dimen/five_margin">
+                        android:layout_marginTop="@dimen/five_margin"
+                        android:layout_weight="1">
 
                         <EditText
                             android:id="@+id/vitals_list_edt_maxvalue"
@@ -205,8 +228,8 @@
                         style="@style/TextLabel_setting"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginTop="@dimen/five_margin">
+                        android:layout_marginTop="@dimen/five_margin"
+                        android:layout_weight="1">
 
                         <EditText
                             android:id="@+id/vitals_list_edt_unit"

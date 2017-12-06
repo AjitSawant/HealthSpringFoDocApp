@@ -43,6 +43,7 @@
             android:id="@+id/action_followup"
             android:checked="false"
             android:icon="@drawable/emr_allergy"
+            android:visible="false"
             android:title="@string/emr_followup" />
 
     </group>

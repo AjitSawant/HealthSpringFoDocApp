@@ -274,26 +274,28 @@ public class VisitListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_visit_list, menu);
-        menu.findItem(R.id.menu_visit_list_search).setVisible(false);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_search).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_add).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_visit_list_search:
+            case R.id.menu_toolbar_search:
                 if (!isSearchPanelVisible) {
                     animatePanel(1);
                 } else {
                     animatePanel(2);
                 }
                 return true;
-            case R.id.menu_visit_list_add:
+            case R.id.menu_toolbar_add:
                 Intent intent = new Intent(context, VisitBookActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.menu_visit_list_refresh:
+            case R.id.menu_toolbar_refresh:
                 new GetVisitListTask().execute();
                 return true;
             case android.R.id.home:

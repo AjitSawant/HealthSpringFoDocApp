@@ -76,7 +76,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
     private TextView patient_console_tv_no_data;
     private ListView patient_console_list;
 
-    private String selectedClinicID;
+    private String selectedClinicID="0";
     private String DoctorID = "0";
     private String FromDate = "";
     private String ToDate = "";
@@ -94,7 +94,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_patient_console);
         InitSetting();
         InitView();
-        setdata();
+        setData();
     }
 
     private void InitSetting() {
@@ -222,10 +222,9 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
                 }
             }
         };
-
     }
 
-    private void setdata() {
+    private void setData() {
         patient_console_search_tv_visit_fmdate.setText(format.format(new Date()));
         patient_console_search_tv_visit_todate.setText(format.format(new Date()));
         FromDate = localSetting.formatDate(patient_console_search_tv_visit_fmdate.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
@@ -264,7 +263,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
             }
 
             if (bookAppointment.getAge() != null && bookAppointment.getAge().trim().length() > 0) {
-                patient_console_tv_age.setText(bookAppointment.getAge());
+                patient_console_tv_age.setText(bookAppointment.getAge() + " Yrs.");
             } else {
                 patient_console_tv_age.setText("-");
             }
@@ -323,6 +322,8 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
 
             unitMasterListAdapter = new SpinnerAdapter.UnitMasterListAdapter(context, listELUnitMasterNew);
             all_clinic_spinner.setAdapter(unitMasterListAdapter);
+
+            new GetPatientConsoleListTask().execute();
         }
     }
 

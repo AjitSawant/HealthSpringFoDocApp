@@ -27,6 +27,7 @@ public class VitalsList {
     private String AddedBy;
     private String VisitDateTime;
     private String ISStatus;
+    private String ISLocal;
     private String IsSync;
     private String IsUpdate;
 
@@ -163,6 +164,15 @@ public class VitalsList {
 
     public void setStatus(String status) {
         Status = status;
+    }
+
+    @JsonProperty("ISLocal")
+    public String getISLocal() {
+        return ISLocal;
+    }
+
+    public void setISLocal(String ISLocal) {
+        this.ISLocal = ISLocal;
     }
 
     @JsonProperty("AddedBy")
