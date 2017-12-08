@@ -52,7 +52,6 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.AppointmentAdapter appointmentAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
-    private DatabaseAdapter.FlagAdapter flagAdapter;
 
     private HashMap<String, ArrayList<Appointment>> listDataChild;
     private ArrayList<Appointment> childList = null;
@@ -106,7 +105,6 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-            flagAdapter = databaseAdapter.new FlagAdapter();
             appointmentAdapter = databaseAdapter.new AppointmentAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             doctorProfileList = doctorProfileAdapter.listAll();

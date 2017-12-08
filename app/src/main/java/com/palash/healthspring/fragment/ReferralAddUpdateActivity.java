@@ -347,7 +347,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             elReferralDoctorPerService.setReferralDoctorName(ReferralDoctorName);
                             elReferralDoctorPerService.setRate(referral_edt_rate.getText().toString());
                             elReferralDoctorPerService.setIsSync("1");
-                            new ReferralDoctorAddUpdateTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -374,7 +374,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             elReferralDoctorPerService.setReferralDoctorName(ReferralDoctorName);
                             elReferralDoctorPerService.setRate(referral_edt_rate.getText().toString());
                             elReferralDoctorPerService.setIsSync("1");
-                            new ReferralDoctorAddUpdateTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -382,6 +382,33 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                     .show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void callToWebservice() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new ReferralDoctorAddUpdateTask().execute();
+        } else {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(context.getResources().getString(R.string.offline_net_alert))
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (isUpdate.equals("Yes")) {
+                                referralServiceListDBAdapter.updateUnSync(elReferralDoctorPerService);
+                            } else {
+                                referralServiceListDBAdapter.createUnSync(elReferralDoctorPerService);
+                            }
+                            Clear();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
         }
     }
 
@@ -599,8 +626,8 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             })
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    /*new AlertDialog
+                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -609,9 +636,9 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (isUpdate.equals("Yes")) {
-                                        cpoeServiceAdapterDB.updateUnSync(cpoeService);
+                                        referralServiceListDBAdapter.updateUnSync(elReferralDoctorPerService);
                                     } else {
-                                        cpoeServiceAdapterDB.createUnSync(cpoeService);
+                                        referralServiceListDBAdapter.createUnSync(elReferralDoctorPerService);
                                     }
                                     Clear();
                                     finish();
@@ -619,7 +646,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();*/
+                            .show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

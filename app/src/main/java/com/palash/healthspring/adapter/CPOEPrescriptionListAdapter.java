@@ -76,6 +76,7 @@ public class CPOEPrescriptionListAdapter extends BaseAdapter {
                 holder.row_current_medication_tv_route = (TextView) convertView.findViewById(R.id.row_current_medication_tv_route);
                 holder.row_current_medication_tv_frequency = (TextView) convertView.findViewById(R.id.row_current_medication_tv_frequency);
                 holder.row_current_medication_tv_qty = (TextView) convertView.findViewById(R.id.row_current_medication_tv_qty);
+                holder.is_record_sync_tv = (TextView) convertView.findViewById(R.id.is_record_sync_tv);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -129,6 +130,12 @@ public class CPOEPrescriptionListAdapter extends BaseAdapter {
                 holder.row_current_medication_tv_date.setText(localSetting.formatDate(elCPOEPrescription.getDate(), Constants.TIME_FORMAT, Constants.OFFLINE_DATE)
                         + " " + localSetting.formatDate(elCPOEPrescription.getDate(), Constants.TIME_FORMAT, Constants.OFFLINE_TIME));
             }
+
+            if (elCPOEPrescription.getIsSync() != null && elCPOEPrescription.getIsSync().equals("1")) {
+                holder.is_record_sync_tv.setVisibility(View.VISIBLE);
+            }else {
+                holder.is_record_sync_tv.setVisibility(View.GONE);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -158,6 +165,7 @@ public class CPOEPrescriptionListAdapter extends BaseAdapter {
         TextView row_current_medication_tv_route;
         TextView row_current_medication_tv_frequency;
         TextView row_current_medication_tv_qty;
+        TextView is_record_sync_tv;
     }
 }
 

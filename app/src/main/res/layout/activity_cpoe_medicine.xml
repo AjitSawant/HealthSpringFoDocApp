@@ -50,7 +50,7 @@
                         android:paddingTop="6dp"
                         android:singleLine="true"
                         android:textColor="@color/text_color"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:background="@android:color/transparent"
                         android:textStyle="normal" />
 
@@ -94,7 +94,7 @@
                     android:singleLine="true"
                     android:textColor="@color/text_color"
                     android:background="@android:color/transparent"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -146,7 +146,7 @@
                     android:background="@android:color/transparent"
                     android:singleLine="true"
                     android:textColor="@color/text_color"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -174,7 +174,7 @@
                     android:background="@android:color/transparent"
                     android:singleLine="true"
                     android:textColor="@color/text_color"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -194,16 +194,16 @@
                     android:id="@+id/cpoemedicine_add_edt_medicine_dose"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:digits="0123456789"
                     android:hint="@string/medicine_dose"
-                    android:inputType="number"
                     android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:paddingLeft="8dp"
                     android:paddingTop="6dp"
                     android:singleLine="true"
                     android:textColor="@color/text_color"
                     android:background="@android:color/transparent"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView

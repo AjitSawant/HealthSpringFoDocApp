@@ -130,6 +130,7 @@
     <string name="please_wait">Please wait</string>
 
     <string name="offline_alert">Something went wrong.You still want to save record offline?</string>
+    <string name="offline_net_alert">Network is unreachable. You still want to save record offline?</string>
     <string name="network_alert">Network is unreachable. Please check your network and try again.</string>
     <string name="login_alert">Invalid username or password. Please try again</string>
 

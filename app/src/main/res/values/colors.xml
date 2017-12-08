@@ -21,6 +21,7 @@
     <color name="white_box">#B3FFFFFF</color>
     <color name="bgcolor">#eeeeee</color>
     <color name="lighter_gray">#ddd</color>
+    <color name="dark_gray">#757D75</color>
     <color name="colorOrange">#F15441</color>
     <color name="colorGreen">#038C17</color>
     <color name="colorYellow">#BBBF34</color>

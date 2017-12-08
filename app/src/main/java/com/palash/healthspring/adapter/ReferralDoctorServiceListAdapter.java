@@ -70,6 +70,7 @@ public class ReferralDoctorServiceListAdapter extends BaseAdapter {
                 holder.row_referral_service_tv_service_name = (TextView) convertView.findViewById(R.id.row_referral_service_tv_service_name);
                 holder.row_referral_service_tv_doctor_name = (TextView) convertView.findViewById(R.id.row_referral_service_tv_doctor_name);
                 holder.row_referral_service_tv_rate = (TextView) convertView.findViewById(R.id.row_referral_service_tv_rate);
+                holder.is_record_sync_tv = (TextView) convertView.findViewById(R.id.is_record_sync_tv);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -92,6 +93,12 @@ public class ReferralDoctorServiceListAdapter extends BaseAdapter {
                 holder.row_referral_service_tv_rate.setText("RS. "+referralDoctorPerService.getRate().trim());
             } else {
                 holder.row_referral_service_tv_rate.setText("-");
+            }
+
+            if (referralDoctorPerService.getIsSync() != null && referralDoctorPerService.getIsSync().equals("1")) {
+                holder.is_record_sync_tv.setVisibility(View.VISIBLE);
+            }else {
+                holder.is_record_sync_tv.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,6 +124,7 @@ public class ReferralDoctorServiceListAdapter extends BaseAdapter {
         TextView row_referral_service_tv_service_name;
         TextView row_referral_service_tv_doctor_name;
         TextView row_referral_service_tv_rate;
+        TextView is_record_sync_tv;
     }
 }
 

@@ -125,6 +125,7 @@ public class CPOEInvestigationFragment extends Fragment {
         emr_cpoeservice_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_cpoeservice_chronometer.start();
         if (Constants.backFromAddEMR == false) {
+            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
             if (localSetting.isNetworkAvailable(context)) {
                 new GetCPOEService().execute();
             } else {
@@ -254,7 +255,7 @@ public class CPOEInvestigationFragment extends Fragment {
                     }
                 }
             } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
-                cpoeServiceAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                //cpoeServiceAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 emr_cpoeservice_empty.setVisibility(View.VISIBLE);
                 emr_cpoeservice_List.setVisibility(View.GONE);
             } else {

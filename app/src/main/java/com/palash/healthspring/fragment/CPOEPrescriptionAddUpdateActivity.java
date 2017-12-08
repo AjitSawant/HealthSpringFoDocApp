@@ -409,7 +409,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                 SetSpinnerAdapter();
                 return true;
             case android.R.id.home:
-                Constants.backFromAddEMR=true;
+                Constants.backFromAddEMR = true;
                 onBackPressed();
                 return true;
             default:
@@ -435,7 +435,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
 
     @Override
     public void onBackPressed() {
-        Constants.backFromAddEMR=true;
+        Constants.backFromAddEMR = true;
         finish();
     }
 
@@ -499,7 +499,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             cpoePrescription.setDate(CurrentDate);
                             Msg = "Medicine added successfully";
 
-                            new CPOEMedicineAddUpdateTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -560,7 +560,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             cpoePrescription.setDate(CurrentDate);
 
                             Msg = "Medicine updated successfully";
-                            new CPOEMedicineAddUpdateTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -568,6 +568,33 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                     .show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void callToWebservice() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new CPOEMedicineAddUpdateTask().execute();
+        } else {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(context.getResources().getString(R.string.offline_net_alert))
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (isUpdate.equals("Yes")) {
+                                cpoeMedicineAdapterDB.updateUnSync(cpoePrescription);
+                            } else {
+                                cpoeMedicineAdapterDB.createUnSync(cpoePrescription);
+                            }
+                            Clear();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
         }
     }
 
@@ -644,8 +671,8 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
                     localSetting.hideDialog(progressDialog);
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    /*new AlertDialog
+                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -664,7 +691,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();*/
+                            .show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -694,7 +721,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
             try {
                 objMapper = new JsonObjectMapper();
                 serviceConsumer = new WebServiceConsumer(context, null, null);
-                SearchText = SearchText.replaceAll(" ","_");
+                SearchText = SearchText.replaceAll(" ", "_");
                 response = serviceConsumer.GET(Constants.MEDICIENNAME_URL + "?SearchText=" + SearchText);
                 if (response != null) {
                     responseCode = response.code();

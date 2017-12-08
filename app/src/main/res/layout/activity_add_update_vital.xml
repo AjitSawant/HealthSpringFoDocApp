@@ -157,7 +157,7 @@
                         app:ms_enableErrorLabel="false"
                         app:ms_enableFloatingLabel="false"
                         app:ms_highlightColor="@color/text_color"
-                        app:ms_hintColor="@color/text_color"
+                        app:ms_hintColor="@color/dark_gray"
                         app:ms_multiline="false" />
                 </LinearLayout>
 
@@ -165,6 +165,7 @@
                     style="@style/TextLabel_setting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/dark_gray"
                     android:layout_marginTop="@dimen/five_margin">
 
                     <EditText
@@ -172,12 +173,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="0123456789"
+                        android:maxLength="3"
                         android:hint="@string/vitals_value"
                         android:inputType="number"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
-                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/small_text_size" />
                 </android.support.design.widget.TextInputLayout>
 

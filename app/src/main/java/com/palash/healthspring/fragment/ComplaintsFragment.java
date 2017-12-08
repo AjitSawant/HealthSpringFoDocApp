@@ -256,10 +256,13 @@ public class ComplaintsFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if (localSetting.isNetworkAvailable(context)) {
-            new GetComplaints().execute();
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        if (Constants.backFromAddEMR == false) {
+            if (localSetting.isNetworkAvailable(context)) {
+                refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                new GetComplaints().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
         super.onResume();
     }

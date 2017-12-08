@@ -259,7 +259,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
 
     @Override
     public void onBackPressed() {
-        Constants.backFromAddEMR=true;
+        Constants.backFromAddEMR = true;
         finish();
     }
 
@@ -283,7 +283,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                 SetSpinnerAdapter();
                 return true;
             case android.R.id.home:
-                Constants.backFromAddEMR=true;
+                Constants.backFromAddEMR = true;
                 onBackPressed();
                 return true;
             default:
@@ -309,19 +309,13 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             if (Postype > 0) {
                                 Postype = Postype - 1;
                             }
-                            //cpoeService.setID(cpoeServiceArrayList.get(0).getID());
-                            //cpoeService.setUnitID(cpoeServiceArrayList.get(0).getUnitID());
-                            //cpoeService.setPatientID(cpoeServiceArrayList.get(0).getPatientID());
-                            //cpoeService.setPatientUnitID(cpoeServiceArrayList.get(0).getPatientUnitID());
-                            //cpoeService.setVisitID(cpoeServiceArrayList.get(0).getVisitID());
                             cpoeService.setServiceID(serviceID);
                             cpoeService.setServiceName(serviceName);
                             cpoeService.setPriority(priorityArrayList.get(Pospriority).getID());
                             cpoeService.setPriorityDescription(priorityArrayList.get(Pospriority).getDescription());
                             cpoeService.setRate(cpoeservice_edt_rate.getText().toString());
                             cpoeService.setIsSync("1");
-                            new cpoeServiceAddUpdateTask().execute();
-                            //new cpoeServiceUpdateTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -363,8 +357,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             cpoeService.setPriorityDescription(priorityArrayList.get(Pospriority).getDescription());
                             cpoeService.setRate(cpoeservice_edt_rate.getText().toString());
                             cpoeService.setIsSync("1");
-                            new cpoeServiceAddUpdateTask().execute();
-                            //new cpoeServiceAddTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -375,65 +368,32 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         }
     }
 
-    public class GetServiceNameListTask extends AsyncTask<Void, Void, String> {
-        private int responseCode = 0;
-        private TransparentProgressDialog progressDialog = null;
-        private JsonObjectMapper objMapper = null;
-        private WebServiceConsumer serviceConsumer = null;
-        private Response response = null;
-        private String responseMSG = "";
-        private String responseString = "";
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = localSetting.showDialog(context);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                objMapper = new JsonObjectMapper();
-                serviceConsumer = new WebServiceConsumer(context, null, null);
-                SearchText = SearchText.replaceAll(" ","_");
-                response = serviceConsumer.GET(Constants.SERVICENAME_URL + "?SearchText=" + SearchText);
-                if (response != null) {
-                    responseCode = response.code();
-                    responseMSG = response.message().toString();
-                    responseString = response.body().string();
-                    Log.d(Constants.TAG, "Response code:" + responseCode);
-                    Log.d(Constants.TAG, "Response MSG:" + responseMSG);
-                    Log.d(Constants.TAG, "Response string:" + responseString);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                localSetting.hideDialog(progressDialog);
-                if (responseCode == Constants.HTTP_OK_200) {
-                    serviceNameArrayList = objMapper.map(responseString, ServiceName.class);
-                    serviceNameAdapter = new SpinnerAdapter.ServiceNameAdapter(context, serviceNameArrayList);
-                    cpoeservice_edt_name.setAdapter(serviceNameAdapter);
-                    cpoeservice_edt_name.setThreshold(1);
-                    cpoeservice_edt_name.showDropDown();
-                    serviceNameAdapter.notifyDataSetChanged();
-                    SetSpinnerAdapter();
-                } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
-                    localSetting.alertbox(context, "No data available for given search. Please try again", false);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            super.onPostExecute(result);
+    private void callToWebservice() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new cpoeServiceAddUpdateTask().execute();
+        } else {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(context.getResources().getString(R.string.offline_net_alert))
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (isUpdate.equals("Yes")) {
+                                cpoeServiceAdapterDB.updateUnSync(cpoeService);
+                            } else {
+                                cpoeServiceAdapterDB.createUnSync(cpoeService);
+                            }
+                            Clear();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
         }
     }
-
 
     public class cpoeServiceAddUpdateTask extends AsyncTask<Void, Void, String> {
 
@@ -509,8 +469,8 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
                     localSetting.hideDialog(progressDialog);
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    /*new AlertDialog
+                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -529,7 +489,66 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();*/
+                            .show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            super.onPostExecute(result);
+        }
+    }
+
+    public class GetServiceNameListTask extends AsyncTask<Void, Void, String> {
+        private int responseCode = 0;
+        private TransparentProgressDialog progressDialog = null;
+        private JsonObjectMapper objMapper = null;
+        private WebServiceConsumer serviceConsumer = null;
+        private Response response = null;
+        private String responseMSG = "";
+        private String responseString = "";
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = localSetting.showDialog(context);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                objMapper = new JsonObjectMapper();
+                serviceConsumer = new WebServiceConsumer(context, null, null);
+                SearchText = SearchText.replaceAll(" ", "_");
+                response = serviceConsumer.GET(Constants.SERVICENAME_URL + "?SearchText=" + SearchText);
+                if (response != null) {
+                    responseCode = response.code();
+                    responseMSG = response.message().toString();
+                    responseString = response.body().string();
+                    Log.d(Constants.TAG, "Response code:" + responseCode);
+                    Log.d(Constants.TAG, "Response MSG:" + responseMSG);
+                    Log.d(Constants.TAG, "Response string:" + responseString);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                localSetting.hideDialog(progressDialog);
+                if (responseCode == Constants.HTTP_OK_200) {
+                    serviceNameArrayList = objMapper.map(responseString, ServiceName.class);
+                    serviceNameAdapter = new SpinnerAdapter.ServiceNameAdapter(context, serviceNameArrayList);
+                    cpoeservice_edt_name.setAdapter(serviceNameAdapter);
+                    cpoeservice_edt_name.setThreshold(1);
+                    cpoeservice_edt_name.showDropDown();
+                    serviceNameAdapter.notifyDataSetChanged();
+                    SetSpinnerAdapter();
+                } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
+                    localSetting.alertbox(context, "No data available for given search. Please try again", false);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

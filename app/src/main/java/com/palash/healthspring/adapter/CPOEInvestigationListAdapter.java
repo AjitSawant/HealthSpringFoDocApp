@@ -69,6 +69,7 @@ public class CPOEInvestigationListAdapter extends BaseAdapter {
                 holder.row_cpoeservice_tv_service_name = (TextView) convertView.findViewById(R.id.row_cpoeservice_tv_service_name);
                 holder.row_cpoeservice_tv_priority = (TextView) convertView.findViewById(R.id.row_cpoeservice_tv_priority);
                 holder.row_cpoeservice_tv_rate = (TextView) convertView.findViewById(R.id.row_cpoeservice_tv_rate);
+                holder.is_record_sync_tv = (TextView) convertView.findViewById(R.id.is_record_sync_tv);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -92,6 +93,12 @@ public class CPOEInvestigationListAdapter extends BaseAdapter {
                 holder.row_cpoeservice_tv_rate.setText("RS. " + elCPOEService.getRate().trim());
             } else {
                 holder.row_cpoeservice_tv_rate.setText("-");
+            }
+
+            if (elCPOEService.getIsSync() != null && elCPOEService.getIsSync().equals("1")) {
+                holder.is_record_sync_tv.setVisibility(View.VISIBLE);
+            }else {
+                holder.is_record_sync_tv.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,6 +124,7 @@ public class CPOEInvestigationListAdapter extends BaseAdapter {
         TextView row_cpoeservice_tv_service_name;
         TextView row_cpoeservice_tv_priority;
         TextView row_cpoeservice_tv_rate;
+        TextView is_record_sync_tv;
     }
 }
 

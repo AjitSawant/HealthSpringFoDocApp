@@ -127,6 +127,7 @@ public class CPOEPrescriptionFragment extends Fragment {
         emr_cpoemedicine_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_cpoemedicine_chronometer.start();
         if (Constants.backFromAddEMR == false) {
+            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
             if (localSetting.isNetworkAvailable(context)) {
                 new GetPrescription().execute();
             } else {
@@ -256,7 +257,7 @@ public class CPOEPrescriptionFragment extends Fragment {
                     }
                 }
             } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
-                cpoeMedicineAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                //cpoeMedicineAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 emr_cpoemedicine_empty.setVisibility(View.VISIBLE);
                 emr_cpoemedicine_List.setVisibility(View.GONE);
             } else {

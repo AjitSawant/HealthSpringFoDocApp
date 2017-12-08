@@ -125,6 +125,7 @@ public class ReferralFragment extends Fragment {
         emr_referral_service_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_referral_service_chronometer.start();
         if (Constants.backFromAddEMR == false) {
+            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
             if (localSetting.isNetworkAvailable(context)) {
                 new GetReferralDoctorService().execute();
             } else {
@@ -249,13 +250,13 @@ public class ReferralFragment extends Fragment {
             if (responseCode == Constants.HTTP_OK_200) {
                 referralDoctorPerServicearrayList = jsonObjectMapper.map(responseString, ReferralDoctorPerService.class);
                 if (referralDoctorPerServicearrayList != null && referralDoctorPerServicearrayList.size() > 0) {
-                    referralServiceListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                    //referralServiceListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                     for (int index = 0; index < referralDoctorPerServicearrayList.size(); index++) {
                         referralServiceListDBAdapter.create(referralDoctorPerServicearrayList.get(index));
                     }
                 }
             } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
-                referralServiceListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                //referralServiceListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 emr_referral_service_empty.setVisibility(View.VISIBLE);
                 emr_referral_service_List.setVisibility(View.GONE);
             } else {

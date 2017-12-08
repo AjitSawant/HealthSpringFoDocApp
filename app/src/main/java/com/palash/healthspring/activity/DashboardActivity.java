@@ -32,8 +32,15 @@ import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
+import com.palash.healthspring.entity.CPOEPrescription;
+import com.palash.healthspring.entity.CPOEService;
+import com.palash.healthspring.entity.ComplaintsList;
+import com.palash.healthspring.entity.DiagnosisList;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.ELUnitMaster;
+import com.palash.healthspring.entity.Flag;
+import com.palash.healthspring.entity.ReferralDoctorPerService;
+import com.palash.healthspring.task.SynchronizationTask;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 import com.palash.healthspring.utilities.TextDrawable;
@@ -52,8 +59,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private LocalSetting localSetting;
     private DatabaseAdapter databaseAdapter;
     private DatabaseContract databaseContract;
+    private DatabaseAdapter.FlagAdapter flagAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.UnitMasterAdapter unitMasterAdapter;
+    private DatabaseAdapter.DiagnosisListAdapter diagnosisListAdapter;
+    private DatabaseAdapter.CPOEServiceAdapter cpoeServiceAdapter;
+    private DatabaseAdapter.CPOEMedicineAdapter cpoeMedicineAdapter;
+    private DatabaseAdapter.ComplaintsListDBAdapter complaintsListDBAdapter;
+    private DatabaseAdapter.ReferralServiceListDBAdapter referralServiceListDBAdapter;
 
     private SpinnerAdapter.UnitMasterListAdapter unitMasterListAdapter;
 
@@ -76,7 +89,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dashboard);
         InitSetting();
         InitView();
-        setUnitMasterData();
     }
 
     private void InitSetting() {
@@ -85,8 +97,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
+            flagAdapter = databaseAdapter.new FlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             unitMasterAdapter = databaseAdapter.new UnitMasterAdapter();
+            diagnosisListAdapter = databaseAdapter.new DiagnosisListAdapter();
+            cpoeServiceAdapter = databaseAdapter.new CPOEServiceAdapter();
+            cpoeMedicineAdapter = databaseAdapter.new CPOEMedicineAdapter();
+            complaintsListDBAdapter = databaseAdapter.new ComplaintsListDBAdapter();
+            referralServiceListDBAdapter = databaseAdapter.new ReferralServiceListDBAdapter();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -172,13 +190,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                                            int arg2, long arg3) {
                     int position = unitMasterSpinner.getSelectedItemPosition();
                     //if (position > 0) {
-                        //position = position - 1;
-                        if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
-                            DoctorProfile doctorProfile = doctorProfileAdapter.listAll().get(0);
-                            doctorProfile.setUnitID(listELUnitMaster.get(position).getUnitID());
-                            doctorProfile.setUnitName(listELUnitMaster.get(position).getUnitDesc());
-                            doctorProfileAdapter.update(doctorProfile);
-                        }
+                    //position = position - 1;
+                    if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
+                        DoctorProfile doctorProfile = doctorProfileAdapter.listAll().get(0);
+                        doctorProfile.setUnitID(listELUnitMaster.get(position).getUnitID());
+                        doctorProfile.setUnitName(listELUnitMaster.get(position).getUnitDesc());
+                        doctorProfileAdapter.update(doctorProfile);
+                    }
                     //}
                 }
 
@@ -205,6 +223,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     protected void onResume() {
         super.onResume();
         listProfile = doctorProfileAdapter.listAll();
+        setUnitMasterData();
+        SynchOfflineData();
     }
 
     private void RefreshUnitMatserSpinnerData() {
@@ -387,7 +407,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         protected void onPostExecute(String result) {
             if (responseCode == Constants.HTTP_OK_200) {
                 listELUnitMaster = jsonObjectMapper.map(responseString, ELUnitMaster.class);
-                if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
+                if (listELUnitMaster != null && listELUnitMaster.size() > 0 && listELUnitMaster.size() != unitMasterAdapter.TotalCount()) {
                     unitMasterAdapter.delete();
                     for (int index = 0; index < listELUnitMaster.size(); index++) {
                         unitMasterAdapter.create(listELUnitMaster.get(index));
@@ -402,6 +422,28 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             localSetting.hideDialog(progressDialog);
             RefreshUnitMatserSpinnerData();
             super.onPostExecute(result);
+        }
+    }
+
+    private void SynchOfflineData() {
+        if (localSetting.isNetworkAvailable(context)) {
+            ArrayList<DiagnosisList> diagnosisArrayList = diagnosisListAdapter.listAllUnSync();
+            ArrayList<CPOEService> cpoeServiceArrayList = cpoeServiceAdapter.listAllUnSync();
+            ArrayList<CPOEPrescription> cpoeMedicineArrayList = cpoeMedicineAdapter.listAllUnSync();
+            ArrayList<ComplaintsList> complaintsArrayList = complaintsListDBAdapter.listAllUnSync();
+            ArrayList<ReferralDoctorPerService> referralServiceArrayList = referralServiceListDBAdapter.listAllUnSync();
+            if ((diagnosisArrayList != null && diagnosisArrayList.size() > 0) || (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) ||
+                    (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0) || (complaintsArrayList != null && complaintsArrayList.size() > 0) ||
+                    (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
+                try {
+                    Flag flag = flagAdapter.listCurrent();
+                    flag.setFlag(Constants.ONLINE_SYNC);
+                    flagAdapter.create(flag);
+                    SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

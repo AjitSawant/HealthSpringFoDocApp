@@ -19,6 +19,7 @@ import com.palash.healthspring.entity.DiagnosisList;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.PatientQueue;
+import com.palash.healthspring.entity.ReferralDoctorPerService;
 import com.palash.healthspring.entity.Synchronization;
 import com.palash.healthspring.entity.VisitList;
 import com.palash.healthspring.entity.VitalsList;
@@ -38,13 +39,14 @@ public class SynchronizationTask implements Task {
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.AppointmentAdapter appointmentAdapter;
-    private DatabaseAdapter.PatientQueueAdapter patientQueueAdapter;
-    private DatabaseAdapter.VisitListAdapter visitListAdapter;
+    //private DatabaseAdapter.PatientQueueAdapter patientQueueAdapter;
+    //private DatabaseAdapter.VisitListAdapter visitListAdapter;
     private DatabaseAdapter.DiagnosisListAdapter diagnosisListAdapter;
     private DatabaseAdapter.VitalsListAdapter vitalsListAdapter;
     private DatabaseAdapter.CPOEServiceAdapter cpoeServiceAdapter;
     private DatabaseAdapter.CPOEMedicineAdapter cpoePrescriptionAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
+    private DatabaseAdapter.ReferralServiceListDBAdapter referralServiceListDBAdapter;
     private DatabaseAdapter.FlagAdapter flagAdapter;
 
     private WebServiceConsumer serviceConsumer;
@@ -61,6 +63,7 @@ public class SynchronizationTask implements Task {
     private ArrayList<VitalsList> vitalsList;
     private ArrayList<CPOEService> cpoeServiceList;
     private ArrayList<CPOEPrescription> cpoePrescriptionList;
+    private ArrayList<ReferralDoctorPerService> referralDoctorPerServiceList;
     private ArrayList<Flag> flagList;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
 
@@ -71,7 +74,6 @@ public class SynchronizationTask implements Task {
     private int responseCode;
     private int patientQueueCount;
     private int visitCount;
-
 
     @Override
     public TaskResult doWork(ContextWrapper contextWrapper) {
@@ -92,12 +94,13 @@ public class SynchronizationTask implements Task {
             databaseAdapter = new DatabaseAdapter(databaseContract);
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             appointmentAdapter = databaseAdapter.new AppointmentAdapter();
-            patientQueueAdapter = databaseAdapter.new PatientQueueAdapter();
-            visitListAdapter = databaseAdapter.new VisitListAdapter();
+            //patientQueueAdapter = databaseAdapter.new PatientQueueAdapter();
+            //visitListAdapter = databaseAdapter.new VisitListAdapter();
             diagnosisListAdapter = databaseAdapter.new DiagnosisListAdapter();
             vitalsListAdapter = databaseAdapter.new VitalsListAdapter();
             cpoeServiceAdapter = databaseAdapter.new CPOEServiceAdapter();
             cpoePrescriptionAdapter = databaseAdapter.new CPOEMedicineAdapter();
+            referralServiceListDBAdapter = databaseAdapter.new ReferralServiceListDBAdapter();
             flagAdapter = databaseAdapter.new FlagAdapter();
             flagList = flagAdapter.listLast();
 
@@ -136,17 +139,12 @@ public class SynchronizationTask implements Task {
                                         EMRDiagnosisTask();
                                         break;*/
                                     case Constants.ONLINE_SYNC:
-                                        SyncVitalsOfflineList();
+                                        //SyncVitalsOfflineList();
                                         SyncDiagnosisOfflineList();
                                         SyncServiceOfflineList();
                                         SyncPrescriptionOfflineList();
+                                        SyncReferalServiceOfflineList();
                                         break;
-                                    /*case Constants.EMR_CPOESERVICE_TASK:
-                                        EMRCPOEServiceTask();
-                                        break;*/
-                                    /*case Constants.EMR_CPOEMEDICINE_TASK:
-                                        EMRCPOEMedicineTask();
-                                        break;*/
                                 }
                             }
                         }
@@ -164,8 +162,7 @@ public class SynchronizationTask implements Task {
         return taskResult;
     }
 
-
-    public void AppointmentListTask() {
+    /*public void AppointmentListTask() {
         try {
             responseCode = 0;
             responseString = null;
@@ -188,7 +185,7 @@ public class SynchronizationTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
    /* public void PatientQueueTask() {
         try {
@@ -250,7 +247,7 @@ public class SynchronizationTask implements Task {
         }
     }*/
 
-    public void EMRVitalsTask() {
+   /* public void EMRVitalsTask() {
         try {
             responseCode = 0;
             responseString = null;
@@ -276,9 +273,9 @@ public class SynchronizationTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public void EMRDiagnosisTask() {
+    /*public void EMRDiagnosisTask() {
         try {
             responseCode = 0;
             responseString = null;
@@ -305,9 +302,9 @@ public class SynchronizationTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public void EMRCPOEServiceTask() {
+    /*public void EMRCPOEServiceTask() {
         try {
             responseCode = 0;
             responseString = null;
@@ -335,9 +332,9 @@ public class SynchronizationTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public void EMRCPOEMedicineTask() {
+    /*public void EMRCPOEMedicineTask() {
         try {
             responseCode = 0;
             responseString = null;
@@ -365,9 +362,9 @@ public class SynchronizationTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    private void SyncVitalsOfflineList() {
+    /*private void SyncVitalsOfflineList() {
         try {
             responseCode = 0;
             responseString = null;
@@ -397,7 +394,7 @@ public class SynchronizationTask implements Task {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void SyncDiagnosisOfflineList() {
         try {
@@ -447,10 +444,9 @@ public class SynchronizationTask implements Task {
                             responseCode = response.code();
                             Log.d(Constants.TAG, "ResponseString:" + responseString);
                             Log.d(Constants.TAG, "ResponseCode:" + responseCode);
-                            if (responseCode == Constants.HTTP_CREATED_201) {
-                                cpoeServiceAdapter.RemoveSyncItem(cpoeServiceList.get(i).get_ID());
-                            } else if (responseCode == Constants.HTTP_OK_200) {
-                                cpoeServiceAdapter.RemoveSyncItem(cpoeServiceList.get(i).get_ID());
+                            if (responseCode == Constants.HTTP_CREATED_201 || responseCode == Constants.HTTP_OK_200) {
+                                ArrayList<CPOEService> elCPOEServiceList = objectMapper.map(responseString, CPOEService.class);
+                                cpoeServiceAdapter.UpdateSyncLocalItem(cpoeServiceList.get(i).get_ID(), elCPOEServiceList.get(0));
                             }
                         }
                     } catch (Exception e) {
@@ -479,10 +475,42 @@ public class SynchronizationTask implements Task {
                             responseCode = response.code();
                             Log.d(Constants.TAG, "ResponseString:" + responseString);
                             Log.d(Constants.TAG, "ResponseCode:" + responseCode);
-                            if (responseCode == Constants.HTTP_CREATED_201) {
-                                cpoePrescriptionAdapter.RemoveSyncItem(cpoePrescriptionList.get(i).get_ID());
-                            } else if (responseCode == Constants.HTTP_OK_200) {
-                                cpoePrescriptionAdapter.RemoveSyncItem(cpoePrescriptionList.get(i).get_ID());
+                            if (responseCode == Constants.HTTP_OK_200 || responseCode == Constants.HTTP_CREATED_201) {
+                                ArrayList<CPOEPrescription> elCPOEPrescriptionList = objectMapper.map(responseString, CPOEPrescription.class);
+                                cpoePrescriptionAdapter.UpdateSyncLocalItem(cpoePrescriptionList.get(i).get_ID(), elCPOEPrescriptionList.get(0));
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SyncReferalServiceOfflineList() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            referralDoctorPerServiceList = referralServiceListDBAdapter.listAllUnSync();
+            if (referralDoctorPerServiceList != null && referralDoctorPerServiceList.size() > 0) {
+                for (int i = 0; i < referralDoctorPerServiceList.size(); i++) {
+                    try {
+                        Log.d(Constants.TAG, "Data Synchronising start date:" + DateFormat.getDateTimeInstance().format(new Date()));
+                        response = serviceConsumer.POST(Constants.REFERRAL_DOCTOR_ADD_UPDATE_PER_SERVICE_URL, objectMapper.unMap(referralDoctorPerServiceList.get(i)));
+                        Log.d(Constants.TAG, "Data Synchronising end date:" + DateFormat.getDateTimeInstance().format(new Date()));
+                        if (response != null) {
+                            responseString = response.body().string();
+                            responseCode = response.code();
+                            Log.d(Constants.TAG, "ResponseString:" + responseString);
+                            Log.d(Constants.TAG, "ResponseCode:" + responseCode);
+                            if (responseCode == Constants.HTTP_OK_200 || responseCode == Constants.HTTP_CREATED_201) {
+                                ArrayList<ReferralDoctorPerService> referralServiceList = objectMapper.map(responseString, ReferralDoctorPerService.class);
+                                referralServiceListDBAdapter.UpdateSyncLocalItem(referralDoctorPerServiceList.get(i).get_ID(), referralServiceList.get(0));
+                                ArrayList<ReferralDoctorPerService> referralServiceList1 = referralServiceListDBAdapter.listAll();
+                                Log.e("","");
                             }
                         }
                     } catch (Exception e) {
