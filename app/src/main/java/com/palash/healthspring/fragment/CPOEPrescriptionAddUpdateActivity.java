@@ -200,12 +200,6 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             medicine_Name = medicienNameArrayList.get(position).getItemName();
                             edt_medicine_rate.setText(medicienNameArrayList.get(position).getMRP());
                         }
-                        /*medicienNameArrayListDB = medicineNameAdapterDB.listAll(medicine_Name);
-                        edt_medicine_name.setText(medicine_Name);
-                        if (medicienNameArrayListDB != null && medicienNameArrayListDB.size() > 0) {
-                            medicine_ID = medicienNameArrayListDB.get(0).getID();
-                            edt_medicine_rate.setText(medicienNameArrayListDB.get(0).getMRP());
-                        }*/
                     }
                 });
             }

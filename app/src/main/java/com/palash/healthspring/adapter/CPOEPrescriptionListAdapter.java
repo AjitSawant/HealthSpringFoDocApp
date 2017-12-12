@@ -149,6 +149,7 @@ public class CPOEPrescriptionListAdapter extends BaseAdapter {
                     } else {
                         cpoeMedicineAdapter.updateUnSyncCurrentNotes(cpoeMedicineArrayList.get(position).get_ID());
                     }
+                    Constants.backFromAddEMR = false;
                     context.startActivity(new Intent(context, CPOEPrescriptionAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
                 }
             }

@@ -13,6 +13,7 @@ import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.fragment.CPOEInvestigationAddUpdateActivity;
+import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
@@ -113,6 +114,7 @@ public class CPOEInvestigationListAdapter extends BaseAdapter {
                     } else {
                         cpoeServiceAdapter.updateUnSyncCurrentNotes(cpoeServiceArrayList.get(position).get_ID());
                     }
+                    Constants.backFromAddEMR = false;
                     context.startActivity(new Intent(context, CPOEInvestigationAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
                 }
             }

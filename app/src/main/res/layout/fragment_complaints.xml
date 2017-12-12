@@ -33,16 +33,29 @@
                 android:textColor="@color/blue_box"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/chiefComplaints_edit"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@drawable/border_primary_dark"
-                android:focusable="false"
-                android:gravity="top"
-                android:maxHeight="80dp"
-                android:padding="10dp"
-                android:textSize="14sp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/chiefComplaints_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_primary_dark"
+                    android:focusable="false"
+                    android:gravity="top"
+                    android:maxHeight="80dp"
+                    android:padding="10dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/is_record_sync_tv1"
+                    android:layout_width="4dp"
+                    android:layout_height="60dp"
+                    android:background="@android:color/holo_red_light" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -92,16 +105,30 @@
                 android:textColor="@color/blue_box"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/assosciateComplaints_edit"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@drawable/border_primary_dark"
-                android:focusable="false"
-                android:gravity="top"
-                android:maxHeight="80dp"
-                android:padding="10dp"
-                android:textSize="14sp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/assosciateComplaints_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_primary_dark"
+                    android:focusable="false"
+                    android:gravity="top"
+                    android:maxHeight="80dp"
+                    android:padding="10dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/is_record_sync_tv2"
+                    android:layout_width="4dp"
+                    android:layout_height="60dp"
+                    android:background="@android:color/holo_red_light" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

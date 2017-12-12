@@ -22,8 +22,8 @@ public class Constants {
     public static boolean backFromAddEMR = false;
     public static final String KEY_REQUEST_DATA = "request_data";
 
-    public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
-    //public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
+    //public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
+    public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
 
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
     public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList?UnitId=";

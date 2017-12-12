@@ -1277,7 +1277,7 @@ public class DatabaseAdapter {
             long rowId = -1;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.ReferralServiceList.TABLE_NAME, null, null);
+                db.delete(DatabaseContract.BookAppointment.TABLE_NAME, null, null);
                 databaseContract.close();
 
                 ContentValues values = BookAppointmentToContentValues(bookAppointment);
@@ -3797,34 +3797,6 @@ public class DatabaseAdapter {
             return values;
         }
 
-        private ContentValues DiagnosisListToContentValuesUpdate(DiagnosisList elReferralDoctorPerService) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_ID, elReferralDoctorPerService.getID());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_UNITID, elReferralDoctorPerService.getUnitID());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_PATIENTID, elReferralDoctorPerService.getPatientID());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_PATIENTUNITID, elReferralDoctorPerService.getPatientUnitID());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_VISITID, elReferralDoctorPerService.getVisitId());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_DIAGNOSISID, elReferralDoctorPerService.getDiagnosisID());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_CODE, elReferralDoctorPerService.getCode());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_DIAGNOSISNAME, elReferralDoctorPerService.getDiagnosisName());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_DATE, elReferralDoctorPerService.getDate());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_ICDID, elReferralDoctorPerService.getICDId());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_PRIMARYDIAGNOSIS, elReferralDoctorPerService.getPrimaryDiagnosis());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_DIAGNOSISTYPEID, elReferralDoctorPerService.getDiagnosisTypeID());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_DIAGNOSISTYPE, elReferralDoctorPerService.getDiagnosisType());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_REMARK, elReferralDoctorPerService.getRemark());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_ADDEDBY, elReferralDoctorPerService.getAddedBy());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_STATUS, elReferralDoctorPerService.getStatus());
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_ISSTATUS, "0");
-                values.put(DatabaseContract.DiagnosisList.COLUMN_NAME_IS_SYNC, elReferralDoctorPerService.getIsSync());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
         private ArrayList<DiagnosisList> CursorToArrayList(Cursor result) {
             ArrayList<DiagnosisList> listDiagnosisList = null;
             try {
@@ -3850,6 +3822,7 @@ public class DatabaseAdapter {
                         elReferralDoctorPerService.setAddedBy(result.getString(result.getColumnIndex(DatabaseContract.DiagnosisList.COLUMN_NAME_ADDEDBY)));
                         elReferralDoctorPerService.setStatus(result.getString(result.getColumnIndex(DatabaseContract.DiagnosisList.COLUMN_NAME_STATUS)));
                         elReferralDoctorPerService.setISStatus(result.getString(result.getColumnIndex(DatabaseContract.DiagnosisList.COLUMN_NAME_ISSTATUS)));
+                        elReferralDoctorPerService.setIsSync(result.getString(result.getColumnIndex(DatabaseContract.DiagnosisList.COLUMN_NAME_IS_SYNC)));
                         listDiagnosisList.add(elReferralDoctorPerService);
                     }
                     result.close();
@@ -3970,7 +3943,7 @@ public class DatabaseAdapter {
         public long updateISStatus(DiagnosisList elReferralDoctorPerService) {
             long rowId = -1;
             try {
-                ContentValues values = DiagnosisListToContentValuesUpdate(elReferralDoctorPerService);
+                ContentValues values = DiagnosisListToContentValues(elReferralDoctorPerService);
                 String whereClause = null;
                 whereClause = DatabaseContract.DiagnosisList.COLUMN_NAME_ID + "='" + elReferralDoctorPerService.getID() + "'";
                 if (values != null) {
@@ -3985,15 +3958,6 @@ public class DatabaseAdapter {
                 databaseContract.close();
             }
             return rowId;
-        }
-
-        public void Updatelist(String PatientID, String VisitID) {
-            ArrayList<DiagnosisList> listDiagnosisList = listAll(PatientID, VisitID);
-            if (listDiagnosisList != null && listDiagnosisList.size() > 0) {
-                for (int index = 0; index < listDiagnosisList.size(); index++) {
-                    updateISStatus(listDiagnosisList.get(index));
-                }
-            }
         }
 
         public void delete(String PatientID, String VisitID) {
@@ -4150,7 +4114,7 @@ public class DatabaseAdapter {
         public long updateUnSync(DiagnosisList elDiagnosisList) {
             long rowId = -1;
             try {
-                ContentValues values = DiagnosisListToContentValuesUpdate(elDiagnosisList);
+                ContentValues values = DiagnosisListToContentValues(elDiagnosisList);
                 String whereClause = null;
                 whereClause = DatabaseContract.DiagnosisList._ID + "='" + elDiagnosisList.get_ID() + "'";
                 if (values != null) {
@@ -4189,18 +4153,36 @@ public class DatabaseAdapter {
             return rowId;
         }
 
-        public long RemoveSyncItem(int _ID) {
-            long rowId = -1;
-            try {
-                String whereClause = null;
-                whereClause = DatabaseContract.DiagnosisList._ID + "='" + _ID + "'";
-                rowId = databaseContract.open().delete(DatabaseContract.DiagnosisList.TABLE_NAME, whereClause, null);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
+        public String CheckDiagnosis(DiagnosisList elDiagnosisList) {
+            String returnValue = "";
+            ArrayList<DiagnosisList> elDiagnosisArrayList = listAll(elDiagnosisList.getPatientID(), elDiagnosisList.getVisitId());
+            Boolean matchPrimary = false;
+            for (int i = 0; i < elDiagnosisArrayList.size(); i++) {
+                if (elDiagnosisArrayList.get(i).getDiagnosisTypeID().equals("1")) {
+                    matchPrimary = true;
+                }
             }
-            return rowId;
+
+            if (elDiagnosisList.getDiagnosisTypeID().equals("1")) {
+                if (matchPrimary == false) {
+                    //create(elDiagnosisList);
+                    returnValue = "1";
+                    return returnValue;
+                }else if(matchPrimary == true){
+                    returnValue = "4";
+                    return returnValue;
+                }
+            } else if (elDiagnosisList.getDiagnosisTypeID().equals("0")) {
+                if (matchPrimary == false) {
+                    returnValue = "3";
+                    return returnValue;
+                }else if(matchPrimary == true){
+                    //create(elDiagnosisList);
+                    returnValue = "1";
+                    return returnValue;
+                }
+            }
+            return returnValue;
         }
     }
 
@@ -6185,56 +6167,28 @@ public class DatabaseAdapter {
                 DatabaseContract.ComplaintsList.COLUMN_NAME_IS_UPDATE
         };
 
-        private ContentValues ComplaintsListToContentValues(ComplaintsList elReferralDoctorPerService) {
+        private ContentValues ComplaintsListToContentValues(ComplaintsList elComplaintsList) {
             ContentValues values = null;
             try {
                 values = new ContentValues();
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ID, elReferralDoctorPerService.getID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UNITID, elReferralDoctorPerService.getUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_VISITID, elReferralDoctorPerService.getVisitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_VISIT_UNITID, elReferralDoctorPerService.getVisitUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_PATIENTID, elReferralDoctorPerService.getPatientID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_PATIENT_UNITID, elReferralDoctorPerService.getPatientUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_DOCTORID, elReferralDoctorPerService.getDoctorID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_CHIEF_COMPLAINTS, elReferralDoctorPerService.getChiefComplaints());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ASSOCIATE_COMPLAINTS, elReferralDoctorPerService.getAssosciateComplaints());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_REMARK, elReferralDoctorPerService.getRemark());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_STATUS, elReferralDoctorPerService.getStatus());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_CREATED_UNITID, elReferralDoctorPerService.getCreatedUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATED_UNITID, elReferralDoctorPerService.getUpdatedUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ADDEDBY, elReferralDoctorPerService.getAddedBy());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ADDED_DATETIME, elReferralDoctorPerService.getAddedDateTime());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATEDBY, elReferralDoctorPerService.getUpdatedBy());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATED_DATETIME, elReferralDoctorPerService.getUpdatedDateTime());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_IS_SYNC, elReferralDoctorPerService.getIsSync());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
-        private ContentValues ComplaintsListToContentValuesUpdate(ComplaintsList elReferralDoctorPerService) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ID, elReferralDoctorPerService.getID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UNITID, elReferralDoctorPerService.getUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_VISITID, elReferralDoctorPerService.getVisitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_VISIT_UNITID, elReferralDoctorPerService.getVisitUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_PATIENTID, elReferralDoctorPerService.getPatientID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_PATIENT_UNITID, elReferralDoctorPerService.getPatientUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_DOCTORID, elReferralDoctorPerService.getDoctorID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_CHIEF_COMPLAINTS, elReferralDoctorPerService.getChiefComplaints());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ASSOCIATE_COMPLAINTS, elReferralDoctorPerService.getAssosciateComplaints());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_REMARK, elReferralDoctorPerService.getRemark());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_STATUS, elReferralDoctorPerService.getStatus());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_CREATED_UNITID, elReferralDoctorPerService.getCreatedUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATED_UNITID, elReferralDoctorPerService.getUpdatedUnitID());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ADDEDBY, elReferralDoctorPerService.getAddedBy());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ADDED_DATETIME, elReferralDoctorPerService.getAddedDateTime());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATEDBY, elReferralDoctorPerService.getUpdatedBy());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATED_DATETIME, elReferralDoctorPerService.getUpdatedDateTime());
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_IS_SYNC, elReferralDoctorPerService.getIsSync());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ID, elComplaintsList.getID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UNITID, elComplaintsList.getUnitID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_VISITID, elComplaintsList.getVisitID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_VISIT_UNITID, elComplaintsList.getVisitUnitID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_PATIENTID, elComplaintsList.getPatientID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_PATIENT_UNITID, elComplaintsList.getPatientUnitID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_DOCTORID, elComplaintsList.getDoctorID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_CHIEF_COMPLAINTS, elComplaintsList.getChiefComplaints());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ASSOCIATE_COMPLAINTS, elComplaintsList.getAssosciateComplaints());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_REMARK, elComplaintsList.getRemark());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_STATUS, elComplaintsList.getStatus());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_CREATED_UNITID, elComplaintsList.getCreatedUnitID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATED_UNITID, elComplaintsList.getUpdatedUnitID());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ADDEDBY, elComplaintsList.getAddedBy());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_ADDED_DATETIME, elComplaintsList.getAddedDateTime());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATEDBY, elComplaintsList.getUpdatedBy());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_UPDATED_DATETIME, elComplaintsList.getUpdatedDateTime());
+                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_IS_SYNC, elComplaintsList.getIsSync());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -6387,7 +6341,7 @@ public class DatabaseAdapter {
         public long updateISStatus(ComplaintsList complaintsList) {
             long rowId = -1;
             try {
-                ContentValues values = ComplaintsListToContentValuesUpdate(complaintsList);
+                ContentValues values = ComplaintsListToContentValues(complaintsList);
                 String whereClause = null;
                 whereClause = DatabaseContract.ComplaintsList.COLUMN_NAME_ID + "='" + complaintsList.getID() + "'";
                 if (values != null) {
@@ -6563,54 +6517,16 @@ public class DatabaseAdapter {
             return rowId;
         }
 
-        public long updateUnSync(ComplaintsList elComplaintsList) {
+        public long UpdateSyncLocalItem(int _ID, ComplaintsList elComplaintsList) {
             long rowId = -1;
             try {
-                ContentValues values = ComplaintsListToContentValuesUpdate(elComplaintsList);
+                ContentValues values = ComplaintsListToContentValues(elComplaintsList);
                 String whereClause = null;
-                whereClause = DatabaseContract.ComplaintsList._ID + "='" + elComplaintsList.get_ID() + "'";
+                whereClause = DatabaseContract.ComplaintsList._ID + "='" + _ID + "'";
                 if (values != null) {
                     rowId = databaseContract.open().update(
                             DatabaseContract.ComplaintsList.TABLE_NAME, values, whereClause, null);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public long updateUnSyncCurrentNotes(int ID) {
-            long rowId = -1;
-            SQLiteDatabase sqLiteDatabase = null;
-            try {
-                sqLiteDatabase = databaseContract.open();
-                ContentValues values = new ContentValues();
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_IS_UPDATE, "0");
-                String whereClause = null;
-                if (values != null) {
-                    rowId = sqLiteDatabase.update(DatabaseContract.ComplaintsList.TABLE_NAME, values, whereClause, null);
-                }
-                whereClause = DatabaseContract.ComplaintsList._ID + "='" + ID + "'";
-                values.put(DatabaseContract.ComplaintsList.COLUMN_NAME_IS_UPDATE, "1");
-                if (values != null) {
-                    rowId = sqLiteDatabase.update(DatabaseContract.ComplaintsList.TABLE_NAME, values, whereClause, null);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public long RemoveSyncItem(int _ID) {
-            long rowId = -1;
-            try {
-                String whereClause = null;
-                whereClause = DatabaseContract.ComplaintsList._ID + "='" + _ID + "'";
-                rowId = databaseContract.open().delete(DatabaseContract.ComplaintsList.TABLE_NAME, whereClause, null);
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {

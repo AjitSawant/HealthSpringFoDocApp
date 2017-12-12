@@ -88,14 +88,14 @@ public class ReferralFragment extends Fragment {
             emr_referral_service_List = (ListView) rootView.findViewById(R.id.emr_referral_service_List);
             emr_referral_service_empty = (TextView) rootView.findViewById(R.id.emr_referral_service_empty);
             emr_referral_service_chronometer = (Chronometer) rootView.findViewById(R.id.emr_referral_service_chronometer);
-            emr_referral_service_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                    //flagTask();
-                    LoadList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
-                    //MasterFlagTask();
-                }
-            });
+//            emr_referral_service_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+//                @Override
+//                public void onChronometerTick(Chronometer chronometer) {
+//                    //flagTask();
+//                    LoadList();
+//                    //MasterFlagTask();
+//                }
+//            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,7 +125,7 @@ public class ReferralFragment extends Fragment {
         emr_referral_service_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_referral_service_chronometer.start();
         if (Constants.backFromAddEMR == false) {
-            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+            refreshList();
             if (localSetting.isNetworkAvailable(context)) {
                 new GetReferralDoctorService().execute();
             } else {
@@ -148,29 +148,8 @@ public class ReferralFragment extends Fragment {
         SchedulerManager.getInstance().runNow(getActivity(), SynchronizationTask.class, 1);
     }*/
 
-    private void MasterFlagTask() {
-        masterflag = masterFlagAdapter.listCurrent();
-        masterflag.setFlag(Constants.EMR_SERVICE_MASTER_TASK);
-        masterFlagAdapter.create(masterflag);
-        SchedulerManager.getInstance().runNow(getActivity(), MasterTask.class, 1);
-    }
-
-    private void LoadList(String PatientID, String VisitID) {
-        try {
-            currentCount = referralServiceListDBAdapter.CountID(PatientID, VisitID);
-            if (referralDoctorPerServicearrayList != null) {
-                listCount = referralDoctorPerServicearrayList.size();
-            }
-            if (currentCount != listCount) {
-                refreshList(PatientID, VisitID);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void refreshList(String PatientID, String VisitID) {
-        referralDoctorPerServicearrayList = referralServiceListDBAdapter.listAll(PatientID, VisitID);
+    private void refreshList() {
+        referralDoctorPerServicearrayList = referralServiceListDBAdapter.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
         if (referralDoctorPerServicearrayList != null && referralDoctorPerServicearrayList.size() > 0) {
             referralDoctorServiceListAdapter = new ReferralDoctorServiceListAdapter(getActivity(), referralDoctorPerServicearrayList);
             emr_referral_service_List.setAdapter(referralDoctorServiceListAdapter);
@@ -195,7 +174,6 @@ public class ReferralFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add:
-                MasterFlagTask();
                 Constants.backFromAddEMR = false;
                 context.startActivity(new Intent(context, ReferralAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
@@ -255,14 +233,14 @@ public class ReferralFragment extends Fragment {
                         referralServiceListDBAdapter.create(referralDoctorPerServicearrayList.get(index));
                     }
                 }
-            } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
+            } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                 //referralServiceListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 emr_referral_service_empty.setVisibility(View.VISIBLE);
                 emr_referral_service_List.setVisibility(View.GONE);
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
-            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+            refreshList();
             super.onPostExecute(result);
         }
     }

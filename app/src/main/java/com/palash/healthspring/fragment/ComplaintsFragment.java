@@ -14,8 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
@@ -75,7 +75,8 @@ public class ComplaintsFragment extends Fragment {
     private EditText assosciateComplaints_edit;
     private MaterialSpinner chiefComplaints_dropdown;
     private MaterialSpinner assosciateComplaints_dropdown;
-    private Chronometer complaints_list_chronometer;
+    private TextView is_record_sync_tv1;
+    private TextView is_record_sync_tv2;
 
     private Flag masterflag;
     private ComplaintsList elComplaintsList;
@@ -130,7 +131,8 @@ public class ComplaintsFragment extends Fragment {
             assosciateComplaints_edit = (EditText) rootView.findViewById(R.id.assosciateComplaints_edit);
             chiefComplaints_dropdown = (MaterialSpinner) rootView.findViewById(R.id.chiefComplaints_dropdown);
             assosciateComplaints_dropdown = (MaterialSpinner) rootView.findViewById(R.id.assosciateComplaints_dropdown);
-            complaints_list_chronometer = (Chronometer) rootView.findViewById(R.id.complaints_list_chronometer);
+            is_record_sync_tv1 = (TextView) rootView.findViewById(R.id.is_record_sync_tv1);
+            is_record_sync_tv2 = (TextView) rootView.findViewById(R.id.is_record_sync_tv2);
 
             if (localSetting.fragment_name.equals("VisitList")) {
                 chiefComplaints_dropdown.setVisibility(View.GONE);
@@ -139,12 +141,6 @@ public class ComplaintsFragment extends Fragment {
 
             simpleDF = new SimpleDateFormat(Constants.TIME_FORMAT, Locale.US);
 
-            complaints_list_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                    refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -257,8 +253,8 @@ public class ComplaintsFragment extends Fragment {
     @Override
     public void onResume() {
         if (Constants.backFromAddEMR == false) {
+            refreshList();
             if (localSetting.isNetworkAvailable(context)) {
-                refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 new GetComplaints().execute();
             } else {
                 Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
@@ -279,8 +275,8 @@ public class ComplaintsFragment extends Fragment {
         SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
     }
 
-    private void refreshList(String PatientID, String VisitID) {
-        complaintsLists = complaintsListDBAdapter.listAll(PatientID, VisitID);
+    private void refreshList() {
+        complaintsLists = complaintsListDBAdapter.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
         if (complaintsLists != null && complaintsLists.size() > 0) {
             elComplaintsList = complaintsLists.get(0);
             if (elComplaintsList.getChiefComplaints() != null && elComplaintsList.getChiefComplaints().length() > 0) {
@@ -289,39 +285,25 @@ public class ComplaintsFragment extends Fragment {
             } else {
                 chiefComplaints_edit.setHint(noComplaints);
             }
-
             if (elComplaintsList.getAssosciateComplaints() != null && elComplaintsList.getAssosciateComplaints().length() > 0) {
                 assosciateComplaints_edit.setText(elComplaintsList.getAssosciateComplaints());
                 selectedAssociateComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getAssosciateComplaints().split(",")));
             } else {
                 assosciateComplaints_edit.setHint(noComplaints);
             }
+
+            if (elComplaintsList.getIsSync() != null && elComplaintsList.getIsSync().equals("1")) {
+                is_record_sync_tv1.setVisibility(View.VISIBLE);
+                is_record_sync_tv2.setVisibility(View.VISIBLE);
+            } else {
+                is_record_sync_tv1.setVisibility(View.GONE);
+                is_record_sync_tv2.setVisibility(View.GONE);
+            }
         } else {
             chiefComplaints_edit.setHint(noComplaints);
             assosciateComplaints_edit.setHint(noComplaints);
         }
     }
-
-    /*private void SetComplaintData() {
-        complaintsLists = complaintsListDBAdapter.listAll();
-        if (complaintsLists != null && complaintsLists.size() > 0) {
-            elComplaintsList = complaintsLists.get(0);
-
-            if (elComplaintsList.getChiefComplaints() != null && elComplaintsList.getChiefComplaints().length() > 0) {
-                selectedChiefComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getChiefComplaints().split(",")));
-                chiefComplaints_edit.setText(selectedChiefComplaintsList.toString().replace("[", "").replace("]", ""));
-            } else {
-                chiefComplaints_edit.setText("No Complaints");
-            }
-
-            if (elComplaintsList.getAssosciateComplaints() != null && elComplaintsList.getAssosciateComplaints().length() > 0) {
-                selectedAssociateComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getAssosciateComplaints().split(",")));
-                assosciateComplaints_edit.setText(selectedAssociateComplaintsList.toString().replace("[", "").replace("]", ""));
-            } else {
-                assosciateComplaints_edit.setText("No Complaints");
-            }
-        }
-    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -336,7 +318,11 @@ public class ComplaintsFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_refresh:
                 SetSpinnerAdapter();
-                new GetComplaints().execute();
+                if (localSetting.isNetworkAvailable(context)) {
+                    new GetComplaints().execute();
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.menu_toolbar_save:
                 if (assosciateComplaints_edit.getText().toString().equals("") && assosciateComplaints_edit.getText().toString().trim().length() == 0
@@ -406,8 +392,7 @@ public class ComplaintsFragment extends Fragment {
                                 elComplaintsList.setAssosciateComplaints("");
                             }
 
-
-                            new AddUpdateComplaints().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -415,6 +400,27 @@ public class ComplaintsFragment extends Fragment {
                     .show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void callToWebservice() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new AddUpdateComplaints().execute();
+        } else {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(context.getResources().getString(R.string.offline_net_alert))
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            complaintsListDBAdapter.createUnSync(elComplaintsList);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
         }
     }
 
@@ -498,11 +504,8 @@ public class ComplaintsFragment extends Fragment {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                /*if(isUpdate.equals("Yes")) {
-                                    vitalsListAdapterDB.updateUnSync(elVitalsList);
-                                }else{
-                                    vitalsListAdapterDB.createUnSync(elVitalsList);
-                                }*/
+                                complaintsListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                                complaintsListDBAdapter.createUnSync(elComplaintsList);
                                 dialog.dismiss();
                             }
                         })
@@ -558,18 +561,18 @@ public class ComplaintsFragment extends Fragment {
             if (responseCode == Constants.HTTP_OK_200) {
                 complaintsLists = jsonObjectMapper.map(responseString, ComplaintsList.class);
                 if (complaintsLists != null && complaintsLists.size() > 0) {
+                    complaintsListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                     for (int index = 0; index < complaintsLists.size(); index++) {
                         complaintsListDBAdapter.create(complaintsLists.get(index));
                     }
                 }
             } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
-                complaintsListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             super.onPostExecute(result);
-
-            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+            refreshList();
         }
     }
 }

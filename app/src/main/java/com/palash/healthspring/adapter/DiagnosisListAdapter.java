@@ -70,6 +70,7 @@ public class DiagnosisListAdapter extends BaseAdapter {
                 holder.row_diagnosis_list_tv_diagnosis_code = (TextView) convertView.findViewById(R.id.row_diagnosis_list_tv_diagnosis_code);
                 holder.row_diagnosis_list_tv_diagnosis_type = (TextView) convertView.findViewById(R.id.row_diagnosis_list_tv_diagnosis_type);
                 holder.row_diagnosis_list_tv_diagnosis_time = (TextView) convertView.findViewById(R.id.row_diagnosis_list_tv_diagnosis_time);
+                holder.is_record_sync_tv = (TextView) convertView.findViewById(R.id.is_record_sync_tv);
                 //holder.row_diagnosis_list_tv_remark = (TextView) convertView.findViewById(R.id.row_diagnosis_list_tv_remark);
                 convertView.setTag(holder);
             } else {
@@ -93,6 +94,12 @@ public class DiagnosisListAdapter extends BaseAdapter {
                 holder.row_diagnosis_list_tv_diagnosis_type.setTextColor(context.getResources().getColor(R.color.colorOrange));
             }
 
+            if (diagnosisListArrayList.get(position).getIsSync() != null && diagnosisListArrayList.get(position).getIsSync().equals("1")) {
+                holder.is_record_sync_tv.setVisibility(View.VISIBLE);
+            }else {
+                holder.is_record_sync_tv.setVisibility(View.GONE);
+            }
+
             //holder.row_diagnosis_list_tv_remark.setText(diagnosisListArrayList.get(position).getRemark());
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,6 +113,7 @@ public class DiagnosisListAdapter extends BaseAdapter {
                     } else {
                         diagnosisListAdapter.updateUnSyncCurrentNotes(diagnosisListArrayList.get(position).get_ID());
                     }
+                    Constants.backFromAddEMR = false;
                     context.startActivity(new Intent(context, DiagnosisListAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
                 }
             }
@@ -121,6 +129,7 @@ public class DiagnosisListAdapter extends BaseAdapter {
         TextView row_diagnosis_list_tv_diagnosis_type;
         TextView row_diagnosis_list_tv_diagnosis_time;
         TextView row_diagnosis_list_tv_remark;
+        TextView is_record_sync_tv;
     }
 }
 

@@ -106,15 +106,6 @@ public class DiagnosisFragment extends Fragment {
             emr_diagnosis_List = (ListView) rootView.findViewById(R.id.emr_diagnosis_List);
             emr_diagnosis_empty = (TextView) rootView.findViewById(R.id.emr_diagnosis_empty);
             emr_diagnosis_chronometer = (Chronometer) rootView.findViewById(R.id.emr_diagnosis_chronometer);
-
-            emr_diagnosis_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                    //flagTask();
-                    LoadList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
-                    //MasterFlagTask();
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,6 +116,7 @@ public class DiagnosisFragment extends Fragment {
         emr_diagnosis_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_diagnosis_chronometer.start();
         if (Constants.backFromAddEMR == false) {
+            refreshList();
             if (localSetting.isNetworkAvailable(context)) {
                 new GetDiagnosisListTask().execute();
             } else {
@@ -140,36 +132,8 @@ public class DiagnosisFragment extends Fragment {
         super.onPause();
     }
 
-   /*private void MasterFlagTask() {
-        masterflag = masterFlagAdapter.listCurrent();
-        masterflag.setFlag(Constants.EMR_DIAGNOSIS_MASTER_TASK);
-        masterFlagAdapter.create(masterflag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
-    }*/
-
-    /*private void flagTask() {
-        flag = flagAdapter.listCurrent();
-        flag.setFlag(Constants.EMR_DIAGNOSIS_TASK);
-        flagAdapter.create(flag);
-        SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-    }*/
-
-    private void LoadList(String PatientID, String VisitID) {
-        try {
-            currentCount = diagnosisListAdapterDB.CountID(PatientID, VisitID);
-            if (diagnosisListArrayList != null) {
-                listCount = diagnosisListArrayList.size();
-            }
-            if (currentCount != listCount) {
-                refreshList(PatientID, VisitID);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void refreshList(String PatientID, String VisitID) {
-        diagnosisListArrayList = diagnosisListAdapterDB.listAll(PatientID, VisitID);
+    private void refreshList() {
+        diagnosisListArrayList = diagnosisListAdapterDB.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
         if (diagnosisListArrayList != null && diagnosisListArrayList.size() > 0) {
             diagnosisListAdapter = new DiagnosisListAdapter(context, diagnosisListArrayList);
             emr_diagnosis_List.setAdapter(diagnosisListAdapter);
@@ -302,7 +266,7 @@ public class DiagnosisFragment extends Fragment {
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
-            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+            refreshList();
             super.onPostExecute(result);
         }
     }

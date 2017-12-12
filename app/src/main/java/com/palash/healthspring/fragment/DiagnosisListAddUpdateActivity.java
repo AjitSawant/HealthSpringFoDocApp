@@ -82,6 +82,7 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat simpleDF;
     private String CurrentDate;
+    private Boolean isPrimaryUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,6 +221,9 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
             int posDiagnosisTypeID = 0;
             try {
                 posDiagnosisTypeID = Integer.parseInt(diagnosisList.getDiagnosisTypeID());
+                if (diagnosisList.getDiagnosisTypeID().equals("1")) {
+                    isPrimaryUpdate = true;
+                }
             } catch (NumberFormatException nfe) {
                 nfe.printStackTrace();
             }
@@ -323,8 +327,10 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                             diagnosisList.setDiagnosisType(daignosisTypeMasterArrayList.get(pos_diagnosis_type).getDescription());
                             if (pos_diagnosis_type == 0) {
                                 diagnosisList.setPrimaryDiagnosis("1");
+                                diagnosisList.setDiagnosisTypeID("1");
                             } else {
                                 diagnosisList.setPrimaryDiagnosis("0");
+                                diagnosisList.setDiagnosisTypeID("0");
                             }
                             diagnosisList.setRemark(diagnosis_list_edt_remark.getText().toString());
                             diagnosisList.setAddedBy(bookAppointmentArrayList.get(0).getDoctorID());
@@ -332,7 +338,7 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                             diagnosisList.setIsSync("1");
                             diagnosisList.setDate(CurrentDate);
 
-                            new DiagnosisListAddUpdateTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -359,27 +365,29 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                             if (pos_diagnosis_type > 0) {
                                 pos_diagnosis_type = pos_diagnosis_type - 1;
                             }
-                            //diagnosisList.setID(diagnosisListArrayList.get(0).getID());
-                            //diagnosisList.setUnitID(diagnosisListArrayList.get(0).getUnitID());
-                            //diagnosisList.setPatientID(diagnosisListArrayList.get(0).getPatientID());
-                            //diagnosisList.setPatientUnitID(diagnosisListArrayList.get(0).getPatientUnitID());
-                            //diagnosisList.setVisitId(diagnosisListArrayList.get(0).getVisitId());
-                            diagnosisList.setDiagnosisID(Diagnosis_id);
-                            diagnosisList.setCode(diagnosis_list_edt_dignosis_code.getText().toString());
-                            diagnosisList.setDiagnosisName(Diagnosis_name);
-                            diagnosisList.setDiagnosisTypeID(daignosisTypeMasterArrayList.get(pos_diagnosis_type).getID());
-                            diagnosisList.setDiagnosisType(daignosisTypeMasterArrayList.get(pos_diagnosis_type).getDescription());
-                            if (pos_diagnosis_type == 0) {
-                                diagnosisList.setPrimaryDiagnosis("1");
+                            if (isPrimaryUpdate == true && pos_diagnosis_type != 0) {
+                                localSetting.alertbox(context, "At least One Primary Diagnosis should be selected.", false);
                             } else {
-                                diagnosisList.setPrimaryDiagnosis("0");
-                            }
-                            diagnosisList.setRemark(diagnosis_list_edt_remark.getText().toString());
-                            diagnosisList.setICDId(Diagnosis_id);
-                            diagnosisList.setIsSync("1");
-                            diagnosisList.setDate(CurrentDate);
+                                diagnosisList.setDiagnosisID(Diagnosis_id);
+                                diagnosisList.setCode(diagnosis_list_edt_dignosis_code.getText().toString());
+                                diagnosisList.setDiagnosisName(Diagnosis_name);
+                                diagnosisList.setDiagnosisTypeID(daignosisTypeMasterArrayList.get(pos_diagnosis_type).getID());
+                                diagnosisList.setDiagnosisType(daignosisTypeMasterArrayList.get(pos_diagnosis_type).getDescription());
+                                if (pos_diagnosis_type == 0) {
+                                    diagnosisList.setPrimaryDiagnosis("1");
+                                    diagnosisList.setDiagnosisTypeID("1");
+                                } else {
+                                    diagnosisList.setPrimaryDiagnosis("0");
+                                    diagnosisList.setDiagnosisTypeID("0");
+                                }
 
-                            new DiagnosisListAddUpdateTask().execute();
+                                diagnosisList.setRemark(diagnosis_list_edt_remark.getText().toString());
+                                diagnosisList.setICDId(Diagnosis_id);
+                                diagnosisList.setIsSync("1");
+                                diagnosisList.setDate(CurrentDate);
+
+                                callToWebservice();
+                            }
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -387,6 +395,42 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                     .show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void callToWebservice() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new DiagnosisListAddUpdateTask().execute();
+        } else {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(context.getResources().getString(R.string.offline_net_alert))
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String status = diagnosisListAdapterDB.CheckDiagnosis(diagnosisList);
+                            if (status.equals("1")) {
+                                if (isUpdate.equals("Yes")) {
+                                    diagnosisListAdapterDB.updateUnSync(diagnosisList);
+                                } else {
+                                    diagnosisListAdapterDB.createUnSync(diagnosisList);
+                                }
+                                Clear();
+                                finish();
+                            } else if (status.equals("3")) {
+                                dialog.dismiss();
+                                localSetting.alertbox(context, "At least One Primary Diagnosis should be selected.", false);
+                            } else if (status.equals("4")) {
+                                dialog.dismiss();
+                                localSetting.alertbox(context, "Only one primary Diagnosis allowed.", false);
+                            }
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
         }
     }
 
@@ -466,8 +510,8 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                 } else if (responseCode == Constants.HTTP_AMBIGUOUS_300) {
                     localSetting.alertbox(context, "Only one primary Diagnosis allowed.", false);
                 } else {
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    /*new AlertDialog
+                    //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage(context.getResources().getString(R.string.offline_alert))
@@ -475,18 +519,28 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (isUpdate.equals("Yes")) {
-                                        diagnosisListAdapterDB.updateUnSync(diagnosisList);
-                                    } else {
-                                        diagnosisListAdapterDB.createUnSync(diagnosisList);
+                                    String status = diagnosisListAdapterDB.CheckDiagnosis(diagnosisList);
+                                    if (status.equals("1")) {
+                                        dialog.dismiss();
+                                        if (isUpdate.equals("Yes")) {
+                                            diagnosisListAdapterDB.updateUnSync(diagnosisList);
+                                        } else {
+                                            diagnosisListAdapterDB.createUnSync(diagnosisList);
+                                        }
+                                        Clear();
+                                        finish();
+                                    } else if (status.equals("3")) {
+                                        dialog.dismiss();
+                                        localSetting.alertbox(context, "At least One Primary Diagnosis should be selected.", false);
+                                    } else if (status.equals("4")) {
+                                        dialog.dismiss();
+                                        localSetting.alertbox(context, "Only one primary Diagnosis allowed.", false);
                                     }
-                                    Clear();
-                                    finish();
                                 }
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
-                            .show();*/
+                            .show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

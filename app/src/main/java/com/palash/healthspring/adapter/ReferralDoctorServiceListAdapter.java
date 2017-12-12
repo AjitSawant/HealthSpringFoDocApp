@@ -15,6 +15,7 @@ import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
 import com.palash.healthspring.fragment.CPOEInvestigationAddUpdateActivity;
 import com.palash.healthspring.fragment.ReferralAddUpdateActivity;
+import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
@@ -113,6 +114,7 @@ public class ReferralDoctorServiceListAdapter extends BaseAdapter {
                     } else {
                         referralServiceListDBAdapter.updateUnSyncCurrentNotes(referralDoctorPerServicearrayList.get(position).get_ID());
                     }
+                    Constants.backFromAddEMR = false;
                     context.startActivity(new Intent(context, ReferralAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
                 }
             }
