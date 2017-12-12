@@ -391,8 +391,8 @@ public class ComplaintsFragment extends Fragment {
                             } else {
                                 elComplaintsList.setAssosciateComplaints("");
                             }
-
                             callToWebservice();
+                            //new AddUpdateComplaints().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -415,7 +415,9 @@ public class ComplaintsFragment extends Fragment {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            complaintsListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                             complaintsListDBAdapter.createUnSync(elComplaintsList);
+                            dialog.dismiss();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)

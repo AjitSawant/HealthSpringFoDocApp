@@ -132,7 +132,7 @@
             android:theme="@style/myAppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".fragment.DiagnosisListAddUpdateActivity"
+            android:name=".fragment.DiagnosisAddUpdateActivity"
             android:label="@string/diagnosis_add"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />

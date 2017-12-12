@@ -203,7 +203,7 @@ public class DiagnosisFragment extends Fragment {
             case R.id.menu_toolbar_add:
                 //MasterFlagTask();
                 Constants.backFromAddEMR = false;
-                context.startActivity(new Intent(context, DiagnosisListAddUpdateActivity.class).putExtra("isUpdate", "No"));
+                context.startActivity(new Intent(context, DiagnosisAddUpdateActivity.class).putExtra("isUpdate", "No"));
                 return true;
             case R.id.menu_toolbar_refresh:
                 new GetDiagnosisListTask().execute();

@@ -348,6 +348,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             elReferralDoctorPerService.setRate(referral_edt_rate.getText().toString());
                             elReferralDoctorPerService.setIsSync("1");
                             callToWebservice();
+                            //new ReferralDoctorAddUpdateTask().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -375,6 +376,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                             elReferralDoctorPerService.setRate(referral_edt_rate.getText().toString());
                             elReferralDoctorPerService.setIsSync("1");
                             callToWebservice();
+                            //new ReferralDoctorAddUpdateTask().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)

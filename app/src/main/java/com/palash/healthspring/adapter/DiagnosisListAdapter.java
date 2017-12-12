@@ -12,7 +12,7 @@ import com.palash.healthspring.R;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.DiagnosisList;
-import com.palash.healthspring.fragment.DiagnosisListAddUpdateActivity;
+import com.palash.healthspring.fragment.DiagnosisAddUpdateActivity;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
@@ -114,7 +114,7 @@ public class DiagnosisListAdapter extends BaseAdapter {
                         diagnosisListAdapter.updateUnSyncCurrentNotes(diagnosisListArrayList.get(position).get_ID());
                     }
                     Constants.backFromAddEMR = false;
-                    context.startActivity(new Intent(context, DiagnosisListAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
+                    context.startActivity(new Intent(context, DiagnosisAddUpdateActivity.class).putExtra("isUpdate", "Yes"));
                 }
             }
         });

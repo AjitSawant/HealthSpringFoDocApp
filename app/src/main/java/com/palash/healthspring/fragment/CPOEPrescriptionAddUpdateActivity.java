@@ -494,6 +494,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             Msg = "Medicine added successfully";
 
                             callToWebservice();
+                            //new CPOEMedicineAddUpdateTask().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -528,11 +529,6 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                             if (Posmedicinefrequentcy > 0) {
                                 Posmedicinefrequentcy = Posmedicinefrequentcy - 1;
                             }
-                            //cpoePrescription.setID(cpoePrescriptionArrayList.get(0).getID());
-                            //cpoePrescription.setUnitID(cpoePrescriptionArrayList.get(0).getUnitID());
-                            //cpoePrescription.setPatientID(cpoePrescriptionArrayList.get(0).getPatientID());
-                            //cpoePrescription.setPatientUnitID(cpoePrescriptionArrayList.get(0).getUnitID());
-                            //cpoePrescription.setVisitID(cpoePrescriptionArrayList.get(0).getVisitID());
                             cpoePrescription.setDrugID(medicine_ID);
                             cpoePrescription.setRate(edt_medicine_rate.getText().toString());
                             cpoePrescription.setItemName(medicine_Name);
@@ -555,6 +551,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
 
                             Msg = "Medicine updated successfully";
                             callToWebservice();
+                            //new CPOEMedicineAddUpdateTask().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)

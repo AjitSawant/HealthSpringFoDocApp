@@ -316,6 +316,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             cpoeService.setRate(cpoeservice_edt_rate.getText().toString());
                             cpoeService.setIsSync("1");
                             callToWebservice();
+                            //new cpoeServiceAddUpdateTask().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -358,6 +359,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                             cpoeService.setRate(cpoeservice_edt_rate.getText().toString());
                             cpoeService.setIsSync("1");
                             callToWebservice();
+                            //new cpoeServiceAddUpdateTask().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)

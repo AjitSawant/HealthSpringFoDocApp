@@ -47,7 +47,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 /**
  * Created by manishas on 7/26/2016.
  */
-public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements View.OnClickListener {
+public class DiagnosisAddUpdateActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context context;
     private LocalSetting localSetting;
@@ -337,8 +337,8 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                             diagnosisList.setICDId(Diagnosis_id);
                             diagnosisList.setIsSync("1");
                             diagnosisList.setDate(CurrentDate);
-
                             callToWebservice();
+                            //new DiagnosisListAddUpdateTask().execute();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -380,13 +380,12 @@ public class DiagnosisListAddUpdateActivity extends AppCompatActivity implements
                                     diagnosisList.setPrimaryDiagnosis("0");
                                     diagnosisList.setDiagnosisTypeID("0");
                                 }
-
                                 diagnosisList.setRemark(diagnosis_list_edt_remark.getText().toString());
                                 diagnosisList.setICDId(Diagnosis_id);
                                 diagnosisList.setIsSync("1");
                                 diagnosisList.setDate(CurrentDate);
-
                                 callToWebservice();
+                                //new DiagnosisListAddUpdateTask().execute();
                             }
                         }
                     })
