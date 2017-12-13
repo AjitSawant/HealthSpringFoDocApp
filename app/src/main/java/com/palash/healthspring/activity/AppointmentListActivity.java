@@ -238,15 +238,14 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
                             appointment_edt_todate.setText("");
                             Toast.makeText(context, "End date should greater than start date", Toast.LENGTH_SHORT).show();
                         }
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             };
 
             appointment_List.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                 int previousGroup = -1;
-
                 @Override
                 public void onGroupExpand(int groupPosition) {
                     appointment_List.smoothScrollToPosition(groupPosition);

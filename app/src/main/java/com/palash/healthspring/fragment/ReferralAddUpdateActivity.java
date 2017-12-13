@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
+import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
 import com.palash.healthspring.adapter.SpinnerAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
@@ -63,7 +65,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
     private Flag masterflag;
     private ArrayList<DoctorProfile> doctorProfileList;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
-    private ArrayList<ServiceName> serviceNameArrayList;
+    private ArrayList<ServiceName> referralServiceNameArrayList;
     private ArrayList<Department> departmentArrayList;
     private ArrayList<ReferralDoctorPerService> referralDoctorPerServiceArrayList = new ArrayList<>();
 
@@ -157,33 +159,62 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
         no_doctor_alert.setVisibility(View.GONE);
 
         service_name_spinner_search_btn.setOnClickListener(this);
-
-        referral_edt_name.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (serviceNameArrayList != null && serviceNameArrayList.size() > 0) {
-                    serviceNameAdapter.getFilter().filter(s.toString());
-                }
-            }
-        });
     }
 
     private void SetSpinnerAdapter() {
         try {
             departmentArrayList = departmentAdapterDB.listAll();
+            referralServiceNameArrayList = EMRNavigationDrawerActivity.referralServiceNameArrayList;
+            if (referralServiceNameArrayList != null && referralServiceNameArrayList.size() > 0) {
+
+                serviceNameAdapter = new SpinnerAdapter.ServiceNameAdapter(context, referralServiceNameArrayList);
+                referral_edt_name.setAdapter(serviceNameAdapter);
+                referral_edt_name.setThreshold(1);
+                serviceNameAdapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        referral_edt_name.showDropDown();
+                    }
+                }, 1500);
+
+                referral_edt_name.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (referralServiceNameArrayList != null && referralServiceNameArrayList.size() > 0) {
+                            serviceNameAdapter.getFilter().filter(s.toString());
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+
+                referral_edt_name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d(Constants.TAG + ":" + "ServicePosition : ", "" + position);
+                        Log.d(Constants.TAG + ":" + "ServiceID : ", "" + referralServiceNameArrayList.get(position).getID());
+                        Log.d(Constants.TAG + ":" + "ServiceName : ", "" + referralServiceNameArrayList.get(position).getDescription());
+                        Log.d(Constants.TAG + ":" + "ServiceRate : ", "" + referralServiceNameArrayList.get(position).getBaseServiceRate());
+
+                        serviceID = referralServiceNameArrayList.get(position).getID();
+                        serviceName = referralServiceNameArrayList.get(position).getDescription();
+                        referral_edt_name.setText(serviceName);
+                        referral_edt_rate.setText(referralServiceNameArrayList.get(position).getBaseServiceRate());
+                    }
+                });
+            }
+
             if (departmentArrayList != null && departmentArrayList.size() > 0) {
                 departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentArrayList);
                 referral_spinner_department.setAdapter(departmentAdapter);
                 departmentAdapter.notifyDataSetChanged();
-
                 referral_spinner_department.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -216,23 +247,6 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                     @Override
                     public void onNothingSelected(AdapterView<?> arg0) {
                         // TODO Auto-generated method stub
-                    }
-                });
-            }
-
-            if (serviceNameArrayList != null && serviceNameArrayList.size() > 0) {
-                referral_edt_name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Log.d(Constants.TAG + ":" + "ServicePosition : ", "" + position);
-                        Log.d(Constants.TAG + ":" + "ServiceID : ", "" + serviceNameArrayList.get(position).getID());
-                        Log.d(Constants.TAG + ":" + "ServiceName : ", "" + serviceNameArrayList.get(position).getDescription());
-                        Log.d(Constants.TAG + ":" + "ServiceRate : ", "" + serviceNameArrayList.get(position).getBaseServiceRate());
-
-                        serviceID = serviceNameArrayList.get(position).getID();
-                        serviceName = serviceNameArrayList.get(position).getDescription();
-                        referral_edt_name.setText(serviceName);
-                        referral_edt_rate.setText(serviceNameArrayList.get(position).getBaseServiceRate());
                     }
                 });
             }
@@ -294,7 +308,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
 
     @Override
     public void onBackPressed() {
-        Constants.backFromAddEMR=true;
+        Constants.backFromAddEMR = true;
         finish();
     }
 
@@ -317,7 +331,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                 new GetReferralDoctorListTask().execute();
                 return true;
             case android.R.id.home:
-                Constants.backFromAddEMR=true;
+                Constants.backFromAddEMR = true;
                 onBackPressed();
                 return true;
             default:
@@ -456,12 +470,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
             try {
                 localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_OK_200) {
-                    serviceNameArrayList = objMapper.map(responseString, ServiceName.class);
-                    serviceNameAdapter = new SpinnerAdapter.ServiceNameAdapter(context, serviceNameArrayList);
-                    referral_edt_name.setAdapter(serviceNameAdapter);
-                    referral_edt_name.setThreshold(1);
-                    referral_edt_name.showDropDown();
-                    serviceNameAdapter.notifyDataSetChanged();
+                    EMRNavigationDrawerActivity.referralServiceNameArrayList = objMapper.map(responseString, ServiceName.class);
                     SetSpinnerAdapter();
                 } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                     localSetting.alertbox(context, "No data available for given search. Please try again", false);

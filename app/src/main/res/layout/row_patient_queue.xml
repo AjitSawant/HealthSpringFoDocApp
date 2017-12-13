@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/ten_margin"
     android:background="@drawable/border_lighter_gray"
     android:orientation="vertical"
-    android:layout_margin="@dimen/ten_margin"
     android:padding="@dimen/five_margin">
 
     <TextView
@@ -13,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
-        android:padding="@dimen/five_margin"
-        android:textAllCaps="false"
+        android:padding="4dp"
         android:text="Department Name"
+        android:textAllCaps="false"
         android:textColor="@color/blue_box"
         android:textSize="15sp" />
 
@@ -24,19 +23,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
-        android:paddingLeft="@dimen/five_margin"
-        android:paddingRight="@dimen/five_margin"
-        android:paddingBottom="@dimen/five_margin"
-        android:textAllCaps="false"
+        android:paddingBottom="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:text="Appointment Reason"
+        android:textAllCaps="false"
         android:textColor="@color/colorGreen"
         android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="2dp">
 
         <TextView
             android:id="@+id/row_patient_queue_tv_date"
@@ -44,9 +43,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
-            android:textAllCaps="false"
+            android:paddingLeft="3dp"
             android:text="Date"
-            android:paddingLeft="5dp"
+            android:textAllCaps="false"
             android:textColor="@color/text_color"
             android:textSize="@dimen/small_text_size" />
 
@@ -66,8 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textAllCaps="false"
             android:text="From Time"
+            android:textAllCaps="false"
             android:textSize="@dimen/small_text_size" />
 
     </LinearLayout>
@@ -80,8 +79,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="4dp">
 
         <ImageView
             android:id="@+id/row_patient_queue_iv_gender"
@@ -102,13 +101,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
-                android:paddingTop="@dimen/five_margin"
-                android:paddingRight="@dimen/five_margin"
                 android:paddingBottom="@dimen/five_margin"
-                android:textAllCaps="false"
+                android:paddingRight="@dimen/five_margin"
+                android:paddingTop="@dimen/five_margin"
                 android:text="Patient Name"
-                android:textStyle="bold"
-                android:textSize="15sp" />
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/row_patient_queue_tv_dob"
@@ -123,19 +122,18 @@
                 android:id="@+id/row_patient_queue_tv_bloodgroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:gravity="left|center_vertical"
                 android:text="Blood Group"
-                android:layout_marginTop="6dp"
                 android:textColor="@color/colorOrange"
                 android:textSize="@dimen/small_text_size" />
-
 
             <TextView
                 android:id="@+id/row_patient_queue_tv_marital_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:gravity="left|center_vertical"
-                android:layout_marginTop="6dp"
                 android:text="Status"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/small_text_size" />
@@ -144,8 +142,8 @@
                 android:id="@+id/row_patient_queue_tv_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:gravity="left|center_vertical"
-                android:layout_marginTop="6dp"
                 android:text="Contact"
                 android:textSize="@dimen/small_text_size" />
 
@@ -153,11 +151,10 @@
                 android:id="@+id/row_patient_queue_tv_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:gravity="left|center_vertical"
-                android:layout_marginTop="6dp"
                 android:text="Email"
                 android:textSize="@dimen/small_text_size" />
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

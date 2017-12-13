@@ -18,6 +18,9 @@ import com.palash.healthspring.R;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
+import com.palash.healthspring.entity.DaignosisMaster;
+import com.palash.healthspring.entity.MedicienName;
+import com.palash.healthspring.entity.ServiceName;
 import com.palash.healthspring.fragment.CPOEInvestigationFragment;
 import com.palash.healthspring.fragment.CPOEPrescriptionFragment;
 import com.palash.healthspring.fragment.ComplaintsFragment;
@@ -55,6 +58,11 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
     private TextView patient_email;
 
     private String Title = "";
+
+    public static ArrayList<DaignosisMaster> daignosisMasterArrayListDB = new ArrayList<>();
+    public static ArrayList<ServiceName> serviceNameArrayList = new ArrayList<>();
+    public static ArrayList<MedicienName> medicienNameArrayList = new ArrayList<>();
+    public static ArrayList<ServiceName> referralServiceNameArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

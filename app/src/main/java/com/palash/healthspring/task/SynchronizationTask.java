@@ -170,11 +170,10 @@ public class SynchronizationTask implements Task {
                             responseCode = response.code();
                             Log.d(Constants.TAG, "ResponseString:" + responseString);
                             Log.d(Constants.TAG, "ResponseCode:" + responseCode);
-                            /*if (responseCode == Constants.HTTP_CREATED_201) {
-                                diagnosisListAdapter.RemoveSyncItem(diagnosisList.get(i).get_ID());
-                            } else if (responseCode == Constants.HTTP_OK_200) {
-                                diagnosisListAdapter.RemoveSyncItem(diagnosisList.get(i).get_ID());
-                            }*/
+                            if (responseCode == Constants.HTTP_OK_200 || responseCode == Constants.HTTP_CREATED_201) {
+                                ArrayList<DiagnosisList> elDiagnosisList = objectMapper.map(responseString, DiagnosisList.class);
+                                diagnosisListAdapter.UpdateSyncLocalItem(diagnosisList.get(i).get_ID(), elDiagnosisList.get(0));
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

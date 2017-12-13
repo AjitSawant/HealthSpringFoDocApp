@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
+import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
 import com.palash.healthspring.adapter.SpinnerAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
@@ -56,7 +58,6 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.DiagnosisListAdapter diagnosisListAdapterDB;
-    //private DatabaseAdapter.DaignosisMasterAdapter daignosisMasterAdapterDB;
     private DatabaseAdapter.DaignosisTypeMasterAdapter daignosisTypeMasterAdapterDB;
     private SpinnerAdapter.DaignosisTypeMasterAdapter daignosisTypeMasterAdapter;
 
@@ -137,10 +138,21 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
 
     private void SetSpinnerAdapter() {
         try {
-            //daignosisMasterArrayList = daignosisMasterAdapterDB.listAll();
             daignosisTypeMasterArrayList = daignosisTypeMasterAdapterDB.listAll();
 
+            daignosisMasterArrayListDB = EMRNavigationDrawerActivity.daignosisMasterArrayListDB;
             if (daignosisMasterArrayListDB != null && daignosisMasterArrayListDB.size() > 0) {
+
+                daignosisMasterAdapter = new SpinnerAdapter.DaignosisMasterAdapter(context, daignosisMasterArrayListDB);
+                diagnosis_list_edt_diagnosis_name.setAdapter(daignosisMasterAdapter);
+                diagnosis_list_edt_diagnosis_name.setThreshold(1);
+                daignosisMasterAdapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        diagnosis_list_edt_diagnosis_name.showDropDown();
+                    }
+                }, 1500);
 
                 diagnosis_list_edt_diagnosis_name.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -149,14 +161,14 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        daignosisMasterAdapter.getFilter().filter(s.toString());
+                        if (daignosisMasterArrayListDB != null && daignosisMasterArrayListDB.size() > 0) {
+                            daignosisMasterAdapter.getFilter().filter(s.toString());
+                        }
                     }
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (daignosisMasterArrayListDB != null && daignosisMasterArrayListDB.size() > 0) {
-                            daignosisMasterAdapter.getFilter().filter(s.toString());
-                        }
+
                     }
                 });
 
@@ -327,10 +339,8 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
                             diagnosisList.setDiagnosisType(daignosisTypeMasterArrayList.get(pos_diagnosis_type).getDescription());
                             if (pos_diagnosis_type == 0) {
                                 diagnosisList.setPrimaryDiagnosis("1");
-                                diagnosisList.setDiagnosisTypeID("1");
                             } else {
                                 diagnosisList.setPrimaryDiagnosis("0");
-                                diagnosisList.setDiagnosisTypeID("0");
                             }
                             diagnosisList.setRemark(diagnosis_list_edt_remark.getText().toString());
                             diagnosisList.setAddedBy(bookAppointmentArrayList.get(0).getDoctorID());
@@ -375,10 +385,8 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
                                 diagnosisList.setDiagnosisType(daignosisTypeMasterArrayList.get(pos_diagnosis_type).getDescription());
                                 if (pos_diagnosis_type == 0) {
                                     diagnosisList.setPrimaryDiagnosis("1");
-                                    diagnosisList.setDiagnosisTypeID("1");
                                 } else {
                                     diagnosisList.setPrimaryDiagnosis("0");
-                                    diagnosisList.setDiagnosisTypeID("0");
                                 }
                                 diagnosisList.setRemark(diagnosis_list_edt_remark.getText().toString());
                                 diagnosisList.setICDId(Diagnosis_id);
@@ -590,12 +598,7 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
             try {
                 localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_OK_200) {
-                    daignosisMasterArrayListDB = objMapper.map(responseString, DaignosisMaster.class);
-                    daignosisMasterAdapter = new SpinnerAdapter.DaignosisMasterAdapter(context, daignosisMasterArrayListDB);
-                    diagnosis_list_edt_diagnosis_name.setAdapter(daignosisMasterAdapter);
-                    diagnosis_list_edt_diagnosis_name.setThreshold(1);
-                    diagnosis_list_edt_diagnosis_name.showDropDown();
-                    daignosisMasterAdapter.notifyDataSetChanged();
+                    EMRNavigationDrawerActivity.daignosisMasterArrayListDB = objMapper.map(responseString, DaignosisMaster.class);
                     SetSpinnerAdapter();
                 } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                     localSetting.alertbox(context, "No data available for given search. Please try again", false);

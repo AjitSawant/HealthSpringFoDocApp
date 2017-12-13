@@ -164,11 +164,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 appointment_spinner_department.setAdapter(departmentAdapter);
                 departmentAdapter.notifyDataSetChanged();
             }
-            /*if (complaintslist != null && complaintslist.size() > 0) {
-                complaintAdapter = new SpinnerAdapter.ComplaintAdapter(context, complaintslist);
-                appointment_spinner_complaint.setAdapter(complaintAdapter);
-                complaintAdapter.notifyDataSetChanged();
-            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,12 +176,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         } else if (appointmentReasonslist == null || appointmentReasonslist.size() == 0 || !Validate.isValidOption(appointment_spinner_appointmetreason.getSelectedItemPosition())) {
             Validate.Msgshow(context, "Please select appointment reason.");
             return false;
-        }
-        /*else if (!Validate.isValidOption(appointment_spinner_complaint.getSelectedItemPosition())) {
-            Validate.Msgshow(context, "Please select complaint.");
-            return false;
-        }*/
-        else if (localSetting.Activityname.equals("RescheduleAppointment")) {
+        } else if (localSetting.Activityname.equals("RescheduleAppointment")) {
             if (!Validate.hasTextIn(appointment_edt_reschedule_reason.getText().toString())) {
                 Validate.Msgshow(context, "Please enter reschedule reason.");
                 return false;
@@ -270,7 +260,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             appointment_spinner_department.setSelection(pos);
                         }
                     }
-
                     if (appointmentReasonslist != null && appointmentReasonslist.size() > 0) {
                         appointment_spinner_appointmetreason.setSelection(Integer.parseInt(bookAppointmentArrayList.get(0).getAppointmentReasonID()));
                     }

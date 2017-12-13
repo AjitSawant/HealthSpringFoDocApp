@@ -97,6 +97,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
+
         setting_chronometer = (Chronometer) findViewById(R.id.set_chronometer);
         setting_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -211,7 +212,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 serviceConsumer = new WebServiceConsumer(context, null, null);
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(doctorProfile);
-                response = serviceConsumer.POST(Constants.UPDATE_PASSWORD_URL, jSonData);
+                //response = serviceConsumer.POST(Constants.UPDATE_PASSWORD_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();
                 }

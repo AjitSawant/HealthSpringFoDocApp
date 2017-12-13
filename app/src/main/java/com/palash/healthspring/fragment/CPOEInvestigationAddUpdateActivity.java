@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
+import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
 import com.palash.healthspring.adapter.SpinnerAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
@@ -136,7 +138,20 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
             //serviceNameArrayList = serviceNameAdapterDB.listAll();
             priorityArrayList = priorityAdapterDB.listAll();
             departmentArrayList = departmentAdapterDB.listAll();
+            serviceNameArrayList = EMRNavigationDrawerActivity.serviceNameArrayList;
             if (serviceNameArrayList != null && serviceNameArrayList.size() > 0) {
+
+                serviceNameAdapter = new SpinnerAdapter.ServiceNameAdapter(context, serviceNameArrayList);
+                cpoeservice_edt_name.setAdapter(serviceNameAdapter);
+                cpoeservice_edt_name.setThreshold(1);
+                serviceNameAdapter.notifyDataSetChanged();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        cpoeservice_edt_name.showDropDown();
+                    }
+                }, 1500);
 
                 cpoeservice_edt_name.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -146,12 +161,13 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        serviceNameAdapter.getFilter().filter(s.toString());
+                        if (serviceNameArrayList != null && serviceNameArrayList.size() > 0) {
+                            serviceNameAdapter.getFilter().filter(s.toString());
+                        }
                     }
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        serviceNameAdapter.getFilter().filter(s.toString());
                     }
                 });
 
@@ -542,12 +558,8 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
             try {
                 localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_OK_200) {
-                    serviceNameArrayList = objMapper.map(responseString, ServiceName.class);
-                    serviceNameAdapter = new SpinnerAdapter.ServiceNameAdapter(context, serviceNameArrayList);
-                    cpoeservice_edt_name.setAdapter(serviceNameAdapter);
-                    cpoeservice_edt_name.setThreshold(1);
-                    cpoeservice_edt_name.showDropDown();
-                    serviceNameAdapter.notifyDataSetChanged();
+                    EMRNavigationDrawerActivity.serviceNameArrayList = objMapper.map(responseString, ServiceName.class);
+
                     SetSpinnerAdapter();
                 } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                     localSetting.alertbox(context, "No data available for given search. Please try again", false);

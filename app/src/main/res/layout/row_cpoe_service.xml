@@ -5,15 +5,15 @@
     android:layout_margin="@dimen/ten_margin"
     android:background="@drawable/border_primary_dark"
     android:orientation="horizontal"
-    android:paddingTop="@dimen/ten_margin"
-    android:paddingBottom="@dimen/ten_margin"
-    android:paddingLeft="@dimen/ten_margin"    >
+    android:paddingTop="@dimen/six_margin"
+    android:paddingBottom="@dimen/six_margin"
+    android:paddingLeft="@dimen/six_margin"    >
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="@dimen/six_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -52,7 +52,6 @@
             android:id="@+id/row_cpoeservice_tv_priority"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:enabled="false"
             android:padding="2dp"

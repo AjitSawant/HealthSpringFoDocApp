@@ -134,6 +134,9 @@ public class ComplaintsFragment extends Fragment {
             is_record_sync_tv1 = (TextView) rootView.findViewById(R.id.is_record_sync_tv1);
             is_record_sync_tv2 = (TextView) rootView.findViewById(R.id.is_record_sync_tv2);
 
+            is_record_sync_tv1.setVisibility(View.GONE);
+            is_record_sync_tv2.setVisibility(View.GONE);
+
             if (localSetting.fragment_name.equals("VisitList")) {
                 chiefComplaints_dropdown.setVisibility(View.GONE);
                 assosciateComplaints_dropdown.setVisibility(View.GONE);

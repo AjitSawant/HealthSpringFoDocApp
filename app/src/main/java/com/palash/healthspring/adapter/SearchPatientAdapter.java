@@ -110,9 +110,9 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
 
             final Patient elPatient = getItem(position);
             if (elPatient.getMiddleName() != null && elPatient.getMiddleName().length() != 0) {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName() + " ( MRNO : " + elPatient.getMRNo() + " )");
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName() + " ( " + elPatient.getMRNo() + " )");
             } else {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName() + " ( MRNO : " + elPatient.getMRNo() + " )");
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName() + " ( " + elPatient.getMRNo() + " )");
             }
 
             if (elPatient.getGender().equalsIgnoreCase("Male")) {
@@ -121,7 +121,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_img.setImageResource(R.drawable.personfemale);
             }
 
-            holder.patient_mrno.setText("Age : " + elPatient.getAge() + " Yrs." + "  " + "Clinic : " + elPatient.getClinicName());
+            holder.patient_mrno.setText("Age : " + elPatient.getAge() + " Yrs." + "\n" + "Clinic : " + elPatient.getClinicName());
 
             holder.patient_row_bnt_book.getId();
             holder.patient_row_bnt_book.setTag(position);

@@ -102,11 +102,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="4dp"
+                        android:padding="6dp"
                         android:text="@string/dashboard_appointments"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text_size" />
+                        android:textSize="@dimen/common_text_size" />
 
                 </LinearLayout>
 
@@ -131,11 +131,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="4dp"
+                        android:padding="6dp"
                         android:text="@string/dashboard_patientqueue"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text_size" />
+                        android:textSize="@dimen/common_text_size" />
 
                 </LinearLayout>
 
@@ -198,11 +198,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="4dp"
+                        android:padding="6dp"
                         android:text="@string/dashboard_searchpatient"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text_size" />
+                        android:textSize="@dimen/common_text_size" />
 
                 </LinearLayout>
 

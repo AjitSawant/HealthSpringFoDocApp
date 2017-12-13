@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
+import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
 import com.palash.healthspring.adapter.SpinnerAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
@@ -169,7 +171,19 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
             medicienFrequencyArrayList = medicineFrequencyAdapterDB.listAll();
             medicienInstructionArrayList = medicineInstructionAdapterDB.listAll();
 
+            medicienNameArrayList = EMRNavigationDrawerActivity.medicienNameArrayList;
             if (medicienNameArrayList != null && medicienNameArrayList.size() > 0) {
+
+                medicienNameAdapter = new SpinnerAdapter.MedicienNameAdapter(context, medicienNameArrayList);
+                edt_medicine_name.setAdapter(medicienNameAdapter);
+                edt_medicine_name.setThreshold(1);
+                medicienNameAdapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        edt_medicine_name.showDropDown();
+                    }
+                }, 1500);
 
                 edt_medicine_name.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -178,12 +192,13 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        medicienNameAdapter.getFilter().filter(s.toString());
+                        if (medicienNameArrayList != null && medicienNameArrayList.size() > 0) {
+                            medicienNameAdapter.getFilter().filter(s.toString());
+                        }
                     }
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        medicienNameAdapter.getFilter().filter(s.toString());
                     }
                 });
 
@@ -733,12 +748,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
             try {
                 localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_OK_200) {
-                    medicienNameArrayList = objMapper.map(responseString, MedicienName.class);
-                    medicienNameAdapter = new SpinnerAdapter.MedicienNameAdapter(context, medicienNameArrayList);
-                    edt_medicine_name.setAdapter(medicienNameAdapter);
-                    edt_medicine_name.setThreshold(1);
-                    edt_medicine_name.showDropDown();
-                    medicienNameAdapter.notifyDataSetChanged();
+                    EMRNavigationDrawerActivity.medicienNameArrayList = objMapper.map(responseString, MedicienName.class);
                     SetSpinnerAdapter();
                 } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                     localSetting.alertbox(context, "No data available for given search. Please try again", false);

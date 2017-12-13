@@ -742,7 +742,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_VisitList";
-        public static final String DEFAULT_SORT_ORDER = "Datetime(SearchDate) DESC";
+        public static final String DEFAULT_SORT_ORDER = "Datetime(SearchDate) ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitId";
@@ -1038,7 +1038,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_DiagnosisList";
-        public static final String DEFAULT_SORT_ORDER = "ID DESC";
+        public static final String DEFAULT_SORT_ORDER = "ID ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitID";
@@ -1111,7 +1111,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_VitalsList";
-        public static final String DEFAULT_SORT_ORDER = "ID DESC";
+        public static final String DEFAULT_SORT_ORDER = "ID ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitID";
@@ -1263,7 +1263,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_CPOEMedicine";
-        public static final String DEFAULT_SORT_ORDER = "CAST(ID AS INTEGER) DESC";
+        public static final String DEFAULT_SORT_ORDER = "CAST(ID AS INTEGER) ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitID";
@@ -1498,7 +1498,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_ReferralServiceList";
-        public static final String DEFAULT_SORT_ORDER = "ID DESC";
+        public static final String DEFAULT_SORT_ORDER = "ID ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitID";

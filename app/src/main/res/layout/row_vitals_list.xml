@@ -11,7 +11,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
         <TextView
@@ -37,7 +36,7 @@
             android:singleLine="true"
             android:textAllCaps="false"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/small_text_size" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,7 +55,6 @@
             android:textAllCaps="false"
             android:textColor="@color/text_color"
             android:textSize="@dimen/small_text_size" />
-
 
         <TextView
             android:id="@+id/row_vitals_list_tv_units"

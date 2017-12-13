@@ -71,7 +71,6 @@ public class DiagnosisListAdapter extends BaseAdapter {
                 holder.row_diagnosis_list_tv_diagnosis_type = (TextView) convertView.findViewById(R.id.row_diagnosis_list_tv_diagnosis_type);
                 holder.row_diagnosis_list_tv_diagnosis_time = (TextView) convertView.findViewById(R.id.row_diagnosis_list_tv_diagnosis_time);
                 holder.is_record_sync_tv = (TextView) convertView.findViewById(R.id.is_record_sync_tv);
-                //holder.row_diagnosis_list_tv_remark = (TextView) convertView.findViewById(R.id.row_diagnosis_list_tv_remark);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -85,7 +84,9 @@ public class DiagnosisListAdapter extends BaseAdapter {
             }
 
             holder.row_diagnosis_list_tv_diagnosis_code.setText(diagnosisListArrayList.get(position).getCode());
+
             holder.row_diagnosis_list_tv_diagnosis_type.setText(diagnosisListArrayList.get(position).getDiagnosisType());
+
             if (diagnosisListArrayList.get(position).getDiagnosisType() != null && diagnosisListArrayList.get(position).getDiagnosisType().equals("Primary")){
                 holder.row_diagnosis_list_tv_diagnosis_type.setTextColor(context.getResources().getColor(R.color.colorGreen));
             }else if (diagnosisListArrayList.get(position).getDiagnosisType() != null && diagnosisListArrayList.get(position).getDiagnosisType().equals("Secondary")){
@@ -99,11 +100,10 @@ public class DiagnosisListAdapter extends BaseAdapter {
             }else {
                 holder.is_record_sync_tv.setVisibility(View.GONE);
             }
-
-            //holder.row_diagnosis_list_tv_remark.setText(diagnosisListArrayList.get(position).getRemark());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +122,6 @@ public class DiagnosisListAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-
         TextView row_diagnosis_list_tv_diagnosis;
         TextView row_diagnosis_list_tv_diagnosis_date;
         TextView row_diagnosis_list_tv_diagnosis_code;

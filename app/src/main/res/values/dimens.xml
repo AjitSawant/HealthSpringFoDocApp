@@ -7,6 +7,7 @@
     <dimen name="big_text_size">20sp</dimen>
     <dimen name="five_margin">5dp</dimen>
     <dimen name="ten_margin">10dp</dimen>
+    <dimen name="six_margin">6dp</dimen>
     <dimen name="fifteen_margin">15dp</dimen>
     <dimen name="twinity_margin">20dp</dimen>
     <!-- Text size for action bar titles -->
