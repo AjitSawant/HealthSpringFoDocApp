@@ -54,7 +54,6 @@ public class CPOEInvestigationListAdapter extends BaseAdapter {
         return cpoeServiceArrayList.get(position);
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;

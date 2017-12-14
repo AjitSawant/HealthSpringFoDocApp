@@ -55,7 +55,6 @@ public class ReferralDoctorServiceListAdapter extends BaseAdapter {
         return referralDoctorPerServicearrayList.get(position);
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -90,7 +89,7 @@ public class ReferralDoctorServiceListAdapter extends BaseAdapter {
                 holder.row_referral_service_tv_doctor_name.setText("-");
             }
 
-            if (referralDoctorPerService.getRate() != null && referralDoctorPerService.getRate().length() > 0 && (!referralDoctorPerService.getRate().equals("0.0"))) {
+            if (referralDoctorPerService.getRate() != null && referralDoctorPerService.getRate().length() > 0) {
                 holder.row_referral_service_tv_rate.setText("RS. "+referralDoctorPerService.getRate().trim());
             } else {
                 holder.row_referral_service_tv_rate.setText("-");

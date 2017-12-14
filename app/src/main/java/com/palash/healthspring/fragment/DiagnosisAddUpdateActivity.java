@@ -152,7 +152,7 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
                     public void run() {
                         diagnosis_list_edt_diagnosis_name.showDropDown();
                     }
-                }, 1500);
+                }, 1000);
 
                 diagnosis_list_edt_diagnosis_name.addTextChangedListener(new TextWatcher() {
                     @Override

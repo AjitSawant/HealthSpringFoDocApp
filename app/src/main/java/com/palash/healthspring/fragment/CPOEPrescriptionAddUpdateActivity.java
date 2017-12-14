@@ -183,7 +183,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
                     public void run() {
                         edt_medicine_name.showDropDown();
                     }
-                }, 1500);
+                }, 1000);
 
                 edt_medicine_name.addTextChangedListener(new TextWatcher() {
                     @Override

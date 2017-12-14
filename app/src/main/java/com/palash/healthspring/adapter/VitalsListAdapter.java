@@ -78,6 +78,7 @@ public class VitalsListAdapter extends BaseAdapter {
                 holder.row_vitals_list_tv_value = (TextView) convertView.findViewById(R.id.row_vitals_list_tv_value);
                 holder.row_vitals_list_tv_units = (TextView) convertView.findViewById(R.id.row_vitals_list_tv_units);
                 holder.row_vitals_list_tv_range = (TextView) convertView.findViewById(R.id.row_vitals_list_tv_range);
+                holder.is_record_sync_tv = (TextView) convertView.findViewById(R.id.is_record_sync_tv);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -86,8 +87,17 @@ public class VitalsListAdapter extends BaseAdapter {
             VitalsList vitalsList = vitalsListArrayList.get(position);
 
             holder.row_vitals_list_tv_vitals_name.setText(vitalsList.getVitalsDecription());
+
             holder.row_vitals_list_tv_units.setText(vitalsList.getUnit());
+
             holder.row_vitals_list_tv_value.setText(vitalsList.getValue());
+
+            if (vitalsList.getIsSync() != null && vitalsList.getIsSync().equals("1")) {
+                holder.is_record_sync_tv.setVisibility(View.VISIBLE);
+            }else {
+                holder.is_record_sync_tv.setVisibility(View.GONE);
+            }
+
             vitalArrayList = vitalAdapterDB.listAll(vitalsList.getVitalsDecription());
             if (vitalArrayList != null && vitalArrayList.size() > 0) {
                 holder.row_vitals_list_tv_range.setText(vitalArrayList.get(0).getMinValue() + "-" + vitalArrayList.get(0).getMaxValue());
@@ -135,6 +145,7 @@ public class VitalsListAdapter extends BaseAdapter {
         TextView row_vitals_list_tv_value;
         TextView row_vitals_list_tv_units;
         TextView row_vitals_list_tv_range;
+        TextView is_record_sync_tv;
     }
 }
 

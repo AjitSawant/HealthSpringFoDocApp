@@ -33,7 +33,8 @@ public class VitalsListUpdateAdapter extends BaseAdapter {
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.VitalAdapter vitalAdapterDB;
-    private DatabaseAdapter.VitalsListAdapter vitalListAdapterDB;
+    //private DatabaseAdapter.VitalsListAdapter vitalListAdapterDB;
+    private DatabaseAdapter.VitalsListLocalAdapter vitalsListLocalAdapterDB;
 
     private ArrayList<VitalsList> vitalsListArrayList;
     private ArrayList<Vital> vitalArrayList;
@@ -55,7 +56,8 @@ public class VitalsListUpdateAdapter extends BaseAdapter {
         databaseContract = new DatabaseContract(context);
         databaseAdapter = new DatabaseAdapter(databaseContract);
         vitalAdapterDB = databaseAdapter.new VitalAdapter();
-        vitalListAdapterDB = databaseAdapter.new VitalsListAdapter();
+        //vitalListAdapterDB = databaseAdapter.new VitalsListAdapter();
+        vitalsListLocalAdapterDB = databaseAdapter.new VitalsListLocalAdapter();
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -150,8 +152,8 @@ public class VitalsListUpdateAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View view) {
                                 if (edt_vital_value.getText().toString().trim().length() > 0 && (!edt_vital_value.getText().toString().trim().equals("0"))) {
-                                    vitalListAdapterDB.updateValue(PatientID, VisitID, vitalsListArrayList.get(position).getVitalID(), edt_vital_value.getText().toString());
-                                    vitalsListArrayList = vitalListAdapterDB.listAll(PatientID, VisitID);
+                                    vitalsListLocalAdapterDB.updateValue(PatientID, VisitID, vitalsListArrayList.get(position).getVitalID(), edt_vital_value.getText().toString());
+                                    vitalsListArrayList = vitalsListLocalAdapterDB.listAll(PatientID, VisitID);
                                     notifyDataSetChanged();
                                     dialog.dismiss();
                                 } else {
@@ -176,8 +178,8 @@ public class VitalsListUpdateAdapter extends BaseAdapter {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (vitalsListArrayList.get(position).getVitalID() != null && vitalsListArrayList.get(position).getVitalID().length() > 0) {
-                                            vitalListAdapterDB.DeleteVitals(PatientID, VisitID, vitalsListArrayList.get(position).getVitalID());
-                                            vitalsListArrayList = vitalListAdapterDB.listAll(PatientID, VisitID);
+                                            vitalsListLocalAdapterDB.DeleteVitals(PatientID, VisitID, vitalsListArrayList.get(position).getVitalID());
+                                            vitalsListArrayList = vitalsListLocalAdapterDB.listAll(PatientID, VisitID);
                                             notifyDataSetChanged();
                                             dialog.dismiss();
                                         }

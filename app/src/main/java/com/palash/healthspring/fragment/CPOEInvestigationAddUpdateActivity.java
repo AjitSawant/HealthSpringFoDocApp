@@ -151,7 +151,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                     public void run() {
                         cpoeservice_edt_name.showDropDown();
                     }
-                }, 1500);
+                }, 1000);
 
                 cpoeservice_edt_name.addTextChangedListener(new TextWatcher() {
                     @Override

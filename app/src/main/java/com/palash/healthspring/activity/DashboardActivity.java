@@ -40,6 +40,7 @@ import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.ELUnitMaster;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
+import com.palash.healthspring.entity.VitalsList;
 import com.palash.healthspring.task.SynchronizationTask;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
@@ -62,6 +63,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private DatabaseAdapter.FlagAdapter flagAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.UnitMasterAdapter unitMasterAdapter;
+    private DatabaseAdapter.VitalsListAdapter vitalsListDBAdapter;
     private DatabaseAdapter.DiagnosisListAdapter diagnosisListAdapter;
     private DatabaseAdapter.CPOEServiceAdapter cpoeServiceAdapter;
     private DatabaseAdapter.CPOEMedicineAdapter cpoeMedicineAdapter;
@@ -100,6 +102,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             flagAdapter = databaseAdapter.new FlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             unitMasterAdapter = databaseAdapter.new UnitMasterAdapter();
+            vitalsListDBAdapter = databaseAdapter.new VitalsListAdapter();
             diagnosisListAdapter = databaseAdapter.new DiagnosisListAdapter();
             cpoeServiceAdapter = databaseAdapter.new CPOEServiceAdapter();
             cpoeMedicineAdapter = databaseAdapter.new CPOEMedicineAdapter();
@@ -189,15 +192,12 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 public void onItemSelected(AdapterView<?> arg0, View arg1,
                                            int arg2, long arg3) {
                     int position = unitMasterSpinner.getSelectedItemPosition();
-                    //if (position > 0) {
-                    //position = position - 1;
                     if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
                         DoctorProfile doctorProfile = doctorProfileAdapter.listAll().get(0);
                         doctorProfile.setUnitID(listELUnitMaster.get(position).getUnitID());
                         doctorProfile.setUnitName(listELUnitMaster.get(position).getUnitDesc());
                         doctorProfileAdapter.update(doctorProfile);
                     }
-                    //}
                 }
 
                 @Override
@@ -249,13 +249,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         //pos = pos + 1;
                         unitMasterSpinner.setSelection(pos);
                     }
-                } catch (NumberFormatException nfe) {
-                    nfe.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } else {
-            //patient_queue_list.setVisibility(View.GONE);
-            //patient_queue_empty.setVisibility(View.VISIBLE);
         }
     }
 
@@ -326,24 +323,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /*public void Task() {
-        try {
-            flag = new Flag();
-            flag.setFlag(Constants.ALL_URL_TASK);
-            masterFlagAdapter.updateFalg(flag);
-            SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    /*@Override
-    protected void onStop() {
-        super.onStop();
-        SchedulerManager.getInstance().stop(this, SynchronizationTask.class);
-        SchedulerManager.getInstance().stop(this, MasterTask.class);
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -427,14 +406,17 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private void SynchOfflineData() {
         if (localSetting.isNetworkAvailable(context)) {
+
+            ArrayList<VitalsList> vitalsArrayList = vitalsListDBAdapter.listAllUnSync("");
             ArrayList<DiagnosisList> diagnosisArrayList = diagnosisListAdapter.listAllUnSync();
             ArrayList<CPOEService> cpoeServiceArrayList = cpoeServiceAdapter.listAllUnSync();
             ArrayList<CPOEPrescription> cpoeMedicineArrayList = cpoeMedicineAdapter.listAllUnSync();
             ArrayList<ComplaintsList> complaintsArrayList = complaintsListDBAdapter.listAllUnSync();
             ArrayList<ReferralDoctorPerService> referralServiceArrayList = referralServiceListDBAdapter.listAllUnSync();
-            if ((diagnosisArrayList != null && diagnosisArrayList.size() > 0) || (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) ||
-                    (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0) || (complaintsArrayList != null && complaintsArrayList.size() > 0) ||
-                    (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
+
+            if ((vitalsArrayList != null && vitalsArrayList.size() > 0) || (diagnosisArrayList != null && diagnosisArrayList.size() > 0)
+                    || (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) || (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0)
+                    || (complaintsArrayList != null && complaintsArrayList.size() > 0) || (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
                 try {
                     Flag flag = flagAdapter.listCurrent();
                     flag.setFlag(Constants.ONLINE_SYNC);

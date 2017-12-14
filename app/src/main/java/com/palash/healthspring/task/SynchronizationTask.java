@@ -24,6 +24,7 @@ import com.palash.healthspring.entity.ReferralDoctorPerService;
 import com.palash.healthspring.entity.Synchronization;
 import com.palash.healthspring.entity.VisitList;
 import com.palash.healthspring.entity.VitalsList;
+import com.palash.healthspring.entity.VitalsListSave;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 import com.squareup.okhttp.Response;
@@ -130,7 +131,7 @@ public class SynchronizationTask implements Task {
                             if (flagList != null && flagList.size() > 0) {
                                 switch (flagList.get(0).getFlag()) {
                                     case Constants.ONLINE_SYNC:
-                                        //SyncVitalsOfflineList();
+                                        SyncVitalsOfflineList();
                                         SyncDiagnosisOfflineList();
                                         SyncServiceOfflineList();
                                         SyncPrescriptionOfflineList();
@@ -152,6 +153,52 @@ public class SynchronizationTask implements Task {
             e.printStackTrace();
         }
         return taskResult;
+    }
+
+    private void SyncVitalsOfflineList() {
+        try {
+            responseCode = 0;
+            responseString = null;
+
+            ArrayList<VitalsList> visitTotalList = vitalsListAdapter.listAllVisitUnSync();   // return distinct visit from vitals table
+            for (int k = 0; k < visitTotalList.size(); k++) {
+                vitalsList = vitalsListAdapter.listAllUnSync(visitTotalList.get(k).getVisitID());   // return vitals list from visit
+                if (vitalsList != null && vitalsList.size() > 0) {
+
+                    VitalsListSave elSaveVitalsList = new VitalsListSave();
+                    elSaveVitalsList.setUnitID(vitalsList.get(0).getUnitID());
+                    elSaveVitalsList.setPatientID(vitalsList.get(0).getPatientID());
+                    elSaveVitalsList.setPatientUnitID(vitalsList.get(0).getUnitID());
+                    elSaveVitalsList.setVisitID(vitalsList.get(0).getVisitID());
+                    elSaveVitalsList.setDoctorID(vitalsList.get(0).getDoctorID());
+                    elSaveVitalsList.setDate(vitalsList.get(0).getDate());
+                    elSaveVitalsList.setTime(vitalsList.get(0).getTime());
+                    elSaveVitalsList.setAllvitalsList(vitalsList);
+
+                    try {
+                        Log.d(Constants.TAG, "Data Synchronising start date:" + DateFormat.getDateTimeInstance().format(new Date()));
+                        response = serviceConsumer.POST(Constants.MULTI_VITALS_ADD_UPDATE_URL, objectMapper.unMap(elSaveVitalsList));
+                        Log.d(Constants.TAG, "Data Synchronising end date:" + DateFormat.getDateTimeInstance().format(new Date()));
+                        if (response != null) {
+                            responseString = response.body().string();
+                            responseCode = response.code();
+                            Log.d(Constants.TAG, "ResponseString:" + responseString);
+                            Log.d(Constants.TAG, "ResponseCode:" + responseCode);
+                            if (responseCode == Constants.HTTP_OK_200 || responseCode == Constants.HTTP_CREATED_201) {
+                                vitalsListAdapter.delete(visitTotalList.get(k).getPatientID(), visitTotalList.get(k).getVisitID());
+                                for (int i = 0; i < vitalsList.size(); i++) {
+                                    vitalsListAdapter.UpdateSyncLocalItem(vitalsList.get(i));  // reset isynch status
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void SyncDiagnosisOfflineList() {
@@ -328,7 +375,6 @@ public class SynchronizationTask implements Task {
                     }
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -542,7 +588,6 @@ public class SynchronizationTask implements Task {
             e.printStackTrace();
         }
     }*/
-
 
 
     @Override

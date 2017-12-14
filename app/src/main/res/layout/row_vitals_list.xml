@@ -1,86 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/border_primary_dark"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/ten_margin"
-    android:padding="@dimen/ten_margin">
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/six_margin"
+    android:paddingBottom="@dimen/six_margin"
+    android:paddingLeft="@dimen/six_margin"
+    android:paddingTop="@dimen/six_margin">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginRight="@dimen/six_margin"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/row_vitals_list_tv_vitals_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:enabled="false"
-            android:padding="2dp"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/small_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/row_vitals_list_tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:enabled="false"
-            android:padding="2dp"
-            android:singleLine="true"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/row_vitals_list_tv_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:enabled="false"
-            android:padding="2dp"
-            android:singleLine="true"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/small_text_size" />
-
-        <TextView
-            android:id="@+id/row_vitals_list_tv_units"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:background="@null"
-            android:enabled="false"
-            android:maxLines="3"
-            android:padding="2dp"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/small_text_size" />
-
-        <TextView
-            android:id="@+id/row_vitals_list_tv_range"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:enabled="false"
-            android:gravity="right"
-            android:maxLines="3"
-            android:padding="2dp"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/small_text_size" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/row_vitals_list_tv_vitals_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:enabled="false"
+                android:padding="2dp"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/row_vitals_list_tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:enabled="false"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/row_vitals_list_tv_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:enabled="false"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+
+            <TextView
+                android:id="@+id/row_vitals_list_tv_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:background="@null"
+                android:enabled="false"
+                android:maxLines="3"
+                android:padding="2dp"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+
+            <TextView
+                android:id="@+id/row_vitals_list_tv_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:enabled="false"
+                android:gravity="right"
+                android:maxLines="3"
+                android:padding="2dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/small_text_size" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/is_record_sync_tv"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_red_light" />
 </LinearLayout>

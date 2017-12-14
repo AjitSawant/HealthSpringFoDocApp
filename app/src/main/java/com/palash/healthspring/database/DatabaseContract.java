@@ -1178,6 +1178,79 @@ public class DatabaseContract {
                 + ")";
     }
 
+    public static final class VitalsListLocal implements BaseColumns {
+
+        private VitalsListLocal() {
+        }
+
+        public static final String TABLE_NAME = "T_VitalsListLocal";
+        public static final String DEFAULT_SORT_ORDER = "ID ASC";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_UNITID = "UnitID";
+        public static final String COLUMN_NAME_VISITID = "VisitID";
+        public static final String COLUMN_NAME_PATIENTID = "PatientID";
+        public static final String COLUMN_NAME_PATIENTUNITID = "PatientUnitID";
+        public static final String COLUMN_NAME_TEMPLATEID = "TemplateID";
+        public static final String COLUMN_NAME_DOCTORID = "DoctorID";
+        public static final String COLUMN_NAME_DATE = "Date";
+        public static final String COLUMN_NAME_TIME = "Time";
+        public static final String COLUMN_NAME_VITALID = "VitalID";
+        public static final String COLUMN_NAME_VITALSDECRIPTION = "VitalsDecription";
+        public static final String COLUMN_NAME_VALUE = "Value";
+        public static final String COLUMN_NAME_UNIT = "Unit";
+        public static final String COLUMN_NAME_STATUS = "Status";
+        public static final String COLUMN_NAME_ADDEDBY = "AddedBy";
+        public static final String COLUMN_NAME_ISSTATUS = "ISStatus";
+        public static final String COLUMN_NAME_ISLOCAL = "ISLocal";
+        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
+        public static final String COLUMN_NAME_IS_UPDATE = "IsUpdate";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + VitalsListLocal._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_UNITID
+                + " TEXT,"
+                + COLUMN_NAME_VISITID
+                + " TEXT,"
+                + COLUMN_NAME_PATIENTID
+                + " TEXT,"
+                + COLUMN_NAME_PATIENTUNITID
+                + " TEXT,"
+                + COLUMN_NAME_TEMPLATEID
+                + " TEXT,"
+                + COLUMN_NAME_DOCTORID
+                + " TEXT,"
+                + COLUMN_NAME_DATE
+                + " TEXT,"
+                + COLUMN_NAME_TIME
+                + " TEXT,"
+                + COLUMN_NAME_VITALID
+                + " TEXT,"
+                + COLUMN_NAME_VITALSDECRIPTION
+                + " TEXT,"
+                + COLUMN_NAME_VALUE
+                + " TEXT,"
+                + COLUMN_NAME_UNIT
+                + " TEXT,"
+                + COLUMN_NAME_STATUS
+                + " TEXT,"
+                + COLUMN_NAME_ADDEDBY
+                + " TEXT,"
+                + COLUMN_NAME_ISSTATUS
+                + " TEXT,"
+                + COLUMN_NAME_ISLOCAL
+                + " TEXT DEFAULT 0,"
+                + COLUMN_NAME_IS_UPDATE
+                + " TEXT,"
+                + COLUMN_NAME_IS_SYNC
+                + " TEXT DEFAULT 0"
+                + ")";
+    }
+
     public static final class CPOEService implements BaseColumns {
 
         private CPOEService() {
@@ -1879,6 +1952,9 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 16: " + VisitList.CREATE_TABLE);
                 db.execSQL(VisitList.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 17: " + VitalsListLocal.CREATE_TABLE);
+                db.execSQL(VitalsListLocal.CREATE_TABLE);
 
                 Log.d(Constants.TAG, "Creating table 18: " + MedicienRoute.CREATE_TABLE);
                 db.execSQL(MedicienRoute.CREATE_TABLE);

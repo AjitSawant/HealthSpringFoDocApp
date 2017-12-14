@@ -176,7 +176,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                     public void run() {
                         referral_edt_name.showDropDown();
                     }
-                }, 1500);
+                }, 1000);
 
                 referral_edt_name.addTextChangedListener(new TextWatcher() {
                     @Override

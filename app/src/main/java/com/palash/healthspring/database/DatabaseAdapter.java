@@ -4168,7 +4168,7 @@ public class DatabaseAdapter {
             ArrayList<DiagnosisList> elDiagnosisArrayList = listAll(elDiagnosisList.getPatientID(), elDiagnosisList.getVisitId());
             Boolean matchPrimary = false;
             for (int i = 0; i < elDiagnosisArrayList.size(); i++) {
-                if (elDiagnosisArrayList.get(i).getPrimaryDiagnosis().equals("False")) {
+                if (elDiagnosisArrayList.get(i).getPrimaryDiagnosis().equals("True")) {
                     matchPrimary = true;
                 }
             }
@@ -4249,35 +4249,6 @@ public class DatabaseAdapter {
             return values;
         }
 
-        private ContentValues VitalsListToContentValuesUpdate(VitalsList vitalsList) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_ID, vitalsList.getID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_UNITID, vitalsList.getUnitID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_PATIENTID, vitalsList.getPatientID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_PATIENTUNITID, vitalsList.getPatientUnitID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_VISITID, vitalsList.getVisitID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_TEMPLATEID, vitalsList.getTemplateID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_DOCTORID, vitalsList.getDoctorID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_DATE, vitalsList.getDate());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_TIME, vitalsList.getTime());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_VITALID, vitalsList.getVitalID());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_VITALSDECRIPTION, vitalsList.getVitalsDecription());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_VALUE, vitalsList.getValue());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_UNIT, vitalsList.getUnit());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_ADDEDBY, vitalsList.getAddedBy());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_STATUS, vitalsList.getStatus());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_ISSTATUS, "0");
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL, vitalsList.getISLocal());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC, vitalsList.getIsSync());
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE, vitalsList.getIsUpdate());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
         private ArrayList<VitalsList> CursorToArrayList(Cursor result) {
             ArrayList<VitalsList> listVitalsList = null;
             try {
@@ -4303,6 +4274,7 @@ public class DatabaseAdapter {
                         vitalsList.setStatus(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_STATUS)));
                         vitalsList.setISStatus(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_ISSTATUS)));
                         vitalsList.setISLocal(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL)));
+                        vitalsList.setIsSync(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC)));
                         vitalsList.setIsUpdate(result.getString(result.getColumnIndex(DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE)));
                         listVitalsList.add(vitalsList);
                     }
@@ -4442,17 +4414,16 @@ public class DatabaseAdapter {
             return isExist;
         }
 
-        public ArrayList<VitalsList> listAll(String PatientID, String VisitID) {
+        /*public ArrayList<VitalsList> listAllVitals(String PatientID, String VisitID) {
             ArrayList<VitalsList> listVitalsList = null;
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
-               /* whereClause =
+                whereClause =
                         DatabaseContract.VitalsList.COLUMN_NAME_VISITID + "='" + VisitID + "' AND " +
-                        DatabaseContract.VitalsList.COLUMN_NAME_PATIENTID + "='" + PatientID + "' AND " +
-                        DatabaseContract.VitalsList.COLUMN_NAME_STATUS + "= 'True'";*/
-                whereClause = DatabaseContract.VitalsList.COLUMN_NAME_VISITID + "='" + VisitID + "'";
+                                DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC + "='1' AND " +
+                                DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL + "= '1'";
                 result = db.query(DatabaseContract.VitalsList.TABLE_NAME,
                         projection, whereClause,
                         null, null, null,
@@ -4461,6 +4432,31 @@ public class DatabaseAdapter {
             } catch (SQLException e) {
                 e.printStackTrace();
 
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listVitalsList;
+        }*/
+
+        public ArrayList<VitalsList> listAll(String PatientID, String VisitID) {
+            ArrayList<VitalsList> listVitalsList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause =
+                        DatabaseContract.VitalsList.COLUMN_NAME_VISITID + "='" + VisitID + "'";
+                /*AND " +
+                        DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC + "='" + PatientID + "' AND " +
+                        DatabaseContract.VitalsList.COLUMN_NAME_ISLOCAL + "= 'True'";*/
+                result = db.query(DatabaseContract.VitalsList.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.VitalsList.DEFAULT_SORT_ORDER);
+                listVitalsList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
             } finally {
                 databaseContract.close();
                 result.close();
@@ -4486,7 +4482,7 @@ public class DatabaseAdapter {
         public long updateISStatus(VitalsList vitalsList) {
             long rowId = -1;
             try {
-                ContentValues values = VitalsListToContentValuesUpdate(vitalsList);
+                ContentValues values = VitalsListToContentValues(vitalsList);
                 String whereClause = null;
                 whereClause = DatabaseContract.VitalsList.COLUMN_NAME_ID + "='" + vitalsList.getID() + "'";
                 if (values != null) {
@@ -4505,9 +4501,7 @@ public class DatabaseAdapter {
 
         public long updateValue(String PatientID, String VisitID, String VitalID, String Value) {
             long rowId = -1;
-            SQLiteDatabase sqLiteDatabase = null;
             try {
-                sqLiteDatabase = databaseContract.open();
                 ContentValues values = new ContentValues();
                 values.put(DatabaseContract.VitalsList.COLUMN_NAME_VALUE, Value);
                 String whereClause = null;
@@ -4515,7 +4509,7 @@ public class DatabaseAdapter {
                         DatabaseContract.VitalsList.COLUMN_NAME_VISITID + "='" + VisitID + "' AND " +
                         DatabaseContract.VitalsList.COLUMN_NAME_VITALID + "='" + VitalID + "'";
                 if (values != null) {
-                    rowId = sqLiteDatabase.update(DatabaseContract.VitalsList.TABLE_NAME, values, whereClause, null);
+                    rowId = databaseContract.open().update(DatabaseContract.VitalsList.TABLE_NAME, values, whereClause, null);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -4527,7 +4521,6 @@ public class DatabaseAdapter {
 
         public long DeleteVitals(String PatientID, String VisitID, String VitalID) {
             long rowId = -1;
-            SQLiteDatabase sqLiteDatabase = null;
             try {
                 String whereClause = null;
                 whereClause = DatabaseContract.VitalsList.COLUMN_NAME_PATIENTID + "='" + PatientID + "' AND " +
@@ -4584,13 +4577,18 @@ public class DatabaseAdapter {
         }
 
         //======================== methods to sync offline data ======================//
-        public ArrayList<VitalsList> listAllUnSync() {
+        public ArrayList<VitalsList> listAllUnSync(String VisitID) {
             ArrayList<VitalsList> listVitalsList = null;
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
-                whereClause = DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC + "='1'";
+                if (VisitID.equals("")) {
+                    whereClause = DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC + "='1'";
+                } else {
+                    whereClause = DatabaseContract.VitalsList.COLUMN_NAME_VISITID + "='" + VisitID + "' AND " +
+                            DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC + "='1'";
+                }
                 result = db.query(DatabaseContract.VitalsList.TABLE_NAME,
                         projection, whereClause,
                         null, null, null, DatabaseContract.VitalsList.DEFAULT_SORT_ORDER);
@@ -4601,9 +4599,30 @@ public class DatabaseAdapter {
             return listVitalsList;
         }
 
-        public long createUnSync(VitalsList elVitalsList) {
+        public ArrayList<VitalsList> listAllVisitUnSync() {
+            ArrayList<VitalsList> listVitalsList = null;
+            boolean distinct = true;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC + "='1'";
+                result = db.query(distinct, DatabaseContract.VitalsList.TABLE_NAME,
+                        projection, whereClause,
+                        null, DatabaseContract.VitalsList.COLUMN_NAME_VISITID, null, null, null);
+                listVitalsList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return listVitalsList;
+        }
+
+        public long createUnSync(VitalsList elVitalsList, String currentDate) {
             long rowId = -1;
             try {
+                elVitalsList.setIsSync("1");
+                elVitalsList.setDate(currentDate);
+                elVitalsList.setTime(currentDate);
                 ContentValues values = VitalsListToContentValues(elVitalsList);
                 if (values != null) {
                     rowId = databaseContract.open().insert(DatabaseContract.VitalsList.TABLE_NAME, null, values);
@@ -4616,15 +4635,448 @@ public class DatabaseAdapter {
             return rowId;
         }
 
+        public long UpdateSyncLocalItem(VitalsList elVitalsList) {
+            long rowId = -1;
+            try {
+                elVitalsList.setIsSync("0");
+                ContentValues values = VitalsListToContentValues(elVitalsList);
+                if (values != null) {
+                    rowId = databaseContract.open().insert(DatabaseContract.VitalsList.TABLE_NAME, null, values);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+
+    }
+
+    public class VitalsListLocalAdapter {
+
+        String[] projection = {
+                DatabaseContract.VitalsListLocal._ID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_ID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_UNITID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTUNITID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_TEMPLATEID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_DOCTORID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_DATE,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_TIME,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALID,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALSDECRIPTION,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_VALUE,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_UNIT,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_ADDEDBY,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_STATUS,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_ISSTATUS,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_ISLOCAL,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_SYNC,
+                DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_UPDATE
+        };
+
+        private ContentValues VitalsListToContentValues(VitalsList vitalsList) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_ID, vitalsList.getID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_UNITID, vitalsList.getUnitID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTID, vitalsList.getPatientID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTUNITID, vitalsList.getPatientUnitID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID, vitalsList.getVisitID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_TEMPLATEID, vitalsList.getTemplateID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_DOCTORID, vitalsList.getDoctorID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_DATE, vitalsList.getDate());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_TIME, vitalsList.getTime());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALID, vitalsList.getVitalID());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALSDECRIPTION, vitalsList.getVitalsDecription());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_VALUE, vitalsList.getValue());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_UNIT, vitalsList.getUnit());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_ADDEDBY, vitalsList.getAddedBy());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_STATUS, vitalsList.getStatus());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_ISSTATUS, "1");
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_ISLOCAL, vitalsList.getISLocal());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_SYNC, vitalsList.getIsSync());
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_UPDATE, vitalsList.getIsUpdate());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<VitalsList> CursorToArrayList(Cursor result) {
+            ArrayList<VitalsList> listVitalsList = null;
+            try {
+                if (result != null) {
+                    listVitalsList = new ArrayList<VitalsList>();
+                    while (result.moveToNext()) {
+                        VitalsList vitalsList = new VitalsList();
+                        vitalsList.set_ID(result.getInt(result.getColumnIndex(DatabaseContract.VitalsListLocal._ID)));
+                        vitalsList.setID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_ID)));
+                        vitalsList.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_UNITID)));
+                        vitalsList.setPatientID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTID)));
+                        vitalsList.setPatientUnitID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTUNITID)));
+                        vitalsList.setVisitID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID)));
+                        vitalsList.setTemplateID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_TEMPLATEID)));
+                        vitalsList.setDoctorID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_DOCTORID)));
+                        vitalsList.setDate(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_DATE)));
+                        vitalsList.setTime(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_TIME)));
+                        vitalsList.setVitalID(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALID)));
+                        vitalsList.setVitalsDecription(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALSDECRIPTION)));
+                        vitalsList.setValue(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_VALUE)));
+                        vitalsList.setUnit(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_UNIT)));
+                        vitalsList.setAddedBy(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_ADDEDBY)));
+                        vitalsList.setStatus(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_STATUS)));
+                        vitalsList.setISStatus(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_ISSTATUS)));
+                        vitalsList.setISLocal(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_ISLOCAL)));
+                        vitalsList.setIsSync(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_SYNC)));
+                        vitalsList.setIsUpdate(result.getString(result.getColumnIndex(DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_UPDATE)));
+                        listVitalsList.add(vitalsList);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listVitalsList;
+        }
+
+        public long create(VitalsList vitalsList) {
+            long rowId = -1;
+            try {
+
+                if (Count(vitalsList.getID()) == 0) {
+                    ContentValues values = VitalsListToContentValues(vitalsList);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.VitalsListLocal.TABLE_NAME, null, values);
+                    }
+                } else {
+                    update(vitalsList);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long createLocal(VitalsList vitalsList) {
+            long rowId = -1;
+            try {
+                ContentValues values = VitalsListToContentValues(vitalsList);
+                if (values != null) {
+                    rowId = databaseContract.open().insert(
+                            DatabaseContract.VitalsListLocal.TABLE_NAME, null, values);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long update(VitalsList vitalsList) {
+            long rowId = -1;
+            try {
+                ContentValues values = VitalsListToContentValues(vitalsList);
+                String whereClause = null;
+                whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_ID + "='" + vitalsList.getID() + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.VitalsListLocal.TABLE_NAME, values, whereClause, null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<VitalsList> listAll() {
+            ArrayList<VitalsList> listVitalsList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.VitalsListLocal.TABLE_NAME,
+                        projection, null,
+                        null, null, null,
+                        DatabaseContract.VitalsListLocal.DEFAULT_SORT_ORDER);
+                listVitalsList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listVitalsList;
+        }
+
+        public ArrayList<VitalsList> listAll(String ID) {
+            ArrayList<VitalsList> listVitalsList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_ID + "='" + ID + "'";
+                }
+                result = db.query(DatabaseContract.VitalsListLocal.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.VitalsListLocal.DEFAULT_SORT_ORDER);
+                listVitalsList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listVitalsList;
+        }
+
+        public Boolean IsVitalsExist(String VitalID, String PatientID, String VisitID) {
+            ArrayList<VitalsList> listVitalsList = null;
+            Boolean isExist = false;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (VitalID != null) {
+                    whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID + "='" + VisitID + "' AND " +
+                            DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALID + "='" + VitalID + "'";
+                }
+                result = db.query(DatabaseContract.VitalsListLocal.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.VitalsListLocal.DEFAULT_SORT_ORDER);
+                listVitalsList = CursorToArrayList(result);
+                if (listVitalsList != null && listVitalsList.size() > 0) {
+                    isExist = true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return isExist;
+        }
+
+        /*public ArrayList<VitalsList> listAllVitals(String PatientID, String VisitID) {
+            ArrayList<VitalsList> listVitalsList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause =
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID + "='" + VisitID + "' AND " +
+                                DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_SYNC + "='1' AND " +
+                                DatabaseContract.VitalsListLocal.COLUMN_NAME_ISLOCAL + "= '1'";
+                result = db.query(DatabaseContract.VitalsListLocal.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.VitalsListLocal.DEFAULT_SORT_ORDER);
+                listVitalsList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listVitalsList;
+        }*/
+
+        public ArrayList<VitalsList> listAll(String PatientID, String VisitID) {
+            ArrayList<VitalsList> listVitalsList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause =
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID + "='" + VisitID + "'";
+                /*AND " +
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_SYNC + "='" + PatientID + "' AND " +
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_ISLOCAL + "= 'True'";*/
+                result = db.query(DatabaseContract.VitalsListLocal.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.VitalsListLocal.DEFAULT_SORT_ORDER);
+                listVitalsList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listVitalsList;
+        }
+
+        public int CountID(String PatientID, String VisitID) {
+            int Count = 0;
+            ArrayList<VitalsList> vitalsLists = null;
+            try {
+                vitalsLists = listAll(PatientID, VisitID);
+                if (vitalsLists != null && vitalsLists.size() > 0) {
+                    Count = vitalsLists.size();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+            return Count;
+        }
+
+        public long updateISStatus(VitalsList vitalsList) {
+            long rowId = -1;
+            try {
+                ContentValues values = VitalsListToContentValues(vitalsList);
+                String whereClause = null;
+                whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_ID + "='" + vitalsList.getID() + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.VitalsListLocal.TABLE_NAME, values,
+                            whereClause,
+                            null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long updateValue(String PatientID, String VisitID, String VitalID, String Value) {
+            long rowId = -1;
+            try {
+                ContentValues values = new ContentValues();
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_VALUE, Value);
+                String whereClause = null;
+                whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTID + "='" + PatientID + "' AND " +
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID + "='" + VisitID + "' AND " +
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALID + "='" + VitalID + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(DatabaseContract.VitalsListLocal.TABLE_NAME, values, whereClause, null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long DeleteVitals(String PatientID, String VisitID, String VitalID) {
+            long rowId = -1;
+            try {
+                String whereClause = null;
+                whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTID + "='" + PatientID + "' AND " +
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID + "='" + VisitID + "' AND " +
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_VITALID + "='" + VitalID + "'";
+                databaseContract.open().delete(DatabaseContract.VitalsListLocal.TABLE_NAME, whereClause, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public void delete(String PatientID, String VisitID) {
+            try {
+                String whereClause = null;
+                whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_PATIENTID + "='" + PatientID + "' AND " +
+                        DatabaseContract.VitalsListLocal.COLUMN_NAME_VISITID + "='" + VisitID + "'";
+                //AND " + DatabaseContract.VitalsListLocal.COLUMN_NAME_STATUS + "= 'False'";
+                databaseContract.open().delete(DatabaseContract.VitalsListLocal.TABLE_NAME, whereClause, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.VitalsListLocal.TABLE_NAME,
+                            projection, whereClause,
+                            null, null, null,
+                            DatabaseContract.VitalsListLocal.DEFAULT_SORT_ORDER);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        //======================== methods to sync offline data ======================//
+        public ArrayList<VitalsList> listAllUnSync() {
+            ArrayList<VitalsList> listVitalsList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_SYNC + "='1'";
+                result = db.query(DatabaseContract.VitalsListLocal.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null, DatabaseContract.VitalsListLocal.DEFAULT_SORT_ORDER);
+                listVitalsList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return listVitalsList;
+        }
+
+        public long createUnSync(VitalsList elVitalsList) {
+            long rowId = -1;
+            try {
+                elVitalsList.setIsSync("1");
+                ContentValues values = VitalsListToContentValues(elVitalsList);
+                if (values != null) {
+                    rowId = databaseContract.open().insert(DatabaseContract.VitalsListLocal.TABLE_NAME, null, values);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
         public long updateUnSync(VitalsList elVitalsList) {
             long rowId = -1;
             try {
-                ContentValues values = VitalsListToContentValuesUpdate(elVitalsList);
+                ContentValues values = VitalsListToContentValues(elVitalsList);
                 String whereClause = null;
-                whereClause = DatabaseContract.VitalsList._ID + "='" + elVitalsList.get_ID() + "'";
+                whereClause = DatabaseContract.VitalsListLocal._ID + "='" + elVitalsList.get_ID() + "'";
                 if (values != null) {
                     rowId = databaseContract.open().update(
-                            DatabaseContract.VitalsList.TABLE_NAME, values, whereClause, null);
+                            DatabaseContract.VitalsListLocal.TABLE_NAME, values, whereClause, null);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -4640,15 +5092,15 @@ public class DatabaseAdapter {
             try {
                 sqLiteDatabase = databaseContract.open();
                 ContentValues values = new ContentValues();
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE, "0");
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_UPDATE, "0");
                 String whereClause = null;
                 if (values != null) {
-                    rowId = sqLiteDatabase.update(DatabaseContract.VitalsList.TABLE_NAME, values, whereClause, null);
+                    rowId = sqLiteDatabase.update(DatabaseContract.VitalsListLocal.TABLE_NAME, values, whereClause, null);
                 }
-                whereClause = DatabaseContract.VitalsList._ID + "='" + ID + "'";
-                values.put(DatabaseContract.VitalsList.COLUMN_NAME_IS_UPDATE, "1");
+                whereClause = DatabaseContract.VitalsListLocal._ID + "='" + ID + "'";
+                values.put(DatabaseContract.VitalsListLocal.COLUMN_NAME_IS_UPDATE, "1");
                 if (values != null) {
-                    rowId = sqLiteDatabase.update(DatabaseContract.VitalsList.TABLE_NAME, values, whereClause, null);
+                    rowId = sqLiteDatabase.update(DatabaseContract.VitalsListLocal.TABLE_NAME, values, whereClause, null);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

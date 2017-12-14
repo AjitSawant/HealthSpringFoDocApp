@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
 import com.palash.healthspring.adapter.VitalsListAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
@@ -29,7 +28,6 @@ import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.VitalsList;
-import com.palash.healthspring.task.MasterTask;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 import com.palash.healthspring.utilities.TransparentProgressDialog;
@@ -49,6 +47,7 @@ public class VitalsFragment extends Fragment {
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.VitalsListAdapter vitalsListAdapterDB;
+    private DatabaseAdapter.VitalsListLocalAdapter vitalsListLocalAdapterDB;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.FlagAdapter flagAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
@@ -95,6 +94,7 @@ public class VitalsFragment extends Fragment {
             flagAdapter = databaseAdapter.new FlagAdapter();
             masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
             vitalsListAdapterDB = databaseAdapter.new VitalsListAdapter();
+            vitalsListLocalAdapterDB = databaseAdapter.new VitalsListLocalAdapter();
             bookAppointmentAdapterDB = databaseAdapter.new BookAppointmentAdapter();
             bookAppointmentArrayList = bookAppointmentAdapterDB.listLast();
             doctorProfileList = doctorProfileAdapter.listAll();
@@ -108,14 +108,14 @@ public class VitalsFragment extends Fragment {
             emr_vitals_list_List = (ListView) rootView.findViewById(R.id.emr_vitals_list_List);
             emr_vitals_list_empty = (TextView) rootView.findViewById(R.id.emr_vitals_list_empty);
             emr_vitals_list_chronometer = (Chronometer) rootView.findViewById(R.id.emr_vitals_list_chronometer);
-            emr_vitals_list_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            /*emr_vitals_list_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                 @Override
                 public void onChronometerTick(Chronometer chronometer) {
-                    /*MasterFlagTask();
-                    flagTask();*/
+                    *//*MasterFlagTask();
+                    flagTask();*//*
                     LoadList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 }
-            });
+            });*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,12 +126,13 @@ public class VitalsFragment extends Fragment {
         emr_vitals_list_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_vitals_list_chronometer.start();
         //if (Constants.backFromAddEMR == false) {
-            if (localSetting.isNetworkAvailable(context)) {
-                new GetVitalsListTask().execute();
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
-            }
-       //}
+        refreshList();
+        if (localSetting.isNetworkAvailable(context)) {
+            new GetVitalsListTask().execute();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        }
+        //}
         super.onResume();
     }
 
@@ -141,36 +142,8 @@ public class VitalsFragment extends Fragment {
         super.onPause();
     }
 
-   /* private void flagTask() {
-        flag = flagAdapter.listCurrent();
-        flag.setFlag(Constants.EMR_VITALS_TASK);
-        flagAdapter.create(flag);
-        SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-    }*/
-
-    private void MasterFlagTask() {
-        masterflag = masterFlagAdapter.listCurrent();
-        masterflag.setFlag(Constants.EMR_VITAL_MASTER_TASK);
-        masterFlagAdapter.create(masterflag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
-    }
-
-    private void LoadList(String PatientID, String VisitID) {
-        try {
-            currentCount = vitalsListAdapterDB.CountID(PatientID, VisitID);
-            if (vitalsListArrayList != null) {
-                listCount = vitalsListArrayList.size();
-            }
-            if (currentCount != listCount) {
-                refreshList(PatientID, VisitID);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void refreshList(String PatientID, String VisitID) {
-        vitalsListArrayList = vitalsListAdapterDB.listAll(PatientID, VisitID);
+    private void refreshList() {
+        vitalsListArrayList = vitalsListAdapterDB.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
         if (vitalsListArrayList != null && vitalsListArrayList.size() > 0) {
             vitalsListAdapter = new VitalsListAdapter(context, vitalsListArrayList);
             emr_vitals_list_List.setAdapter(vitalsListAdapter);
@@ -251,18 +224,21 @@ public class VitalsFragment extends Fragment {
                 vitalsListArrayList = jsonObjectMapper.map(responseString, VitalsList.class);
                 if (vitalsListArrayList != null && vitalsListArrayList.size() > 0) {
                     vitalsListAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                    vitalsListLocalAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                     for (int index = 0; index < vitalsListArrayList.size(); index++) {
                         vitalsListAdapterDB.create(vitalsListArrayList.get(index));
+                        vitalsListLocalAdapterDB.create(vitalsListArrayList.get(index));
                     }
                 }
-            } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
+            } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
+                vitalsListLocalAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 vitalsListAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                 emr_vitals_list_empty.setVisibility(View.VISIBLE);
                 emr_vitals_list_List.setVisibility(View.GONE);
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
-            refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+            refreshList();
             super.onPostExecute(result);
         }
     }

@@ -60,6 +60,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
     private DatabaseAdapter.VitalAdapter vitalAdapterDB;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.VitalsListAdapter vitalsListAdapterDB;
+    private DatabaseAdapter.VitalsListLocalAdapter vitalsListLocalAdapterDB;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
 
     private VitalsList elVitalsList;
@@ -112,6 +113,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
         bookAppointmentAdapterDB = databaseAdapter.new BookAppointmentAdapter();
         vitalAdapterDB = databaseAdapter.new VitalAdapter();
         vitalsListAdapterDB = databaseAdapter.new VitalsListAdapter();
+        vitalsListLocalAdapterDB = databaseAdapter.new VitalsListLocalAdapter();
         masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
 
         elVitalsList = new VitalsList();
@@ -198,7 +200,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
     }
 
     private void refreshList(String PatientID, String VisitID) {
-        vitalsListArrayList = vitalsListAdapterDB.listAll(PatientID, VisitID);
+        vitalsListArrayList = vitalsListLocalAdapterDB.listAll(PatientID, VisitID);
         if (vitalsListArrayList != null && vitalsListArrayList.size() > 0) {
             vitalsListAdapter = new VitalsListUpdateAdapter(context, vitalsListArrayList, PatientID, VisitID);
             emr_vitals_list_List.setAdapter(vitalsListAdapter);
@@ -224,24 +226,6 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
     }
-
-    /*private void LoadUpdateRecordData() {
-        vitalsListArrayList = vitalsListAdapterDB.CurrentUpdateNotes();
-        if (vitalsListArrayList != null && vitalsListArrayList.size() > 0) {
-            elVitalsList = vitalsListArrayList.get(0);
-            try {
-                vitals_list_edt_vlaue.setText(elVitalsList.getValue());
-                for (int i = 0; i < vitalArrayList.size(); i++) {
-                    if (vitalArrayList.get(i).getDescription().equals(elVitalsList.getVitalsDecription())) {
-                        vitals_list_spinner_vitals_name.setSelection(i);
-                    }
-                }
-                vitalsListAdapterDB.removeCurrentUpdateNotes();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
 
     private void validValue() {
         if (vitals_list_edt_vlaue.getText().toString().length() > 0 && vitals_list_edt_minvalue.getText().toString().length() > 0
@@ -290,7 +274,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onBackPressed() {
-        Constants.backFromAddEMR=true;
+        Constants.backFromAddEMR = true;
         finish();
     }
 
@@ -313,7 +297,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                 return true;
             case android.R.id.home:
                 onBackPressed();
-                Constants.backFromAddEMR=true;
+                Constants.backFromAddEMR = true;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -333,9 +317,10 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
     private void VitalsAddLocal() {
         try {
             elVitalsList = new VitalsList();
+            CurrentDate = simpleDF.format(c.getTime());
 
             if (selectedVitalID != null && selectedVitalID.length() > 0
-                    && vitalsListAdapterDB.IsVitalsExist(selectedVitalID, bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID()) == false) {
+                    && vitalsListLocalAdapterDB.IsVitalsExist(selectedVitalID, bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID()) == false) {
                 elVitalsList.setUnitID(bookAppointmentArrayList.get(0).getDoctorUnitID());
                 elVitalsList.setPatientID(bookAppointmentArrayList.get(0).getPatientID());
                 elVitalsList.setPatientUnitID(bookAppointmentArrayList.get(0).getUnitID());
@@ -350,9 +335,9 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                 elVitalsList.setDate(CurrentDate);
                 elVitalsList.setTime(CurrentDate);
                 elVitalsList.setISLocal("1");
-                elVitalsList.setIsSync("1");
+                elVitalsList.setIsSync(null);
 
-                vitalsListAdapterDB.createLocal(elVitalsList);
+                vitalsListLocalAdapterDB.createLocal(elVitalsList);
                 refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
             } else {
                 Toast.makeText(context, "Vitals already added", Toast.LENGTH_SHORT).show();
@@ -382,8 +367,9 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             elSaveVitalsList.setDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
                             elSaveVitalsList.setDate(CurrentDate);
                             elSaveVitalsList.setTime(CurrentDate);
-                            elSaveVitalsList.setAllvitalsList(vitalsListAdapterDB.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID()));
-                            new VitalsListAddUpdateTask().execute();
+                            elSaveVitalsList.setAllvitalsList(vitalsListLocalAdapterDB.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID()));
+                            //new VitalsListAddUpdateTask().execute();
+                            callToWebservice();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
@@ -394,6 +380,36 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
         }
     }
 
+    private void callToWebservice() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new VitalsListAddUpdateTask().execute();
+        } else {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(context.getResources().getString(R.string.offline_net_alert))
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ArrayList<VitalsList> elVitalsArrayList = elSaveVitalsList.getAllvitalsList();
+                            if (elVitalsArrayList != null && elVitalsArrayList.size() > 0) {
+                                vitalsListAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                                vitalsListLocalAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                                for (int i = 0; i < elVitalsArrayList.size(); i++) {
+                                    vitalsListAdapterDB.createUnSync(elVitalsArrayList.get(i), CurrentDate);
+                                    vitalsListLocalAdapterDB.createUnSync(elVitalsArrayList.get(i));
+                                }
+                                Clear();
+                                finish();
+                            }
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
+        }
+    }
 
     public class VitalsListAddUpdateTask extends AsyncTask<Void, Void, String> {
         private TransparentProgressDialog progressDialog = null;
@@ -418,7 +434,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(elSaveVitalsList);
                 serviceConsumer = new WebServiceConsumer(context, null, null);
-                response = serviceConsumer.POST(Constants.MULTI_VITALS_ADD_UPDATE_URL, jSonData);
+                //response = serviceConsumer.POST(Constants.MULTI_VITALS_ADD_UPDATE_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();
                     responseMSG = response.message().toString();
@@ -466,94 +482,6 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             })
                             .setIcon(R.mipmap.ic_launcher).show();
                 } else {
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                    /*new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(context.getResources().getString(R.string.offline_alert))
-                            .setCancelable(true)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (isUpdate.equals("Yes")) {
-                                        vitalsListAdapterDB.updateUnSync(elVitalsList);
-                                    } else {
-                                        vitalsListAdapterDB.createUnSync(elVitalsList);
-                                    }
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .show();*/
-                }
-                refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            super.onPostExecute(result);
-        }
-    }
-
-    /*public class VitalsListUpDateTask extends AsyncTask<Void, Void, String> {
-        private int responseCode = 0;
-        private TransparentProgressDialog progressDialog = null;
-        private JsonObjectMapper objMapper = null;
-        private WebServiceConsumer serviceConsumer = null;
-        private Response response = null;
-        private String jSonData = "";
-        private String responseMSG = "";
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = localSetting.showDialog(context);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String responseString = "";
-            try {
-                objMapper = new JsonObjectMapper();
-                jSonData = objMapper.unMap(elVitalsList);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
-                response = serviceConsumer.POST(Constants.VITALS_ADD_UPDATE_URL, jSonData);
-                if (response != null) {
-                    responseString = response.body().string();
-                    responseCode = response.code();
-                    responseMSG = response.message().toString();
-                    Log.d(Constants.TAG, "Response code:" + responseCode);
-                    Log.d(Constants.TAG, "Response MSG:" + responseMSG);
-                    Log.d(Constants.TAG, "Response string:" + responseString);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Vital details updated successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
-                } else {
-                    localSetting.hideDialog(progressDialog);
                     //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
                     new AlertDialog
                             .Builder(context)
@@ -563,19 +491,28 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    vitalsListAdapterDB.updateUnSync(elVitalsList);
-                                    Clear();
-                                    finish();
+                                    ArrayList<VitalsList> elVitalsArrayList = elSaveVitalsList.getAllvitalsList();
+                                    if (elVitalsArrayList != null && elVitalsArrayList.size() > 0) {
+                                        vitalsListAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                                        vitalsListLocalAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                                        for (int i = 0; i < elVitalsArrayList.size(); i++) {
+                                            vitalsListAdapterDB.createUnSync(elVitalsArrayList.get(i), CurrentDate);
+                                            vitalsListLocalAdapterDB.createUnSync(elVitalsArrayList.get(i));
+                                        }
+                                        Clear();
+                                        finish();
+                                    }
                                 }
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(R.mipmap.ic_launcher)
                             .show();
                 }
+                refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             super.onPostExecute(result);
         }
-    }*/
+    }
 }

@@ -244,7 +244,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
                         appointment_edt_patient_gender.setText("Female");
                     }
                 }
-
                 try {
                     if (departmentslist != null && departmentslist.size() > 0) {
                         boolean matchFlag = false;
