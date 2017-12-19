@@ -43,9 +43,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by manishas on 7/7/2016.
- */
 public class VisitListActivity extends AppCompatActivity {
     private Context context;
     private LocalSetting localSetting;
@@ -111,7 +108,6 @@ public class VisitListActivity extends AppCompatActivity {
             bookAppointmentArrayList = bookAppointmentAdapter.listLast();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             doctorProfileList = doctorProfileAdapter.listAll();
-
             masterflag = new Flag();
         } catch (Exception e) {
             e.printStackTrace();
@@ -292,8 +288,12 @@ public class VisitListActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.menu_toolbar_add:
-                Intent intent = new Intent(context, VisitBookActivity.class);
-                startActivity(intent);
+                if (localSetting.checkUnitName(doctorProfileList.get(0).getUnitID())) {
+                    Toast.makeText(context, "Visit booking functionality is not available for Head office.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(context, VisitBookActivity.class);
+                    startActivity(intent);
+                }
                 return true;
             case R.id.menu_toolbar_refresh:
                 new GetVisitListTask().execute();

@@ -41,9 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by manishas on 6/15/2016.
- */
 public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
 
     private static final String TAG = AppointmentExpandListAdapter.class.getSimpleName();

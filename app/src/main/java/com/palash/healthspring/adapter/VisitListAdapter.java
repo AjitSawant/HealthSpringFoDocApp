@@ -15,15 +15,13 @@ import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
+import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.VisitList;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
 
-/**
- * Created by manishas on 7/7/2016.
- */
 public class VisitListAdapter extends BaseAdapter {
 
     private Context context;
@@ -33,7 +31,9 @@ public class VisitListAdapter extends BaseAdapter {
     private DatabaseAdapter databaseAdapter;
 
     private BookAppointment bookAppointment;
+
     private ArrayList<VisitList> visitListArrayList;
+    private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
 
     public VisitListAdapter(Context context, ArrayList<VisitList> visitListArrayList) {
@@ -45,6 +45,7 @@ public class VisitListAdapter extends BaseAdapter {
         localSetting.Load();
 
         bookAppointment = new BookAppointment();
+
         databaseContract = new DatabaseContract(context);
         databaseAdapter = new DatabaseAdapter(databaseContract);
         bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
@@ -133,12 +134,14 @@ public class VisitListAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     bookAppointment.setVisitID(visitListArrayList.get(position).getID());
                     bookAppointmentAdapter.updateVisitID(bookAppointment);
                     localSetting.fragment_name = "VisitList";
                     //localSetting.fragment_name = "PatientQueue";
                     localSetting.Save();
                     context.startActivity(new Intent(context, EMRNavigationDrawerActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
                 }
             });
         } catch (Exception e) {

@@ -6,9 +6,6 @@ import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.task.MasterTask;
 import com.palash.healthspring.task.SynchronizationTask;
 
-/**
- * Created by Bhushan on 09-Aug-17.
- */
 public class ApplicationClass extends Application {
 
     private static ApplicationClass context;

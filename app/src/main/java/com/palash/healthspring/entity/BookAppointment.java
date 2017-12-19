@@ -3,9 +3,6 @@ package com.palash.healthspring.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by manishas on 6/3/2016.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BookAppointment {
 

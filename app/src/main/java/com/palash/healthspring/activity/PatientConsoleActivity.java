@@ -205,12 +205,12 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
                     String dayDifference = Long.toString(differenceDates);
 
                     if (date1.before(date2) || date1.equals(date2)) {
-                        if (Integer.parseInt(dayDifference) < 7) {
+                        if (Integer.parseInt(dayDifference) < Constants.FILTER_DAYS_COUNT) {
                             patient_console_search_tv_visit_todate.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
                         } else {
                             ToDate = "";
                             patient_console_search_tv_visit_todate.setText("");
-                            Toast.makeText(context, "Date difference should be maximum 7 days", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.filter_date_alter), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         ToDate = "";

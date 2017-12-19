@@ -35,11 +35,11 @@ public class ViewPDFActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        context = this;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        context = this;
         localSetting = new LocalSetting();
 
         webviewLayout = (RelativeLayout) findViewById(R.id.webview_layout);

@@ -6,15 +6,6 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/**
- * Shimmer
- * User: romainpiel
- * Date: 06/03/2014
- * Time: 10:19
- *
- * Shimmering TextView
- * Dumb class wrapping a ShimmerViewHelper
- */
 public class ShimmerTextView extends TextView implements ShimmerViewBase {
 
     private ShimmerViewHelper shimmerViewHelper;

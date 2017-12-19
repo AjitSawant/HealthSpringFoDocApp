@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -33,10 +34,6 @@ import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by manishas on 7/21/2016.
- */
 public class EMRNavigationDrawerActivity extends AppCompatActivity {
 
     private Context context;
@@ -222,7 +219,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
             patient_email = (TextView) view.findViewById(R.id.patient_email);
             bookAppointmentArrayList = bookAppointmentAdapter.listLast();
 
-            if (bookAppointmentArrayList != null) {
+            if (bookAppointmentArrayList != null && bookAppointmentArrayList.size()>0) {
                 BookAppointment bookAppointment = bookAppointmentArrayList.get(0);
                 String FirstName = bookAppointment.getFirstName();
                 String MiddleName = bookAppointment.getMiddleName();

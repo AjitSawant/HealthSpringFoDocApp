@@ -269,7 +269,14 @@ public class LocalSetting {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return result;
+    }
+
+    public static boolean checkUnitName(String unitID) {
+        Boolean isHeadOfficeSelected = false;
+        if (unitID.equals("1")) {
+            isHeadOfficeSelected = true;
+        }
+        return isHeadOfficeSelected;
     }
 }

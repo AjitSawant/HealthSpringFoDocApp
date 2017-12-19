@@ -1923,79 +1923,79 @@ public class DatabaseContract {
                 Log.d(Constants.TAG, "Creating table 4: " + UnitMaster.CREATE_TABLE);
                 db.execSQL(UnitMaster.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 7: " + DoctorType.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 5: " + DoctorType.CREATE_TABLE);
                 db.execSQL(DoctorType.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 8: " + Specialization.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 6: " + Specialization.CREATE_TABLE);
                 db.execSQL(Specialization.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 9: " + AppointmentReason.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 7: " + AppointmentReason.CREATE_TABLE);
                 db.execSQL(AppointmentReason.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 10: " + BookAppointment.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 8: " + BookAppointment.CREATE_TABLE);
                 db.execSQL(BookAppointment.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 11: " + Appointment.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 9: " + Appointment.CREATE_TABLE);
                 db.execSQL(Appointment.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 12: " + Department.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 10: " + Department.CREATE_TABLE);
                 db.execSQL(Department.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 13: " + Complaint.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 11: " + Complaint.CREATE_TABLE);
                 db.execSQL(Complaint.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 14: " + Patient.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 12: " + Patient.CREATE_TABLE);
                 db.execSQL(Patient.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 15: " + PatientQueue.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 13: " + PatientQueue.CREATE_TABLE);
                 db.execSQL(PatientQueue.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 16: " + VisitList.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 14: " + VisitList.CREATE_TABLE);
                 db.execSQL(VisitList.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 17: " + VitalsListLocal.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 15: " + VitalsListLocal.CREATE_TABLE);
                 db.execSQL(VitalsListLocal.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 18: " + MedicienRoute.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 16: " + MedicienRoute.CREATE_TABLE);
                 db.execSQL(MedicienRoute.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 19: " + MedicienFrequency.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 17: " + MedicienFrequency.CREATE_TABLE);
                 db.execSQL(MedicienFrequency.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 20: " + MedicienInstruction.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 18: " + MedicienInstruction.CREATE_TABLE);
                 db.execSQL(MedicienInstruction.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 21: " + Vital.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 19: " + Vital.CREATE_TABLE);
                 db.execSQL(Vital.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 23: " + DaignosisTypeMaster.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 20: " + DaignosisTypeMaster.CREATE_TABLE);
                 db.execSQL(DaignosisTypeMaster.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 25: " + Priority.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 21: " + Priority.CREATE_TABLE);
                 db.execSQL(Priority.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 26: " + DiagnosisList.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 22: " + DiagnosisList.CREATE_TABLE);
                 db.execSQL(DiagnosisList.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 27: " + VitalsList.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 23: " + VitalsList.CREATE_TABLE);
                 db.execSQL(VitalsList.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 28: " + CPOEService.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 24: " + CPOEService.CREATE_TABLE);
                 db.execSQL(CPOEService.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 29: " + CPOEMedicine.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 25: " + CPOEMedicine.CREATE_TABLE);
                 db.execSQL(CPOEMedicine.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 31: " + ComplaintsList.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 26: " + ComplaintsList.CREATE_TABLE);
                 db.execSQL(ComplaintsList.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 31: " + ReferralServiceList.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 27: " + ReferralServiceList.CREATE_TABLE);
                 db.execSQL(ReferralServiceList.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 31: " + PatientConsoleList.CREATE_TABLE);
+                Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
                 db.execSQL(PatientConsoleList.CREATE_TABLE);
 
-                /*Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
+              /*Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
                 db.execSQL(Gender.CREATE_TABLE);
                 Log.d(Constants.TAG, "Creating table 5: " + MaritalStatus.CREATE_TABLE);
                 db.execSQL(MaritalStatus.CREATE_TABLE);

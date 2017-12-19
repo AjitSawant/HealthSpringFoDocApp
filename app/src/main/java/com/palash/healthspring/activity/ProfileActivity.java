@@ -25,10 +25,6 @@ import java.util.ArrayList;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-
-/**
- * Created by Manishas on 5/9/2016.
- */
 public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
@@ -113,8 +109,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_profile, menu);
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
         editItem = (MenuItem) menu.findItem(R.id.menu_profile_edit);
         saveItem = (MenuItem) menu.findItem(R.id.menu_profile_save);
         cancelItem = (MenuItem) menu.findItem(R.id.menu_profile_cancle);

@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
-/**
- * Created by manishas on 7/21/2016.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VitalsListSave {
 

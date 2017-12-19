@@ -13,9 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.SparseIntArray;
 import android.view.View;
 
-/**
- * Created by MG on 03-04-2016.
- */
 public abstract class RuntimePermissionsActivity extends AppCompatActivity {
     private SparseIntArray mErrorString;
 

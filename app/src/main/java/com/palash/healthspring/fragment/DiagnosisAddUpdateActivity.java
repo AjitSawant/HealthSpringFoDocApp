@@ -46,9 +46,7 @@ import java.util.Locale;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-/**
- * Created by manishas on 7/26/2016.
- */
+
 public class DiagnosisAddUpdateActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context context;

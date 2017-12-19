@@ -13,9 +13,6 @@ import android.widget.LinearLayout;
 import com.palash.healthspring.R;
 
 
-/**
- * Created by root on 8/6/15.
- */
 public class TransparentProgressDialog extends Dialog
 {
     private ImageView iv;

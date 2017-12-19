@@ -34,9 +34,6 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by manishas on 7/21/2016.
- */
 public class FollowUpFragment extends Fragment {
 
     private static final String TAG = FollowUpFragment.class.getSimpleName();

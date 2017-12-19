@@ -10,6 +10,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
@@ -28,9 +29,6 @@ import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
 
-/**
- * Created by manishas on 5/19/2016.
- */
 public class SearchPatientAdapter extends BaseAdapter implements Filterable {
 
     private Context context;
@@ -61,6 +59,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
 
         bookAppointment = new BookAppointment();
         elDoctorProfile = new DoctorProfile();
+
         databaseContract = new DatabaseContract(context);
         databaseAdapter = new DatabaseAdapter(databaseContract);
         bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
@@ -129,41 +128,45 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
             holder.patient_row_bnt_book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Patient elPatient = patientlist.get(position);
-                    bookAppointment.setID(elDoctorProfile.getID());
-                    bookAppointment.setUnitID(elPatient.getUnitID());
-                    bookAppointment.setPatientID(elPatient.getID());
-                    bookAppointment.setFirstName(elPatient.getFirstName());
-                    bookAppointment.setLastName(elPatient.getLastName());
-                    bookAppointment.setMiddleName(elPatient.getMiddleName());
-                    bookAppointment.setEmailId(elPatient.getEmail());
-                    bookAppointment.setContact1(elPatient.getContactNo1());
-                    bookAppointment.setGenderID(elPatient.getGenderID());
-                    bookAppointment.setBloodGroupID(elPatient.getBloodGroupID());
-                    bookAppointment.setDOB(elPatient.getDateOfBirth());
-                    bookAppointment.setMaritalStatusID(elPatient.getMaritalStatusID());
-                    bookAppointmentAdapter.create(bookAppointment);
+                    if(localSetting.checkUnitName(elDoctorProfile.getUnitID())){
+                        Toast.makeText(context,"Appointment booking functionality is not available for Head office.",Toast.LENGTH_SHORT).show();
+                    }else {
+                        Patient elPatient = patientlist.get(position);
+                        bookAppointment.setID(elDoctorProfile.getID());
+                        bookAppointment.setUnitID(elPatient.getUnitID());
+                        bookAppointment.setPatientID(elPatient.getID());
+                        bookAppointment.setFirstName(elPatient.getFirstName());
+                        bookAppointment.setLastName(elPatient.getLastName());
+                        bookAppointment.setMiddleName(elPatient.getMiddleName());
+                        bookAppointment.setEmailId(elPatient.getEmail());
+                        bookAppointment.setContact1(elPatient.getContactNo1());
+                        bookAppointment.setGenderID(elPatient.getGenderID());
+                        bookAppointment.setBloodGroupID(elPatient.getBloodGroupID());
+                        bookAppointment.setDOB(elPatient.getDateOfBirth());
+                        bookAppointment.setMaritalStatusID(elPatient.getMaritalStatusID());
+                        bookAppointmentAdapter.create(bookAppointment);
 
-                    String FirstName = elDoctorProfile.getFirstName();
-                    String MiddleName = elDoctorProfile.getMiddleName();
-                    String LastName = elDoctorProfile.getLastName();
-                    String Name = FirstName + " " + LastName;
-                    if (MiddleName != null && MiddleName.trim().length() > 0) {
-                        Name = FirstName + " " + MiddleName + " " + LastName;
+                        String FirstName = elDoctorProfile.getFirstName();
+                        String MiddleName = elDoctorProfile.getMiddleName();
+                        String LastName = elDoctorProfile.getLastName();
+                        String Name = FirstName + " " + LastName;
+                        if (MiddleName != null && MiddleName.trim().length() > 0) {
+                            Name = FirstName + " " + MiddleName + " " + LastName;
+                        }
+
+                        bookAppointment.setDoctorID(elDoctorProfile.getDoctorID());
+                        bookAppointment.setDoctorUnitID(elDoctorProfile.getUnitID());
+                        bookAppointment.setDoctorName(Name);
+                        bookAppointment.setSpecialization(elDoctorProfile.getSpecialization());
+                        bookAppointment.setDoctorEducation(elDoctorProfile.getEducation());
+                        bookAppointment.setDoctorMobileNo(elDoctorProfile.getPFNumber());
+                        bookAppointmentAdapter.updateDoctor(bookAppointment);
+                        localSetting.Activityname = "PatientList";
+                        localSetting.Save();
+
+                        context.startActivity(new Intent(context, TimeSlotActivity.class));
+                        Constants.refreshPatient = false;
                     }
-
-                    bookAppointment.setDoctorID(elDoctorProfile.getDoctorID());
-                    bookAppointment.setDoctorUnitID(elDoctorProfile.getUnitID());
-                    bookAppointment.setDoctorName(Name);
-                    bookAppointment.setSpecialization(elDoctorProfile.getSpecialization());
-                    bookAppointment.setDoctorEducation(elDoctorProfile.getEducation());
-                    bookAppointment.setDoctorMobileNo(elDoctorProfile.getPFNumber());
-                    bookAppointmentAdapter.updateDoctor(bookAppointment);
-                    localSetting.Activityname = "PatientList";
-                    localSetting.Save();
-
-                    context.startActivity(new Intent(context, TimeSlotActivity.class));
-                    Constants.refreshPatient = false;
                 }
             });
 
@@ -251,7 +254,6 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                     bookAppointment.setDoctorEducation(elDoctorProfile.getEducation());
                     bookAppointment.setDoctorMobileNo(elDoctorProfile.getPFNumber());
                     bookAppointmentAdapter.updateDoctor(bookAppointment);
-
                     localSetting.Activityname = "PatientConsole";
                     localSetting.Save();
                     context.startActivity(new Intent(context, PatientConsoleActivity.class));

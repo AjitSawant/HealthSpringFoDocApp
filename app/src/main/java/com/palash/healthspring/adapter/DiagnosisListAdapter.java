@@ -18,9 +18,6 @@ import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
 
-/**
- * Created by manishas on 22/7/2016.
- */
 public class DiagnosisListAdapter extends BaseAdapter {
 
     private Context context;

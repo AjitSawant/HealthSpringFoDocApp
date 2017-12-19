@@ -18,9 +18,6 @@ import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
 
-/**
- * Created by manishas on 22/7/2016.
- */
 public class CPOEInvestigationListAdapter extends BaseAdapter {
 
     private Context context;
@@ -97,7 +94,7 @@ public class CPOEInvestigationListAdapter extends BaseAdapter {
 
             if (elCPOEService.getIsSync() != null && elCPOEService.getIsSync().equals("1")) {
                 holder.is_record_sync_tv.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.is_record_sync_tv.setVisibility(View.GONE);
             }
         } catch (Exception e) {

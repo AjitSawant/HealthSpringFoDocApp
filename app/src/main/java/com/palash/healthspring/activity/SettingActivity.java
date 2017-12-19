@@ -85,7 +85,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         bnt_set_changepassword.setOnClickListener(this);
 
         bnt_synchronization = (Button) findViewById(R.id.bnt_set_synchronize);
-
         bnt_synchronization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +96,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
-
         setting_chronometer = (Chronometer) findViewById(R.id.set_chronometer);
         setting_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -143,25 +141,25 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             Validate.Msgshow(context, "Please enter current password.");
             return false;
         } else if (!localSetting.decodeString(doctorProfileAdapter.listAll().get(0).getPassword()).equals(edt_set_current_password.getText().toString())) {
-            Validate.Msgshow(context, "Current password not matching.");
+            Validate.Msgshow(context, "Current password not matched.");
             return false;
         } else if (!Validate.hasTextIn(edt_set_new_password.getText().toString())) {
             Validate.Msgshow(context, "Please enter new password.");
             return false;
         } else if (edt_set_current_password.getText().toString().equals(edt_set_new_password.getText().toString())) {
-            Validate.Msgshow(context, "Current Password and New Password can not be same");
+            Validate.Msgshow(context, "Current password and new password not matched");
             return false;
         } else if (!Validate.hasMinimumCharInEditText(edt_set_new_password.getText().toString())) {
-            Validate.Msgshow(context, "Please enter new password min 6 and max 12 character.");
+            Validate.Msgshow(context, "Please enter new password min 6 and max 12 characters.");
             return false;
         } else if (!Validate.hasTextIn(edt_set_confirm_password.getText().toString())) {
             Validate.Msgshow(context, "Please enter confirm password.");
             return false;
         } else if (!Validate.hasMinimumCharInEditText(edt_set_confirm_password.getText().toString())) {
-            Validate.Msgshow(context, "Please enter confirm password min 6 and max 12 character.");
+            Validate.Msgshow(context, "Please enter confirm password min 6 and max 12 characters.");
             return false;
         } else if (!Validate.hasBothEditTextSame(edt_set_new_password.getText().toString(), edt_set_confirm_password.getText().toString())) {
-            Validate.Msgshow(context, "Confirm password not matching.");
+            Validate.Msgshow(context, "Confirm password not matched.");
             return false;
         }
         return true;

@@ -1,12 +1,10 @@
 package com.palash.healthspring.utilities;
 
-/**
- * Created by Manishas on 5/2/2016.
- */
 public class Constants {
     public static final String TAG = "HealthSpring";
     public static final String STATUS_LOG_IN = "login";
     public static final String STATUS_LOG_OUT = "logout";
+    public static final String KEY_REQUEST_DATA = "request_data";
 
     public static final int HTTP_OK_200 = 200;
     public static final int HTTP_CREATED_201 = 201;
@@ -18,9 +16,10 @@ public class Constants {
     public static final int HTTP_NOT_OK_501 = 501;
     public static final int HTTP_AMBIGUOUS_300 = 300;
     public static final int HTTP_Expectation_Failed_417 = 417;
+    public static final int FILTER_DAYS_COUNT = 7;
+
     public static boolean refreshPatient = false;
     public static boolean backFromAddEMR = false;
-    public static final String KEY_REQUEST_DATA = "request_data";
 
     //public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
     public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
@@ -59,15 +58,8 @@ public class Constants {
     public static final String DAIGNOSISTYPEMASTER_URL = BASE_URL + "Master/GetDaignosisTypeMaster";
     public static final String SERVICENAME_URL = BASE_URL + "Master/GetServiceName";
     public static final String PRIORITY_URL = BASE_URL + "Master/GetPriority";
-    //public static final String DIAGNOSIS_ADD_URL = BASE_URL + "DiagnosisList/AddDiagnosisList";
-    //public static final String DIAGNOSIS_UPDATE_URL = BASE_URL + "DiagnosisList/DiagnosisListUpDate";
     public static final String DIAGNOSIS_ADD_UPDATE_URL = BASE_URL + "DiagnosisList/DiagnosisListAddUpDate";
-    //public static final String VITALS_ADD_URL = BASE_URL + "VitalsList/AddVitalsList";
-    //public static final String VITALS_UPDATE_URL = BASE_URL + "VitalsList/VitalsListUpDate";
-    public static final String VITALS_ADD_UPDATE_URL = BASE_URL + "VitalsList/VitalsListAddUpDate";
     public static final String MULTI_VITALS_ADD_UPDATE_URL = BASE_URL + "VitalsList/AddMultiVitalsList";
-    public static final String CPOESERVICE_ADD_URL = BASE_URL + "CPOEService/AddCPOEService";
-    public static final String CPOESERVICE_UPDATE_URL = BASE_URL + "CPOEService/UpdateCPOEService";
     public static final String CPOESERVICE_ADD_UPDATE_URL = BASE_URL + "CPOEService/AddUpdateCPOEService";
     public static final String MOLECULE_URL = BASE_URL + "Master/GetMolecule";
     public static final String CPOEMEDICINE_ADD_UPDATE_URL = BASE_URL + "CPOEMedicine/AddCPOEMedicine";
@@ -92,7 +84,6 @@ public class Constants {
     public static final String OFFLINE_DATE = "dd MMM yyyy";
     public static final String OFFLINE_TIME = "hh:mm aa";
 
-    public static final int EMR_CPOESERVICE_TASK = 12;
     public static final int PATIENT_REGISTRATION_TASK = 16;
     public static final int BOOK_APPOINTMENT_TASK = 17;
     public static final int EMR_TASK = 88;

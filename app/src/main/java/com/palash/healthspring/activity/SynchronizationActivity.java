@@ -19,10 +19,6 @@ import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
 
-/**
- * Created by manishas on 10/4/2016.
- */
-
 public class SynchronizationActivity extends AppCompatActivity {
 
     private Context context;

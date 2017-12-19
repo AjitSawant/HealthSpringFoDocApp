@@ -26,9 +26,7 @@ import com.palash.healthspring.utilities.TransparentProgressDialog;
 import com.palash.healthspring.utilities.Validate;
 import com.squareup.okhttp.Response;
 
-/**
- * Created by manishas on 7/5/2016.
- */
+
 public class CancelAppointmentActivity extends AppCompatActivity {
 
     private Context context;

@@ -42,9 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by manishas on 5/16/2016.
- */
 public class PatientListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context context;
@@ -181,12 +178,12 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                         String dayDifference = Long.toString(differenceDates);
 
                         if (date1.before(date2) || date1.equals(date2)) {
-                            if (Integer.parseInt(dayDifference) < 7) {
+                            if (Integer.parseInt(dayDifference) < Constants.FILTER_DAYS_COUNT) {
                                 patient_register_end_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
                             } else {
                                 endDate = "";
                                 patient_register_end_date_edt.setText("");
-                                Toast.makeText(context, "Date difference should be maximum 7 days", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.filter_date_alter), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             endDate = "";

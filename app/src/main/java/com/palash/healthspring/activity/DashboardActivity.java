@@ -181,7 +181,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         doctor_education.setText(listProfile.get(0).getEducation());
                         doctor_email.setText(listProfile.get(0).getEmailId());
                     }
-
                 }
             };
             drawerLayout.setDrawerListener(actionBarDrawerToggle);

@@ -66,7 +66,6 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
         return patientQueueArrayList.get(position);
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -208,9 +207,14 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                         bookAppointmentAdapter.updateDoctor(bookAppointment);
                         bookAppointment.setVisitID(patientQueueArrayList.get(position).getVisitID());
                         bookAppointmentAdapter.updateVisitID(bookAppointment);
-                        localSetting.fragment_name = "PatientQueue";
-                        localSetting.Save();
 
+                        if (localSetting.checkUnitName(doctorprofilelist.get(0).getUnitID())) {  // for head office add/update should be hide
+                            localSetting.Activityname = "VisitList";
+                            localSetting.Save();
+                        } else {
+                            localSetting.fragment_name = "PatientQueue";
+                            localSetting.Save();
+                        }
                         Intent EMRIntent = new Intent(context, EMRNavigationDrawerActivity.class);
                         context.startActivity(EMRIntent);
                     } else {

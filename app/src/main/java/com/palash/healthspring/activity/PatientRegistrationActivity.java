@@ -42,9 +42,6 @@ import java.util.Date;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-/**
- * Created by manishas on 5/20/2016.
- */
 public class PatientRegistrationActivity extends AppCompatActivity {
 
     private Context context;

@@ -38,9 +38,7 @@ import java.util.ArrayList;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-/**
- * Created by manishas on 6/3/2016.
- */
+
 public class BookAppointmentActivity extends AppCompatActivity {
 
     private Context context;
