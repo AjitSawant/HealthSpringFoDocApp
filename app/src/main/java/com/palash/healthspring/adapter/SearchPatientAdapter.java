@@ -109,9 +109,9 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
 
             final Patient elPatient = getItem(position);
             if (elPatient.getMiddleName() != null && elPatient.getMiddleName().length() != 0) {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName() + " ( " + elPatient.getMRNo() + " )");
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getMiddleName() + " " + elPatient.getLastName() + " (" + elPatient.getMRNo() + ")");
             } else {
-                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName() + " ( " + elPatient.getMRNo() + " )");
+                holder.patient_name.setText(elPatient.getFirstName() + " " + elPatient.getLastName() + " (" + elPatient.getMRNo() + ")");
             }
 
             if (elPatient.getGender().equalsIgnoreCase("Male")) {

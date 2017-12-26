@@ -18,6 +18,7 @@ import com.palash.healthspring.entity.Department;
 import com.palash.healthspring.entity.DiagnosisList;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.DoctorType;
+import com.palash.healthspring.entity.ELSynchOfflineData;
 import com.palash.healthspring.entity.ELUnitMaster;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.MedicienFrequency;
@@ -53,6 +54,604 @@ public class DatabaseAdapter {
     public void close() {
         if (databaseContract != null) {
             databaseContract.close();
+        }
+    }
+
+    public class FlagAdapter {
+
+        String[] projection = {
+                DatabaseContract.Flag._ID,
+                DatabaseContract.Flag.COLUMN_NAME_FLAG,
+                DatabaseContract.Flag.COLUMN_NAME_MSG
+        };
+
+        private ArrayList<Flag> CursorToFlagList(Cursor result) {
+            ArrayList<Flag> flagArrayList = null;
+            try {
+                if (result != null) {
+                    flagArrayList = new ArrayList<Flag>();
+                    while (result.moveToNext()) {
+                        Flag flag = new Flag();
+                        flag.setID(result.getString((result.getColumnIndex(DatabaseContract.Flag._ID))));
+                        flag.setMsg(result.getString((result.getColumnIndex(DatabaseContract.Flag.COLUMN_NAME_MSG))));
+                        flag.setFlag(result.getInt(result.getColumnIndex(DatabaseContract.Flag.COLUMN_NAME_FLAG)));
+                        flagArrayList.add(flag);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return flagArrayList;
+        }
+
+        private ContentValues FlagToContentValues(Flag flag) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.Flag._ID, flag.getID());
+                values.put(DatabaseContract.Flag.COLUMN_NAME_FLAG, flag.getFlag());
+                values.put(DatabaseContract.Flag.COLUMN_NAME_MSG, flag.getMsg());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        public long create(Flag flag) {
+            long rowId = -1;
+            try {
+                ContentValues values = FlagToContentValues(flag);
+                if (values != null) {
+                    if (Count(flag.getID()) == 1) {
+                        String whereClause = DatabaseContract.Flag._ID + " = '" + flag.getID() + "'";
+                        rowId = databaseContract.open().update(DatabaseContract.Flag.TABLE_NAME, values, whereClause, null);
+                    } else {
+                        if (flag.getDateTime() != null && flag.getDateTime().length() > 0) {
+                            rowId = databaseContract.open().insert(DatabaseContract.Flag.TABLE_NAME, null, values);
+                        } else {
+                            values.put(DatabaseContract.Flag.COLUMN_NAME_FLAG, flag.getFlag());
+                            rowId = databaseContract.open().insert(DatabaseContract.Flag.TABLE_NAME, null, values);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        // old code
+        /*public long create(Flag flag) {
+            long rowId = -1;
+            try {
+                ContentValues values = FlagToContentValues(flag);
+                if (values != null) {
+                    if (Count(flag.getID()) == 1) {
+                        String whereClause = DatabaseContract.Flag._ID + " = '" + flag.getID() + "'";
+                        rowId = databaseContract.open().update(DatabaseContract.Flag.TABLE_NAME, values, whereClause, null);
+                    } else {
+                        rowId = databaseContract.open().insert(DatabaseContract.Flag.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }*/
+
+        public long updateFalg(Flag flag) {
+            long rowId = -1;
+            try {
+                ContentValues values = new ContentValues();
+                values.put(DatabaseContract.Flag.COLUMN_NAME_FLAG, flag.getFlag());
+                rowId = databaseContract.open().update(
+                        DatabaseContract.Flag.TABLE_NAME, values,
+                        DatabaseContract.Flag._ID + "=1",
+                        null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<Flag> listAll() {
+            ArrayList<Flag> flagArrayList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+
+                result = db.query(DatabaseContract.Flag.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.Flag.DEFAULT_SORT_ORDER);
+                flagArrayList = CursorToFlagList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return flagArrayList;
+        }
+
+        public ArrayList<Flag> listLast() {
+            ArrayList<Flag> flagArrayList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.Flag._ID + "= 1";
+                result = db.query(DatabaseContract.Flag.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.Flag.DEFAULT_SORT_ORDER);
+                flagArrayList = CursorToFlagList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return flagArrayList;
+        }
+
+        public Flag listCurrent() {
+            ArrayList<Flag> flagArrayList = null;
+            Cursor result = null;
+            Flag flag = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.Flag._ID + "= 1";
+                result = db.query(DatabaseContract.Flag.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.Flag.DEFAULT_SORT_ORDER);
+                flagArrayList = CursorToFlagList(result);
+                if (flagArrayList != null && flagArrayList.size() > 0) {
+                    flag = flagArrayList.get(0);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return flag;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.Flag._ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.Flag.TABLE_NAME,
+                            projection, whereClause,
+                            null, null, null,
+                            DatabaseContract.Flag.DEFAULT_SORT_ORDER);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+    }
+
+    public class MasterFlagAdapter {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        String date = df.format(c.getTime());
+        String[] projection = {
+                DatabaseContract.MasterFlag._ID,
+                DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG,
+                DatabaseContract.MasterFlag.COLUMN_NAME_MSG,
+                DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME
+        };
+
+        private ContentValues FlagToContentValues(Flag flag) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.MasterFlag._ID, flag.getID());
+                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG, flag.getFlag());
+                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MSG, flag.getMsg());
+                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME, date);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+
+        }
+
+        private ArrayList<Flag> CursorToMasterFlagList(Cursor result) {
+            ArrayList<Flag> flagArrayList = null;
+            try {
+                if (result != null) {
+                    flagArrayList = new ArrayList<Flag>();
+                    while (result.moveToNext()) {
+                        Flag flag = new Flag();
+                        flag.setID(result.getString((result.getColumnIndex(DatabaseContract.MasterFlag._ID))));
+                        flag.setFlag(result.getInt(result.getColumnIndex(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG)));
+                        flag.setMsg(result.getString(result.getColumnIndex(DatabaseContract.MasterFlag.COLUMN_NAME_MSG)));
+                        flag.setDateTime(result.getString(result.getColumnIndex(DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME)));
+                        flagArrayList.add(flag);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return flagArrayList;
+        }
+
+        public long create(Flag flag) {
+            long rowId = -1;
+            try {
+                ContentValues values = FlagToContentValues(flag);
+                if (values != null) {
+                    if (Count(flag.getID()) == 1) {
+                        String whereClause = DatabaseContract.MasterFlag._ID + " = '" + flag.getID() + "'";
+                        rowId = databaseContract.open().update(DatabaseContract.MasterFlag.TABLE_NAME, values, whereClause, null);
+                    } else {
+                        if (flag.getDateTime() != null && flag.getDateTime().length() > 0) {
+                            rowId = databaseContract.open().insert(DatabaseContract.MasterFlag.TABLE_NAME, null, values);
+                        } else {
+                            values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG, flag.getFlag());
+                            values.put(DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME, "No synchronization");
+                            rowId = databaseContract.open().insert(DatabaseContract.MasterFlag.TABLE_NAME, null, values);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long updateFalg(Flag flag) {
+            long rowId = -1;
+            try {
+                ContentValues values = new ContentValues();
+                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG, flag.getFlag());
+
+                rowId = databaseContract.open().update(
+                        DatabaseContract.MasterFlag.TABLE_NAME, values,
+                        DatabaseContract.MasterFlag._ID + "=1",
+                        null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long updateMSG(Flag flag) {
+            long rowId = -1;
+            try {
+                ContentValues values = new ContentValues();
+                if (Count(flag.getID()) == 1) {
+                    values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MSG, flag.getMsg());
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.MasterFlag.TABLE_NAME, values,
+                            DatabaseContract.MasterFlag._ID + "=1",
+                            null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public int MaxID() {
+            int MaxId = 0;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String[] projection = {
+                        DatabaseContract.MasterFlag._ID,
+                };
+                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
+                        projection, null,
+                        null, null, null,
+                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
+                if (result != null && result.moveToFirst()) {
+                    MaxId = result.getInt(result.getColumnIndex(DatabaseContract.MasterFlag._ID));
+                }
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return MaxId;
+        }
+
+        public ArrayList<Flag> listAll() {
+            ArrayList<Flag> flagArrayList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+
+                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
+                flagArrayList = CursorToMasterFlagList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return flagArrayList;
+        }
+
+        public ArrayList<Flag> listLast() {
+            ArrayList<Flag> flagArrayList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.MasterFlag._ID + "= 1";
+                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
+                flagArrayList = CursorToMasterFlagList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return flagArrayList;
+        }
+
+        public Flag listCurrent() {
+            ArrayList<Flag> flagArrayList = null;
+            Flag flag = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.MasterFlag._ID + "= 1";
+                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
+                flagArrayList = CursorToMasterFlagList(result);
+                if (flagArrayList != null && flagArrayList.size() > 0) {
+                    flag = flagArrayList.get(0);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return flag;
+        }
+
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.MasterFlag._ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
+                            projection, whereClause,
+                            null, null, null,
+                            DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+    }
+
+    public class SynchOfflineDataAdapter {
+
+        String[] projection = {
+                DatabaseContract.SynchOfflineData.COLUMN_NAME_ID,
+                DatabaseContract.SynchOfflineData.COLUMN_NAME_OFFLINE_DATE,
+                DatabaseContract.SynchOfflineData.COLUMN_NAME_VERSION_CODE,
+                DatabaseContract.SynchOfflineData.COLUMN_NAME_VERSION_NAME,
+                DatabaseContract.SynchOfflineData.COLUMN_NAME_OFFLINE_STATUS
+        };
+
+        private ContentValues SynchOfflineContentValues(ELSynchOfflineData elSynchOfflineData) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.SynchOfflineData.COLUMN_NAME_ID, elSynchOfflineData.getID());
+                values.put(DatabaseContract.SynchOfflineData.COLUMN_NAME_OFFLINE_DATE, elSynchOfflineData.getOfflineLastDate());
+                values.put(DatabaseContract.SynchOfflineData.COLUMN_NAME_VERSION_CODE, elSynchOfflineData.getVersionCode());
+                values.put(DatabaseContract.SynchOfflineData.COLUMN_NAME_VERSION_NAME, elSynchOfflineData.getVersionName());
+                values.put(DatabaseContract.SynchOfflineData.COLUMN_NAME_OFFLINE_STATUS, elSynchOfflineData.getOfflineStatus());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELSynchOfflineData> CursorToArrayList(Cursor result) {
+            ArrayList<ELSynchOfflineData> listSynchOfflineData = null;
+            try {
+                if (result != null) {
+                    listSynchOfflineData = new ArrayList<ELSynchOfflineData>();
+                    while (result.moveToNext()) {
+                        ELSynchOfflineData elSynchOfflineData = new ELSynchOfflineData();
+                        elSynchOfflineData.setID(result.getString(result.getColumnIndex(DatabaseContract.SynchOfflineData.COLUMN_NAME_ID)));
+                        elSynchOfflineData.setOfflineLastDate(result.getString(result.getColumnIndex(DatabaseContract.SynchOfflineData.COLUMN_NAME_OFFLINE_DATE)));
+                        elSynchOfflineData.setVersionCode(result.getString(result.getColumnIndex(DatabaseContract.SynchOfflineData.COLUMN_NAME_VERSION_CODE)));
+                        elSynchOfflineData.setVersionName(result.getString(result.getColumnIndex(DatabaseContract.SynchOfflineData.COLUMN_NAME_VERSION_NAME)));
+                        elSynchOfflineData.setOfflineStatus(result.getString(result.getColumnIndex(DatabaseContract.SynchOfflineData.COLUMN_NAME_OFFLINE_STATUS)));
+                        listSynchOfflineData.add(elSynchOfflineData);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listSynchOfflineData;
+        }
+
+        public long create(ELSynchOfflineData elSynchOfflineData) {
+            long rowId = -1;
+            try {
+                if (Count(elSynchOfflineData.getID()) == 0) {
+                    ContentValues values = SynchOfflineContentValues(elSynchOfflineData);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.SynchOfflineData.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELSynchOfflineData> listAll() {
+            ArrayList<ELSynchOfflineData> listSynchOfflineData = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.SynchOfflineData.TABLE_NAME,
+                        projection, null, null, null, null, null);
+                listSynchOfflineData = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listSynchOfflineData;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.SynchOfflineData.TABLE_NAME,
+                        projection, null, null, null, null, null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                if (ID != null) {
+                    String whereClause = DatabaseContract.SynchOfflineData.COLUMN_NAME_ID + "='" + ID + "'";
+                    SQLiteDatabase db = databaseContract.open();
+                    result = db.query(DatabaseContract.SynchOfflineData.TABLE_NAME,
+                            projection, whereClause, null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.SynchOfflineData.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public long updateDate() {
+            long rowId = -1;
+            try {
+                String todayDate = new SimpleDateFormat(Constants.OFFLINE_DATE, Locale.getDefault()).format(new Date());
+                ContentValues values = new ContentValues();
+                values.put(DatabaseContract.SynchOfflineData.COLUMN_NAME_OFFLINE_DATE, todayDate);
+                String whereClause = null;
+                rowId = databaseContract.open().update(
+                        DatabaseContract.SynchOfflineData.TABLE_NAME, values, whereClause, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public void DeleteOfflineEMR() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.DiagnosisList.TABLE_NAME, DatabaseContract.DiagnosisList.COLUMN_NAME_IS_SYNC + "='1'", null);
+                db.delete(DatabaseContract.VitalsList.TABLE_NAME, DatabaseContract.VitalsList.COLUMN_NAME_IS_SYNC + "='1'", null);
+                db.delete(DatabaseContract.CPOEMedicine.TABLE_NAME, DatabaseContract.CPOEMedicine.COLUMN_NAME_IS_SYNC + "='1'", null);
+                db.delete(DatabaseContract.CPOEService.TABLE_NAME, DatabaseContract.CPOEService.COLUMN_NAME_IS_SYNC + "='1'", null);
+                db.delete(DatabaseContract.ComplaintsList.TABLE_NAME, DatabaseContract.ComplaintsList.COLUMN_NAME_IS_SYNC + "='1'", null);
+                db.delete(DatabaseContract.ReferralServiceList.TABLE_NAME, DatabaseContract.ReferralServiceList.COLUMN_NAME_IS_SYNC + "='1'", null);
+                databaseContract.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -211,6 +810,7 @@ public class DatabaseAdapter {
                 db.delete(DatabaseContract.VitalsList.TABLE_NAME, null, null);
                 db.delete(DatabaseContract.CPOEMedicine.TABLE_NAME, null, null);
                 db.delete(DatabaseContract.CPOEService.TABLE_NAME, null, null);
+                db.delete(DatabaseContract.ComplaintsList.TABLE_NAME, null, null);
                 db.delete(DatabaseContract.ReferralServiceList.TABLE_NAME, null, null);
                 databaseContract.close();
             } catch (Exception e) {
@@ -6027,410 +6627,6 @@ public class DatabaseAdapter {
             }
             return rowId;
         }
-    }
-
-    public class FlagAdapter {
-
-        String[] projection = {
-                DatabaseContract.Flag._ID,
-                DatabaseContract.Flag.COLUMN_NAME_FLAG
-        };
-
-        private ArrayList<Flag> CursorToFlagList(Cursor result) {
-            ArrayList<Flag> flagArrayList = null;
-            try {
-                if (result != null) {
-                    flagArrayList = new ArrayList<Flag>();
-                    while (result.moveToNext()) {
-                        Flag flag = new Flag();
-                        flag.setID(result.getString((result.getColumnIndex(DatabaseContract.Flag._ID))));
-                        flag.setFlag(result.getInt(result.getColumnIndex(DatabaseContract.Flag.COLUMN_NAME_FLAG)));
-                        flagArrayList.add(flag);
-                    }
-                    result.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return flagArrayList;
-        }
-
-        private ContentValues FlagToContentValues(Flag flag) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.Flag._ID, flag.getID());
-                values.put(DatabaseContract.Flag.COLUMN_NAME_FLAG, flag.getFlag());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-
-        }
-
-        public long create(Flag flag) {
-            long rowId = -1;
-            try {
-                ContentValues values = FlagToContentValues(flag);
-                if (values != null) {
-                    if (Count(flag.getID()) == 1) {
-                        String whereClause = DatabaseContract.Flag._ID + " = '" + flag.getID() + "'";
-                        rowId = databaseContract.open().update(DatabaseContract.Flag.TABLE_NAME, values, whereClause, null);
-                    } else {
-                        rowId = databaseContract.open().insert(DatabaseContract.Flag.TABLE_NAME, null, values);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public long updateFalg(Flag flag) {
-            long rowId = -1;
-            try {
-                ContentValues values = new ContentValues();
-                values.put(DatabaseContract.Flag.COLUMN_NAME_FLAG, flag.getFlag());
-                rowId = databaseContract.open().update(
-                        DatabaseContract.Flag.TABLE_NAME, values,
-                        DatabaseContract.Flag._ID + "=1",
-                        null);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public ArrayList<Flag> listAll() {
-            ArrayList<Flag> flagArrayList = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-
-                result = db.query(DatabaseContract.Flag.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.Flag.DEFAULT_SORT_ORDER);
-                flagArrayList = CursorToFlagList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return flagArrayList;
-        }
-
-        public ArrayList<Flag> listLast() {
-            ArrayList<Flag> flagArrayList = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                whereClause = DatabaseContract.Flag._ID + "= 1";
-                result = db.query(DatabaseContract.Flag.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.Flag.DEFAULT_SORT_ORDER);
-                flagArrayList = CursorToFlagList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return flagArrayList;
-        }
-
-        public Flag listCurrent() {
-            ArrayList<Flag> flagArrayList = null;
-            Cursor result = null;
-            Flag flag = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                whereClause = DatabaseContract.Flag._ID + "= 1";
-                result = db.query(DatabaseContract.Flag.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.Flag.DEFAULT_SORT_ORDER);
-                flagArrayList = CursorToFlagList(result);
-                if (flagArrayList != null && flagArrayList.size() > 0) {
-                    flag = flagArrayList.get(0);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return flag;
-        }
-
-        public int Count(String ID) {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (ID != null) {
-                    whereClause = DatabaseContract.Flag._ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.Flag.TABLE_NAME,
-                            projection, whereClause,
-                            null, null, null,
-                            DatabaseContract.Flag.DEFAULT_SORT_ORDER);
-                    if (result != null) {
-                        Count = result.getCount();
-                        result.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-    }
-
-    public class MasterFlagAdapter {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
-        String date = df.format(c.getTime());
-        String[] projection = {
-                DatabaseContract.MasterFlag._ID,
-                DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG,
-                DatabaseContract.MasterFlag.COLUMN_NAME_MSG,
-                DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME
-        };
-
-        private ContentValues FlagToContentValues(Flag flag) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.MasterFlag._ID, flag.getID());
-                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG, flag.getFlag());
-                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MSG, flag.getMsg());
-                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME, date);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-
-        }
-
-        private ArrayList<Flag> CursorToMasterFlagList(Cursor result) {
-            ArrayList<Flag> flagArrayList = null;
-            try {
-                if (result != null) {
-                    flagArrayList = new ArrayList<Flag>();
-                    while (result.moveToNext()) {
-                        Flag flag = new Flag();
-                        flag.setID(result.getString((result.getColumnIndex(DatabaseContract.MasterFlag._ID))));
-                        flag.setFlag(result.getInt(result.getColumnIndex(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG)));
-                        flag.setMsg(result.getString(result.getColumnIndex(DatabaseContract.MasterFlag.COLUMN_NAME_MSG)));
-                        flag.setDateTime(result.getString(result.getColumnIndex(DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME)));
-                        flagArrayList.add(flag);
-                    }
-                    result.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return flagArrayList;
-        }
-
-        public long create(Flag flag) {
-            long rowId = -1;
-            try {
-                ContentValues values = FlagToContentValues(flag);
-                if (values != null) {
-                    if (Count(flag.getID()) == 1) {
-                        String whereClause = DatabaseContract.MasterFlag._ID + " = '" + flag.getID() + "'";
-                        rowId = databaseContract.open().update(DatabaseContract.MasterFlag.TABLE_NAME, values, whereClause, null);
-                    } else {
-                        if (flag.getDateTime() != null && flag.getDateTime().length() > 0) {
-                            rowId = databaseContract.open().insert(DatabaseContract.MasterFlag.TABLE_NAME, null, values);
-                        } else {
-                            values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG, flag.getFlag());
-                            values.put(DatabaseContract.MasterFlag.COLUMN_NAME_DATETIME, "No synchronization");
-                            rowId = databaseContract.open().insert(DatabaseContract.MasterFlag.TABLE_NAME, null, values);
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public long updateFalg(Flag flag) {
-            long rowId = -1;
-            try {
-                ContentValues values = new ContentValues();
-                values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MASTERFLAG, flag.getFlag());
-
-                rowId = databaseContract.open().update(
-                        DatabaseContract.MasterFlag.TABLE_NAME, values,
-                        DatabaseContract.MasterFlag._ID + "=1",
-                        null);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public long updateMSG(Flag flag) {
-            long rowId = -1;
-            try {
-                ContentValues values = new ContentValues();
-                if (Count(flag.getID()) == 1) {
-                    values.put(DatabaseContract.MasterFlag.COLUMN_NAME_MSG, flag.getMsg());
-                    rowId = databaseContract.open().update(
-                            DatabaseContract.MasterFlag.TABLE_NAME, values,
-                            DatabaseContract.MasterFlag._ID + "=1",
-                            null);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public int MaxID() {
-            int MaxId = 0;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String[] projection = {
-                        DatabaseContract.MasterFlag._ID,
-                };
-                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
-                if (result != null && result.moveToFirst()) {
-                    MaxId = result.getInt(result.getColumnIndex(DatabaseContract.MasterFlag._ID));
-                }
-                result.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return MaxId;
-        }
-
-        public ArrayList<Flag> listAll() {
-            ArrayList<Flag> flagArrayList = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-
-                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
-                flagArrayList = CursorToMasterFlagList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return flagArrayList;
-        }
-
-        public ArrayList<Flag> listLast() {
-            ArrayList<Flag> flagArrayList = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                whereClause = DatabaseContract.MasterFlag._ID + "= 1";
-                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
-                flagArrayList = CursorToMasterFlagList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return flagArrayList;
-        }
-
-        public Flag listCurrent() {
-            ArrayList<Flag> flagArrayList = null;
-            Flag flag = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                whereClause = DatabaseContract.MasterFlag._ID + "= 1";
-                result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
-                flagArrayList = CursorToMasterFlagList(result);
-                if (flagArrayList != null && flagArrayList.size() > 0) {
-                    flag = flagArrayList.get(0);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return flag;
-        }
-
-
-        public int Count(String ID) {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (ID != null) {
-                    whereClause = DatabaseContract.MasterFlag._ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.MasterFlag.TABLE_NAME,
-                            projection, whereClause,
-                            null, null, null,
-                            DatabaseContract.MasterFlag.DEFAULT_SORT_ORDER);
-                    if (result != null) {
-                        Count = result.getCount();
-                        result.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
     }
 
     public class ComplaintsListDBAdapter {

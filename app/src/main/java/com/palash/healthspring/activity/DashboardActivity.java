@@ -37,11 +37,10 @@ import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.ComplaintsList;
 import com.palash.healthspring.entity.DiagnosisList;
 import com.palash.healthspring.entity.DoctorProfile;
+import com.palash.healthspring.entity.ELSynchOfflineData;
 import com.palash.healthspring.entity.ELUnitMaster;
-import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
 import com.palash.healthspring.entity.VitalsList;
-import com.palash.healthspring.task.SynchronizationTask;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 import com.palash.healthspring.utilities.TextDrawable;
@@ -60,6 +59,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private LocalSetting localSetting;
     private DatabaseAdapter databaseAdapter;
     private DatabaseContract databaseContract;
+    private DatabaseAdapter.SynchOfflineDataAdapter synchOfflineDataAdapter;
     private DatabaseAdapter.FlagAdapter flagAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.UnitMasterAdapter unitMasterAdapter;
@@ -74,6 +74,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private ArrayList<DoctorProfile> listProfile;
     private ArrayList<ELUnitMaster> listELUnitMaster;
+    ArrayList<ELSynchOfflineData> elSynchOfflineDataList;
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -99,6 +100,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
+            synchOfflineDataAdapter = databaseAdapter.new SynchOfflineDataAdapter();
             flagAdapter = databaseAdapter.new FlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             unitMasterAdapter = databaseAdapter.new UnitMasterAdapter();
@@ -169,6 +171,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                             drawerLayout.closeDrawers();
                         }
                     });
+
                     ImageView doctor_profile_image = (ImageView) drawerView.findViewById(R.id.doctor_profile_image);
                     TextView doctor_name = (TextView) drawerView.findViewById(R.id.doctor_name);
                     TextView doctor_education = (TextView) drawerView.findViewById(R.id.doctor_education);
@@ -183,6 +186,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     }
                 }
             };
+
             drawerLayout.setDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
 
@@ -209,6 +213,20 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /*private void CheckSynchDate() {
+        elSynchOfflineDataList = synchOfflineDataAdapter.listAll();
+        if (elSynchOfflineDataList != null && elSynchOfflineDataList.size() > 0) {
+            String todayDate = new SimpleDateFormat(Constants.OFFLINE_DATE, Locale.getDefault()).format(new Date());
+            if (todayDate.equals(elSynchOfflineDataList.get(0).getOfflineLastDate())) {
+                Toast.makeText(context, "All look good", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "All un synchronize data will be clear", Toast.LENGTH_SHORT).show();
+                synchOfflineDataAdapter.DeleteOfflineEMR();
+                //synchOfflineDataAdapter.updateDate();
+            }
+        }
+    }*/
+
     private void setUnitMasterData() {
         listELUnitMaster = unitMasterAdapter.listAll();
         if (listELUnitMaster == null && listELUnitMaster.size() == 0) {
@@ -223,7 +241,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         super.onResume();
         listProfile = doctorProfileAdapter.listAll();
         setUnitMasterData();
-        SynchOfflineData();
+        //SynchOfflineData();
     }
 
     private void RefreshUnitMatserSpinnerData() {
@@ -307,7 +325,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        getMenuInflater().inflate(R.menu.menu_dashboard_drawer, menu);
+        menu.findItem(R.id.action_setting).setVisible(false);
+        menu.findItem(R.id.action_logout).setVisible(false);
+        menu.findItem(R.id.action_synch_master_data).setVisible(true);
+        menu.findItem(R.id.action_synch_offline_data).setVisible(true);
         menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
@@ -317,6 +339,34 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         switch (item.getItemId()) {
             case R.id.menu_toolbar_refresh:
                 GetUnitMasterList();
+                return true;
+            case R.id.action_synch_master_data:
+                if (localSetting.isNetworkAvailable(context)) {
+                    startActivity(new Intent(context, SynchronizationActivity.class).putExtra("reason", "master data"));
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.action_synch_offline_data:
+                if (localSetting.isNetworkAvailable(context)) {
+                    ArrayList<VitalsList> vitalsArrayList = vitalsListDBAdapter.listAllUnSync("");
+                    ArrayList<DiagnosisList> diagnosisArrayList = diagnosisListAdapter.listAllUnSync();
+                    ArrayList<CPOEService> cpoeServiceArrayList = cpoeServiceAdapter.listAllUnSync();
+                    ArrayList<CPOEPrescription> cpoeMedicineArrayList = cpoeMedicineAdapter.listAllUnSync();
+                    ArrayList<ComplaintsList> complaintsArrayList = complaintsListDBAdapter.listAllUnSync();
+                    ArrayList<ReferralDoctorPerService> referralServiceArrayList = referralServiceListDBAdapter.listAllUnSync();
+
+                    if ((vitalsArrayList != null && vitalsArrayList.size() > 0) || (diagnosisArrayList != null && diagnosisArrayList.size() > 0)
+                            || (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) || (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0)
+                            || (complaintsArrayList != null && complaintsArrayList.size() > 0) || (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
+
+                        startActivity(new Intent(context, SynchronizationActivity.class).putExtra("reason", "offline data"));
+                    }else{
+                        Toast.makeText(context, "No data available. All data synchronized.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -403,7 +453,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void SynchOfflineData() {
+    /*private void SynchOfflineData() {
         if (localSetting.isNetworkAvailable(context)) {
 
             ArrayList<VitalsList> vitalsArrayList = vitalsListDBAdapter.listAllUnSync("");
@@ -416,6 +466,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             if ((vitalsArrayList != null && vitalsArrayList.size() > 0) || (diagnosisArrayList != null && diagnosisArrayList.size() > 0)
                     || (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) || (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0)
                     || (complaintsArrayList != null && complaintsArrayList.size() > 0) || (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
+
                 try {
                     Flag flag = flagAdapter.listCurrent();
                     flag.setFlag(Constants.ONLINE_SYNC);
@@ -426,5 +477,5 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         }
-    }
+    }*/
 }

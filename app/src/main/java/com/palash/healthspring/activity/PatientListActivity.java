@@ -16,10 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Chronometer;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,15 +63,20 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
     private Chronometer patient_list_chronometer;
     private LinearLayout layout_patient_list_search;
     private EditText patient_list_edt_search;
+    private EditText patient_list_edt_mr_no;
     private TextView patient_list_bnt_clear;
     private TextView patient_register_start_date_edt;
     private TextView patient_register_end_date_edt;
     private TextView patient_report_date_search_btn;
     private LinearLayout layout_search_by_patient_name;
+    private RadioButton radio_button_by_date;
+    private RadioButton radio_button_by_mrno;
 
     private boolean isSearchPanelVisible = true;
+    private boolean isByDateSearch = true;
     private static String startDate = "";
     private static String endDate = "";
+    private static String mrNO = "";
 
     private Calendar calendar = Calendar.getInstance();
     private SimpleDateFormat format = new SimpleDateFormat(Constants.PATIENT_QUEUE_DATE);
@@ -110,13 +117,17 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             layout_patient_list_search = (LinearLayout) findViewById(R.id.layout_patient_list_search);
             layout_search_by_patient_name = (LinearLayout) findViewById(R.id.layout_search_by_patient_name);
             patient_list_edt_search = (EditText) findViewById(R.id.patient_list_edt_search);
+            patient_list_edt_mr_no = (EditText) findViewById(R.id.patient_list_edt_mr_no);
             patient_list_bnt_clear = (TextView) findViewById(R.id.patient_list_bnt_clear);
             patient_register_start_date_edt = (TextView) findViewById(R.id.patient_register_start_date_edt);
             patient_register_end_date_edt = (TextView) findViewById(R.id.patient_register_end_date_edt);
             patient_report_date_search_btn = (TextView) findViewById(R.id.patient_report_date_search_btn);
+            radio_button_by_date = (RadioButton) findViewById(R.id.radio_button_by_date);
+            radio_button_by_mrno = (RadioButton) findViewById(R.id.radio_button_by_mrno);
             patient_list_chronometer = (Chronometer) findViewById(R.id.patient_list_chronometer);
 
             layout_search_by_patient_name.setVisibility(View.GONE);
+            patient_list_edt_mr_no.setVisibility(View.GONE);
 
             patient_list_bnt_clear.setOnClickListener(this);
             patient_register_start_date_edt.setOnClickListener(this);
@@ -195,6 +206,26 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                     }
                 }
             };
+
+            radio_button_by_mrno.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    patient_register_end_date_edt.setVisibility(View.VISIBLE);
+                    patient_register_start_date_edt.setVisibility(View.VISIBLE);
+                    patient_list_edt_mr_no.setVisibility(View.GONE);
+                    isByDateSearch = true;
+                }
+            });
+
+            radio_button_by_date.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    patient_list_edt_mr_no.setVisibility(View.VISIBLE);
+                    patient_register_end_date_edt.setVisibility(View.GONE);
+                    patient_register_start_date_edt.setVisibility(View.GONE);
+                    isByDateSearch = false;
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -329,12 +360,21 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
     }
 
     private boolean ValidateDate() {
-        if (startDate.equals("") || startDate.length() == 0) {
-            Toast.makeText(context, "Please select start date...", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (endDate.equals("") || endDate.length() == 0) {
-            Toast.makeText(context, "Please select end date...", Toast.LENGTH_SHORT).show();
-            return false;
+        mrNO = patient_list_edt_mr_no.getText().toString().trim();
+        if (isByDateSearch) {
+            mrNO = "";
+            if (startDate == null || startDate.equals("") || startDate.length() == 0) {
+                Toast.makeText(context, "Please select start date...", Toast.LENGTH_SHORT).show();
+                return false;
+            } else if (endDate.equals("") || endDate.length() == 0) {
+                Toast.makeText(context, "Please select end date...", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
+            if (mrNO.equals("") || mrNO.length() == 0) {
+                Toast.makeText(context, "Please enter MRNo", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         return true;
     }
@@ -359,7 +399,8 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             try {
                 jsonObjectMapper = new JsonObjectMapper();
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
-                response = webServiceConsumer.GET(Constants.PATIENT_LIST_URL + doctorProfileList.get(0).getUnitID() + "&StartDate=" + startDate + "&EndDate=" + endDate);
+                response = webServiceConsumer.GET(Constants.PATIENT_LIST_URL + doctorProfileList.get(0).getUnitID() + "&StartDate=" + startDate + "&EndDate=" + endDate
+                        + "&MRNo=" + mrNO);
                 if (response != null) {
                     responseCode = response.code();
                     responseString = response.body().string();
@@ -386,10 +427,12 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                     search_patient_List.setVisibility(View.GONE);
                     layout_search_by_patient_name.setVisibility(View.GONE);
                 }
-            } else {
+            } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                 patientAdapterDB.delete(doctorProfileList.get(0).getUnitID());
                 search_patient_empty.setVisibility(View.VISIBLE);
                 search_patient_List.setVisibility(View.GONE);
+                Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
+            } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             localSetting.hideDialog(progressDialog);

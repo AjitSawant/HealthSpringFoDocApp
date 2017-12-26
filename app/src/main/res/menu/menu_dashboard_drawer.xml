@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group
         android:id="@+id/grp2"
         android:checkableBehavior="single">
@@ -13,5 +14,21 @@
             android:checked="false"
             android:icon="@drawable/ic_logout"
             android:title="@string/logout_screen" />
+        <item
+            android:id="@+id/menu_toolbar_refresh"
+            android:icon="@drawable/ic_refresh"
+            android:title="refresh"
+            android:visible="false"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/action_synch_offline_data"
+            android:icon="@drawable/ic_refresh"
+            android:title="Synch Offline Data"
+            android:visible="false" />
+        <item
+            android:id="@+id/action_synch_master_data"
+            android:icon="@drawable/ic_refresh"
+            android:title="Synch Master Data"
+            android:visible="false" />
     </group>
 </menu>

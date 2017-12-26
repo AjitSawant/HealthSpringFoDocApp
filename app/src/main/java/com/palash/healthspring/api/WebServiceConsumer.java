@@ -22,8 +22,8 @@ public class WebServiceConsumer {
     private LocalSetting localSettings;
     private OkHttpClient client;
     private Context context;
-    private String userLoginID;
-    private String userPassword;
+    private String userLoginID = null;
+    private String userPassword = null;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private ArrayList<DoctorProfile> listProfile;
 

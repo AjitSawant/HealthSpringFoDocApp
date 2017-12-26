@@ -154,6 +154,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
         service_name_spinner_search_btn = (TextView) findViewById(R.id.service_name_spinner_search_btn);
         no_doctor_alert = (TextInputLayout) findViewById(R.id.no_doctor_alert);
         no_doctor_alert.setVisibility(View.GONE);
+        referral_spinner_doctor.setVisibility(View.GONE);
 
         service_name_spinner_search_btn.setOnClickListener(this);
     }

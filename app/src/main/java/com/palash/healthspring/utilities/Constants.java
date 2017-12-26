@@ -25,6 +25,7 @@ public class Constants {
     public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
 
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
+    public static final String APP_VERSION_URL = BASE_URL + "Master/AppVersion";
     public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList?UnitId=";
     public static final String TIME_SLOT_URL = BASE_URL + "timeslot/timeslot";
     public static final String PATIENT_REGISTRATION_URL = BASE_URL + "Patient/PatientRegistration";

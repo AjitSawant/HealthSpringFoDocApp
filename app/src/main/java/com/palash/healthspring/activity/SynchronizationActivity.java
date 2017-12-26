@@ -14,6 +14,7 @@ import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.task.MasterTask;
+import com.palash.healthspring.task.SynchronizationTask;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
@@ -25,18 +26,23 @@ public class SynchronizationActivity extends AppCompatActivity {
     private LocalSetting localSetting;
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
+    private DatabaseAdapter.FlagAdapter flagAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
 
     private Chronometer setting_chronometer;
     private TextView sych_txt_msg;
 
     private Flag masterflag;
+    private Flag flag;
     private ArrayList<Flag> masterflagArrayList;
+    private ArrayList<Flag> flagArrayList;
+    private String reason = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_synchronization);
+        reason = getIntent().getStringExtra("reason");
         InitView();
         InitSetting();
         MasterFlagTask();
@@ -47,6 +53,7 @@ public class SynchronizationActivity extends AppCompatActivity {
         localSetting = new LocalSetting();
         databaseContract = new DatabaseContract(context);
         databaseAdapter = new DatabaseAdapter(databaseContract);
+        flagAdapter = databaseAdapter.new FlagAdapter();
         masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
     }
 
@@ -62,23 +69,43 @@ public class SynchronizationActivity extends AppCompatActivity {
     }
 
     private void ShowMSG() {
-        masterflagArrayList = masterFlagAdapter.listLast();
-        if (masterflagArrayList != null && masterflagArrayList.size() > 0) {
-            if (masterflagArrayList.get(0).getFlag() == Constants.STOP_TASK) {
-                finish();
-                Toast.makeText(context, "Synchronizing Completed.", Toast.LENGTH_SHORT).show();
-            } else {
-                sych_txt_msg.setText(masterflagArrayList.get(0).getMsg());
+        if (reason.equals("master data")) {
+            masterflagArrayList = masterFlagAdapter.listLast();
+            if (masterflagArrayList != null && masterflagArrayList.size() > 0) {
+                if (masterflagArrayList.get(0).getFlag() == Constants.STOP_TASK) {
+                    finish();
+                    Toast.makeText(context, "Synchronizing Completed.", Toast.LENGTH_SHORT).show();
+                } else {
+                    sych_txt_msg.setText(masterflagArrayList.get(0).getMsg());
+                }
+            }
+        } else {
+            flagArrayList = flagAdapter.listLast();
+            if (flagArrayList != null && flagArrayList.size() > 0) {
+                if (flagArrayList.get(0).getFlag() == Constants.STOP_TASK) {
+                    finish();
+                    Toast.makeText(context, "Synchronizing Completed.", Toast.LENGTH_SHORT).show();
+                } else {
+                    sych_txt_msg.setText(flagArrayList.get(0).getMsg());
+                }
             }
         }
     }
 
     private void MasterFlagTask() {
-        masterflag = masterFlagAdapter.listCurrent();
-        masterflag.setFlag(Constants.EMR_TASK);
-        masterflag.setMsg("Synchronization...");
-        masterFlagAdapter.create(masterflag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
+        if (reason.equals("master data")) {
+            masterflag = masterFlagAdapter.listCurrent();
+            masterflag.setFlag(Constants.EMR_TASK);
+            masterflag.setMsg("Synchronization...");
+            masterFlagAdapter.create(masterflag);
+            SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
+        } else {
+            flag = flagAdapter.listCurrent();
+            flag.setFlag(Constants.ONLINE_SYNC);
+            flag.setMsg("Synchronization...");
+            flagAdapter.create(flag);
+            SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
+        }
     }
 
     @Override

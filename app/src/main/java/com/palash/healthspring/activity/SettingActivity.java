@@ -89,7 +89,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View view) {
                 if (localSetting.isNetworkAvailable(context)) {
-                    Intent intent = new Intent(context, SynchronizationActivity.class);
+                    Intent intent = new Intent(context, SynchronizationActivity.class).putExtra("reason","master data");
                     startActivity(intent);
                 } else {
                     Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();

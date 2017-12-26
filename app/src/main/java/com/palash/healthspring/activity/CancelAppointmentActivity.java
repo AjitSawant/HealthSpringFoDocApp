@@ -81,7 +81,7 @@ public class CancelAppointmentActivity extends AppCompatActivity {
             databaseAdapter = new DatabaseAdapter(databaseContract);
             flagAdapter = databaseAdapter.new FlagAdapter();
         } catch (Exception e) {
-            Log.e(Constants.TAG, "" + e);
+            e.printStackTrace();
         }
     }
 
@@ -153,7 +153,7 @@ public class CancelAppointmentActivity extends AppCompatActivity {
                     new AlertDialog
                             .Builder(context)
                             .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Appointment canceled successfully.")
+                            .setMessage("Appointment cancel successfully.")
                             .setCancelable(false)
                             .setPositiveButton("Go to Appointment", new DialogInterface.OnClickListener() {
                                 @Override

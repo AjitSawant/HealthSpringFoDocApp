@@ -15,6 +15,36 @@ public class DatabaseContract {
 
     public static final int DATABASE_VERSION = 1;
 
+    public static final class SynchOfflineData implements BaseColumns {
+
+        private SynchOfflineData() {
+        }
+
+        public static final String TABLE_NAME = "T_SynchOfflineData";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_OFFLINE_DATE = "OfflineLastDate";
+        public static final String COLUMN_NAME_VERSION_CODE = "VersionCode";
+        public static final String COLUMN_NAME_VERSION_NAME = "VersionName";
+        public static final String COLUMN_NAME_OFFLINE_STATUS = "OfflineStatus";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + SynchOfflineData._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_OFFLINE_DATE
+                + " TEXT,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_VERSION_CODE
+                + " TEXT,"
+                + COLUMN_NAME_VERSION_NAME
+                + " TEXT,"
+                + COLUMN_NAME_OFFLINE_STATUS
+                + " INTEGER DEFAULT 0"
+                + ")";
+    }
+
     public static final class DoctorProfile implements BaseColumns {
 
         private DoctorProfile() {
@@ -1451,6 +1481,7 @@ public class DatabaseContract {
         public static final String DEFAULT_SORT_ORDER = "_id ASC";
 
         public static final String COLUMN_NAME_FLAG = "Flag";
+        public static final String COLUMN_NAME_MSG = "Msg";
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
@@ -1458,6 +1489,8 @@ public class DatabaseContract {
                 + Flag._ID
                 + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
                 + COLUMN_NAME_FLAG
+                + " TEXT,"
+                + COLUMN_NAME_MSG
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"
@@ -1911,6 +1944,9 @@ public class DatabaseContract {
         @Override
         public void onCreate(SQLiteDatabase db) {
             try {
+                Log.d(Constants.TAG, "Creating table 0: " + SynchOfflineData.CREATE_TABLE);
+                db.execSQL(SynchOfflineData.CREATE_TABLE);
+
                 Log.d(Constants.TAG, "Creating table 1: " + Flag.CREATE_TABLE);
                 db.execSQL(Flag.CREATE_TABLE);
 

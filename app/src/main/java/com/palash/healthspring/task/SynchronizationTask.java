@@ -71,6 +71,7 @@ public class SynchronizationTask implements Task {
     private ArrayList<Flag> flagList;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
 
+    private Flag flag;
     private NotificationMessage notificationMessage;
     private Synchronization synchronization;
 
@@ -131,12 +132,40 @@ public class SynchronizationTask implements Task {
                             if (flagList != null && flagList.size() > 0) {
                                 switch (flagList.get(0).getFlag()) {
                                     case Constants.ONLINE_SYNC:
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setMsg("Synchronizing Vitals");
+                                        flagAdapter.create(flag);
                                         SyncVitalsOfflineList();
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setMsg("Synchronizing Diagnosis");
+                                        flagAdapter.create(flag);
                                         SyncDiagnosisOfflineList();
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setMsg("Synchronizing Services");
+                                        flagAdapter.create(flag);
                                         SyncServiceOfflineList();
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setMsg("Synchronizing Prescriptions");
+                                        flagAdapter.create(flag);
                                         SyncPrescriptionOfflineList();
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setMsg("Synchronizing Complaints");
+                                        flagAdapter.create(flag);
                                         SyncComplaintsOfflineList();
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setMsg("Synchronizing Referral Services");
+                                        flagAdapter.create(flag);
                                         SyncReferalServiceOfflineList();
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setFlag(Constants.STOP_TASK);
+                                        flagAdapter.create(flag);
                                         break;
                                 }
                             }

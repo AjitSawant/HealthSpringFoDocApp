@@ -312,7 +312,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     selectedClinicID = listELUnitMasterNew.get(all_clinic_spinner.getSelectedItemPosition()).getUnitID();
-                    Log.e("selectedClinicID: ", "" + selectedClinicID);
+                    //Log.e("selectedClinicID: ", "" + selectedClinicID);
                 }
 
                 @Override

@@ -135,4 +135,9 @@
     <string name="login_alert">Invalid username or password. Please try again</string>
     <string name="filter_date_alter">"Date difference should be maximum 7 days"</string>
 
+    <!--  app update activity   -->
+    <string name="update_title">App update available</string>
+    <string name="update_sub_title">Update the app to enjoy a much faster app with many new feature</string>
+    <string name="update">Update</string>
+
 </resources>
