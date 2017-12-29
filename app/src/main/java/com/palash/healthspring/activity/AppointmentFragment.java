@@ -8,11 +8,12 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.DatePicker;
@@ -44,7 +45,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class AppointmentListActivity extends AppCompatActivity implements View.OnClickListener {
+public class AppointmentFragment extends Fragment implements View.OnClickListener {
 
     private Context context;
     private LocalSetting localSetting;
@@ -58,6 +59,7 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
     private ArrayList<String> headerList = null;
     private ArrayList<DoctorProfile> doctorProfileList;
 
+    private View parentView;
     private ExpandableListView appointment_List;
     private TextView appointment_empty;
     private Chronometer appointment_chronometer;
@@ -87,21 +89,30 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
 
     private SimpleDateFormat dates = new SimpleDateFormat(Constants.SEARCH_DATE_FORMAT);
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
         InitSetting();
         InitView();
+    }*/
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        parentView = inflater.inflate(R.layout.activity_appointment, container, false);
+        InitSetting();
+        InitView();
+        return parentView;
     }
 
     private void InitSetting() {
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+              getSupportActionBar().setHomeButtonEnabled(true);
+              getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
-            context = this;
+            context = getActivity();
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
@@ -115,19 +126,21 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
 
     private void InitView() {
         try {
-            appointment_List = (ExpandableListView) findViewById(R.id.appointment_List);
-            appointment_empty = (TextView) findViewById(R.id.appointment_empty);
-            layout_search = (LinearLayout) findViewById(R.id.layout_search);
-            layout_search_by_patient_name = (LinearLayout) findViewById(R.id.layout_search_by_patient_name);
-            appointment_list_search_bnt = (Button) findViewById(R.id.appointment_list_search_bnt);
-            appointment_edt_patient_name = (EditText) findViewById(R.id.appointment_edt_patient_name);
-            appointment_edt_fromdate = (TextView) findViewById(R.id.appointment_edt_fromdate);
-            appointment_edt_todate = (TextView) findViewById(R.id.appointment_edt_todate);
-            appointment_list_bnt_clear = (TextView) findViewById(R.id.appointment_list_bnt_clear);
-            appointment_chronometer = (Chronometer) findViewById(R.id.appointment_chronometer);
+            appointment_List = (ExpandableListView) parentView.findViewById(R.id.appointment_List);
+            appointment_empty = (TextView) parentView.findViewById(R.id.appointment_empty);
+            layout_search = (LinearLayout) parentView.findViewById(R.id.layout_search);
+            layout_search_by_patient_name = (LinearLayout) parentView.findViewById(R.id.layout_search_by_patient_name);
+            appointment_list_search_bnt = (Button) parentView.findViewById(R.id.appointment_list_search_bnt);
+            appointment_edt_patient_name = (EditText) parentView.findViewById(R.id.appointment_edt_patient_name);
+            appointment_edt_fromdate = (TextView) parentView.findViewById(R.id.appointment_edt_fromdate);
+            appointment_edt_todate = (TextView) parentView.findViewById(R.id.appointment_edt_todate);
+            appointment_list_bnt_clear = (TextView) parentView.findViewById(R.id.appointment_list_bnt_clear);
+            appointment_chronometer = (Chronometer) parentView.findViewById(R.id.appointment_chronometer);
 
             appointment_edt_fromdate.setText(format.format(new Date()));
             appointment_edt_todate.setText(format.format(new Date()));
+            FromDate = localSetting.formatDate(appointment_edt_fromdate.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+            ToDate = localSetting.formatDate(appointment_edt_todate.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
 
             //layout_search_by_patient_name.setVisibility(View.GONE);
             appointment_list_search_bnt.setOnClickListener(this);
@@ -260,34 +273,38 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
         }
     }
 
+    /*@Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        try {
+            if (isVisibleToUser) {
+                doctorProfileList = doctorProfileAdapter.listAll();
+                searchLoadList();
+                GetAppointmentWebcall();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
     @Override
-    protected void onResume() {
+    public void onResume() {
         appointment_chronometer.setBase(SystemClock.elapsedRealtime());
         appointment_chronometer.start();
-
-        appointment_edt_fromdate.setText(format.format(new Date()));
-        appointment_edt_todate.setText(format.format(new Date()));
-        FromDate = localSetting.formatDate(appointment_edt_fromdate.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
-        ToDate = localSetting.formatDate(appointment_edt_todate.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
-        if (localSetting.isNetworkAvailable(context)) {
-            new GetAppointmentListTask().execute();
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
-        }
         super.onResume();
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         appointment_chronometer.stop();
         super.onPause();
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         finish();
         super.onBackPressed();
-    }
+    }*/
 
     /*private void FlagTask() {
         flag = flagAdapter.listCurrent();
@@ -296,16 +313,16 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
         SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
     }*/
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_search).setVisible(true);
         menu.findItem(R.id.menu_toolbar_book).setVisible(true);
         animatePanel(1);
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_search:
@@ -320,12 +337,12 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
                 startActivity(new Intent(context, PatientListActivity.class));
                 return true;
             case android.R.id.home:
-                onBackPressed();
+                //onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     private boolean ValidateDate() {
         if (FromDate.equals("") || FromDate.length() == 0) {
@@ -453,16 +470,21 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
         switch (view.getId()) {
             case R.id.appointment_list_search_bnt:
                 if (ValidateDate()) {
-                    if (localSetting.isNetworkAvailable(context)) {
-                        new GetAppointmentListTask().execute();
-                    } else {
-                        Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
-                    }
+                    GetAppointmentWebcall();
                 }
                 break;
             case R.id.appointment_list_bnt_clear:
                 appointment_edt_patient_name.setText("");
                 break;
+        }
+    }
+
+    private void GetAppointmentWebcall(){
+        doctorProfileList = doctorProfileAdapter.listAll();
+        if (localSetting.isNetworkAvailable(context)) {
+            new GetAppointmentListTask().execute();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -487,7 +509,7 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
             try {
                 jsonObjectMapper = new JsonObjectMapper();
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
-                response = webServiceConsumer.GET(Constants.GET_APPOINTMENT_URL + doctorProfileList.get(0).getDoctorID()+ "&UnitID=" + doctorProfileList.get(0).getUnitID()
+                response = webServiceConsumer.GET(Constants.GET_APPOINTMENT_URL + doctorProfileList.get(0).getDoctorID() + "&UnitID=" + doctorProfileList.get(0).getUnitID()
                         + "&StartDate=" + FromDate + "&EndDate=" + ToDate);
                 if (response != null) {
                     responseCode = response.code();

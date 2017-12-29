@@ -39,6 +39,7 @@ public class PatientQueue {
     private String ReferredDoctor;
     private String IsBilledSubmitID;
     private String ISStatus;
+    private String UnitName;
 
     public PatientQueue() {
 
@@ -368,5 +369,14 @@ public class PatientQueue {
 
     public void setISStatus(String ISStatus) {
         this.ISStatus = ISStatus;
+    }
+
+    @JsonProperty("UnitName")
+    public String getUnitName() {
+        return UnitName;
+    }
+
+    public void setUnitName(String unitName) {
+        UnitName = unitName;
     }
 }

@@ -43,8 +43,9 @@
     <!---Search Patient-->
     <string name="serach">Search Patient...</string>
     <string name="dashboard_patientregistration">Patient Registration</string>
-    <string name="dashboard_visit_list">Patient Visit List</string>
-    <string name="dashboard_visit_book">Patient Book Visit</string>
+    <string name="dashboard_visit_list">Visit List</string>
+    <string name="dashboard_visit_book">Book Visit</string>
+    <string name="exit_app_alert">Are You sure do you want to exit application</string>
 
     <!---Doctor List-->
     <string name="book">Book</string>

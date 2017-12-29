@@ -20,6 +20,7 @@
     <color name="text_color">@android:color/black</color>
     <color name="white_box">#B3FFFFFF</color>
     <color name="bgcolor">#eeeeee</color>
+   <!-- <color name="bgcolor">#BBBF34</color>-->
     <color name="lighter_gray">#ddd</color>
     <color name="dark_gray">#757D75</color>
     <color name="colorOrange">#F15441</color>

@@ -2,6 +2,8 @@ package com.palash.healthspring.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,13 +85,15 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder.row_patient_queue_tv_reason = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_reason);
                 holder.row_patient_queue_tv_date = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_date);
                 holder.row_patient_queue_tv_from_time = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_from_time);
-                holder.row_patient_queue_tv_to_time = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_to_time);
+                //holder.row_patient_queue_tv_to_time = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_to_time);
                 holder.row_patient_queue_tv_name = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_name);
                 holder.row_patient_queue_tv_dob = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_dob);
                 holder.row_patient_queue_tv_marital_status = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_marital_status);
                 holder.row_patient_queue_tv_contact = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_contact);
                 holder.row_patient_queue_tv_email = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_email);
                 holder.row_patient_queue_tv_bloodgroup = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_bloodgroup);
+                holder.row_patient_queue_tv_unit_name = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_unit_name);
+                holder.row_patient_queue_summary_btn = (TextView) convertView.findViewById(R.id.row_patient_queue_summary_btn);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -117,14 +121,21 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder.row_patient_queue_tv_reason.setVisibility(View.GONE);
             }
 
+            if (patientQueue.getUnitName() != null && patientQueue.getUnitName().length() > 0) {
+                holder.row_patient_queue_tv_unit_name.setText(patientQueue.getUnitName());
+                holder.row_patient_queue_tv_unit_name.setVisibility(View.VISIBLE);
+            } else {
+                holder.row_patient_queue_tv_unit_name.setVisibility(View.GONE);
+            }
+
             holder.row_patient_queue_tv_date.setText(patientQueue.getDate());
 
-            if (patientQueue.getToTime() != null && patientQueue.getToTime().length() > 0) {
+            if (patientQueue.getFromTime() != null && patientQueue.getFromTime().length() > 0) {
                 holder.row_patient_queue_tv_from_time.setVisibility(View.VISIBLE);
                 holder.row_patient_queue_tv_from_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
-                holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getToTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
+                //holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getToTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
             } else {
-                holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
+               // holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
                 holder.row_patient_queue_tv_from_time.setVisibility(View.INVISIBLE);
             }
 
@@ -133,9 +144,9 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
             String middleName = patientQueue.getMiddleName();
 
             if (middleName != null && middleName.length() > 0) {
-                holder.row_patient_queue_tv_name.setText(firstName + " " + middleName + " " + lastName + " " + "( MRNO : " + patientQueue.getMRNo() + " )");
+                holder.row_patient_queue_tv_name.setText(firstName + " " + middleName + " " + lastName + " " + "(MRNO : " + patientQueue.getMRNo() + ")");
             } else {
-                holder.row_patient_queue_tv_name.setText(firstName + " " + lastName + " " + "( MRNO : " + patientQueue.getMRNo() + " )");
+                holder.row_patient_queue_tv_name.setText(firstName + " " + lastName + " " + "(MRNO : " + patientQueue.getMRNo() + ")");
             }
 
             if (patientQueue.getDateOfBirth() != null && patientQueue.getDateOfBirth().length() > 0) {
@@ -222,6 +233,21 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                     }
                 }
             });
+
+            holder.row_patient_queue_summary_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (patientQueueArrayList.get(position) != null && patientQueueArrayList.get(position).getID() != null && patientQueueArrayList.get(position).getID().length() > 0) {
+                        String url = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=" + patientQueueArrayList.get(0).getPatientUnitID()
+                                + "&VisitID=" + patientQueueArrayList.get(position).getVisitID() + "&PatientID=" + patientQueueArrayList.get(0).getPatientId()
+                                + "&PatientUnitID=" + patientQueueArrayList.get(0).getPatientUnitID() + "&TemplateID=0&UserID=0&PDF=1";
+
+                        //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
+                        Log.e("PDF URL: ",url);
+                        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -234,13 +260,15 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
         TextView row_patient_queue_tv_reason;
         TextView row_patient_queue_tv_date;
         TextView row_patient_queue_tv_from_time;
-        TextView row_patient_queue_tv_to_time;
+        //TextView row_patient_queue_tv_to_time;
         TextView row_patient_queue_tv_name;
         TextView row_patient_queue_tv_dob;
         TextView row_patient_queue_tv_marital_status;
         TextView row_patient_queue_tv_contact;
         TextView row_patient_queue_tv_email;
         TextView row_patient_queue_tv_bloodgroup;
+        TextView row_patient_queue_tv_unit_name;
+        TextView row_patient_queue_summary_btn;
     }
 
     @Override

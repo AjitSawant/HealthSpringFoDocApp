@@ -2,6 +2,8 @@ package com.palash.healthspring.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +31,13 @@ public class VisitListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
+    private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
+    private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
 
     private BookAppointment bookAppointment;
 
     private ArrayList<VisitList> visitListArrayList;
-    private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
-    private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
+    private ArrayList<DoctorProfile> doctorprofilelist = null;
 
     public VisitListAdapter(Context context, ArrayList<VisitList> visitListArrayList) {
         this.context = context;
@@ -49,6 +52,8 @@ public class VisitListAdapter extends BaseAdapter {
         databaseContract = new DatabaseContract(context);
         databaseAdapter = new DatabaseAdapter(databaseContract);
         bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
+        doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
+        doctorprofilelist = doctorProfileAdapter.listAll();
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -79,11 +84,13 @@ public class VisitListAdapter extends BaseAdapter {
                 holder.row_visit_list_tv_date = (EditText) convertView.findViewById(R.id.row_visit_list_tv_date);
                 holder.row_visit_list_tv_time = (EditText) convertView.findViewById(R.id.row_visit_list_tv_time);
                 holder.row_visit_list_tv_name = (TextView) convertView.findViewById(R.id.row_visit_list_tv_name);
+                holder.row_visit_list_tv_unit_name = (TextView) convertView.findViewById(R.id.row_visit_list_tv_unit_name);
                 holder.row_visit_list_tv_department = (TextView) convertView.findViewById(R.id.row_visit_list_tv_department);
                 holder.row_visit_list_tv_complatient = (TextView) convertView.findViewById(R.id.row_visit_list_tv_complatient);
                 holder.layout_row_visit_list_tv_department = (LinearLayout) convertView.findViewById(R.id.layout_row_visit_list_tv_department);
                 holder.layout_row_visit_list_tv_reason = (LinearLayout) convertView.findViewById(R.id.layout_row_visit_list_tv_reason);
                 holder.layout_row_visit_list_tv_complatient = (LinearLayout) convertView.findViewById(R.id.layout_row_visit_list_tv_complatient);
+                holder.row_visit_summary_btn = (TextView) convertView.findViewById(R.id.row_visit_summary_btn);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -108,6 +115,13 @@ public class VisitListAdapter extends BaseAdapter {
                 holder.row_visit_list_tv_name.setText(firstName + " " + middleName + " " + lastName);
             } else {
                 holder.row_visit_list_tv_name.setText(firstName + " " + lastName);
+            }
+
+            if (visitList.getUnitName() != null && visitList.getUnitName().length() > 0) {
+                holder.row_visit_list_tv_unit_name.setVisibility(View.VISIBLE);
+                holder.row_visit_list_tv_unit_name.setText(visitList.getUnitName().trim());
+            } else {
+                holder.row_visit_list_tv_unit_name.setVisibility(View.GONE);
             }
 
             if (visitList.getDepartment() != null && visitList.getDepartment().length() > 0) {
@@ -142,6 +156,23 @@ public class VisitListAdapter extends BaseAdapter {
                     context.startActivity(new Intent(context, EMRNavigationDrawerActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
             });
+
+
+            holder.row_visit_summary_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (visitListArrayList.get(position) != null && visitListArrayList.get(position).getID() != null && visitListArrayList.get(position).getID().length() > 0) {
+                        String url = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=" + visitListArrayList.get(0).getUnitId()
+                                + "&VisitID=" + visitListArrayList.get(position).getID() + "&PatientID=" + visitListArrayList.get(0).getPatientId()
+                                + "&PatientUnitID=" + visitListArrayList.get(0).getUnitId() + "&TemplateID=0&UserID=0&PDF=1";
+
+                        //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
+                        Log.d("PDF URL: ", url);
+                        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                    }
+                }
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,11 +184,13 @@ public class VisitListAdapter extends BaseAdapter {
         EditText row_visit_list_tv_date;
         EditText row_visit_list_tv_time;
         TextView row_visit_list_tv_name;
+        TextView row_visit_list_tv_unit_name;
         TextView row_visit_list_tv_department;
         TextView row_visit_list_tv_complatient;
         LinearLayout layout_row_visit_list_tv_department;
         LinearLayout layout_row_visit_list_tv_reason;
         LinearLayout layout_row_visit_list_tv_complatient;
+        TextView row_visit_summary_btn;
     }
 }
 

@@ -228,7 +228,7 @@ public class SplashScreenActivity
             @Override
             public void run() {
                 if (listProfile != null && listProfile.size() > 0 && listProfile.get(0).getLoginStatus().equals(Constants.STATUS_LOG_IN)) {
-                    startActivity(new Intent(context, DashboardActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    startActivity(new Intent(context, MainDashActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 } else {
                     startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }

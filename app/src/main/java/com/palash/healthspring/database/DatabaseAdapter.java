@@ -2100,6 +2100,7 @@ public class DatabaseAdapter {
         String[] projection = {
                 DatabaseContract.Appointment.COLUMN_NAME_ID,
                 DatabaseContract.Appointment.COLUMN_NAME_UNIT_ID,
+                DatabaseContract.Appointment.COLUMN_NAME_UNIT_NAME,
                 DatabaseContract.Appointment.COLUMN_NAME_PATIENT_ID,
                 DatabaseContract.Appointment.COLUMN_NAME_PATIENT_UNIT_ID,
                 DatabaseContract.Appointment.COLUMN_NAME_VISIT_ID,
@@ -2144,6 +2145,7 @@ public class DatabaseAdapter {
                 values = new ContentValues();
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_ID, appointment.getID());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_UNIT_ID, appointment.getUnitID());
+                values.put(DatabaseContract.Appointment.COLUMN_NAME_UNIT_NAME, appointment.getUnitName());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_ID, appointment.getPatientID());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_UNIT_ID, appointment.getPatientUnitID());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_VISIT_ID, appointment.getVisitID());
@@ -2192,6 +2194,7 @@ public class DatabaseAdapter {
                     Appointment appointment = new Appointment();
                     appointment.setID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_ID)));
                     appointment.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_UNIT_ID)));
+                    appointment.setUnitName(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_UNIT_NAME)));
                     appointment.setPatientID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_ID)));
                     appointment.setPatientUnitID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_UNIT_ID)));
                     appointment.setVisitID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_VISIT_ID)));
@@ -2656,11 +2659,20 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
-                if (PatientName != null && PatientName.length() > 0) {
-                    whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "' AND"
-                            + DatabaseContract.Patient.COLUMN_NAME_FIRST_NAME + " LIKE '" + PatientName + "%'";
+                if (UnitID.equals("1")) {   // For head office
+                    if (PatientName != null && PatientName.length() > 0) {
+                        whereClause = //DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "' AND"+
+                                DatabaseContract.Patient.COLUMN_NAME_FIRST_NAME + " LIKE '" + PatientName + "%'";
+                    } else {
+                        //whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                    }
                 } else {
-                    whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                    if (PatientName != null && PatientName.length() > 0) {
+                        whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "' AND"
+                                + DatabaseContract.Patient.COLUMN_NAME_FIRST_NAME + " LIKE '" + PatientName + "%'";
+                    } else {
+                        whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                    }
                 }
                 result = db.query(DatabaseContract.Patient.TABLE_NAME,
                         projection, whereClause,
@@ -2724,7 +2736,11 @@ public class DatabaseAdapter {
         public void delete(String UnitID) {
             try {
                 String whereClause = null;
-                whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                if (UnitID.equals("1")) {  // For head office
+
+                } else {
+                    whereClause = DatabaseContract.Patient.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                }
                 databaseContract.open().delete(DatabaseContract.Patient.TABLE_NAME, whereClause, null);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -2739,6 +2755,7 @@ public class DatabaseAdapter {
         String[] projection = {
                 DatabaseContract.PatientQueue.COLUMN_NAME_ID,
                 DatabaseContract.PatientQueue.COLUMN_NAME_UNITID,
+                DatabaseContract.PatientQueue.COLUMN_NAME_UnitName,
                 DatabaseContract.PatientQueue.COLUMN_NAME_DATE,
                 DatabaseContract.PatientQueue.COLUMN_NAME_FROMTIME,
                 DatabaseContract.PatientQueue.COLUMN_NAME_TOTIME,
@@ -2780,6 +2797,7 @@ public class DatabaseAdapter {
                 values = new ContentValues();
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_ID, patientQueue.getID());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_UNITID, patientQueue.getUnitId());
+                values.put(DatabaseContract.PatientQueue.COLUMN_NAME_UnitName, patientQueue.getUnitName());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_DATE, patientQueue.getDate());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_FROMTIME, patientQueue.getFromTime());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_TOTIME, patientQueue.getToTime());
@@ -2825,6 +2843,7 @@ public class DatabaseAdapter {
                 values = new ContentValues();
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_ID, patientQueue.getID());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_UNITID, patientQueue.getUnitId());
+                values.put(DatabaseContract.PatientQueue.COLUMN_NAME_UnitName, patientQueue.getUnitName());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_DATE, patientQueue.getDate());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_FROMTIME, patientQueue.getFromTime());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_TOTIME, patientQueue.getToTime());
@@ -2873,6 +2892,7 @@ public class DatabaseAdapter {
                         PatientQueue patientQueue = new PatientQueue();
                         patientQueue.setID(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_ID)));
                         patientQueue.setUnitId(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_UNITID)));
+                        patientQueue.setUnitName(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_UnitName)));
                         patientQueue.setDate(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_DATE)));
                         patientQueue.setFromTime(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_FROMTIME)));
                         patientQueue.setToTime(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_TOTIME)));
@@ -3012,13 +3032,28 @@ public class DatabaseAdapter {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
                 String CurrentDate = new SimpleDateFormat(Constants.PATIENT_QUEUE_DATE, Locale.getDefault()).format(new Date());
-                if (PatientName != null && CurrentDate != null) {
-                    whereClause = DatabaseContract.CPOEMedicine.COLUMN_NAME_UNITID + "='" + UnitID + "' AND " +
-                            DatabaseContract.PatientQueue.COLUMN_NAME_FIRSTNAME + " LIKE '" + PatientName + "%' AND " +
-                            DatabaseContract.PatientQueue.COLUMN_NAME_DATE + "='" + CurrentDate + "'";
-                } else if (CurrentDate != null) {
-                    whereClause = DatabaseContract.CPOEMedicine.COLUMN_NAME_UNITID + "='" + UnitID + "' AND " +
-                            DatabaseContract.PatientQueue.COLUMN_NAME_DATE + "='" + CurrentDate + "'";
+                if (UnitID.equals("1")) {
+                    if (PatientName != null && CurrentDate != null) {
+                        whereClause =
+                                //DatabaseContract.CPOEMedicine.COLUMN_NAME_UNITID + "='" + UnitID + "' AND " +
+                                DatabaseContract.PatientQueue.COLUMN_NAME_FIRSTNAME + " LIKE '" + PatientName + "%' AND " +
+                                        DatabaseContract.PatientQueue.COLUMN_NAME_DATE + "='" + CurrentDate + "'";
+                    } else if (CurrentDate != null) {
+                        whereClause =
+                                //DatabaseContract.CPOEMedicine.COLUMN_NAME_UNITID + "='" + UnitID + "' AND " +
+                                DatabaseContract.PatientQueue.COLUMN_NAME_DATE + "='" + CurrentDate + "'";
+                    }
+                } else {
+                    if (PatientName != null && CurrentDate != null) {
+                        whereClause =
+                                DatabaseContract.CPOEMedicine.COLUMN_NAME_UNITID + "='" + UnitID + "' AND " +
+                                        DatabaseContract.PatientQueue.COLUMN_NAME_FIRSTNAME + " LIKE '" + PatientName + "%' AND " +
+                                        DatabaseContract.PatientQueue.COLUMN_NAME_DATE + "='" + CurrentDate + "'";
+                    } else if (CurrentDate != null) {
+                        whereClause =
+                                DatabaseContract.CPOEMedicine.COLUMN_NAME_UNITID + "='" + UnitID + "' AND " +
+                                        DatabaseContract.PatientQueue.COLUMN_NAME_DATE + "='" + CurrentDate + "'";
+                    }
                 }
                 result = db.query(DatabaseContract.PatientQueue.TABLE_NAME,
                         projection, whereClause,
@@ -3119,7 +3154,7 @@ public class DatabaseAdapter {
         public void delete(String UnitID) {
             try {
                 String whereClause = null;
-                whereClause = DatabaseContract.PatientQueue.COLUMN_NAME_UNITID + "='" + UnitID + "'";
+                //whereClause = DatabaseContract.PatientQueue.COLUMN_NAME_UNITID + "='" + UnitID + "'";
                 databaseContract.open().delete(DatabaseContract.PatientQueue.TABLE_NAME, whereClause, null);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -3169,7 +3204,8 @@ public class DatabaseAdapter {
                 DatabaseContract.VisitList.COLUMN_NAME_VISITDATETIME,
                 DatabaseContract.VisitList.COLUMN_NAME_STATUS,
                 DatabaseContract.VisitList.COLUMN_NAME_VISITSTATUS,
-                DatabaseContract.VisitList.COLUMN_NAME_CURRENTVISITSTATUS
+                DatabaseContract.VisitList.COLUMN_NAME_CURRENTVISITSTATUS,
+                DatabaseContract.VisitList.COLUMN_NAME_UnitName
         };
 
         private ContentValues VisitListToContentValues(VisitList visitList) {
@@ -3214,6 +3250,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.VisitList.COLUMN_NAME_STATUS, visitList.getStatus());
                 values.put(DatabaseContract.VisitList.COLUMN_NAME_VISITSTATUS, visitList.getVisitStatus());
                 values.put(DatabaseContract.VisitList.COLUMN_NAME_CURRENTVISITSTATUS, visitList.getCurrentVisitStatus());
+                values.put(DatabaseContract.VisitList.COLUMN_NAME_UnitName, visitList.getUnitName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -3265,6 +3302,7 @@ public class DatabaseAdapter {
                         visitList.setStatus(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_STATUS)));
                         visitList.setVisitStatus(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_VISITSTATUS)));
                         visitList.setCurrentVisitStatus(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_CURRENTVISITSTATUS)));
+                        visitList.setUnitName(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_UnitName)));
                         listVisitList.add(visitList);
                     }
                     result.close();

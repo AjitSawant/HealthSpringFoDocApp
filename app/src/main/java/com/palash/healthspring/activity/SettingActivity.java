@@ -147,7 +147,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             Validate.Msgshow(context, "Please enter new password.");
             return false;
         } else if (edt_set_current_password.getText().toString().equals(edt_set_new_password.getText().toString())) {
-            Validate.Msgshow(context, "Current password and new password not matched");
+            Validate.Msgshow(context, "Current password and new password are same");
             return false;
         } else if (!Validate.hasMinimumCharInEditText(edt_set_new_password.getText().toString())) {
             Validate.Msgshow(context, "Please enter new password min 6 and max 12 characters.");
@@ -210,7 +210,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 serviceConsumer = new WebServiceConsumer(context, null, null);
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(doctorProfile);
-                //response = serviceConsumer.POST(Constants.UPDATE_PASSWORD_URL, jSonData);
+                response = serviceConsumer.POST(Constants.UPDATE_PASSWORD_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();
                 }

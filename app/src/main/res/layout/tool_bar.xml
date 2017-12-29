@@ -6,5 +6,7 @@
     android:background="@drawable/border_action_bar"
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
+    app:popupTheme="@style/MyDarkToolbarStyle"
+    app:titleTextAppearance="@style/toolbarTextSize"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 

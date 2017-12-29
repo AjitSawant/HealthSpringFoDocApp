@@ -43,6 +43,7 @@ public class VisitList {
     private String Status;
     private String VisitStatus;
     private String CurrentVisitStatus;
+    private String UnitName;
 
     @JsonProperty("UnitID")
     public String getPatientUnitId() {
@@ -385,5 +386,14 @@ public class VisitList {
 
     public void setCurrentVisitStatus(String currentVisitStatus) {
         CurrentVisitStatus = currentVisitStatus;
+    }
+
+    @JsonProperty("UnitName")
+    public String getUnitName() {
+        return UnitName;
+    }
+
+    public void setUnitName(String unitName) {
+        UnitName = unitName;
     }
 }

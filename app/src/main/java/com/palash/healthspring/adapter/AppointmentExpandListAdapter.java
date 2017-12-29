@@ -162,6 +162,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
             TextView row_appointment_bnt_reschedual = (TextView) view.findViewById(R.id.row_appointment_bnt_reschedual);
             TextView row_appointment_bnt_visit = (TextView) view.findViewById(R.id.row_appointment_bnt_visit);
             TextView row_appointment_bnt_cancle = (TextView) view.findViewById(R.id.row_appointment_bnt_cancle);
+            TextView row_appointment_tv_unit_name = (TextView) view.findViewById(R.id.row_appointment_tv_unit_name);
 
             if (appointment.getGender().equals("Male")) {
                 row_appointment_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personmale));
@@ -174,6 +175,13 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                 row_appointment_tv_reason.setVisibility(View.VISIBLE);
             } else {
                 row_appointment_tv_reason.setVisibility(View.GONE);
+            }
+
+            if (appointment.getUnitName() != null && appointment.getUnitName().length() > 0) {
+                row_appointment_tv_unit_name.setText(appointment.getUnitName());
+                row_appointment_tv_unit_name.setVisibility(View.VISIBLE);
+            } else {
+                row_appointment_tv_unit_name.setVisibility(View.GONE);
             }
 
             if (appointment.getDepartment() != null && appointment.getDepartment().length() > 0) {

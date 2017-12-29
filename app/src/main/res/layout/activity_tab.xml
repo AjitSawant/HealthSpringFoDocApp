@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bluedark"
+        android:layout_margin="6dp">
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/unitMasterSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
+            android:background="@null"
+            android:visibility="visible"
+            app:ms_arrowColor="@color/text_color"
+            app:ms_arrowSize="10sp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="false"
+            app:ms_floatingLabelText="Selected Clinic"
+            app:ms_hintColor="@color/text_color"
+            app:ms_thickness="0dp"
+            app:ms_multiline="false" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_alignParentBottom="true"
+            app:tabTextAppearance="@style/MineCustomTabText"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/blue_box"
+            app:tabIndicatorHeight="4dp"
+            android:background="@drawable/border_action_bar"
+            app:tabMaxWidth="0dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tabLayout"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

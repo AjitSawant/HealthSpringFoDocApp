@@ -99,6 +99,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_img = (ImageView) convertView.findViewById(R.id.row_search_patient_image);
                 holder.patient_name = (TextView) convertView.findViewById(R.id.row_search_patient_name_txt);
                 holder.patient_mrno = (TextView) convertView.findViewById(R.id.row_search_patient_mrno_txt);
+                holder.row_search_patient_unit = (TextView) convertView.findViewById(R.id.row_search_patient_unit);
                 holder.patient_row_bnt_book = (TextView) convertView.findViewById(R.id.patient_row_bnt_book);
                 holder.patient_row_bnt_visit = (TextView) convertView.findViewById(R.id.patient_row_bnt_visit);
                 holder.patient_row_bnt_patient_console = (TextView) convertView.findViewById(R.id.patient_row_bnt_patient_console);
@@ -120,7 +121,9 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_img.setImageResource(R.drawable.personfemale);
             }
 
-            holder.patient_mrno.setText("Age : " + elPatient.getAge() + " Yrs." + "\n" + "Clinic : " + elPatient.getClinicName());
+            holder.patient_mrno.setText("Age : " + elPatient.getAge() + " Yrs");
+
+            holder.row_search_patient_unit.setText("" + elPatient.getClinicName());
 
             holder.patient_row_bnt_book.getId();
             holder.patient_row_bnt_book.setTag(position);
@@ -128,9 +131,9 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
             holder.patient_row_bnt_book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(localSetting.checkUnitName(elDoctorProfile.getUnitID())){
-                        Toast.makeText(context,"Appointment booking functionality is not available for Head office.",Toast.LENGTH_SHORT).show();
-                    }else {
+                    if (localSetting.checkUnitName(elDoctorProfile.getUnitID())) {
+                        Toast.makeText(context, "Appointment booking functionality is not available for Head office.", Toast.LENGTH_SHORT).show();
+                    } else {
                         Patient elPatient = patientlist.get(position);
                         bookAppointment.setID(elDoctorProfile.getID());
                         bookAppointment.setUnitID(elPatient.getUnitID());
@@ -273,6 +276,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
         TextView patient_row_bnt_book;
         TextView patient_row_bnt_visit;
         TextView patient_row_bnt_patient_console;
+        TextView row_search_patient_unit;
     }
 
     private void MasterFlagTask() {

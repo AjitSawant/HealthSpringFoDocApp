@@ -6,7 +6,6 @@
     android:background="@drawable/drawer"
     android:orientation="vertical">
 
-
     <ImageView
         android:id="@+id/doctor_profile_image"
         android:layout_width="80dp"
@@ -16,7 +15,6 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:padding="10dp"
-        android:src="@drawable/logo"
         android:visibility="invisible" />
 
     <TextView

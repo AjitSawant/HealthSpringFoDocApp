@@ -55,6 +55,7 @@ public class ViewPDFActivity extends AppCompatActivity {
 
     private void setWebView() {
         String url = getIntent().getStringExtra("url");
+        url = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=17&VisitID=26538&PatientID=11819&PatientUnitID=17&TemplateID=0&UserID=0&PDF=1";
         Log.e("PDF Url : ",url);
         if (localSetting.isNetworkAvailable(context)) {
             network_error.setVisibility(View.GONE);

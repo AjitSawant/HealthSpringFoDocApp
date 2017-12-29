@@ -440,6 +440,7 @@ public class DatabaseContract {
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNIT_ID = "UnitID";
+        public static final String COLUMN_NAME_UNIT_NAME = "UnitName";
         public static final String COLUMN_NAME_PATIENT_ID = "PatientID";
         public static final String COLUMN_NAME_PATIENT_UNIT_ID = "PatientUnitID";
         public static final String COLUMN_NAME_VISIT_ID = "VisitID";
@@ -485,6 +486,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_ID
                 + " TEXT,"
                 + COLUMN_NAME_UNIT_ID
+                + " TEXT,"
+                 + COLUMN_NAME_UNIT_NAME
                 + " TEXT,"
                 + COLUMN_NAME_PATIENT_ID
                 + " TEXT,"
@@ -655,6 +658,7 @@ public class DatabaseContract {
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitId";
+        public static final String COLUMN_NAME_UnitName = "UnitName";
         public static final String COLUMN_NAME_DATE = "Date";
         public static final String COLUMN_NAME_FROMTIME = "FromTime";
         public static final String COLUMN_NAME_TOTIME = "ToTime";
@@ -696,6 +700,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_ID
                 + " TEXT,"
                 + COLUMN_NAME_UNITID
+                + " TEXT,"
+                + COLUMN_NAME_UnitName
                 + " TEXT,"
                 + COLUMN_NAME_DATE
                 + " TEXT,"
@@ -812,6 +818,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_STATUS = "Status";
         public static final String COLUMN_NAME_VISITSTATUS = "VisitStatus";
         public static final String COLUMN_NAME_CURRENTVISITSTATUS = "CurrentVisitStatus";
+        public static final String COLUMN_NAME_UnitName = "UnitName";
 
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
@@ -894,6 +901,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_VISITSTATUS
                 + " TEXT,"
                 + COLUMN_NAME_CURRENTVISITSTATUS
+                + " TEXT,"
+                + COLUMN_NAME_UnitName
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"

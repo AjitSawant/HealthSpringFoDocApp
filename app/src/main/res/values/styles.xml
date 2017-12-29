@@ -80,4 +80,19 @@
         <item name="color">@android:color/white</item>
     </style>
 
+    <!-- for tab. -->
+    <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@drawable/tab_text_color</item>
+    </style>
+
+    <style name="MyDarkToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/lighter_gray</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="toolbarTextSize" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

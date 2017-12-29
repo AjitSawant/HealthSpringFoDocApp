@@ -20,8 +20,6 @@ public class Visit {
     private String VisitTypeServiceID;
     private String VisitDateTime;
 
-
-
     @JsonProperty("AppointmentId")
     public String getAppointmentId() {
         return AppointmentId;

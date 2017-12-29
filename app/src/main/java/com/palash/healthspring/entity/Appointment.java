@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Appointment {
     private String ID;
     private String UnitID;
+    private String UnitName;
     private String PatientID;
     private String PatientUnitID;
     private String VisitID;
@@ -70,6 +71,15 @@ public class Appointment {
 
     public void setUnitID(String unitID) {
         UnitID = unitID;
+    }
+
+    @JsonProperty("UnitName")
+    public String getUnitName() {
+        return UnitName;
+    }
+
+    public void setUnitName(String unitName) {
+        UnitName = unitName;
     }
 
     @JsonProperty("PatientID")

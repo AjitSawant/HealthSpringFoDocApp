@@ -59,8 +59,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private LocalSetting localSetting;
     private DatabaseAdapter databaseAdapter;
     private DatabaseContract databaseContract;
-    private DatabaseAdapter.SynchOfflineDataAdapter synchOfflineDataAdapter;
-    private DatabaseAdapter.FlagAdapter flagAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.UnitMasterAdapter unitMasterAdapter;
     private DatabaseAdapter.VitalsListAdapter vitalsListDBAdapter;
@@ -100,8 +98,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-            synchOfflineDataAdapter = databaseAdapter.new SynchOfflineDataAdapter();
-            flagAdapter = databaseAdapter.new FlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             unitMasterAdapter = databaseAdapter.new UnitMasterAdapter();
             vitalsListDBAdapter = databaseAdapter.new VitalsListAdapter();
