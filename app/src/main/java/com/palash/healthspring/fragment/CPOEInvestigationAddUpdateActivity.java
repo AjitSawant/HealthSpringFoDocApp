@@ -216,7 +216,6 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
             Validate.Msgshow(context, "Please select priority.");
             return false;
         }
-
         return true;
     }
 

@@ -17,6 +17,7 @@ import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.PatientConsole;
+import com.palash.healthspring.utilities.Constants;
 
 import java.util.ArrayList;
 
@@ -166,10 +167,9 @@ public class PatientConsoleListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     if (patientConsoleArrayList.get(position) != null && patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0) {
-                        String url = "https://192.168.1.70/HealthSpringAndroid/Reports/Patient/EMRPatientPrescription.aspx?UnitID=" + bookAppointment.getDoctorUnitID()
+                        String url = Constants.Patient_PRESCRIPTION_URL + bookAppointment.getDoctorUnitID()
                                 + "&VisitID=" + patientConsoleArrayList.get(position).getVisitID() + "&PatientID=" + bookAppointment.getPatientID() + "&PatientUnitID=" + bookAppointment.getUnitID()
                                 + "&TemplateID=0&UserID=0";
-
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
                     }

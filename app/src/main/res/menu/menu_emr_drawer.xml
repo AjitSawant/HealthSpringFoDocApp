@@ -43,8 +43,15 @@
             android:id="@+id/action_followup"
             android:checked="false"
             android:icon="@drawable/emr_allergy"
-            android:visible="false"
+            android:visible="true"
             android:title="@string/emr_followup" />
+
+        <item
+            android:id="@+id/action_ice"
+            android:checked="false"
+            android:icon="@drawable/emr_allergy"
+            android:visible="true"
+            android:title="@string/emr_ice" />
 
     </group>
 </menu>

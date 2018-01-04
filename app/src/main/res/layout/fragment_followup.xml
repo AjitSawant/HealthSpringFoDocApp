@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/bgcolor"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="6dp">
 
     <Chronometer
         android:id="@+id/emr_followup_chronometer"
@@ -12,22 +12,112 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <ListView
-        android:id="@+id/emr_followup_List"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:visibility="gone"
-        android:dividerHeight="4dp"></ListView>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/emr_followup_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/empty_list"
-        android:textSize="@dimen/fifteen_margin"
-        android:visibility="visible" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_lighter_gray"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Advice / Follow Up :"
+                        android:textColor="@color/blue_box"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/advice_followup_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@android:drawable/editbox_background"
+                        android:hint="Enter here.."
+                        android:maxLines="8"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/text_color"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Follow Up Date :"
+                        android:textColor="@color/blue_box"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/followup_edt_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:drawable/editbox_background"
+                            android:hint="Select Date"
+                            android:maxLines="1"
+                            android:paddingBottom="14sp"
+                            android:paddingLeft="10sp"
+                            android:paddingRight="14sp"
+                            android:paddingTop="14sp"
+                            android:textColor="@color/text_color"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Follow Up Remark :"
+                        android:textColor="@color/blue_box"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/followup_remark_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@android:drawable/editbox_background"
+                        android:gravity="center_vertical"
+                        android:hint="Enter here.."
+                        android:maxLines="8"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/text_color"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/is_record_sync_tv1"
+                    android:layout_width="4dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:background="@android:color/holo_red_light" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -1,9 +1,11 @@
 package com.palash.healthspring.fragment;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,27 +14,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
-import android.widget.ListView;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.palash.healthspring.R;
-import com.palash.healthspring.adapter.CPOEPrescriptionListAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
-import com.palash.healthspring.entity.CPOEPrescription;
 import com.palash.healthspring.entity.DoctorProfile;
+import com.palash.healthspring.entity.ELFollowUp;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 import com.palash.healthspring.utilities.TransparentProgressDialog;
+import com.palash.healthspring.utilities.Validate;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class FollowUpFragment extends Fragment {
 
@@ -42,23 +47,24 @@ public class FollowUpFragment extends Fragment {
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
-    private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
-    private DatabaseAdapter.FlagAdapter flagAdapter;
-    private DatabaseAdapter.CPOEMedicineAdapter cpoeMedicineAdapterDB;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
+    private DatabaseAdapter.PatientFollowUpAdapter patientFollowUpAdapterDB;
 
-    private CPOEPrescriptionListAdapter cpoeMedicineListAdapter;
-
-    private ArrayList<CPOEPrescription> cpoeMedicineArrayList;
+    private ELFollowUp elFollowUp;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
     private ArrayList<DoctorProfile> doctorProfileList;
+    private ArrayList<ELFollowUp> elFollowUpList;
 
-    private ListView emr_followup_List;
-    private TextView emr_followup_empty;
-    private Chronometer emr_followup_chronometer;
+    private EditText advice_followup_edt;
+    private TextView followup_edt_date;
+    private EditText followup_remark_edt;
+    private TextView is_record_sync_tv1;
 
-    private int currentCount = 0;
-    private int listCount = 0;
+    private Calendar calendar = Calendar.getInstance();
+    private SimpleDateFormat formate = new SimpleDateFormat(Constants.TIME_FORMAT);
+    private DatePickerDialog.OnDateSetListener fromDatepickerdialog;
+
+    private String FollowUpDate = null;
 
     public FollowUpFragment() {
     }
@@ -82,13 +88,12 @@ public class FollowUpFragment extends Fragment {
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-            flagAdapter = databaseAdapter.new FlagAdapter();
-            masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
-            cpoeMedicineAdapterDB = databaseAdapter.new CPOEMedicineAdapter();
             bookAppointmentAdapterDB = databaseAdapter.new BookAppointmentAdapter();
+            patientFollowUpAdapterDB = databaseAdapter.new PatientFollowUpAdapter();
             bookAppointmentArrayList = bookAppointmentAdapterDB.listLast();
             doctorProfileList = doctorProfileAdapter.listAll();
+            elFollowUp = new ELFollowUp();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,17 +101,36 @@ public class FollowUpFragment extends Fragment {
 
     private void InitView(View rootView) {
         try {
-            emr_followup_List = (ListView) rootView.findViewById(R.id.emr_followup_List);
-            emr_followup_empty = (TextView) rootView.findViewById(R.id.emr_followup_empty);
-            emr_followup_chronometer = (Chronometer) rootView.findViewById(R.id.emr_followup_chronometer);
-            /*emr_followup_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            advice_followup_edt = (EditText) rootView.findViewById(R.id.advice_followup_edt);
+            followup_edt_date = (TextView) rootView.findViewById(R.id.followup_edt_date);
+            followup_remark_edt = (EditText) rootView.findViewById(R.id.followup_remark_edt);
+            is_record_sync_tv1 = (TextView) rootView.findViewById(R.id.is_record_sync_tv1);
+
+            followup_edt_date.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                    //flagTask();
-                    LoadList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
-                    //MasterFlagTask();
+                public void onClick(View v) {
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(context, fromDatepickerdialog,
+                            calendar.get(Calendar.YEAR),
+                            calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DAY_OF_MONTH));
+                    datePickerDialog.setCancelable(false);
+                    datePickerDialog.show();
                 }
-            });*/
+            });
+
+            fromDatepickerdialog = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    try {
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.DAY_OF_MONTH, day);
+                        followup_edt_date.setText(localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,65 +138,57 @@ public class FollowUpFragment extends Fragment {
 
     @Override
     public void onResume() {
-        emr_followup_chronometer.setBase(SystemClock.elapsedRealtime());
-        emr_followup_chronometer.start();
-        if (Constants.backFromAddEMR == false) {
+        if (localSetting.isNetworkAvailable(context)) {
             new GetFollowUp().execute();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
         }
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        emr_followup_chronometer.stop();
         super.onPause();
     }
 
-    /*private void flagTask(){
-        flag = flagAdapter.listCurrent();
-        flag.setFlag(Constants.EMR_CPOEMEDICINE_TASK);
-        flagAdapter.create(flag);
-        SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-    }
-    private void MasterFlagTask() {
-        masterflag =  masterFlagAdapter.listCurrent();
-        masterflag.setFlag(Constants.EMR_MEDICINE_MASTER_TASK);
-        masterFlagAdapter.create(masterflag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
-    }*/
-
-    private void LoadList(String PatientID, String VisitID) {
-        try {
-            currentCount = cpoeMedicineAdapterDB.CountID(PatientID, VisitID);
-            if (cpoeMedicineArrayList != null) {
-                listCount = cpoeMedicineArrayList.size();
+    private void refreshList() {
+        elFollowUpList = patientFollowUpAdapterDB.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+        if (elFollowUpList != null && elFollowUpList.size() > 0) {
+            elFollowUp = elFollowUpList.get(0);
+            if (elFollowUp.getAdvice() != null && elFollowUp.getAdvice().length() > 0) {
+                advice_followup_edt.setText(elFollowUp.getAdvice());
+            } else {
+                advice_followup_edt.setText(null);
             }
-            if (currentCount != listCount) {
-                refreshList(PatientID, VisitID);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void refreshList(String PatientID, String VisitID) {
-        cpoeMedicineArrayList = cpoeMedicineAdapterDB.listAll(PatientID, VisitID);
-        if (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0) {
-            cpoeMedicineListAdapter = new CPOEPrescriptionListAdapter(context, cpoeMedicineArrayList);
-            emr_followup_List.setAdapter(cpoeMedicineListAdapter);
-            cpoeMedicineListAdapter.notifyDataSetChanged();
-            emr_followup_empty.setVisibility(View.GONE);
-            emr_followup_List.setVisibility(View.VISIBLE);
+            if (elFollowUp.getFollowUpDate() != null && elFollowUp.getFollowUpDate().length() > 0) {
+                followup_edt_date.setText(elFollowUp.getFollowUpDate());
+            } else {
+                followup_edt_date.setText(null);
+            }
+
+            if (elFollowUp.getFollowUpRemarks() != null && elFollowUp.getFollowUpRemarks().length() > 0) {
+                followup_remark_edt.setText(elFollowUp.getFollowUpRemarks());
+            } else {
+                followup_remark_edt.setText(null);
+            }
+
+            if (elFollowUp.getIsSync() != null && elFollowUp.getIsSync().equals("1")) {
+                is_record_sync_tv1.setVisibility(View.VISIBLE);
+            } else {
+                is_record_sync_tv1.setVisibility(View.GONE);
+            }
         } else {
-            emr_followup_empty.setVisibility(View.VISIBLE);
-            emr_followup_List.setVisibility(View.GONE);
+            advice_followup_edt.setText(null);
+            followup_edt_date.setText(null);
+            followup_remark_edt.setText(null);
         }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_toolbar, menu);
-        menu.findItem(R.id.menu_toolbar_add).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
         menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -180,15 +196,87 @@ public class FollowUpFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_toolbar_add:
-                //context.startActivity(new Intent(context, CPOEPrescriptionAddUpdateActivity.class).putExtra("isUpdate", "No"));
-                Constants.backFromAddEMR = false;
+            case R.id.menu_toolbar_save:
+                if (validateControls()) {
+                    Constants.backFromAddEMR = false;
+                    AddFollowUpView();
+                }
                 return true;
             case R.id.menu_toolbar_refresh:
                 new GetFollowUp().execute();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean validateControls() {
+        if (advice_followup_edt.getText().toString().trim().equals("") || advice_followup_edt.getText().toString().trim().length() == 0) {
+            Validate.Msgshow(context, "Please enter follow up advice");
+            return false;
+        } else if (followup_edt_date.getText().toString().trim().equals("") || followup_edt_date.getText().toString().trim().length() == 0) {
+            Validate.Msgshow(context, "Please select follow up date");
+            return false;
+        } else if (followup_remark_edt.getText().toString().trim().equals("") || followup_remark_edt.getText().toString().trim().length() == 0) {
+            Validate.Msgshow(context, "Please enter follow up remark");
+            return false;
+        }
+        return true;
+    }
+
+    private void AddFollowUpView() {
+        try {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage("Do you really want to save follow up details?")
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            elFollowUp.setUnitID(bookAppointmentArrayList.get(0).getDoctorUnitID());
+                            elFollowUp.setPatientID(bookAppointmentArrayList.get(0).getPatientID());
+                            elFollowUp.setPatientUnitID(bookAppointmentArrayList.get(0).getUnitID());
+                            elFollowUp.setVisitID(bookAppointmentArrayList.get(0).getVisitID());
+                            elFollowUp.setDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
+                            elFollowUp.setIsSync("1");
+                            elFollowUp.setAdvice(advice_followup_edt.getText().toString().trim());
+                            elFollowUp.setDate(formate.format(new Date()));
+                            FollowUpDate = localSetting.formatDate(followup_edt_date.getText().toString().trim(), Constants.SEARCH_DATE_FORMAT, Constants.TIME_FORMAT);
+                            elFollowUp.setFollowUpDate(FollowUpDate);
+                            elFollowUp.setFollowUpRemarks(followup_remark_edt.getText().toString().trim());
+                            callToWebservice();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void callToWebservice() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new AddFollowUp().execute();
+        } else {
+            new AlertDialog
+                    .Builder(context)
+                    .setTitle(getResources().getString(R.string.app_name))
+                    .setMessage(context.getResources().getString(R.string.offline_net_alert))
+                    .setCancelable(true)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            patientFollowUpAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                            patientFollowUpAdapterDB.createUnSync(elFollowUp);
+                            refreshList();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
+        }
     }
 
     private class GetFollowUp extends AsyncTask<Void, Void, String> {
@@ -212,11 +300,9 @@ public class FollowUpFragment extends Fragment {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
-                response = webServiceConsumer.GET(Constants.CPOEMEDICINE_PATIENT_LIST_URL + doctorProfileList.get(0).getUnitID()
-                        + "&PatientID=" +
-                        bookAppointmentArrayList.get(0).getPatientID()
-                        + "&VisitID=" +
-                        bookAppointmentArrayList.get(0).getVisitID());
+                response = webServiceConsumer.GET(Constants.GET_FOLLOWUP_LIST_URL + doctorProfileList.get(0).getUnitID()
+                        + "&PatientID=" + bookAppointmentArrayList.get(0).getPatientID()
+                        + "&VisitID=" + bookAppointmentArrayList.get(0).getVisitID());
                 if (response != null) {
                     responseCode = response.code();
                     responseString = response.body().string();
@@ -233,20 +319,113 @@ public class FollowUpFragment extends Fragment {
         protected void onPostExecute(String result) {
             localSetting.hideDialog(progressDialog);
             if (responseCode == Constants.HTTP_OK_200) {
-                cpoeMedicineArrayList = jsonObjectMapper.map(responseString, CPOEPrescription.class);
-                if (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0) {
-                    for (int index = 0; index < cpoeMedicineArrayList.size(); index++) {
-                        cpoeMedicineAdapterDB.create(cpoeMedicineArrayList.get(index));
+                elFollowUpList = jsonObjectMapper.map(responseString, ELFollowUp.class);
+                if (elFollowUpList != null && elFollowUpList.size() > 0) {
+                    patientFollowUpAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                    for (int index = 0; index < elFollowUpList.size(); index++) {
+                        patientFollowUpAdapterDB.create(elFollowUpList.get(index));
                     }
                 }
             } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
-                cpoeMedicineAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
-                emr_followup_empty.setVisibility(View.VISIBLE);
-                emr_followup_List.setVisibility(View.GONE);
+                patientFollowUpAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
-            //refreshList(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+            refreshList();
+            super.onPostExecute(result);
+        }
+    }
+
+    private class AddFollowUp extends AsyncTask<Void, Void, String> {
+        private TransparentProgressDialog progressDialog;
+        private String jSon = "";
+        private JsonObjectMapper jsonObjectMapper;
+        private WebServiceConsumer webServiceConsumer;
+        private int responseCode = 0;
+        private String responseString = "";
+        private String responseMSG = "";
+        private Response response = null;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = localSetting.showDialog(context);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                jsonObjectMapper = new JsonObjectMapper();
+                jSon = jsonObjectMapper.unMap(elFollowUp);
+                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                response = webServiceConsumer.POST(Constants.FOLLOWUP_ADD_UPDATE_URL, jSon);
+                if (response != null) {
+                    responseCode = response.code();
+                    responseMSG = response.message().toString();
+                    responseString = response.body().string();
+                    Log.d(Constants.TAG, "Response code:" + responseCode);
+                    Log.d(Constants.TAG, "Response MSG:" + responseMSG);
+                    Log.d(Constants.TAG, "Response string:" + responseString);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            localSetting.hideDialog(progressDialog);
+            if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
+                localSetting.hideDialog(progressDialog);
+                new AlertDialog
+                        .Builder(context)
+                        .setTitle(getResources().getString(R.string.app_name))
+                        .setMessage("Follow up added successfully.")
+                        .setCancelable(false)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(R.mipmap.ic_launcher).show();
+            } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
+                localSetting.hideDialog(progressDialog);
+                new AlertDialog
+                        .Builder(context)
+                        .setTitle(getResources().getString(R.string.app_name))
+                        .setMessage("Follow up updated successfully.")
+                        .setCancelable(false)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(R.mipmap.ic_launcher).show();
+            } else {
+                localSetting.hideDialog(progressDialog);
+                //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                new AlertDialog
+                        .Builder(context)
+                        .setTitle(getResources().getString(R.string.app_name))
+                        .setMessage(context.getResources().getString(R.string.offline_alert))
+                        .setCancelable(true)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                patientFollowUpAdapterDB.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
+                                patientFollowUpAdapterDB.createUnSync(elFollowUp);
+                                refreshList();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(R.mipmap.ic_launcher)
+                        .show();
+            }
             super.onPostExecute(result);
         }
     }

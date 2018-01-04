@@ -230,15 +230,17 @@ public class LocalSetting {
     public String dateToString(int date, int month, int year, String format) {
         SimpleDateFormat dateFormat = null;
         String result = null;
+
         Calendar calendar = null;
         try {
-            if (format != null && format.length() > 0 && date > 0 && month > 0 && year > 0) {
+            if (format != null && format.length() > 0 && date > 0 && month >= 0 && year > 0) {
                 calendar = Calendar.getInstance();
                 calendar.set(Calendar.DAY_OF_MONTH, date);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.YEAR, year);
                 dateFormat = new SimpleDateFormat(format);
                 result = dateFormat.format(calendar.getTime());
+
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,16 +2,18 @@ package com.palash.healthspring.activity;
 
 import android.animation.LayoutTransition;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -103,7 +105,23 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         parentView = inflater.inflate(R.layout.activity_appointment, container, false);
         InitSetting();
         InitView();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myBroadcastReceiver,
+                new IntentFilter(Constants.KEY_ForRefreshData));
         return parentView;
+    }
+
+    private final BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Toast.makeText(getActivity(), "Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+            searchLoadList();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myBroadcastReceiver);
     }
 
     private void InitSetting() {
@@ -168,7 +186,6 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
             });
 
             appointment_edt_todate.setFocusable(false);
-
             appointment_edt_todate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -237,7 +254,6 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
 
                         //Convert long to String
                         String dayDifference = Long.toString(differenceDates);
-
                         if (date1.before(date2) || date1.equals(date2)) {
                             if (Integer.parseInt(dayDifference) < Constants.FILTER_DAYS_COUNT) {
                                 appointment_edt_todate.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
@@ -259,7 +275,6 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
 
             appointment_List.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                 int previousGroup = -1;
-
                 @Override
                 public void onGroupExpand(int groupPosition) {
                     appointment_List.smoothScrollToPosition(groupPosition);
@@ -273,14 +288,14 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    /*@Override
+   /*@Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         try {
             if (isVisibleToUser) {
                 doctorProfileList = doctorProfileAdapter.listAll();
                 searchLoadList();
-                GetAppointmentWebcall();
+                //GetAppointmentWebcall();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -373,6 +388,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
 
     private void searchLoadList() {
         try {
+            doctorProfileList = doctorProfileAdapter.listAll();
             SimpleDateFormat date_format = new SimpleDateFormat(Constants.SEARCH_DATE_FORMAT);
             String patientName = appointment_edt_patient_name.getText().toString();
             FromDate = date_format.format(format.parse(appointment_edt_fromdate.getText().toString()));
@@ -479,7 +495,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void GetAppointmentWebcall(){
+    private void GetAppointmentWebcall() {
         doctorProfileList = doctorProfileAdapter.listAll();
         if (localSetting.isNetworkAvailable(context)) {
             new GetAppointmentListTask().execute();

@@ -189,16 +189,37 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/row_visit_summary_btn"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:background="@drawable/card_layout"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Visit\nSummary"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/row_visit_summary_btn"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/card_layout"
+                android:gravity="center"
+                android:text="Visit\nSummary"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+
+            <!--<TextView
+                android:id="@+id/row_visit_ice_btn"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/card_layout"
+                android:gravity="center"
+                android:text="ICE"
+                android:textColor="@color/white"
+                android:layout_marginTop="2dp"
+                android:textSize="11sp" />-->
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

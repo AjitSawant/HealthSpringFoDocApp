@@ -156,10 +156,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Validate.Msgshow(context, "Please enter password.");
                 return false;
             }
-//            else if (!Validate.hasMinimumCharInEditText(login_edt_password.getText().toString())) {
-//                Validate.Msgshow(context, "Please enter password min 6 and max 12 character.");
-//                return false;
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

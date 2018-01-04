@@ -510,6 +510,7 @@ public class ComplaintsFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 complaintsListDBAdapter.delete(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
                                 complaintsListDBAdapter.createUnSync(elComplaintsList);
+                                refreshList();
                                 dialog.dismiss();
                             }
                         })
@@ -517,7 +518,6 @@ public class ComplaintsFragment extends Fragment {
                         .setIcon(R.mipmap.ic_launcher)
                         .show();
             }
-            refreshList();
             super.onPostExecute(result);
         }
     }

@@ -1,9 +1,12 @@
 package com.palash.healthspring.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -77,7 +80,25 @@ public class PatientQueueFragment extends Fragment {
         InitSetting();
         InitView();
         RefreshList();
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myBroadcastReceiver,
+                new IntentFilter(Constants.KEY_ForRefreshData));
+
         return parentView;
+    }
+
+    private final BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, android.content.Intent intent) {
+            //Toast.makeText(getActivity(), "Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+            RefreshList();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myBroadcastReceiver);
     }
 
     private void InitSetting() {
@@ -142,7 +163,7 @@ public class PatientQueueFragment extends Fragment {
         }
     }
 
-    @Override
+    /*@Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         try {
@@ -154,7 +175,7 @@ public class PatientQueueFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     /*@Override
     public void onResume() {
@@ -164,6 +185,7 @@ public class PatientQueueFragment extends Fragment {
     }*/
 
     private void RefreshList() {
+        doctorProfileList = doctorProfileAdapter.listAll();
         patientQueueArrayList = patientQueueAdapterDB.listToday(doctorProfileList.get(0).getUnitID(), patientName);
         if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
             patientQueueAdapter = new PatientQueueAdapter(context, patientQueueArrayList);

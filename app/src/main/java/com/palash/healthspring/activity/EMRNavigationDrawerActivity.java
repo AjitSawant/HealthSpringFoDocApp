@@ -1,6 +1,8 @@
 package com.palash.healthspring.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -70,13 +73,12 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
 
     private void InitSetting() {
         try {
-            context = EMRNavigationDrawerActivity.this;
+            context = this;
             localSetting = new LocalSetting();
             localSetting.Init(context);
             localSetting.Load();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-
             bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,6 +173,17 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             referralFragmentTransaction.commit();
                             setTitle(R.string.emr_referral);
                             Title = context.getResources().getString(R.string.emr_referral);
+                            Constants.backFromAddEMR = false;
+                            return true;
+                        case R.id.action_ice:
+                            if (bookAppointmentArrayList != null && bookAppointmentArrayList.get(0).getVisitID() != null && bookAppointmentArrayList.get(0).getVisitID().length() > 0) {
+                                String url = Constants.Patient_ICE_URL + bookAppointmentArrayList.get(0).getUnitID()
+                                        + "&VisitID=" + bookAppointmentArrayList.get(0).getVisitID() + "&PatientID=" + bookAppointmentArrayList.get(0).getPatientID()
+                                        + "&PatientUnitID=" +bookAppointmentArrayList.get(0).getUnitID() + "&TemplateID=0&UserID=0&PDF=1";
+                                //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
+                                Log.e("PDF URL: ",url);
+                                context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                            }
                             Constants.backFromAddEMR = false;
                             return true;
                         default:

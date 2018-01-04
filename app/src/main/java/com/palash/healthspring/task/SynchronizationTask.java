@@ -18,6 +18,7 @@ import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.ComplaintsList;
 import com.palash.healthspring.entity.DiagnosisList;
 import com.palash.healthspring.entity.DoctorProfile;
+import com.palash.healthspring.entity.ELFollowUp;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.PatientQueue;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
@@ -50,6 +51,7 @@ public class SynchronizationTask implements Task {
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.ComplaintsListDBAdapter complaintsListDBAdapter;
     private DatabaseAdapter.ReferralServiceListDBAdapter referralServiceListDBAdapter;
+    private DatabaseAdapter.PatientFollowUpAdapter patientFollowUpAdapter;
     private DatabaseAdapter.FlagAdapter flagAdapter;
 
     private WebServiceConsumer serviceConsumer;
@@ -68,6 +70,7 @@ public class SynchronizationTask implements Task {
     private ArrayList<CPOEPrescription> cpoePrescriptionList;
     private ArrayList<ComplaintsList> complaintsListList;
     private ArrayList<ReferralDoctorPerService> referralDoctorPerServiceList;
+    private ArrayList<ELFollowUp> followUpList;
     private ArrayList<Flag> flagList;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
 
@@ -107,6 +110,7 @@ public class SynchronizationTask implements Task {
             cpoePrescriptionAdapter = databaseAdapter.new CPOEMedicineAdapter();
             complaintsListDBAdapter = databaseAdapter.new ComplaintsListDBAdapter();
             referralServiceListDBAdapter = databaseAdapter.new ReferralServiceListDBAdapter();
+            patientFollowUpAdapter = databaseAdapter.new PatientFollowUpAdapter();
             flagAdapter = databaseAdapter.new FlagAdapter();
             flagList = flagAdapter.listLast();
 
@@ -157,6 +161,11 @@ public class SynchronizationTask implements Task {
                                         flag.setMsg("Synchronizing Complaints");
                                         flagAdapter.create(flag);
                                         SyncComplaintsOfflineList();
+
+                                        flag = flagAdapter.listCurrent();
+                                        flag.setMsg("Synchronizing Followup");
+                                        flagAdapter.create(flag);
+                                        SyncFollowUpOfflineList();
 
                                         flag = flagAdapter.listCurrent();
                                         flag.setMsg("Synchronizing Referral Services");
@@ -373,6 +382,37 @@ public class SynchronizationTask implements Task {
                             if (responseCode == Constants.HTTP_OK_200 || responseCode == Constants.HTTP_CREATED_201) {
                                 ArrayList<ReferralDoctorPerService> referralServiceList = objectMapper.map(responseString, ReferralDoctorPerService.class);
                                 referralServiceListDBAdapter.UpdateSyncLocalItem(referralDoctorPerServiceList.get(i).get_ID(), referralServiceList.get(0));
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SyncFollowUpOfflineList() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            followUpList = patientFollowUpAdapter.listAllUnSync();
+            if (followUpList != null && followUpList.size() > 0) {
+                for (int i = 0; i < followUpList.size(); i++) {
+                    try {
+                        Log.d(Constants.TAG, "Data Synchronising start date:" + DateFormat.getDateTimeInstance().format(new Date()));
+                        response = serviceConsumer.POST(Constants.FOLLOWUP_ADD_UPDATE_URL, objectMapper.unMap(followUpList.get(i)));
+                        Log.d(Constants.TAG, "Data Synchronising end date:" + DateFormat.getDateTimeInstance().format(new Date()));
+                        if (response != null) {
+                            responseString = response.body().string();
+                            responseCode = response.code();
+                            Log.d(Constants.TAG, "ResponseString:" + responseString);
+                            Log.d(Constants.TAG, "ResponseCode:" + responseCode);
+                            if (responseCode == Constants.HTTP_OK_200 || responseCode == Constants.HTTP_CREATED_201) {
+                                ArrayList<ELFollowUp> followUpLists = objectMapper.map(responseString, ELFollowUp.class);
+                                patientFollowUpAdapter.UpdateSyncLocalItem(followUpList.get(i).get_ID(), followUpLists.get(0));
                             }
                         }
                     } catch (Exception e) {

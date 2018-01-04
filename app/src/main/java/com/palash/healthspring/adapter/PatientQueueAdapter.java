@@ -238,10 +238,9 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 @Override
                 public void onClick(View view) {
                     if (patientQueueArrayList.get(position) != null && patientQueueArrayList.get(position).getID() != null && patientQueueArrayList.get(position).getID().length() > 0) {
-                        String url = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=" + patientQueueArrayList.get(0).getPatientUnitID()
+                        String url = Constants.Patient_Visit_URL + patientQueueArrayList.get(0).getPatientUnitID()
                                 + "&VisitID=" + patientQueueArrayList.get(position).getVisitID() + "&PatientID=" + patientQueueArrayList.get(0).getPatientId()
                                 + "&PatientUnitID=" + patientQueueArrayList.get(0).getPatientUnitID() + "&TemplateID=0&UserID=0&PDF=1";
-
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                         Log.e("PDF URL: ",url);
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));

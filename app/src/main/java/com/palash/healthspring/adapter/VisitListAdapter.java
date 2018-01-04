@@ -150,29 +150,26 @@ public class VisitListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     bookAppointment.setVisitID(visitListArrayList.get(position).getID());
                     bookAppointmentAdapter.updateVisitID(bookAppointment);
-                    localSetting.fragment_name = "VisitList";
-                    //localSetting.fragment_name = "PatientQueue";
+                    //localSetting.fragment_name = "VisitList";
+                    localSetting.fragment_name = "PatientQueue";
                     localSetting.Save();
                     context.startActivity(new Intent(context, EMRNavigationDrawerActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
             });
 
-
             holder.row_visit_summary_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (visitListArrayList.get(position) != null && visitListArrayList.get(position).getID() != null && visitListArrayList.get(position).getID().length() > 0) {
-                        String url = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=" + visitListArrayList.get(0).getUnitId()
+                        String url = Constants.Patient_Visit_URL + visitListArrayList.get(0).getUnitId()
                                 + "&VisitID=" + visitListArrayList.get(position).getID() + "&PatientID=" + visitListArrayList.get(0).getPatientId()
                                 + "&PatientUnitID=" + visitListArrayList.get(0).getUnitId() + "&TemplateID=0&UserID=0&PDF=1";
-
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                         Log.d("PDF URL: ", url);
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
                     }
                 }
             });
-
         } catch (Exception e) {
             e.printStackTrace();
         }

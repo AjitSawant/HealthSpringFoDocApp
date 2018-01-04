@@ -1713,6 +1713,57 @@ public class DatabaseContract {
                 + ")";
     }
 
+    public static final class PatientFollowUp implements BaseColumns {
+
+        private PatientFollowUp() {
+        }
+
+        public static final String TABLE_NAME = "T_PatientFollowUp";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_UnitID = "UnitID";
+        public static final String COLUMN_NAME_PatientID = "PatientID";
+        public static final String COLUMN_NAME_PatientUnitID = "PatientUnitID";
+        public static final String COLUMN_NAME_VisitID = "VisitID";
+        public static final String COLUMN_NAME_DoctorID = "DoctorID";
+        public static final String COLUMN_NAME_Date = "Date";
+        public static final String COLUMN_NAME_Advice = "Advice";
+        public static final String COLUMN_NAME_FollowUpRemarks = "FollowUpRemarks";
+        public static final String COLUMN_NAME_FollowUpDate = "FollowUpDate";
+        public static final String COLUMN_NAME_IsSync = "IsSync";
+        public static final String COLUMN_NAME_IsUpdate = "IsUpdate";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + PatientFollowUp._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_UnitID
+                + " TEXT,"
+                + COLUMN_NAME_PatientID
+                + " TEXT,"
+                + COLUMN_NAME_PatientUnitID
+                + " TEXT,"
+                + COLUMN_NAME_VisitID
+                + " TEXT,"
+                + COLUMN_NAME_DoctorID
+                + " TEXT,"
+                + COLUMN_NAME_Date
+                + " TEXT,"
+                + COLUMN_NAME_Advice
+                + " TEXT,"
+                + COLUMN_NAME_FollowUpRemarks
+                + " TEXT,"
+                + COLUMN_NAME_FollowUpDate
+                + " TEXT,"
+                + COLUMN_NAME_IsSync
+                + " TEXT,"
+                + COLUMN_NAME_IsUpdate
+                + " TEXT DEFAULT 0"
+                + ")";
+    }
+
      /*public static final class BloodGroup implements BaseColumns {
 
         private BloodGroup() {
@@ -2039,6 +2090,9 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
                 db.execSQL(PatientConsoleList.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 29: " + PatientFollowUp.CREATE_TABLE);
+                db.execSQL(PatientFollowUp.CREATE_TABLE);
 
               /*Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
                 db.execSQL(Gender.CREATE_TABLE);

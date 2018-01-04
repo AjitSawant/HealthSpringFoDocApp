@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +33,7 @@ import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.ComplaintsList;
 import com.palash.healthspring.entity.DiagnosisList;
 import com.palash.healthspring.entity.DoctorProfile;
+import com.palash.healthspring.entity.ELFollowUp;
 import com.palash.healthspring.entity.ELUnitMaster;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
 import com.palash.healthspring.entity.VitalsList;
@@ -60,6 +62,7 @@ public class MainDashActivity extends AppCompatActivity {
     private DatabaseAdapter.CPOEMedicineAdapter cpoeMedicineAdapter;
     private DatabaseAdapter.ComplaintsListDBAdapter complaintsListDBAdapter;
     private DatabaseAdapter.ReferralServiceListDBAdapter referralServiceListDBAdapter;
+    private DatabaseAdapter.PatientFollowUpAdapter patientFollowUpAdapter;
 
     private static final String TAB_1_TAG = "tab_1";
     private static final String TAB_2_TAG = "tab_2";
@@ -100,6 +103,7 @@ public class MainDashActivity extends AppCompatActivity {
             cpoeMedicineAdapter = databaseAdapter.new CPOEMedicineAdapter();
             complaintsListDBAdapter = databaseAdapter.new ComplaintsListDBAdapter();
             referralServiceListDBAdapter = databaseAdapter.new ReferralServiceListDBAdapter();
+            patientFollowUpAdapter = databaseAdapter.new PatientFollowUpAdapter();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,6 +137,9 @@ public class MainDashActivity extends AppCompatActivity {
                     doctorProfile.setUnitID(listELUnitMaster.get(position).getUnitID());
                     doctorProfile.setUnitName(listELUnitMaster.get(position).getUnitDesc());
                     doctorProfileAdapter.update(doctorProfile);
+
+                    Intent intent = new Intent(Constants.KEY_ForRefreshData); //If you need extra, add: intent.putExtra("extra","something");
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 }
             }
 
@@ -171,7 +178,6 @@ public class MainDashActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
     }
 
     private void setupTabIcons() {
@@ -220,10 +226,12 @@ public class MainDashActivity extends AppCompatActivity {
                     ArrayList<CPOEPrescription> cpoeMedicineArrayList = cpoeMedicineAdapter.listAllUnSync();
                     ArrayList<ComplaintsList> complaintsArrayList = complaintsListDBAdapter.listAllUnSync();
                     ArrayList<ReferralDoctorPerService> referralServiceArrayList = referralServiceListDBAdapter.listAllUnSync();
+                    ArrayList<ELFollowUp> FollowUpArrayList = patientFollowUpAdapter.listAllUnSync();
 
                     if ((vitalsArrayList != null && vitalsArrayList.size() > 0) || (diagnosisArrayList != null && diagnosisArrayList.size() > 0)
                             || (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) || (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0)
-                            || (complaintsArrayList != null && complaintsArrayList.size() > 0) || (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
+                            || (complaintsArrayList != null && complaintsArrayList.size() > 0) || (referralServiceArrayList != null && referralServiceArrayList.size() > 0)
+                            || (FollowUpArrayList != null && FollowUpArrayList.size() > 0)) {
                         startActivity(new Intent(context, SynchronizationActivity.class).putExtra("reason", "offline data"));
                     } else {
                         Toast.makeText(context, "No data available. All data synchronized.", Toast.LENGTH_SHORT).show();

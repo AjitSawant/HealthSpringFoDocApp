@@ -160,18 +160,24 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, day);
 
-                    startDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
+                    /*startDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
                     endDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
 
                     patient_register_start_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
-                    patient_register_end_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
+                    patient_register_end_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));*/
+
+                    startDate = localSetting.formatDate(format.format(calendar.getTime()), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+                    endDate = localSetting.formatDate(format.format(calendar.getTime()), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+
+                    patient_register_start_date_edt.setText(format.format(calendar.getTime()));
+                    patient_register_end_date_edt.setText(format.format(calendar.getTime()));
                 }
             };
 
             dateListenerTo = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    endDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
+                    endDate = localSetting.formatDate(format.format(calendar.getTime()), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
                     try {
                         //Dates to compare
                         Date date1;

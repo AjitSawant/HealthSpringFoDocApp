@@ -2,10 +2,13 @@ package com.palash.healthspring.activity;
 
 
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -95,7 +98,25 @@ public class PatientFragment extends Fragment implements View.OnClickListener {
         parentView = inflater.inflate(R.layout.activity_list_patient, container, false);
         InitSetting();
         InitView();
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myBroadcastReceiver,
+                new IntentFilter(Constants.KEY_ForRefreshData));
+
         return parentView;
+    }
+
+    private final BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, android.content.Intent intent) {
+            //Toast.makeText(getActivity(), "Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+            RefreshPatientList();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myBroadcastReceiver);
     }
 
     private void InitSetting() {
@@ -242,21 +263,21 @@ public class PatientFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
+   /* @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         try {
             if (isVisibleToUser) {
-                doctorProfileList = doctorProfileAdapter.listAll();
                 RefreshPatientList();
                 //GetPatientListWebcall();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void RefreshPatientList() {
+        doctorProfileList = doctorProfileAdapter.listAll();
         patientList = patientAdapterDB.listPatient(doctorProfileList.get(0).getUnitID(), null);
         if (patientList != null && patientList.size() > 0) {
             searchPatientAdapter = new SearchPatientAdapter(context, patientList);

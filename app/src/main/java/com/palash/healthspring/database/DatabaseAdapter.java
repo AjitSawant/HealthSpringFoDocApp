@@ -18,6 +18,7 @@ import com.palash.healthspring.entity.Department;
 import com.palash.healthspring.entity.DiagnosisList;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.DoctorType;
+import com.palash.healthspring.entity.ELFollowUp;
 import com.palash.healthspring.entity.ELSynchOfflineData;
 import com.palash.healthspring.entity.ELUnitMaster;
 import com.palash.healthspring.entity.Flag;
@@ -7435,6 +7436,303 @@ public class DatabaseAdapter {
                 if (values != null) {
                     rowId = databaseContract.open().update(
                             DatabaseContract.ReferralServiceList.TABLE_NAME, values, whereClause, null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+    }
+
+    public class PatientFollowUpAdapter {
+
+        String[] projection = {
+                DatabaseContract.PatientFollowUp._ID,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_ID,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_UnitID,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientID,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientUnitID,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_VisitID,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_DoctorID,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_Date,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_Advice,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_FollowUpRemarks,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_FollowUpDate,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_IsSync,
+                DatabaseContract.PatientFollowUp.COLUMN_NAME_IsUpdate
+        };
+
+        private ContentValues PatientFollowUpToContentValues(ELFollowUp elPatientFollowUp) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_ID, elPatientFollowUp.getID());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_UnitID, elPatientFollowUp.getUnitID());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientID, elPatientFollowUp.getPatientID());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientUnitID, elPatientFollowUp.getPatientUnitID());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_VisitID, elPatientFollowUp.getVisitID());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_DoctorID, elPatientFollowUp.getDoctorID());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_Date, elPatientFollowUp.getDate());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_Advice, elPatientFollowUp.getAdvice());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_FollowUpRemarks, elPatientFollowUp.getFollowUpRemarks());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_FollowUpDate, elPatientFollowUp.getFollowUpDate());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_IsSync, elPatientFollowUp.getIsSync());
+                values.put(DatabaseContract.PatientFollowUp.COLUMN_NAME_IsUpdate, elPatientFollowUp.getIsUpdate());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELFollowUp> CursorToArrayList(Cursor result) {
+            ArrayList<ELFollowUp> listELFollowUpList = null;
+            try {
+                if (result != null) {
+                    listELFollowUpList = new ArrayList<ELFollowUp>();
+                    while (result.moveToNext()) {
+                        ELFollowUp elPatientFollowUp = new ELFollowUp();
+                        elPatientFollowUp.set_ID(result.getInt(result.getColumnIndex(DatabaseContract.PatientFollowUp._ID)));
+                        elPatientFollowUp.setID(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_ID)));
+                        elPatientFollowUp.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_UnitID)));
+                        elPatientFollowUp.setPatientID(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientID)));
+                        elPatientFollowUp.setPatientUnitID(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientUnitID)));
+                        elPatientFollowUp.setVisitID(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_VisitID)));
+                        elPatientFollowUp.setDoctorID(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_DoctorID)));
+                        elPatientFollowUp.setDate(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_Date)));
+                        elPatientFollowUp.setAdvice(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_Advice)));
+                        elPatientFollowUp.setFollowUpRemarks(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_FollowUpRemarks)));
+                        elPatientFollowUp.setFollowUpDate(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_FollowUpDate)));
+                        elPatientFollowUp.setIsSync(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_IsSync)));
+                        elPatientFollowUp.setIsUpdate(result.getString(result.getColumnIndex(DatabaseContract.PatientFollowUp.COLUMN_NAME_IsUpdate)));
+                        listELFollowUpList.add(elPatientFollowUp);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listELFollowUpList;
+        }
+
+        public long create(ELFollowUp elPatientFollowUp) {
+            long rowId = -1;
+            try {
+                if (Count(elPatientFollowUp.getID()) == 0) {
+                    ContentValues values = PatientFollowUpToContentValues(elPatientFollowUp);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.PatientFollowUp.TABLE_NAME, null, values);
+                    }
+                } else {
+                    update(elPatientFollowUp);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long update(ELFollowUp elPatientFollowUp) {
+            long rowId = -1;
+            try {
+                ContentValues values = PatientFollowUpToContentValues(elPatientFollowUp);
+                String whereClause = null;
+                whereClause = DatabaseContract.PatientFollowUp.COLUMN_NAME_ID + "='" + elPatientFollowUp.getID() + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.PatientFollowUp.TABLE_NAME, values, whereClause, null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELFollowUp> listAll() {
+            ArrayList<ELFollowUp> listELFollowUpList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.PatientFollowUp.TABLE_NAME,
+                        projection, null,
+                        null, null, null, null);
+                listELFollowUpList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELFollowUpList;
+        }
+
+        public ArrayList<ELFollowUp> listAll(String ID) {
+            ArrayList<ELFollowUp> listELFollowUpList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.PatientFollowUp.COLUMN_NAME_ID + "='" + ID + "'";
+                }
+                result = db.query(DatabaseContract.PatientFollowUp.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null, null);
+                listELFollowUpList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELFollowUpList;
+        }
+
+        public ArrayList<ELFollowUp> listAll(String PatientID, String VisitID) {
+            ArrayList<ELFollowUp> listFollowUpList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.PatientFollowUp.COLUMN_NAME_VisitID + "='" + VisitID + "' AND " +
+                        DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientID + "='" + PatientID + "'";
+                // AND " +DatabaseContract.PatientFollowUp.COLUMN_NAME_STATUS + "= 'True'";
+                result = db.query(DatabaseContract.PatientFollowUp.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null, null);
+                listFollowUpList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listFollowUpList;
+        }
+
+        public long updateISStatus(ELFollowUp elPatientFollowUp) {
+            long rowId = -1;
+            try {
+                ContentValues values = PatientFollowUpToContentValues(elPatientFollowUp);
+                String whereClause = null;
+                whereClause = DatabaseContract.PatientFollowUp.COLUMN_NAME_ID + "='" + elPatientFollowUp.getID() + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.PatientFollowUp.TABLE_NAME, values,
+                            whereClause,
+                            null);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public void delete(String PatientID, String VisitID) {
+            try {
+                String whereClause = null;
+                whereClause = DatabaseContract.PatientFollowUp.COLUMN_NAME_PatientID + "='" + PatientID + "' AND " +
+                        DatabaseContract.PatientFollowUp.COLUMN_NAME_VisitID + "='" + VisitID + "'";
+                //+ " AND " + DatabaseContract.PatientFollowUp.COLUMN_NAME_STATUS + "= 'False'";
+                databaseContract.open().delete(DatabaseContract.PatientFollowUp.TABLE_NAME, whereClause, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+        }
+
+        public int CountID(String PatientID, String VisitID) {
+            int Count = 0;
+            ArrayList<ELFollowUp> elPatientFollowUpLists = null;
+            try {
+                elPatientFollowUpLists = listAll(PatientID, VisitID);
+                if (elPatientFollowUpLists != null && elPatientFollowUpLists.size() > 0) {
+                    Count = elPatientFollowUpLists.size();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.PatientFollowUp.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.PatientFollowUp.TABLE_NAME,
+                            projection, whereClause,
+                            null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        //======================== methods to sync offline data ======================//
+        public ArrayList<ELFollowUp> listAllUnSync() {
+            ArrayList<ELFollowUp> listELFollowUpList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                whereClause = DatabaseContract.PatientFollowUp.COLUMN_NAME_IsSync + "='1'";
+                result = db.query(DatabaseContract.PatientFollowUp.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null, null);
+                listELFollowUpList = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return listELFollowUpList;
+        }
+
+        public long createUnSync(ELFollowUp elFollowUp) {
+            long rowId = -1;
+            try {
+                ContentValues values = PatientFollowUpToContentValues(elFollowUp);
+                if (values != null) {
+                    rowId = databaseContract.open().insert(DatabaseContract.PatientFollowUp.TABLE_NAME, null, values);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public long UpdateSyncLocalItem(int _ID, ELFollowUp elFollowUp) {
+            long rowId = -1;
+            try {
+                elFollowUp.setIsSync("0");
+                ContentValues values = PatientFollowUpToContentValues(elFollowUp);
+                String whereClause = null;
+                whereClause = DatabaseContract.PatientFollowUp._ID + "='" + _ID + "'";
+                if (values != null) {
+                    rowId = databaseContract.open().update(
+                            DatabaseContract.PatientFollowUp.TABLE_NAME, values, whereClause, null);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

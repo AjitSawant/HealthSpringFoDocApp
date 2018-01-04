@@ -5,6 +5,7 @@ public class Constants {
     public static final String STATUS_LOG_IN = "login";
     public static final String STATUS_LOG_OUT = "logout";
     public static final String KEY_REQUEST_DATA = "request_data";
+    public static final String KEY_ForRefreshData = "thisIsForRefreshData";
 
     public static final int HTTP_OK_200 = 200;
     public static final int HTTP_CREATED_201 = 201;
@@ -65,6 +66,8 @@ public class Constants {
     public static final String MOLECULE_URL = BASE_URL + "Master/GetMolecule";
     public static final String CPOEMEDICINE_ADD_UPDATE_URL = BASE_URL + "CPOEMedicine/AddCPOEMedicine";
     public static final String COMPLAINTS_ADD_UPDATE_URL = BASE_URL + "Complaint/AddUpdateComplaint";
+    public static final String FOLLOWUP_ADD_UPDATE_URL = BASE_URL + "FollowUp/AddUpdateFollowUp";
+    public static final String GET_FOLLOWUP_LIST_URL = BASE_URL + "FollowUp/GetFollowUpList?UnitID=";
     public static final String REFERRAL_DOCTOR_LIST_MASTER_PER_SERVICE_URL = BASE_URL + "Referral/ListReferralDoctorAsperService";
     public static final String REFERRAL_DOCTOR_ADD_UPDATE_PER_SERVICE_URL = BASE_URL + "Referral/AddUpdateReferralDoctorService";
 
@@ -97,4 +100,8 @@ public class Constants {
     public static final int STOP_TASK = 99;
     public static final int ALL_URL_TASK = 0;
     public static final int ONLINE_SYNC = 10;
+
+    public static final String Patient_Visit_URL = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=";
+    public static final String Patient_PRESCRIPTION_URL = "https://192.168.1.70/HealthSpringAndroid/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
+    public static final String Patient_ICE_URL = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=";
 }
