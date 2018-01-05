@@ -64,10 +64,6 @@ public class MainDashActivity extends AppCompatActivity {
     private DatabaseAdapter.ReferralServiceListDBAdapter referralServiceListDBAdapter;
     private DatabaseAdapter.PatientFollowUpAdapter patientFollowUpAdapter;
 
-    private static final String TAB_1_TAG = "tab_1";
-    private static final String TAB_2_TAG = "tab_2";
-    private static final String TAB_3_TAG = "tab_3";
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
@@ -423,7 +419,6 @@ public class MainDashActivity extends AppCompatActivity {
                         System.exit(0);
                     }
                 });
-
         builder1.setNegativeButton(
                 "No",
                 new DialogInterface.OnClickListener() {
@@ -431,9 +426,7 @@ public class MainDashActivity extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
-
 }

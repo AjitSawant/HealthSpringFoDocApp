@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.palash.healthspring.R;
 import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
+import com.palash.healthspring.activity.ViewPDFActivity;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
@@ -149,9 +150,10 @@ public class VisitListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     bookAppointment.setVisitID(visitListArrayList.get(position).getID());
+                    bookAppointment.setVisitTypeID(visitListArrayList.get(position).getVisitTypeID());
                     bookAppointmentAdapter.updateVisitID(bookAppointment);
-                    //localSetting.fragment_name = "VisitList";
-                    localSetting.fragment_name = "PatientQueue";
+                    localSetting.fragment_name = "VisitList";
+                    //localSetting.fragment_name = "PatientQueue";
                     localSetting.Save();
                     context.startActivity(new Intent(context, EMRNavigationDrawerActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
@@ -161,11 +163,11 @@ public class VisitListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     if (visitListArrayList.get(position) != null && visitListArrayList.get(position).getID() != null && visitListArrayList.get(position).getID().length() > 0) {
-                        String url = Constants.Patient_Visit_URL + visitListArrayList.get(0).getUnitId()
-                                + "&VisitID=" + visitListArrayList.get(position).getID() + "&PatientID=" + visitListArrayList.get(0).getPatientId()
-                                + "&PatientUnitID=" + visitListArrayList.get(0).getUnitId() + "&TemplateID=0&UserID=0&PDF=1";
+
+                        String url = localSetting.returnPDFUrl("Summary",visitListArrayList.get(position).getUnitId(), visitListArrayList.get(position).getPatientId(),
+                                visitListArrayList.get(position).getUnitId(), visitListArrayList.get(position).getID(),"","");
+
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
-                        Log.d("PDF URL: ", url);
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
                     }
                 }

@@ -39,6 +39,7 @@ public class BookAppointment {
     private String ReSchedulingReason;
     private String AppointmentId;
     private String VisitID;
+    private String VisitTypeID;
     private String AddedBy;
 
     @JsonProperty("ID")
@@ -345,5 +346,14 @@ public class BookAppointment {
 
     public void setAddedBy(String addedBy) {
         AddedBy = addedBy;
+    }
+
+    @JsonProperty("VisitTypeID")
+    public String getVisitTypeID() {
+        return VisitTypeID;
+    }
+
+    public void setVisitTypeID(String visitTypeID) {
+        VisitTypeID = visitTypeID;
     }
 }

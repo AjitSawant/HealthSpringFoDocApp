@@ -459,8 +459,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             .setPositiveButton("Go to Appointment", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-                                    startActivity(new Intent(context, AppointmentListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                    //SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
+                                    //startActivity(new Intent(context, AppointmentListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                     finish();
                                 }
                             })
@@ -538,7 +538,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             .setPositiveButton("Go to Appointment", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(context, AppointmentListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                    //startActivity(new Intent(context, AppointmentListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                     finish();
                                 }
                             })

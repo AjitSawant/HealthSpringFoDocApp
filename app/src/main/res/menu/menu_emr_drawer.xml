@@ -47,11 +47,19 @@
             android:title="@string/emr_followup" />
 
         <item
+            android:id="@+id/action_visit_summary"
+            android:checked="false"
+            android:icon="@drawable/emr_examination"
+            android:visible="true"
+            android:title="@string/emr_summary" />
+
+        <item
             android:id="@+id/action_ice"
             android:checked="false"
             android:icon="@drawable/emr_allergy"
             android:visible="true"
             android:title="@string/emr_ice" />
+
 
     </group>
 </menu>

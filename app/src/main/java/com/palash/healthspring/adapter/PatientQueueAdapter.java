@@ -3,7 +3,6 @@ package com.palash.healthspring.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,7 +134,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder.row_patient_queue_tv_from_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
                 //holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getToTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
             } else {
-               // holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
+                // holder.row_patient_queue_tv_to_time.setText(localSetting.formatDate(patientQueue.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
                 holder.row_patient_queue_tv_from_time.setVisibility(View.INVISIBLE);
             }
 
@@ -199,6 +198,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                         bookAppointment.setBloodGroupID(patientQueueArrayList.get(position).getBloodGroup());
                         bookAppointment.setDOB(patientQueueArrayList.get(position).getDateOfBirth());
                         bookAppointment.setMaritalStatusID(patientQueueArrayList.get(position).getMaritalStatus());
+                        bookAppointment.setMRNo(patientQueueArrayList.get(position).getMRNo());
                         bookAppointmentAdapter.create(bookAppointment);
                         String FirstName = doctorprofilelist.get(0).getFirstName();
                         String MiddleName = doctorprofilelist.get(0).getMiddleName();
@@ -215,8 +215,9 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                         bookAppointment.setSpecialization(doctorprofilelist.get(0).getSpecialization());
                         bookAppointment.setDoctorEducation(doctorprofilelist.get(0).getEducation());
                         bookAppointment.setDoctorMobileNo(doctorprofilelist.get(0).getPFNumber());
-                        bookAppointmentAdapter.updateDoctor(bookAppointment);
                         bookAppointment.setVisitID(patientQueueArrayList.get(position).getVisitID());
+                        bookAppointment.setVisitTypeID(patientQueueArrayList.get(position).getVisitTypeID());
+                        bookAppointmentAdapter.updateDoctor(bookAppointment);
                         bookAppointmentAdapter.updateVisitID(bookAppointment);
 
                         if (localSetting.checkUnitName(doctorprofilelist.get(0).getUnitID())) {  // for head office add/update should be hide
@@ -238,11 +239,11 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 @Override
                 public void onClick(View view) {
                     if (patientQueueArrayList.get(position) != null && patientQueueArrayList.get(position).getID() != null && patientQueueArrayList.get(position).getID().length() > 0) {
-                        String url = Constants.Patient_Visit_URL + patientQueueArrayList.get(0).getPatientUnitID()
-                                + "&VisitID=" + patientQueueArrayList.get(position).getVisitID() + "&PatientID=" + patientQueueArrayList.get(0).getPatientId()
-                                + "&PatientUnitID=" + patientQueueArrayList.get(0).getPatientUnitID() + "&TemplateID=0&UserID=0&PDF=1";
+
+                        String url = localSetting.returnPDFUrl("Summary", patientQueueArrayList.get(position).getPatientUnitID(), patientQueueArrayList.get(position).getPatientId(),
+                                patientQueueArrayList.get(position).getPatientUnitID(), patientQueueArrayList.get(position).getVisitID(),"","");
+
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
-                        Log.e("PDF URL: ",url);
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
                     }
                 }

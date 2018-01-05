@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -56,7 +55,6 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
     private TextView patient_email;
 
     private String Title = "";
-
     public static ArrayList<DaignosisMaster> daignosisMasterArrayListDB = new ArrayList<>();
     public static ArrayList<ServiceName> serviceNameArrayList = new ArrayList<>();
     public static ArrayList<MedicienName> medicienNameArrayList = new ArrayList<>();
@@ -103,6 +101,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
             fragmentTransaction.commit();
             setTitle(R.string.emr_vitals);
             Title = context.getResources().getString(R.string.emr_vitals);
+            Constants.IsVitals = 1;
             Constants.backFromAddEMR = false;
 
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -110,7 +109,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(MenuItem menuItem) {
                     if (menuItem.isChecked()) menuItem.setChecked(false);
                     else menuItem.setChecked(true);
-                    drawerLayout.closeDrawers();
+
                     switch (menuItem.getItemId()) {
                         case R.id.action_vitals:
                             VitalsFragment vitalsFragment = new VitalsFragment();
@@ -119,7 +118,9 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             vitalsFragmentTransaction.commit();
                             setTitle(R.string.emr_vitals);
                             Title = context.getResources().getString(R.string.emr_vitals);
+                            Constants.IsVitals = 1;
                             Constants.backFromAddEMR = false;
+                            drawerLayout.closeDrawers();
                             return true;
                         case R.id.action_diagnosis:
                             DiagnosisFragment diagnosisFragment = new DiagnosisFragment();
@@ -129,6 +130,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             setTitle(R.string.emr_diagnosis);
                             Title = context.getResources().getString(R.string.emr_diagnosis);
                             Constants.backFromAddEMR = false;
+                            drawerLayout.closeDrawers();
                             return true;
                         case R.id.action_cpoe_service:
                             CPOEInvestigationFragment cpoeServiceFragment = new CPOEInvestigationFragment();
@@ -138,6 +140,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             setTitle(R.string.emr_cpoe_investigation);
                             Title = context.getResources().getString(R.string.emr_cpoe_investigation);
                             Constants.backFromAddEMR = false;
+                            drawerLayout.closeDrawers();
                             return true;
                         case R.id.action_cpoe_medicine:
                             CPOEPrescriptionFragment cpoeMedicineFragment = new CPOEPrescriptionFragment();
@@ -147,6 +150,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             setTitle(R.string.emr_cpoe_medicine);
                             Title = context.getResources().getString(R.string.emr_cpoe_medicine);
                             Constants.backFromAddEMR = false;
+                            drawerLayout.closeDrawers();
                             return true;
                         case R.id.action_cpoe_complaint:
                             ComplaintsFragment complaintsFragment = new ComplaintsFragment();
@@ -156,6 +160,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             setTitle(R.string.emr_complaint);
                             Title = context.getResources().getString(R.string.emr_complaint);
                             Constants.backFromAddEMR = false;
+                            drawerLayout.closeDrawers();
                             return true;
                         case R.id.action_followup:
                             FollowUpFragment followUpFragment = new FollowUpFragment();
@@ -165,6 +170,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             setTitle(R.string.emr_followup);
                             Title = context.getResources().getString(R.string.emr_followup);
                             Constants.backFromAddEMR = false;
+                            drawerLayout.closeDrawers();
                             return true;
                         case R.id.action_refarral:
                             ReferralFragment referralFragment = new ReferralFragment();
@@ -174,18 +180,27 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             setTitle(R.string.emr_referral);
                             Title = context.getResources().getString(R.string.emr_referral);
                             Constants.backFromAddEMR = false;
+                            drawerLayout.closeDrawers();
                             return true;
-                        case R.id.action_ice:
+                        case R.id.action_visit_summary:
+                            Constants.IsVitals = 0;
                             if (bookAppointmentArrayList != null && bookAppointmentArrayList.get(0).getVisitID() != null && bookAppointmentArrayList.get(0).getVisitID().length() > 0) {
-                                String url = Constants.Patient_ICE_URL + bookAppointmentArrayList.get(0).getUnitID()
-                                        + "&VisitID=" + bookAppointmentArrayList.get(0).getVisitID() + "&PatientID=" + bookAppointmentArrayList.get(0).getPatientID()
-                                        + "&PatientUnitID=" +bookAppointmentArrayList.get(0).getUnitID() + "&TemplateID=0&UserID=0&PDF=1";
+                                String url = localSetting.returnPDFUrl("Summary", bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getPatientID(),
+                                        bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getVisitID(), "", "");
                                 //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
-                                Log.e("PDF URL: ",url);
                                 context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
                             }
                             Constants.backFromAddEMR = false;
-                            return true;
+                            return false;
+                        case R.id.action_ice:
+                            Constants.IsVitals = 0;
+                            if (bookAppointmentArrayList != null && bookAppointmentArrayList.get(0).getVisitID() != null && bookAppointmentArrayList.get(0).getVisitID().length() > 0) {
+                                String url = localSetting.returnPDFUrl("ICE", bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getPatientID(),
+                                        bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getVisitID(), bookAppointmentArrayList.get(0).getMRNo(), bookAppointmentArrayList.get(0).getVisitTypeID());
+                                context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                            }
+                            Constants.backFromAddEMR = false;
+                            return false;
                         default:
                             Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
                             return true;
@@ -230,7 +245,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
             patient_email = (TextView) view.findViewById(R.id.patient_email);
             bookAppointmentArrayList = bookAppointmentAdapter.listLast();
 
-            if (bookAppointmentArrayList != null && bookAppointmentArrayList.size()>0) {
+            if (bookAppointmentArrayList != null && bookAppointmentArrayList.size() > 0) {
                 BookAppointment bookAppointment = bookAppointmentArrayList.get(0);
                 String FirstName = bookAppointment.getFirstName();
                 String MiddleName = bookAppointment.getMiddleName();

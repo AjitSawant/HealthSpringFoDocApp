@@ -18,6 +18,7 @@ public class Constants {
     public static final int HTTP_AMBIGUOUS_300 = 300;
     public static final int HTTP_Expectation_Failed_417 = 417;
     public static final int FILTER_DAYS_COUNT = 7;
+    public static int IsVitals = 1;
 
     public static boolean refreshPatient = false;
     public static boolean backFromAddEMR = false;
@@ -101,7 +102,11 @@ public class Constants {
     public static final int ALL_URL_TASK = 0;
     public static final int ONLINE_SYNC = 10;
 
-    public static final String Patient_Visit_URL = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=";
-    public static final String Patient_PRESCRIPTION_URL = "https://192.168.1.70/HealthSpringAndroid/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
-    public static final String Patient_ICE_URL = "http://192.168.1.70/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=";
+    /*public static final String PATIENT_VISIT_SUMMARY_URL = "http://192.168.1.63/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=";
+    public static final String Patient_PRESCRIPTION_URL = "https://192.168.1.63/HealthSpringAndroid/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
+    public static final String Patient_ICE_URL = "http://192.168.1.63/HealthSpringAndroid/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";*/
+
+    public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.99/healthspring_test/Reports/EMR/PatientEMRReport.aspx?UnitID=";
+    public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.99/healthspring_test/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
+    public static final String Patient_ICE_URL = "http://103.229.5.99/healthspring_test/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
 }

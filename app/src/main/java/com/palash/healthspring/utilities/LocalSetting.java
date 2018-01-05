@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.util.Log;
 
 import com.palash.healthspring.R;
 
@@ -280,5 +281,20 @@ public class LocalSetting {
             isHeadOfficeSelected = true;
         }
         return isHeadOfficeSelected;
+    }
+
+    public String returnPDFUrl(String fromActivity, String UnitID, String PatientID, String PatientUnitID, String VisitID, String mrNo, String VisitType) {
+        String pdfURL = "";
+        if (fromActivity.equals("Summary")) {
+            pdfURL = Constants.PATIENT_VISIT_SUMMARY_URL + UnitID + "&VisitID=" + VisitID + "&PatientID=" + PatientID + "&PatientUnitID=" + PatientUnitID + "&TemplateID=0&UserID=0&PDF=1";
+        } else if (fromActivity.equals("ICE")) {
+            pdfURL = Constants.Patient_ICE_URL + UnitID + "&PatientUnitID=" + PatientUnitID + "&PatientID=" + PatientID + "&Username=" + "" + "&VisitID=" + VisitID + "&IsPrintPDF=1&L1="
+                    + "Walkin" + "&L3=" + "Retail" + "&FtpLink=ftp://103.229.5.99:2121/&FtpUserName=customerexperience@healthspring.in&FtpPassword=Health$pring&MrNumber=" + mrNo
+                    + "&VisitTypeID=" + VisitType + "";
+        } else if (fromActivity.equals("ConsolePrescription")) {
+            pdfURL = Constants.Patient_PRESCRIPTION_URL + UnitID + "&VisitID=" + VisitID + "&PatientID=" + PatientID + "&PatientUnitID=" + PatientUnitID + "&TemplateID=0&UserID=0&PDF=1";
+        }
+        Log.d(Constants.TAG + "pdfURL : ", pdfURL);
+        return pdfURL;
     }
 }

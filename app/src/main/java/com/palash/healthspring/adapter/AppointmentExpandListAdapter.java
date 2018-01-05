@@ -457,9 +457,9 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                             .setPositiveButton("Go to Patient Queue", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(context, PatientQueueActivity.class);
-                                    context.startActivity(intent);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                    Intent intent = new Intent(context, PatientQueueActivity.class);
+//                                    context.startActivity(intent);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     ((Activity) context).finish();
                                 }
                             })

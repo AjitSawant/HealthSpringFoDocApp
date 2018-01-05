@@ -263,7 +263,7 @@ public class PatientFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-   /* @Override
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         try {
@@ -274,7 +274,7 @@ public class PatientFragment extends Fragment implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     private void RefreshPatientList() {
         doctorProfileList = doctorProfileAdapter.listAll();

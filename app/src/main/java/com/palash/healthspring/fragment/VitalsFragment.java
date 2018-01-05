@@ -122,16 +122,33 @@ public class VitalsFragment extends Fragment {
     public void onResume() {
         emr_vitals_list_chronometer.setBase(SystemClock.elapsedRealtime());
         emr_vitals_list_chronometer.start();
-        //if (Constants.backFromAddEMR == false) {
-        refreshList();
-        if (localSetting.isNetworkAvailable(context)) {
-            new GetVitalsListTask().execute();
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        if (Constants.IsVitals == 1) {
+            refreshList();
+            if (localSetting.isNetworkAvailable(context)) {
+                new GetVitalsListTask().execute();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+            }
         }
-        //}
         super.onResume();
     }
+
+    /*@Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        try {
+            if (isVisibleToUser) {
+                refreshList();
+                if (localSetting.isNetworkAvailable(context)) {
+                    new GetVitalsListTask().execute();
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
 
     @Override
     public void onPause() {

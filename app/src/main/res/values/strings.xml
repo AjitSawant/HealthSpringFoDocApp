@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name"><b>H</b>ealth <b>S</b>pring</string>
+    <string name="app_name"><b>H</b>ealth<b>S</b>pring</string>
     <string name="empty_list">No Record Found</string>
     <string name="runtime_permissions_txt">Please enable all permissions from app settings.</string>
+
     <!---Login-->
     <string name="login_screen">Login</string>
     <string name="logout_screen">Logout</string>
@@ -22,9 +23,6 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="change">Change Password</string>
     <string name="setting">Settings</string>
-
-    <!---app crash-->
-    <string name="crash_toast_text">"Sending Crash Report."</string>
 
     <!---DoctorProfile-->
     <string name="profile_perfix">Prefix</string>
@@ -84,6 +82,7 @@
     <string name="emr_followup">Follow Up</string>
     <string name="emr_referral">Referral</string>
     <string name="emr_ice">ICE</string>
+    <string name="emr_summary">Visit Summary</string>
 
     <string name="drug_name">Drug Name</string>
     <string name="dose">Dose</string>

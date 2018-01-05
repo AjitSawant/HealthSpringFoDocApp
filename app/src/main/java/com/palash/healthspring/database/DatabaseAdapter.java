@@ -1793,7 +1793,8 @@ public class DatabaseAdapter {
                 DatabaseContract.BookAppointment.COLUMN_NAME_BLOOD_GROUP_ID,
                 DatabaseContract.BookAppointment.COLUMN_NAME_RESCHEDULINGREASON,
                 DatabaseContract.BookAppointment.COLUMN_NAME_APPOINTMENTID,
-                DatabaseContract.BookAppointment.COLUMN_NAME_VISITID
+                DatabaseContract.BookAppointment.COLUMN_NAME_VISITID,
+                DatabaseContract.BookAppointment.COLUMN_NAME_VISIT_TYPEID
         };
 
         private ContentValues BookAppointmentToContentValues(BookAppointment bookAppointment) {
@@ -1864,6 +1865,7 @@ public class DatabaseAdapter {
                         bookAppointment.setAppointmentId(result.getString(result.getColumnIndex(DatabaseContract.BookAppointment.COLUMN_NAME_APPOINTMENTID)));
                         bookAppointment.setReSchedulingReason(result.getString(result.getColumnIndex(DatabaseContract.BookAppointment.COLUMN_NAME_RESCHEDULINGREASON)));
                         bookAppointment.setVisitID(result.getString(result.getColumnIndex(DatabaseContract.BookAppointment.COLUMN_NAME_VISITID)));
+                        bookAppointment.setVisitTypeID(result.getString(result.getColumnIndex(DatabaseContract.BookAppointment.COLUMN_NAME_VISIT_TYPEID)));
                         bookAppointmentArrayList.add(bookAppointment);
                     }
                     result.close();
@@ -1904,6 +1906,8 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.BookAppointment.COLUMN_NAME_SPECIALIZATION, bookAppointment.getSpecialization());
                 values.put(DatabaseContract.BookAppointment.COLUMN_NAME_DOCTOR_EDUCATION, bookAppointment.getDoctorEducation());
                 values.put(DatabaseContract.BookAppointment.COLUMN_NAME_DOCTOR_MOBILE_NO, bookAppointment.getDoctorMobileNo());
+                values.put(DatabaseContract.BookAppointment.COLUMN_NAME_VISIT_TYPEID, bookAppointment.getVisitTypeID());
+                values.put(DatabaseContract.BookAppointment.COLUMN_NAME_VISITID, bookAppointment.getVisitID());
                 rowId = databaseContract.open().update(
                         DatabaseContract.BookAppointment.TABLE_NAME, values,
                         DatabaseContract.BookAppointment._ID + "=" + MaxId,
@@ -1964,6 +1968,7 @@ public class DatabaseAdapter {
                 int MaxId = MaxID();
                 ContentValues values = new ContentValues();
                 values.put(DatabaseContract.BookAppointment.COLUMN_NAME_VISITID, bookAppointment.getVisitID());
+                values.put(DatabaseContract.BookAppointment.COLUMN_NAME_VISIT_TYPEID, bookAppointment.getVisitTypeID());
                 rowId = databaseContract.open().update(
                         DatabaseContract.BookAppointment.TABLE_NAME, values,
                         DatabaseContract.BookAppointment._ID + "= " + MaxId,

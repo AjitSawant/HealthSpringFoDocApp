@@ -193,6 +193,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                     bookAppointment.setBloodGroupID(elPatient.getBloodGroup());
                     bookAppointment.setDOB(elPatient.getDateOfBirth());
                     bookAppointment.setMaritalStatusID(elPatient.getMaritalStatus());
+                    bookAppointment.setMRNo(elPatient.getMRNo());
                     bookAppointmentAdapter.create(bookAppointment);
 
                     String FirstName = elDoctorProfile.getFirstName();

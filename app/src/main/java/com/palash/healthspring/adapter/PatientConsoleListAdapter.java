@@ -12,18 +12,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.palash.healthspring.R;
-import com.palash.healthspring.activity.ViewPDFActivity;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.PatientConsole;
-import com.palash.healthspring.utilities.Constants;
+import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
 
 public class PatientConsoleListAdapter extends BaseAdapter {
 
     private Context context;
+    private LocalSetting localSetting;
     private LayoutInflater inflater;
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
@@ -36,6 +36,7 @@ public class PatientConsoleListAdapter extends BaseAdapter {
 
     public PatientConsoleListAdapter(Context context, ArrayList<PatientConsole> patientConsoleArrayList) {
         this.context = context;
+        localSetting = new LocalSetting();
         this.patientConsoleArrayList = patientConsoleArrayList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         databaseContract = new DatabaseContract(context);
@@ -166,10 +167,9 @@ public class PatientConsoleListAdapter extends BaseAdapter {
             holder.row_patient_console_layout_visit_prescription.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (patientConsoleArrayList.get(position) != null && patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0) {
-                        String url = Constants.Patient_PRESCRIPTION_URL + bookAppointment.getDoctorUnitID()
-                                + "&VisitID=" + patientConsoleArrayList.get(position).getVisitID() + "&PatientID=" + bookAppointment.getPatientID() + "&PatientUnitID=" + bookAppointment.getUnitID()
-                                + "&TemplateID=0&UserID=0";
+                    if (patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0 && patientConsoleArrayList.get(position).getPrescription().equals("False")) {
+                        String url = localSetting.returnPDFUrl("ConsolePrescription", bookAppointment.getDoctorUnitID(), bookAppointment.getPatientID(),
+                                bookAppointment.getUnitID(), patientConsoleArrayList.get(position).getVisitID(),"","");
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
                     }

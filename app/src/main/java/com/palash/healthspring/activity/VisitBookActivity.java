@@ -372,7 +372,7 @@ public class VisitBookActivity extends AppCompatActivity {
                             .setPositiveButton("Go to Patient Queue", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(context, PatientQueueActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                    //startActivity(new Intent(context, PatientQueueActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                     finish();
                                 }
                             })

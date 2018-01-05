@@ -353,6 +353,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_RESCHEDULINGREASON = "ReSchedulingReason";
         public static final String COLUMN_NAME_APPOINTMENTID = "AppointmentId";
         public static final String COLUMN_NAME_VISITID = "VisitID";
+        public static final String COLUMN_NAME_VISIT_TYPEID = "VisitTypeID";
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
@@ -424,6 +425,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_APPOINTMENTID
                 + " TEXT,"
                 + COLUMN_NAME_VISITID
+                + " TEXT,"
+                + COLUMN_NAME_VISIT_TYPEID
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"

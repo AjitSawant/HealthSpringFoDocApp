@@ -98,7 +98,7 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-            context = PatientListActivity.this;
+            context = this;
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
