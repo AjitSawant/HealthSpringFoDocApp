@@ -544,7 +544,7 @@ public class SpinnerAdapter {
                         constraint = constraint.toString().toLowerCase();
                         for (int i = 0; i < filterMedicienNameArrayList.size(); i++) {
                             String data = filterMedicienNameArrayList.get(i).getItemName();
-                            if (data.toLowerCase().startsWith(constraint.toString())) {
+                            if (data.toLowerCase().contains(constraint.toString())) {
                                 FilteredArrList.add(filterMedicienNameArrayList.get(i));
                             }
                         }
@@ -855,7 +855,7 @@ public class SpinnerAdapter {
                         constraint = constraint.toString().toLowerCase();
                         for (int i = 0; i < filterDaignosisMasterArrayList.size(); i++) {
                             String data = filterDaignosisMasterArrayList.get(i).getDiagnosis();
-                            if (data.toLowerCase().startsWith(constraint.toString())) {
+                            if (data.toLowerCase().contains(constraint.toString())) {
                                 FilteredArrList.add(filterDaignosisMasterArrayList.get(i));
                             }
                         }
@@ -1003,7 +1003,7 @@ public class SpinnerAdapter {
                         constraint = constraint.toString().toLowerCase();
                         for (int i = 0; i < filterServiceNameArrayList.size(); i++) {
                             String data = filterServiceNameArrayList.get(i).getDescription();
-                            if (data.toLowerCase().startsWith(constraint.toString())) {
+                            if (data.toLowerCase().contains(constraint.toString())) {
                                 FilteredArrList.add(filterServiceNameArrayList.get(i));
                             }
                         }

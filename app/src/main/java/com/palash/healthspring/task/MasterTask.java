@@ -355,7 +355,7 @@ public class MasterTask implements Task {
             Count = unitMasterAdapter.TotalCount();
             Log.d(Constants.TAG, "Unit Master Local size : " + Count);
             if ((synchronizationList.get(0).getUnitMasterCount() != null) && (!synchronizationList.get(0).getUnitMasterCount().equals("")) && (!synchronizationList.get(0).getUnitMasterCount().equals(String.valueOf(Count)))) {
-                response = serviceConsumer.GET(Constants.GET_UNIT_MASTER_URL);
+                response = serviceConsumer.GET(Constants.GET_UNIT_MASTER_URL + doctorProfileList.get(0).getDoctorID());
                 if (response != null) {
                     responseString = response.body().string();
                     responseCode = response.code();

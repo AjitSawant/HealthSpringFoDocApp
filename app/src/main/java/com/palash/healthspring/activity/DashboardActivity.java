@@ -414,7 +414,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             try {
                 jsonObjectMapper = new JsonObjectMapper();
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
-                response = webServiceConsumer.GET(Constants.GET_UNIT_MASTER_URL);
+                response = webServiceConsumer.GET(Constants.GET_UNIT_MASTER_URL + listProfile.get(0).getDoctorID());
                 if (response != null) {
                     responseCode = response.code();
                     responseString = response.body().string();
