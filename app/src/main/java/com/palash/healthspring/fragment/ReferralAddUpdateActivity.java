@@ -607,33 +607,23 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
             try {
                 localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Service added successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<ReferralDoctorPerService> referralServiceList = objMapper.map(responseString, ReferralDoctorPerService.class);
+                    if (referralServiceList != null && referralServiceList.size() > 0) {
+                        for (int index = 0; index < referralServiceList.size(); index++) {
+                            referralServiceListDBAdapter.create(referralServiceList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Referral Service added successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Service updated successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<ReferralDoctorPerService> referralServiceList = objMapper.map(responseString, ReferralDoctorPerService.class);
+                    if (referralServiceList != null && referralServiceList.size() > 0) {
+                        for (int index = 0; index < referralServiceList.size(); index++) {
+                            referralServiceListDBAdapter.create(referralServiceList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Referral Service updated successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else {
                     //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
                     new AlertDialog

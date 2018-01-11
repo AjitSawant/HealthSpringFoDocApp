@@ -38,7 +38,7 @@ public class Constants {
     public static final String UPDATE_PASSWORD_URL = BASE_URL + "Profile/UpdatePassword";
     public static final String GET_PREFIX_URL = BASE_URL + "Master/GetPrefix";
     public static final String GET_DOCTOR_TYPE_URL = BASE_URL + "Master/GetDoctorType";
-    public static final String GET_UNIT_MASTER_URL = BASE_URL + "Master/GetUnitMaster";
+    public static final String GET_UNIT_MASTER_URL = BASE_URL + "Master/GetUnitMaster?DoctorID=";
     public static final String GET_SPECIALIZATION_URL = BASE_URL + "Master/GetSpecilization";
     public static final String GET_APPOINTMENT_URL = BASE_URL + "Appointment/GetApointmentsByDoctorID?DoctorID=";
     public static final String GET_APPOINTMENT_REASON_URL = BASE_URL + "Master/GetAppointmentReason";
@@ -69,6 +69,7 @@ public class Constants {
     public static final String COMPLAINTS_ADD_UPDATE_URL = BASE_URL + "Complaint/AddUpdateComplaint";
     public static final String FOLLOWUP_ADD_UPDATE_URL = BASE_URL + "FollowUp/AddUpdateFollowUp";
     public static final String GET_FOLLOWUP_LIST_URL = BASE_URL + "FollowUp/GetFollowUpList?UnitID=";
+    public static final String GET_PAST_MEDICAL_HISTORY_CE_LIST_URL = BASE_URL + "Patient/GetPastMedicalHistoryForICE?UnitID=";
     public static final String REFERRAL_DOCTOR_LIST_MASTER_PER_SERVICE_URL = BASE_URL + "Referral/ListReferralDoctorAsperService";
     public static final String REFERRAL_DOCTOR_ADD_UPDATE_PER_SERVICE_URL = BASE_URL + "Referral/AddUpdateReferralDoctorService";
 
@@ -102,10 +103,7 @@ public class Constants {
     public static final int ALL_URL_TASK = 0;
     public static final int ONLINE_SYNC = 10;
 
-    /*public static final String PATIENT_VISIT_SUMMARY_URL = "http://192.168.1.63/HealthSpringAndroid/Reports/EMR/PatientEMRReport.aspx?UnitID=";
-    public static final String Patient_PRESCRIPTION_URL = "https://192.168.1.63/HealthSpringAndroid/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
-    public static final String Patient_ICE_URL = "http://192.168.1.63/HealthSpringAndroid/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";*/
-
+    public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.99:2121";
     public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.99/healthspring_test/Reports/EMR/PatientEMRReport.aspx?UnitID=";
     public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.99/healthspring_test/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
     public static final String Patient_ICE_URL = "http://103.229.5.99/healthspring_test/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";

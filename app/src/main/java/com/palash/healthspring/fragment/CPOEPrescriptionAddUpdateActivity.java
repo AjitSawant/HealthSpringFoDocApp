@@ -642,38 +642,26 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
         @Override
         protected void onPostExecute(String result) {
             try {
+                localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(Msg)
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<CPOEPrescription> elCPOEPrescriptionList = objMapper.map(responseString, CPOEPrescription.class);
+                    if (elCPOEPrescriptionList != null && elCPOEPrescriptionList.size() > 0) {
+                        for (int index = 0; index < elCPOEPrescriptionList.size(); index++) {
+                            cpoeMedicineAdapterDB.create(elCPOEPrescriptionList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Prescription added successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage(Msg)
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<CPOEPrescription> elCPOEPrescriptionList = objMapper.map(responseString, CPOEPrescription.class);
+                    if (elCPOEPrescriptionList != null && elCPOEPrescriptionList.size() > 0) {
+                        for (int index = 0; index < elCPOEPrescriptionList.size(); index++) {
+                            cpoeMedicineAdapterDB.create(elCPOEPrescriptionList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Prescription updated successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else {
-                    localSetting.hideDialog(progressDialog);
                     //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
                     new AlertDialog
                             .Builder(context)

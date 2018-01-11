@@ -155,7 +155,6 @@
                         android:layout_marginTop="3dp"
                         android:gravity="left|center_vertical"
                         android:text="Status"
-                        android:textColor="@color/text_color"
                         android:textSize="12sp" />
 
                     <TextView
@@ -186,10 +185,20 @@
                     android:layout_marginLeft="4dp"
                     android:background="@drawable/card_layout"
                     android:gravity="center"
-                    android:text="Visit\nSummary"
+                    android:text="Print\nSummary"
                     android:textColor="@color/white"
                     android:textSize="11sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/row_patient_queue_tv_doctor_namr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:gravity="right|center_vertical"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGreen"
+                android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

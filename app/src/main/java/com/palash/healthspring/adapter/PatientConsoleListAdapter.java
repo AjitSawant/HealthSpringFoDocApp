@@ -3,6 +3,7 @@ package com.palash.healthspring.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.palash.healthspring.R;
+import com.palash.healthspring.activity.ViewPDFActivity;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.PatientConsole;
+import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 
 import java.util.ArrayList;
@@ -158,7 +161,7 @@ public class PatientConsoleListAdapter extends BaseAdapter {
                 holder.row_patient_console_img_visit_emr.setImageResource(R.drawable.ic_cancle);
             }
 
-            if (elPatientConsole.getAttachment() != null && elPatientConsole.getAttachment().length() > 0 && elPatientConsole.getAttachment().equals("True")) {
+            if (elPatientConsole.getFilePath() != null && elPatientConsole.getFilePath().length() > 0) {
                 holder.row_patient_console_img_visit_document.setImageResource(R.drawable.ic_selected);
             } else {
                 holder.row_patient_console_img_visit_document.setImageResource(R.drawable.ic_cancle);
@@ -167,11 +170,51 @@ public class PatientConsoleListAdapter extends BaseAdapter {
             holder.row_patient_console_layout_visit_prescription.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0 && patientConsoleArrayList.get(position).getPrescription().equals("False")) {
+                    Log.e("called", "presc");
+                    if (patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0
+                            && patientConsoleArrayList.get(position).getPrescription().equals("True")) {
                         String url = localSetting.returnPDFUrl("ConsolePrescription", bookAppointment.getDoctorUnitID(), bookAppointment.getPatientID(),
-                                bookAppointment.getUnitID(), patientConsoleArrayList.get(position).getVisitID(),"","");
+                                bookAppointment.getUnitID(), patientConsoleArrayList.get(position).getVisitID(), "", "", "", "");
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                    }
+                }
+            });
+
+            holder.row_patient_console_layout_visit_emr.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0
+                            && patientConsoleArrayList.get(position).getEMR().equals("True")) {
+                        String url = localSetting.returnPDFUrl("Summary", bookAppointment.getDoctorUnitID(), bookAppointment.getPatientID(),
+                                bookAppointment.getUnitID(), patientConsoleArrayList.get(position).getVisitID(), "", "", "", "");
+                        //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
+                        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                    }
+                }
+            });
+
+            holder.row_patient_console_layout_visit_document.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0
+                            && patientConsoleArrayList.get(position).getFilePath() != null && patientConsoleArrayList.get(position).getFilePath().length() > 0) {
+                        String url = Constants.PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL + patientConsoleArrayList.get(position).getFilePath().replace("//", "/");
+                        //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
+                        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                        //context.startActivity(new Intent(Intent.ACTION_VIEW).setDataAndType(Uri.parse(url), "vnd.android.cursor.dir/lysesoft.andftp.uri"));
+                    }
+                }
+            });
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (patientConsoleArrayList.get(position).getVisitID() != null && patientConsoleArrayList.get(position).getVisitID().length() > 0) {
+                      /*  String url = localSetting.returnPDFUrl("ConsolePrescription", bookAppointment.getDoctorUnitID(), bookAppointment.getPatientID(),
+                                bookAppointment.getUnitID(), patientConsoleArrayList.get(position).getVisitID(),"","");
+                        //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
+                        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));*/
                     }
                 }
             });

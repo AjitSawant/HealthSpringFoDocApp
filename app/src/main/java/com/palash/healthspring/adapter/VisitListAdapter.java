@@ -3,7 +3,6 @@ package com.palash.healthspring.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.palash.healthspring.R;
 import com.palash.healthspring.activity.EMRNavigationDrawerActivity;
-import com.palash.healthspring.activity.ViewPDFActivity;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
@@ -92,6 +90,7 @@ public class VisitListAdapter extends BaseAdapter {
                 holder.layout_row_visit_list_tv_reason = (LinearLayout) convertView.findViewById(R.id.layout_row_visit_list_tv_reason);
                 holder.layout_row_visit_list_tv_complatient = (LinearLayout) convertView.findViewById(R.id.layout_row_visit_list_tv_complatient);
                 holder.row_visit_summary_btn = (TextView) convertView.findViewById(R.id.row_visit_summary_btn);
+                holder.row_visit_list_tv_doctor_namr = (TextView) convertView.findViewById(R.id.row_visit_list_tv_doctor_namr);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -146,6 +145,13 @@ public class VisitListAdapter extends BaseAdapter {
                 holder.layout_row_visit_list_tv_complatient.setVisibility(View.GONE);
             }
 
+            if (visitList.getDrName() != null && visitList.getDrName().length() > 0) {
+                holder.row_visit_list_tv_doctor_namr.setVisibility(View.VISIBLE);
+                holder.row_visit_list_tv_doctor_namr.setText(visitList.getDrName().trim());
+            } else {
+                holder.row_visit_list_tv_doctor_namr.setVisibility(View.GONE);
+            }
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -164,8 +170,8 @@ public class VisitListAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     if (visitListArrayList.get(position) != null && visitListArrayList.get(position).getID() != null && visitListArrayList.get(position).getID().length() > 0) {
 
-                        String url = localSetting.returnPDFUrl("Summary",visitListArrayList.get(position).getUnitId(), visitListArrayList.get(position).getPatientId(),
-                                visitListArrayList.get(position).getUnitId(), visitListArrayList.get(position).getID(),"","");
+                        String url = localSetting.returnPDFUrl("Summary", visitListArrayList.get(position).getUnitId(), visitListArrayList.get(position).getPatientId(),
+                                visitListArrayList.get(position).getUnitId(), visitListArrayList.get(position).getID(), "", "","","");
 
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
@@ -190,6 +196,7 @@ public class VisitListAdapter extends BaseAdapter {
         LinearLayout layout_row_visit_list_tv_reason;
         LinearLayout layout_row_visit_list_tv_complatient;
         TextView row_visit_summary_btn;
+        TextView row_visit_list_tv_doctor_namr;
     }
 }
 

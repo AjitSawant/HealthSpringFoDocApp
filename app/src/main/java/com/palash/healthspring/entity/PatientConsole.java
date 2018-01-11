@@ -30,6 +30,7 @@ public class PatientConsole {
     private String Referal;
     private String EMR;
     private String Attachment;
+    private String FilePath;
 
     @JsonProperty("ID")
     public String getID() {
@@ -218,5 +219,14 @@ public class PatientConsole {
 
     public void setAttachment(String attachment) {
         Attachment = attachment;
+    }
+
+    @JsonProperty("FilePath")
+    public String getFilePath() {
+        return FilePath;
+    }
+
+    public void setFilePath(String filePath) {
+        FilePath = filePath;
     }
 }

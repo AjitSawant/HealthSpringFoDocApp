@@ -45,6 +45,7 @@ public class Appointment {
     private String ComplaintId;
     private String AppointmentId;
     private String SortingDateTime;
+    private String DrName;
 
     @JsonProperty("AppointmentId")
     public String getAppointmentId() {
@@ -404,5 +405,14 @@ public class Appointment {
 
     public void setSortingDateTime(String sortingDateTime) {
         SortingDateTime = sortingDateTime;
+    }
+
+    @JsonProperty("DrName")
+    public String getDrName() {
+        return DrName;
+    }
+
+    public void setDrName(String drName) {
+        DrName = drName;
     }
 }

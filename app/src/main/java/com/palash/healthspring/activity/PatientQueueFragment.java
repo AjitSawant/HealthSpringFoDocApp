@@ -1,18 +1,23 @@
 package com.palash.healthspring.activity;
 
+import android.animation.LayoutTransition;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -49,6 +54,7 @@ public class PatientQueueFragment extends Fragment {
 
     private PatientQueueAdapter patientQueueAdapter;
 
+    private Chronometer patient_queue_chronometer;
     private ListView patient_queue_list;
     private TextView patient_queue_empty;
     private LinearLayout layout_search;
@@ -59,6 +65,8 @@ public class PatientQueueFragment extends Fragment {
     private View parentView;
     private String patientName = null;
     private boolean isSearchPanelVisible = true;
+    private int listCount = 0;
+    private int currentCount = 0;
 
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +99,7 @@ public class PatientQueueFragment extends Fragment {
         @Override
         public void onReceive(Context context, android.content.Intent intent) {
             //Toast.makeText(getActivity(), "Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
-            RefreshList();
+            //RefreshList();
         }
     };
 
@@ -120,6 +128,7 @@ public class PatientQueueFragment extends Fragment {
 
     private void InitView() {
         try {
+            patient_queue_chronometer = (Chronometer) parentView.findViewById(R.id.patient_queue_chronometer);
             patient_queue_list = (ListView) parentView.findViewById(R.id.patient_queue_list);
             patient_queue_empty = (TextView) parentView.findViewById(R.id.patient_queue_empty);
             layout_search = (LinearLayout) parentView.findViewById(R.id.layout_search);
@@ -158,34 +167,97 @@ public class PatientQueueFragment extends Fragment {
                     }
                 }
             });
+
+             patient_queue_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
+                    LoadList();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void LoadList() {
+        doctorProfileList = doctorProfileAdapter.listAll();
+        patientName = patientqueue_edt_search.getText().toString();
+        if (patientName != null && patientName.equals("")) {
+            patientName = null;
+        }
+        currentCount =  patientQueueAdapterDB.CountToday(doctorProfileList.get(0).getUnitID(), patientName);
+        if (patientQueueArrayList != null) {
+            listCount = patientQueueArrayList.size();
+        }
+        if (currentCount != listCount) {
+            RefreshList();
+        }
+    }
+
     /*@Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        try {
-            if (isVisibleToUser) {
-                //doctorProfileList = doctorProfileAdapter.listAll();
-                //RefreshList();
-                //GetPatientQueueWebcall();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_search).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_toolbar_search:
+                if (!isSearchPanelVisible) {
+                    animatePanel(1);
+                } else {
+                    animatePanel(2);
+                }
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.menu_toolbar_refresh:
+                new GetPatientQueueTask().execute();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void animatePanel(int direction) {
+        switch (direction) {
+            case 1:
+                layout_search.setVisibility(View.VISIBLE);
+                LayoutTransition transition = new LayoutTransition();
+                layout_search.setLayoutTransition(transition);
+                isSearchPanelVisible = true;
+                break;
+            case 2:
+                isSearchPanelVisible = false;
+                layout_search.setVisibility(View.GONE);
+                clearDate();
+                break;
         }
     }*/
 
-    /*@Override
+    @Override
     public void onResume() {
         super.onResume();
-        doctorProfileList = doctorProfileAdapter.listAll();
-        GetPatientQueueWebcall();
-    }*/
+        patient_queue_chronometer.setBase(SystemClock.elapsedRealtime());
+        patient_queue_chronometer.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        patient_queue_chronometer.stop();
+    }
 
     private void RefreshList() {
         doctorProfileList = doctorProfileAdapter.listAll();
+        patientName = patientqueue_edt_search.getText().toString();
+        if (patientName != null && patientName.equals("")) {
+            patientName = null;
+        }
         patientQueueArrayList = patientQueueAdapterDB.listToday(doctorProfileList.get(0).getUnitID(), patientName);
         if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
             patientQueueAdapter = new PatientQueueAdapter(context, patientQueueArrayList);
@@ -262,7 +334,7 @@ public class PatientQueueFragment extends Fragment {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             localSetting.hideDialog(progressDialog);
-            RefreshList();
+            //RefreshList();
             super.onPostExecute(result);
         }
     }

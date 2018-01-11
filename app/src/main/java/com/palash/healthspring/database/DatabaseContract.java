@@ -480,6 +480,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_COMPLAINT = "Complaint";
         public static final String COLUMN_NAME_COMPLAINT_ID = "ComplaintId";
         public static final String COLUMN_NAME_SORTINGDATETIME = "SortingDateTime";
+        public static final String COLUMN_NAME_DrName = "DrName";
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
@@ -490,7 +491,7 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_UNIT_ID
                 + " TEXT,"
-                 + COLUMN_NAME_UNIT_NAME
+                + COLUMN_NAME_UNIT_NAME
                 + " TEXT,"
                 + COLUMN_NAME_PATIENT_ID
                 + " TEXT,"
@@ -563,6 +564,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_COMPLAINT_ID
                 + " TEXT,"
                 + COLUMN_NAME_SORTINGDATETIME
+                + " TEXT,"
+                + COLUMN_NAME_DrName
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"
@@ -657,7 +660,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_PatientQueue";
-        public static final String DEFAULT_SORT_ORDER = "Datetime(Queuetime) ASC";
+        public static final String DEFAULT_SORT_ORDER = "Datetime(FromTime) ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitId";
@@ -694,6 +697,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_REFERREDDOCTOR = "ReferredDoctor";
         public static final String COLUMN_NAME_ISSTATUS = "ISStatus";
         public static final String COLUMN_NAME_ISBILLED_SUBMITID = "IsBilledSubmitID";
+        public static final String COLUMN_NAME_DrName = "DrName";
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
@@ -770,6 +774,8 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_ISBILLED_SUBMITID
                 + " TEXT,"
+                + COLUMN_NAME_DrName
+                + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"
                 + ")";
@@ -781,7 +787,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_VisitList";
-        public static final String DEFAULT_SORT_ORDER = "Datetime(SearchDate) ASC";
+        public static final String DEFAULT_SORT_ORDER = "Datetime(FromTime) ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitId";
@@ -822,6 +828,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_VISITSTATUS = "VisitStatus";
         public static final String COLUMN_NAME_CURRENTVISITSTATUS = "CurrentVisitStatus";
         public static final String COLUMN_NAME_UnitName = "UnitName";
+        public static final String COLUMN_NAME_DrName = "DrName";
 
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
@@ -906,6 +913,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_CURRENTVISITSTATUS
                 + " TEXT,"
                 + COLUMN_NAME_UnitName
+                + " TEXT,"
+                + COLUMN_NAME_DrName
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"
@@ -1668,7 +1677,7 @@ public class DatabaseContract {
                 + ")";
     }
 
-    public static final class PatientConsoleList implements BaseColumns {
+    /*public static final class PatientConsoleList implements BaseColumns {
 
         private PatientConsoleList() {
         }
@@ -1685,6 +1694,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_Prescription = "Prescription";
         public static final String COLUMN_NAME_EMR = "EMR";
         public static final String COLUMN_NAME_Attachment = "Attachment";
+        public static final String COLUMN_NAME_FilePath = "FilePath";
         public static final String COLUMN_NAME_IS_UPDATE = "IsUpdate";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
@@ -1711,10 +1721,12 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_Attachment
                 + " TEXT,"
+                + COLUMN_NAME_FilePath
+                + " TEXT,"
                 + COLUMN_NAME_IS_UPDATE
                 + " TEXT DEFAULT 0"
                 + ")";
-    }
+    }*/
 
     public static final class PatientFollowUp implements BaseColumns {
 
@@ -2091,8 +2103,8 @@ public class DatabaseContract {
                 Log.d(Constants.TAG, "Creating table 27: " + ReferralServiceList.CREATE_TABLE);
                 db.execSQL(ReferralServiceList.CREATE_TABLE);
 
-                Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
-                db.execSQL(PatientConsoleList.CREATE_TABLE);
+                /*Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
+                db.execSQL(PatientConsoleList.CREATE_TABLE);*/
 
                 Log.d(Constants.TAG, "Creating table 29: " + PatientFollowUp.CREATE_TABLE);
                 db.execSQL(PatientFollowUp.CREATE_TABLE);

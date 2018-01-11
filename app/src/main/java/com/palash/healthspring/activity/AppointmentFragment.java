@@ -2,20 +2,13 @@ package com.palash.healthspring.activity;
 
 import android.animation.LayoutTransition;
 import android.app.DatePickerDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.DatePicker;
@@ -97,7 +90,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         setContentView(R.layout.activity_appointment);
         InitSetting();
         InitView();
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,7 +115,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myBroadcastReceiver);
-    }
+    }*/
 
     private void InitSetting() {
         try {
@@ -275,6 +268,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
 
             appointment_List.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                 int previousGroup = -1;
+
                 @Override
                 public void onGroupExpand(int groupPosition) {
                     appointment_List.smoothScrollToPosition(groupPosition);
@@ -287,20 +281,6 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
             e.printStackTrace();
         }
     }
-
-   /*@Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        try {
-            if (isVisibleToUser) {
-                doctorProfileList = doctorProfileAdapter.listAll();
-                searchLoadList();
-                //GetAppointmentWebcall();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     @Override
     public void onResume() {
@@ -321,13 +301,6 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         super.onBackPressed();
     }*/
 
-    /*private void FlagTask() {
-        flag = flagAdapter.listCurrent();
-        flag.setFlag(Constants.APPOINTMENT_LIST_TASK);
-        flagAdapter.create(flag);
-        SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-    }*/
-
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
@@ -335,9 +308,9 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         menu.findItem(R.id.menu_toolbar_book).setVisible(true);
         animatePanel(1);
         return super.onCreateOptionsMenu(menu);
-    }*/
+    }
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_search:
@@ -352,10 +325,26 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
                 startActivity(new Intent(context, PatientListActivity.class));
                 return true;
             case android.R.id.home:
-                //onBackPressed();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void animatePanel(int direction) {
+        switch (direction) {
+            case 1:
+                layout_search.setVisibility(View.VISIBLE);
+                LayoutTransition transition = new LayoutTransition();
+                layout_search.setLayoutTransition(transition);
+                isSearchPanelVisible = true;
+                break;
+            case 2:
+                isSearchPanelVisible = false;
+                layout_search.setVisibility(View.GONE);
+                //clearDate();
+                break;
         }
     }*/
 

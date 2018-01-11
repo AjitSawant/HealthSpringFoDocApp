@@ -29,6 +29,7 @@ import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.CPOEService;
+import com.palash.healthspring.entity.ComplaintsList;
 import com.palash.healthspring.entity.Department;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.Priority;
@@ -345,7 +346,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
             new AlertDialog
                     .Builder(context)
                     .setTitle(getResources().getString(R.string.app_name))
-                    .setMessage("Do you really want to add CPOE Service?")
+                    .setMessage("Do you really want to add Investigation?")
                     .setCancelable(true)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -452,38 +453,26 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         @Override
         protected void onPostExecute(String result) {
             try {
+                localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Service added successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<CPOEService> cpoeServiceArrayList = objMapper.map(responseString, CPOEService.class);
+                    if (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) {
+                        for (int index = 0; index < cpoeServiceArrayList.size(); index++) {
+                            cpoeServiceAdapterDB.create(cpoeServiceArrayList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Investigation added successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Service updated successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<CPOEService> cpoeServiceArrayList = objMapper.map(responseString, CPOEService.class);
+                    if (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) {
+                        for (int index = 0; index < cpoeServiceArrayList.size(); index++) {
+                            cpoeServiceAdapterDB.create(cpoeServiceArrayList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Investigation updated successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else {
-                    localSetting.hideDialog(progressDialog);
                     //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
                     new AlertDialog
                             .Builder(context)

@@ -3,6 +3,7 @@ package com.palash.healthspring.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -10,16 +11,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.palash.healthspring.R;
+import com.palash.healthspring.api.JsonObjectMapper;
+import com.palash.healthspring.api.WebServiceConsumer;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
+import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.DaignosisMaster;
+import com.palash.healthspring.entity.ELMedicalHistoryForICE;
 import com.palash.healthspring.entity.MedicienName;
 import com.palash.healthspring.entity.ServiceName;
 import com.palash.healthspring.fragment.CPOEInvestigationFragment;
@@ -31,7 +37,10 @@ import com.palash.healthspring.fragment.ReferralFragment;
 import com.palash.healthspring.fragment.VitalsFragment;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
+import com.palash.healthspring.utilities.TransparentProgressDialog;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class EMRNavigationDrawerActivity extends AppCompatActivity {
@@ -43,6 +52,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
 
     private ArrayList<BookAppointment> bookAppointmentArrayList;
+    private ArrayList<ELMedicalHistoryForICE> elMedicalHistoryForICEArrayList;
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -186,7 +196,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             Constants.IsVitals = 0;
                             if (bookAppointmentArrayList != null && bookAppointmentArrayList.get(0).getVisitID() != null && bookAppointmentArrayList.get(0).getVisitID().length() > 0) {
                                 String url = localSetting.returnPDFUrl("Summary", bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getPatientID(),
-                                        bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getVisitID(), "", "");
+                                        bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getVisitID(), "", "", "", "");
                                 //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                                 context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
                             }
@@ -194,11 +204,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
                             return false;
                         case R.id.action_ice:
                             Constants.IsVitals = 0;
-                            if (bookAppointmentArrayList != null && bookAppointmentArrayList.get(0).getVisitID() != null && bookAppointmentArrayList.get(0).getVisitID().length() > 0) {
-                                String url = localSetting.returnPDFUrl("ICE", bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getPatientID(),
-                                        bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getVisitID(), bookAppointmentArrayList.get(0).getMRNo(), bookAppointmentArrayList.get(0).getVisitTypeID());
-                                context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
-                            }
+                            callToGetPastMedicalHistoryForICE();
                             Constants.backFromAddEMR = false;
                             return false;
                         default:
@@ -312,5 +318,74 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+
+    private void callToGetPastMedicalHistoryForICE() {
+        if (localSetting.isNetworkAvailable(context)) {
+            new GetPastMedicalHistoryForICE().execute();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class GetPastMedicalHistoryForICE extends AsyncTask<Void, Void, String> {
+        private TransparentProgressDialog progressDialog;
+        private String jSon = "";
+        private JsonObjectMapper jsonObjectMapper;
+        private WebServiceConsumer webServiceConsumer;
+        private int responseCode = 0;
+        private String responseString = "";
+        private Response response = null;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = localSetting.showDialog(context);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                jsonObjectMapper = new JsonObjectMapper();
+                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                response = webServiceConsumer.GET(Constants.GET_PAST_MEDICAL_HISTORY_CE_LIST_URL + bookAppointmentArrayList.get(0).getUnitID()
+                        + "&PatientID=" +
+                        bookAppointmentArrayList.get(0).getPatientID()
+                        + "&PatientUnitID=" +
+                        bookAppointmentArrayList.get(0).getUnitID());
+                if (response != null) {
+                    responseCode = response.code();
+                    responseString = response.body().string();
+                    Log.d(Constants.TAG, "Response Code :" + responseCode);
+                    Log.d(Constants.TAG, "Response String :" + responseString);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            localSetting.hideDialog(progressDialog);
+            if (responseCode == Constants.HTTP_OK_200) {
+                elMedicalHistoryForICEArrayList = jsonObjectMapper.map(responseString, ELMedicalHistoryForICE.class);
+                if (elMedicalHistoryForICEArrayList != null && elMedicalHistoryForICEArrayList.size() > 0) {
+                    if (bookAppointmentArrayList != null && bookAppointmentArrayList.get(0).getVisitID() != null && bookAppointmentArrayList.get(0).getVisitID().length() > 0) {
+                        String url = localSetting.returnPDFUrl("ICE", bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getPatientID(),
+                                bookAppointmentArrayList.get(0).getUnitID(), bookAppointmentArrayList.get(0).getVisitID(), bookAppointmentArrayList.get(0).getMRNo(),
+                                bookAppointmentArrayList.get(0).getVisitTypeID(),elMedicalHistoryForICEArrayList.get(0).getL1(),elMedicalHistoryForICEArrayList.get(0).getL3());
+                        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
+                    }
+                }
+            } else if (responseCode == Constants.HTTP_DELETED_OK_204) {
+                Toast.makeText(context, "ICE form is not generate for current patient", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
+            }
+            super.onPostExecute(result);
+        }
     }
 }

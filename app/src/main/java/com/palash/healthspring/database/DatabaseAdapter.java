@@ -2142,7 +2142,8 @@ public class DatabaseAdapter {
                 DatabaseContract.Appointment.COLUMN_NAME_RESCHEDUlING_REASON,
                 DatabaseContract.Appointment.COLUMN_NAME_COMPLAINT,
                 DatabaseContract.Appointment.COLUMN_NAME_COMPLAINT_ID,
-                DatabaseContract.Appointment.COLUMN_NAME_SORTINGDATETIME
+                DatabaseContract.Appointment.COLUMN_NAME_SORTINGDATETIME,
+                DatabaseContract.Appointment.COLUMN_NAME_DrName
         };
 
         private ContentValues AppointmentToContentValues(Appointment appointment) {
@@ -2188,6 +2189,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_COMPLAINT, appointment.getComplaint());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_COMPLAINT_ID, appointment.getComplaintId());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_SORTINGDATETIME, appointment.getSortingDateTime());
+                values.put(DatabaseContract.Appointment.COLUMN_NAME_DrName, appointment.getDrName());
             }
             return values;
         }
@@ -2237,6 +2239,7 @@ public class DatabaseAdapter {
                     appointment.setComplaint(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_COMPLAINT)));
                     appointment.setComplaintId(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_COMPLAINT_ID)));
                     appointment.setSortingDateTime(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_SORTINGDATETIME)));
+                    appointment.setDrName(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_DrName)));
                     appointmentArrayList.add(appointment);
                 }
                 result.close();
@@ -2793,7 +2796,8 @@ public class DatabaseAdapter {
                 DatabaseContract.PatientQueue.COLUMN_NAME_REFERREDDOCTORID,
                 DatabaseContract.PatientQueue.COLUMN_NAME_REFERREDDOCTOR,
                 DatabaseContract.PatientQueue.COLUMN_NAME_ISBILLED_SUBMITID,
-                DatabaseContract.PatientQueue.COLUMN_NAME_ISSTATUS
+                DatabaseContract.PatientQueue.COLUMN_NAME_ISSTATUS,
+                DatabaseContract.PatientQueue.COLUMN_NAME_DrName
 
         };
 
@@ -2836,6 +2840,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_REFERREDDOCTOR, patientQueue.getReferredDoctor());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_ISBILLED_SUBMITID, patientQueue.getIsBilledSubmitID());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_ISSTATUS, "1");
+                values.put(DatabaseContract.PatientQueue.COLUMN_NAME_DrName, patientQueue.getDrName());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -2881,6 +2886,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_REFERREDDOCTORID, patientQueue.getReferredDoctorID());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_REFERREDDOCTOR, patientQueue.getReferredDoctor());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_ISBILLED_SUBMITID, patientQueue.getIsBilledSubmitID());
+                values.put(DatabaseContract.PatientQueue.COLUMN_NAME_DrName, patientQueue.getDrName());
                 values.put(DatabaseContract.PatientQueue.COLUMN_NAME_ISSTATUS, "0");
 
             } catch (Exception e) {
@@ -2930,6 +2936,7 @@ public class DatabaseAdapter {
                         patientQueue.setReferredDoctorID(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_REFERREDDOCTORID)));
                         patientQueue.setReferredDoctor(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_REFERREDDOCTOR)));
                         patientQueue.setIsBilledSubmitID(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_ISBILLED_SUBMITID)));
+                        patientQueue.setDrName(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_DrName)));
                         patientQueue.setISStatus(result.getString(result.getColumnIndex(DatabaseContract.PatientQueue.COLUMN_NAME_ISSTATUS)));
 
                         listPatientQueue.add(patientQueue);
@@ -3211,7 +3218,8 @@ public class DatabaseAdapter {
                 DatabaseContract.VisitList.COLUMN_NAME_STATUS,
                 DatabaseContract.VisitList.COLUMN_NAME_VISITSTATUS,
                 DatabaseContract.VisitList.COLUMN_NAME_CURRENTVISITSTATUS,
-                DatabaseContract.VisitList.COLUMN_NAME_UnitName
+                DatabaseContract.VisitList.COLUMN_NAME_UnitName,
+                DatabaseContract.VisitList.COLUMN_NAME_DrName
         };
 
         private ContentValues VisitListToContentValues(VisitList visitList) {
@@ -3257,6 +3265,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.VisitList.COLUMN_NAME_VISITSTATUS, visitList.getVisitStatus());
                 values.put(DatabaseContract.VisitList.COLUMN_NAME_CURRENTVISITSTATUS, visitList.getCurrentVisitStatus());
                 values.put(DatabaseContract.VisitList.COLUMN_NAME_UnitName, visitList.getUnitName());
+                values.put(DatabaseContract.VisitList.COLUMN_NAME_DrName, visitList.getDrName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -3309,6 +3318,7 @@ public class DatabaseAdapter {
                         visitList.setVisitStatus(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_VISITSTATUS)));
                         visitList.setCurrentVisitStatus(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_CURRENTVISITSTATUS)));
                         visitList.setUnitName(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_UnitName)));
+                        visitList.setDrName(result.getString(result.getColumnIndex(DatabaseContract.VisitList.COLUMN_NAME_DrName)));
                         listVisitList.add(visitList);
                     }
                     result.close();

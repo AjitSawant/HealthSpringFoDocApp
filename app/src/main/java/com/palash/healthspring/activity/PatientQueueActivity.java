@@ -49,15 +49,19 @@ public class PatientQueueActivity extends AppCompatActivity {
 
     private PatientQueueAdapter patientQueueAdapter;
 
+    private Chronometer patient_queue_chronometer;
     private ListView patient_queue_list;
     private TextView patient_queue_empty;
-    private Chronometer patient_queue_chronometer;
     private LinearLayout layout_search;
     private EditText patientqueue_edt_search;
     private TextView patientqueue_bnt_clear;
+    private TextView patientqueue_bnt_search;
 
+    //private View parentView;
     private String patientName = null;
     private boolean isSearchPanelVisible = true;
+    private int listCount = 0;
+    private int currentCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,34 @@ public class PatientQueueActivity extends AppCompatActivity {
             Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
         }
     }
+
+   /* @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        parentView = inflater.inflate(R.layout.activity_patient_queue, container, false);
+        InitSetting();
+        InitView();
+        RefreshList();
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myBroadcastReceiver,
+                new IntentFilter(Constants.KEY_ForRefreshData));
+
+        return parentView;
+    }
+
+    private final BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, android.content.Intent intent) {
+            //Toast.makeText(getActivity(), "Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+            //RefreshList();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(myBroadcastReceiver);
+    }*/
 
     private void InitSetting() {
         try {
@@ -92,25 +124,26 @@ public class PatientQueueActivity extends AppCompatActivity {
 
     private void InitView() {
         try {
+            patient_queue_chronometer = (Chronometer) findViewById(R.id.patient_queue_chronometer);
             patient_queue_list = (ListView) findViewById(R.id.patient_queue_list);
             patient_queue_empty = (TextView) findViewById(R.id.patient_queue_empty);
             layout_search = (LinearLayout) findViewById(R.id.layout_search);
             patientqueue_edt_search = (EditText) findViewById(R.id.patientqueue_edt_search);
             patientqueue_bnt_clear = (TextView) findViewById(R.id.patientqueue_bnt_search);
-            patient_queue_chronometer = (Chronometer) findViewById(R.id.patient_queue_chronometer);
-
-            /*patient_queue_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                   // flagTask();
-                   // LoadList();
-                }
-            });*/
+            patientqueue_bnt_search = (TextView) findViewById(R.id.patientqueue_bnt_search);
+            //patient_queue_chronometer = (Chronometer) parentView.findViewById(R.id.patient_queue_chronometer);
 
             patientqueue_bnt_clear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clearDate();
+                }
+            });
+
+            patientqueue_bnt_search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GetPatientQueueWebcall();
                 }
             });
 
@@ -131,51 +164,31 @@ public class PatientQueueActivity extends AppCompatActivity {
                 }
             });
 
+            patient_queue_chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
+                    LoadList();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    protected void onResume() {
-        patient_queue_chronometer.setBase(SystemClock.elapsedRealtime());
-        patient_queue_chronometer.start();
-        RefreshList();
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        patient_queue_chronometer.stop();
-        super.onPause();
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
-    }
-
-    private void RefreshList() {
-        patientQueueArrayList = patientQueueAdapterDB.listToday(doctorProfileList.get(0).getUnitID(),patientName);
-        if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
-            patientQueueAdapter = new PatientQueueAdapter(context, patientQueueArrayList);
-            patient_queue_list.setAdapter(patientQueueAdapter);
-            patientQueueAdapter.notifyDataSetChanged();
-            patient_queue_list.setVisibility(View.VISIBLE);
-            patient_queue_empty.setVisibility(View.GONE);
-        } else {
-            patient_queue_list.setVisibility(View.GONE);
-            patient_queue_empty.setVisibility(View.VISIBLE);
+    private void LoadList() {
+        doctorProfileList = doctorProfileAdapter.listAll();
+        patientName = patientqueue_edt_search.getText().toString();
+        if (patientName != null && patientName.equals("")) {
+            patientName = null;
+        }
+        currentCount = patientQueueAdapterDB.CountToday(doctorProfileList.get(0).getUnitID(), patientName);
+        if (patientQueueArrayList != null) {
+            listCount = patientQueueArrayList.size();
+        }
+        if (currentCount != listCount) {
+            RefreshList();
         }
     }
-
-    /*private void flagTask() {
-        flag = flagAdapter.listCurrent();
-        flag.setFlag(Constants.PATIENT_QUEUE_TASK);
-        flagAdapter.create(flag);
-        SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -222,8 +235,49 @@ public class PatientQueueActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        patient_queue_chronometer.setBase(SystemClock.elapsedRealtime());
+        patient_queue_chronometer.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        patient_queue_chronometer.stop();
+    }
+
+    private void RefreshList() {
+        doctorProfileList = doctorProfileAdapter.listAll();
+        patientName = patientqueue_edt_search.getText().toString();
+        if (patientName != null && patientName.equals("")) {
+            patientName = null;
+        }
+        patientQueueArrayList = patientQueueAdapterDB.listToday(doctorProfileList.get(0).getUnitID(), patientName);
+        if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
+            patientQueueAdapter = new PatientQueueAdapter(context, patientQueueArrayList);
+            patient_queue_list.setAdapter(patientQueueAdapter);
+            patientQueueAdapter.notifyDataSetChanged();
+            patient_queue_list.setVisibility(View.VISIBLE);
+            patient_queue_empty.setVisibility(View.GONE);
+        } else {
+            patient_queue_list.setVisibility(View.GONE);
+            patient_queue_empty.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void clearDate() {
         patientqueue_edt_search.setText("");
+    }
+
+    private void GetPatientQueueWebcall() {
+        doctorProfileList = doctorProfileAdapter.listAll();
+        if (localSetting.isNetworkAvailable(context)) {
+            new GetPatientQueueTask().execute();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class GetPatientQueueTask extends AsyncTask<Void, Void, String> {
@@ -276,7 +330,7 @@ public class PatientQueueActivity extends AppCompatActivity {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             localSetting.hideDialog(progressDialog);
-            RefreshList();
+            //RefreshList();
             super.onPostExecute(result);
         }
     }

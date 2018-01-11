@@ -148,7 +148,7 @@ public class MainDashActivity extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch(tab.getPosition()) {
+                switch (tab.getPosition()) {
                     case 0:
                         viewPager.setCurrentItem(0);
                         toolbar.setTitle(context.getResources().getString(R.string.dashboard_patientqueue));
@@ -167,9 +167,11 @@ public class MainDashActivity extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
@@ -334,7 +336,7 @@ public class MainDashActivity extends AppCompatActivity {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
-                response = webServiceConsumer.GET(Constants.GET_UNIT_MASTER_URL);
+                response = webServiceConsumer.GET(Constants.GET_UNIT_MASTER_URL + listProfile.get(0).getDoctorID());
                 if (response != null) {
                     responseCode = response.code();
                     responseString = response.body().string();

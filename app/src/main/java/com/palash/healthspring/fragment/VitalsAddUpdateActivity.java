@@ -456,11 +456,11 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage("Vital details added successfully.")
                             .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
                                     Clear();
-                                    finish();
                                 }
                             })
                             .setIcon(R.mipmap.ic_launcher).show();
@@ -470,11 +470,11 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
                             .setTitle(getResources().getString(R.string.app_name))
                             .setMessage("Vital details updated successfully.")
                             .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
                                     Clear();
-                                    finish();
                                 }
                             })
                             .setIcon(R.mipmap.ic_launcher).show();

@@ -7,15 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PatientListActivity extends AppCompatActivity implements View.OnClickListener {
+public class PatientListActivity extends PatientQueueActivity implements View.OnClickListener {
 
     private Context context;
     private LocalSetting localSetting;
@@ -58,9 +55,10 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<DoctorProfile> doctorProfileList;
     private ArrayList<Patient> patientList;
 
+    //private View parentView;
     private ListView search_patient_List;
     private TextView search_patient_empty;
-    private Chronometer patient_list_chronometer;
+    //private Chronometer patient_list_chronometer;
     private LinearLayout layout_patient_list_search;
     private EditText patient_list_edt_search;
     private EditText patient_list_edt_mr_no;
@@ -91,6 +89,31 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
         InitSetting();
         InitView();
     }
+
+   /* @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        parentView = inflater.inflate(R.layout.activity_list_patient, container, false);
+        InitSetting();
+        InitView();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myBroadcastReceiver,
+                new IntentFilter(Constants.KEY_ForRefreshData));
+        return parentView;
+    }
+
+    private final BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, android.content.Intent intent) {
+            //Toast.makeText(getActivity(), "Broadcast received!", Toast.LENGTH_SHORT).show();//Do what you want when the broadcast is received...
+            RefreshPatientList();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myBroadcastReceiver);
+    }*/
 
     private void InitSetting() {
         try {
@@ -124,7 +147,7 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             patient_report_date_search_btn = (TextView) findViewById(R.id.patient_report_date_search_btn);
             radio_button_by_date = (RadioButton) findViewById(R.id.radio_button_by_date);
             radio_button_by_mrno = (RadioButton) findViewById(R.id.radio_button_by_mrno);
-            patient_list_chronometer = (Chronometer) findViewById(R.id.patient_list_chronometer);
+            //patient_list_chronometer = (Chronometer) parentView.findViewById(R.id.patient_list_chronometer);
 
             layout_search_by_patient_name.setVisibility(View.GONE);
             patient_list_edt_mr_no.setVisibility(View.GONE);
@@ -133,6 +156,11 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             patient_register_start_date_edt.setOnClickListener(this);
             patient_register_end_date_edt.setOnClickListener(this);
             patient_report_date_search_btn.setOnClickListener(this);
+
+            patient_register_start_date_edt.setText(format.format(new Date()));
+            patient_register_end_date_edt.setText(format.format(new Date()));
+            startDate = localSetting.formatDate(patient_register_start_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+            endDate = localSetting.formatDate(patient_register_end_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
 
             patient_list_edt_search.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -160,24 +188,18 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, day);
 
-                    /*startDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
+                    startDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
                     endDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
 
                     patient_register_start_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
-                    patient_register_end_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));*/
-
-                    startDate = localSetting.formatDate(format.format(calendar.getTime()), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
-                    endDate = localSetting.formatDate(format.format(calendar.getTime()), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
-
-                    patient_register_start_date_edt.setText(format.format(calendar.getTime()));
-                    patient_register_end_date_edt.setText(format.format(calendar.getTime()));
+                    patient_register_end_date_edt.setText(localSetting.dateToString(day, month, year, Constants.PATIENT_QUEUE_DATE));
                 }
             };
 
             dateListenerTo = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    endDate = localSetting.formatDate(format.format(calendar.getTime()), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+                    endDate = localSetting.dateToString(day, month, year, Constants.SEARCH_DATE_FORMAT);
                     try {
                         //Dates to compare
                         Date date1;
@@ -237,38 +259,21 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    @Override
-    protected void onResume() {
-        patient_list_chronometer.setBase(SystemClock.elapsedRealtime());
-        patient_list_chronometer.start();
-        if (Constants.refreshPatient == true) {
-            patient_register_start_date_edt.setText(format.format(new Date()));
-            patient_register_end_date_edt.setText(format.format(new Date()));
-            startDate = localSetting.formatDate(patient_register_start_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
-            endDate = localSetting.formatDate(patient_register_end_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
-            RefreshPatientList();
-            if (localSetting.isNetworkAvailable(context)) {
-                new GetPatientListTask().execute();
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+    /*@Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        try {
+            if (isVisibleToUser) {
+                RefreshPatientList();
+                //GetPatientListWebcall();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        patient_list_chronometer.stop();
-        super.onPause();
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
-    }
+    }*/
 
     private void RefreshPatientList() {
+        doctorProfileList = doctorProfileAdapter.listAll();
         patientList = patientAdapterDB.listPatient(doctorProfileList.get(0).getUnitID(), null);
         if (patientList != null && patientList.size() > 0) {
             searchPatientAdapter = new SearchPatientAdapter(context, patientList);
@@ -289,11 +294,7 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.patient_report_date_search_btn:
                 if (ValidateDate()) {
-                    if (localSetting.isNetworkAvailable(context)) {
-                        new GetPatientListTask().execute();
-                    } else {
-                        Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
-                    }
+                    GetPatientListWebcall();
                 }
                 break;
             case R.id.patient_register_start_date_edt:
@@ -383,6 +384,15 @@ public class PatientListActivity extends AppCompatActivity implements View.OnCli
             }
         }
         return true;
+    }
+
+    private void GetPatientListWebcall() {
+        doctorProfileList = doctorProfileAdapter.listAll();
+        if (localSetting.isNetworkAvailable(context)) {
+            new GetPatientListTask().execute();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class GetPatientListTask extends AsyncTask<Void, Void, String> {

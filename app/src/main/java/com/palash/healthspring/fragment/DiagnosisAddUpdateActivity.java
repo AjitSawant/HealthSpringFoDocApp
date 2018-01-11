@@ -482,34 +482,23 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
             try {
                 localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Diagnosis added successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<DiagnosisList> elDiagnosisList = objMapper.map(responseString, DiagnosisList.class);
+                    if (elDiagnosisList != null && elDiagnosisList.size() > 0) {
+                        for (int index = 0; index < elDiagnosisList.size(); index++) {
+                            diagnosisListAdapterDB.create(elDiagnosisList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Diagnosis added successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Diagnosis updated successfully.")
-                            .setCancelable(false)
-                            .setPositiveButton("Go to Patient EMR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Clear();
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    ArrayList<DiagnosisList> elDiagnosisList = objMapper.map(responseString, DiagnosisList.class);
+                    if (elDiagnosisList != null && elDiagnosisList.size() > 0) {
+                        for (int index = 0; index < elDiagnosisList.size(); index++) {
+                            diagnosisListAdapterDB.create(elDiagnosisList.get(index));
+                        }
+                    }
+                    Toast.makeText(context, "Diagnosis updated successfully.", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else if (responseCode == Constants.HTTP_Expectation_Failed_417) {
                     localSetting.alertbox(context, "At least One Primary Diagnosis should be selected.", false);
                 } else if (responseCode == Constants.HTTP_AMBIGUOUS_300) {

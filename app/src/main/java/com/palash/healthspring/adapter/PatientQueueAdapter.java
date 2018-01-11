@@ -93,6 +93,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder.row_patient_queue_tv_bloodgroup = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_bloodgroup);
                 holder.row_patient_queue_tv_unit_name = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_unit_name);
                 holder.row_patient_queue_summary_btn = (TextView) convertView.findViewById(R.id.row_patient_queue_summary_btn);
+                holder.row_patient_queue_tv_doctor_namr = (TextView) convertView.findViewById(R.id.row_patient_queue_tv_doctor_namr);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -125,6 +126,13 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                 holder.row_patient_queue_tv_unit_name.setVisibility(View.VISIBLE);
             } else {
                 holder.row_patient_queue_tv_unit_name.setVisibility(View.GONE);
+            }
+
+            if (patientQueue.getDrName() != null && patientQueue.getDrName().length() > 0) {
+                holder.row_patient_queue_tv_doctor_namr.setText(patientQueue.getDrName());
+                holder.row_patient_queue_tv_doctor_namr.setVisibility(View.VISIBLE);
+            } else {
+                holder.row_patient_queue_tv_doctor_namr.setVisibility(View.GONE);
             }
 
             holder.row_patient_queue_tv_date.setText(patientQueue.getDate());
@@ -241,7 +249,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
                     if (patientQueueArrayList.get(position) != null && patientQueueArrayList.get(position).getID() != null && patientQueueArrayList.get(position).getID().length() > 0) {
 
                         String url = localSetting.returnPDFUrl("Summary", patientQueueArrayList.get(position).getPatientUnitID(), patientQueueArrayList.get(position).getPatientId(),
-                                patientQueueArrayList.get(position).getPatientUnitID(), patientQueueArrayList.get(position).getVisitID(),"","");
+                                patientQueueArrayList.get(position).getPatientUnitID(), patientQueueArrayList.get(position).getVisitID(), "", "","","");
 
                         //context.startActivity(new Intent(context, ViewPDFActivity.class).putExtra("url", url));
                         context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
@@ -269,6 +277,7 @@ public class PatientQueueAdapter extends BaseAdapter implements Filterable {
         TextView row_patient_queue_tv_bloodgroup;
         TextView row_patient_queue_tv_unit_name;
         TextView row_patient_queue_summary_btn;
+        TextView row_patient_queue_tv_doctor_namr;
     }
 
     @Override

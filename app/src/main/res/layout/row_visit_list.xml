@@ -26,7 +26,7 @@
                 android:enabled="false"
                 android:hint="@string/date"
                 android:paddingTop="2dp"
-                android:text="njgnhgnh"
+                android:text="date"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
                 android:textSize="12sp" />
@@ -45,7 +45,7 @@
                 android:enabled="false"
                 android:hint="@string/time"
                 android:paddingTop="2dp"
-                android:text="njgnhgnh"
+                android:text="time"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
                 android:textSize="12sp" />
@@ -192,18 +192,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="4dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/row_visit_summary_btn"
                 android:layout_width="60dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
                 android:background="@drawable/card_layout"
                 android:gravity="center"
-                android:text="Visit\nSummary"
+                android:text="Print\nSummary"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 
@@ -222,4 +223,14 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/row_visit_list_tv_doctor_namr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:gravity="right|center_vertical"
+        android:textAllCaps="false"
+        android:textColor="@color/colorGreen"
+        android:textSize="11sp" />
 </LinearLayout>

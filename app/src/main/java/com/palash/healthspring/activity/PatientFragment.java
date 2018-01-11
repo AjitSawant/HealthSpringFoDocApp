@@ -325,7 +325,7 @@ public class PatientFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    /*@Override
+   /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_add_patient).setVisible(false);
@@ -347,7 +347,7 @@ public class PatientFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(context, PatientRegistrationActivity.class));
                 return true;
             case android.R.id.home:
-                //finish();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

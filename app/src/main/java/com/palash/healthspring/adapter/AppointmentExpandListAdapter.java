@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.palash.healthspring.R;
 import com.palash.healthspring.activity.CancelAppointmentActivity;
-import com.palash.healthspring.activity.PatientQueueActivity;
 import com.palash.healthspring.activity.TimeSlotActivity;
 import com.palash.healthspring.api.JsonObjectMapper;
 import com.palash.healthspring.api.WebServiceConsumer;
@@ -163,6 +162,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
             TextView row_appointment_bnt_visit = (TextView) view.findViewById(R.id.row_appointment_bnt_visit);
             TextView row_appointment_bnt_cancle = (TextView) view.findViewById(R.id.row_appointment_bnt_cancle);
             TextView row_appointment_tv_unit_name = (TextView) view.findViewById(R.id.row_appointment_tv_unit_name);
+            TextView row_appointment_tv_doctor_name = (TextView) view.findViewById(R.id.row_appointment_tv_doctor_name);
 
             if (appointment.getGender().equals("Male")) {
                 row_appointment_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personmale));
@@ -182,6 +182,13 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                 row_appointment_tv_unit_name.setVisibility(View.VISIBLE);
             } else {
                 row_appointment_tv_unit_name.setVisibility(View.GONE);
+            }
+
+            if (appointment.getDrName() != null && appointment.getDrName().length() > 0) {
+                row_appointment_tv_doctor_name.setText(appointment.getDrName());
+                row_appointment_tv_doctor_name.setVisibility(View.VISIBLE);
+            } else {
+                row_appointment_tv_doctor_name.setVisibility(View.GONE);
             }
 
             if (appointment.getDepartment() != null && appointment.getDepartment().length() > 0) {

@@ -39,7 +39,6 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -161,7 +160,18 @@ public class ComplaintsFragment extends Fragment {
                         int selectedItemPosition = chiefComplaints_dropdown.getSelectedItemPosition();
                         if (selectedItemPosition > 0) {
                             selectedItemPosition = selectedItemPosition - 1;
-                            if (selectedChiefComplaintsList.size() == 0) {
+                            if (chiefComplaints_edit.getText().toString().equals("") || chiefComplaints_edit.getText().toString().length() == 0) {
+                                chiefComplaints_edit.setText(masterComplaintList.get(selectedItemPosition).getDescription());
+                                chiefComplaints_edit.setSelection(chiefComplaints_edit.getText().length());
+                            } else if (chiefComplaints_edit.getText().toString().contains(masterComplaintList.get(selectedItemPosition).getDescription())) {
+                                //String comlaints = chiefComplaints_edit.getText().toString().replace(masterComplaintList.get(selectedItemPosition).getDescription(), "");
+                                //chiefComplaints_edit.setText(comlaints + ", " + masterComplaintList.get(selectedItemPosition).getDescription());
+                            } else {
+                                chiefComplaints_edit.setText(chiefComplaints_edit.getText().toString() + ", " + masterComplaintList.get(selectedItemPosition).getDescription());
+                                chiefComplaints_edit.setSelection(chiefComplaints_edit.getText().length());
+                            }
+
+                            /*if (selectedChiefComplaintsList.size() == 0) {
                                 selectedChiefComplaintsList.add(masterComplaintList.get(selectedItemPosition).getDescription());
                                 chiefComplaints_edit.setText(selectedChiefComplaintsList.toString().replace("[", "").replace("]", ""));
                                 //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
@@ -188,7 +198,7 @@ public class ComplaintsFragment extends Fragment {
                                 }
                             } else {
                                 chiefComplaints_edit.setHint(noComplaints);
-                            }
+                            }*/
                         }
                         chiefComplaints_dropdown.setSelection(0);
                     }
@@ -209,7 +219,19 @@ public class ComplaintsFragment extends Fragment {
                         int selectedItemPosition = assosciateComplaints_dropdown.getSelectedItemPosition();
                         if (selectedItemPosition > 0) {
                             selectedItemPosition = selectedItemPosition - 1;
-                            if (selectedAssociateComplaintsList.size() == 0) {
+
+                            if (assosciateComplaints_edit.getText().toString().equals("") || assosciateComplaints_edit.getText().toString().length() == 0) {
+                                assosciateComplaints_edit.setText(masterComplaintList.get(selectedItemPosition).getDescription());
+                                assosciateComplaints_edit.setSelection(assosciateComplaints_edit.getText().length());
+                            } else if (assosciateComplaints_edit.getText().toString().contains(masterComplaintList.get(selectedItemPosition).getDescription())) {
+                                // String comlaints = assosciateComplaints_edit.getText().toString().replace(masterComplaintList.get(selectedItemPosition).getDescription(), "");
+                                //assosciateComplaints_edit.setText(comlaints + ", " + masterComplaintList.get(selectedItemPosition).getDescription());
+                            } else {
+                                assosciateComplaints_edit.setText(assosciateComplaints_edit.getText().toString() + ", " + masterComplaintList.get(selectedItemPosition).getDescription());
+                                assosciateComplaints_edit.setSelection(assosciateComplaints_edit.getText().length());
+                            }
+
+                            /*if (selectedAssociateComplaintsList.size() == 0) {
                                 selectedAssociateComplaintsList.add(masterComplaintList.get(selectedItemPosition).getDescription());
                                 assosciateComplaints_edit.setText(selectedAssociateComplaintsList.toString().replace("[", "").replace("]", ""));
                                 //Toast.makeText(context, "Complaint added", Toast.LENGTH_SHORT).show();
@@ -236,7 +258,7 @@ public class ComplaintsFragment extends Fragment {
                                 }
                             } else {
                                 assosciateComplaints_edit.setHint(noComplaints);
-                            }
+                            }*/
                         }
                         assosciateComplaints_dropdown.setSelection(0);
                     }
@@ -280,15 +302,19 @@ public class ComplaintsFragment extends Fragment {
         complaintsLists = complaintsListDBAdapter.listAll(bookAppointmentArrayList.get(0).getPatientID(), bookAppointmentArrayList.get(0).getVisitID());
         if (complaintsLists != null && complaintsLists.size() > 0) {
             elComplaintsList = complaintsLists.get(0);
+
             if (elComplaintsList.getChiefComplaints() != null && elComplaintsList.getChiefComplaints().length() > 0) {
                 chiefComplaints_edit.setText(elComplaintsList.getChiefComplaints());
-                selectedChiefComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getChiefComplaints().split(",")));
+                chiefComplaints_edit.setSelection(chiefComplaints_edit.getText().length());
+                //selectedChiefComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getChiefComplaints().split(",")));
             } else {
                 chiefComplaints_edit.setHint(noComplaints);
             }
+
             if (elComplaintsList.getAssosciateComplaints() != null && elComplaintsList.getAssosciateComplaints().length() > 0) {
                 assosciateComplaints_edit.setText(elComplaintsList.getAssosciateComplaints());
-                selectedAssociateComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getAssosciateComplaints().split(",")));
+                assosciateComplaints_edit.setSelection(assosciateComplaints_edit.getText().length());
+                //selectedAssociateComplaintsList = new ArrayList<String>(Arrays.asList(elComplaintsList.getAssosciateComplaints().split(",")));
             } else {
                 assosciateComplaints_edit.setHint(noComplaints);
             }
@@ -365,7 +391,7 @@ public class ComplaintsFragment extends Fragment {
                             elComplaintsList.setUpdatedDateTime(CurrentDate);
                             elComplaintsList.setIsSync("1");
 
-                            if (selectedChiefComplaintsList != null && selectedChiefComplaintsList.size() > 0) {
+                            /*if (selectedChiefComplaintsList != null && selectedChiefComplaintsList.size() > 0) {
                                 String strChiefComplaint = "";
                                 for (int i = 0; i < selectedChiefComplaintsList.size(); i++) {
                                     if (i == 0) {
@@ -391,7 +417,7 @@ public class ComplaintsFragment extends Fragment {
                                 }
                             } else {
                                 elComplaintsList.setAssosciateComplaints("");
-                            }
+                            }*/
                             callToWebservice();
                             //new AddUpdateComplaints().execute();
                         }
@@ -470,35 +496,22 @@ public class ComplaintsFragment extends Fragment {
         protected void onPostExecute(String result) {
             localSetting.hideDialog(progressDialog);
             if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                localSetting.hideDialog(progressDialog);
-                new AlertDialog
-                        .Builder(context)
-                        .setTitle(getResources().getString(R.string.app_name))
-                        .setMessage("Complaints added successfully.")
-                        .setCancelable(false)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(R.mipmap.ic_launcher).show();
+                ArrayList<ComplaintsList> elComplaintsList = objMapper.map(responseString, ComplaintsList.class);
+                if (elComplaintsList != null && elComplaintsList.size() > 0) {
+                    for (int index = 0; index < elComplaintsList.size(); index++) {
+                        complaintsListDBAdapter.create(elComplaintsList.get(index));
+                    }
+                }
+                Toast.makeText(context, "Complaints added successfully.", Toast.LENGTH_SHORT).show();
             } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                localSetting.hideDialog(progressDialog);
-                new AlertDialog
-                        .Builder(context)
-                        .setTitle(getResources().getString(R.string.app_name))
-                        .setMessage("Complaints updated successfully.")
-                        .setCancelable(false)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(R.mipmap.ic_launcher).show();
+                ArrayList<ComplaintsList> elComplaintsList = objMapper.map(responseString, ComplaintsList.class);
+                if (elComplaintsList != null && elComplaintsList.size() > 0) {
+                    for (int index = 0; index < elComplaintsList.size(); index++) {
+                        complaintsListDBAdapter.create(elComplaintsList.get(index));
+                    }
+                }
+                Toast.makeText(context, "Complaints updated successfully.", Toast.LENGTH_SHORT).show();
             } else {
-                localSetting.hideDialog(progressDialog);
                 //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
                 new AlertDialog
                         .Builder(context)

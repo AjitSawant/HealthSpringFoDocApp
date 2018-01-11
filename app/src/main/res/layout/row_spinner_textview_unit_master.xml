@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="6dp">
 
     <TextView
         android:id="@+id/row_txt_id"
@@ -26,6 +26,6 @@
         android:gravity="left"
         android:paddingLeft="4dp"
         android:textColor="@color/text_color"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 </LinearLayout>
 

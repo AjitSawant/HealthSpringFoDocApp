@@ -378,35 +378,22 @@ public class FollowUpFragment extends Fragment {
         protected void onPostExecute(String result) {
             localSetting.hideDialog(progressDialog);
             if (responseCode == Constants.HTTP_CREATED_201 && responseMSG.equals("Created")) {
-                localSetting.hideDialog(progressDialog);
-                new AlertDialog
-                        .Builder(context)
-                        .setTitle(getResources().getString(R.string.app_name))
-                        .setMessage("Follow up added successfully.")
-                        .setCancelable(false)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(R.mipmap.ic_launcher).show();
+                ArrayList<ELFollowUp> followUpLists = jsonObjectMapper.map(responseString, ELFollowUp.class);
+                if (followUpLists != null && followUpLists.size() > 0) {
+                    for (int index = 0; index < followUpLists.size(); index++) {
+                        patientFollowUpAdapterDB.create(followUpLists.get(index));
+                    }
+                }
+                Toast.makeText(context, "Follow up added successfully.", Toast.LENGTH_SHORT).show();
             } else if (responseCode == Constants.HTTP_OK_200 && responseMSG.equals("OK")) {
-                localSetting.hideDialog(progressDialog);
-                new AlertDialog
-                        .Builder(context)
-                        .setTitle(getResources().getString(R.string.app_name))
-                        .setMessage("Follow up updated successfully.")
-                        .setCancelable(false)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(R.mipmap.ic_launcher).show();
+                ArrayList<ELFollowUp> followUpLists = jsonObjectMapper.map(responseString, ELFollowUp.class);
+                if (followUpLists != null && followUpLists.size() > 0) {
+                    for (int index = 0; index < followUpLists.size(); index++) {
+                        patientFollowUpAdapterDB.create(followUpLists.get(index));
+                    }
+                }
+                Toast.makeText(context, "Follow up added successfully.", Toast.LENGTH_SHORT).show();
             } else {
-                localSetting.hideDialog(progressDialog);
                 //localSetting.alertbox(context, localSetting.handleError(responseCode), false);
                 new AlertDialog
                         .Builder(context)
