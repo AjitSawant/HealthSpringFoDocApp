@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspring.R;
 import com.palash.healthspring.adapter.ReferralDoctorServiceListAdapter;
 import com.palash.healthspring.api.JsonObjectMapper;
@@ -29,7 +28,6 @@ import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.DoctorProfile;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.ReferralDoctorPerService;
-import com.palash.healthspring.task.MasterTask;
 import com.palash.healthspring.utilities.Constants;
 import com.palash.healthspring.utilities.LocalSetting;
 import com.palash.healthspring.utilities.TransparentProgressDialog;

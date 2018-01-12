@@ -238,6 +238,7 @@ public class PatientQueueActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        RefreshList();
         patient_queue_chronometer.setBase(SystemClock.elapsedRealtime());
         patient_queue_chronometer.start();
     }
@@ -330,7 +331,7 @@ public class PatientQueueActivity extends AppCompatActivity {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             localSetting.hideDialog(progressDialog);
-            //RefreshList();
+            RefreshList();
             super.onPostExecute(result);
         }
     }

@@ -2,13 +2,20 @@ package com.palash.healthspring.activity;
 
 import android.animation.LayoutTransition;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.DatePicker;
@@ -90,7 +97,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         setContentView(R.layout.activity_appointment);
         InitSetting();
         InitView();
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,7 +122,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myBroadcastReceiver);
-    }*/
+    }
 
     private void InitSetting() {
         try {

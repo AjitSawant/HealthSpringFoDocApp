@@ -29,7 +29,6 @@ import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
 import com.palash.healthspring.entity.CPOEService;
-import com.palash.healthspring.entity.ComplaintsList;
 import com.palash.healthspring.entity.Department;
 import com.palash.healthspring.entity.Flag;
 import com.palash.healthspring.entity.Priority;

@@ -23,7 +23,6 @@ import com.palash.healthspring.api.WebServiceConsumer;
 import com.palash.healthspring.database.DatabaseAdapter;
 import com.palash.healthspring.database.DatabaseContract;
 import com.palash.healthspring.entity.BookAppointment;
-import com.palash.healthspring.entity.CPOEService;
 import com.palash.healthspring.entity.DaignosisMaster;
 import com.palash.healthspring.entity.ELMedicalHistoryForICE;
 import com.palash.healthspring.entity.MedicienName;
