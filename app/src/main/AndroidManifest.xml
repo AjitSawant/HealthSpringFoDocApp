@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.palash.healthspring">
+    package="com.palash.healthspringapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +18,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-        android:name="com.palash.healthspring.ApplicationClass"
+        android:name="com.palash.healthspringapp.ApplicationClass"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -41,7 +41,7 @@
         </activity>
         -->
         <activity
-            android:name="com.palash.healthspring.activity.SplashScreenActivity"
+            android:name="com.palash.healthspringapp.activity.SplashScreenActivity"
             android:launchMode="singleTop"
             android:noHistory="false"
             android:theme="@style/AppTheme.NoActionBar"
@@ -53,39 +53,39 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.palash.healthspring.activity.LoginActivity"
+            android:name="com.palash.healthspringapp.activity.LoginActivity"
             android:label="@string/login_screen"
             android:launchMode="singleTop"
             android:noHistory="true"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name="com.palash.healthspring.activity.DashboardActivity"
+            android:name="com.palash.healthspringapp.activity.DashboardActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:noHistory="false"
             android:theme="@style/myAppTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.MainDashActivity"
+            android:name="com.palash.healthspringapp.activity.MainDashActivity"
             android:label="@string/dashboard_patientqueue"
             android:launchMode="singleTop"
             android:noHistory="false"
             android:theme="@style/myAppTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.SettingActivity"
+            android:name="com.palash.healthspringapp.activity.SettingActivity"
             android:label="@string/setting"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name="com.palash.healthspring.activity.ProfileActivity"
+            android:name="com.palash.healthspringapp.activity.ProfileActivity"
             android:label="@string/dashboard_profile"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.palash.healthspring.activity.PatientListActivity"
+            android:name="com.palash.healthspringapp.activity.PatientListActivity"
             android:label="@string/dashboard_searchpatient"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden">
@@ -94,88 +94,88 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.palash.healthspring.activity.PatientRegistrationActivity"
+            android:name="com.palash.healthspringapp.activity.PatientRegistrationActivity"
             android:label="@string/dashboard_patientregistration"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.TimeSlotActivity"
+            android:name="com.palash.healthspringapp.activity.TimeSlotActivity"
             android:label="@string/time_slots"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.BookAppointmentActivity"
+            android:name="com.palash.healthspringapp.activity.BookAppointmentActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.VisitListActivity"
+            android:name="com.palash.healthspringapp.activity.VisitListActivity"
             android:label="@string/dashboard_visit_list"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.VisitBookActivity"
+            android:name="com.palash.healthspringapp.activity.VisitBookActivity"
             android:label="@string/dashboard_visit_book"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.AppointmentListActivity"
+            android:name="com.palash.healthspringapp.activity.AppointmentListActivity"
             android:label="@string/title_activity_appointment"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.PatientQueueActivity"
+            android:name="com.palash.healthspringapp.activity.PatientQueueActivity"
             android:label="@string/dashboard_patientqueue"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.CancelAppointmentActivity"
+            android:name="com.palash.healthspringapp.activity.CancelAppointmentActivity"
             android:label="@string/appointmentcanclereason"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.EMRNavigationDrawerActivity"
+            android:name="com.palash.healthspringapp.activity.EMRNavigationDrawerActivity"
             android:label="@string/patient_emr"
             android:launchMode="singleTop"
             android:theme="@style/myAppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.palash.healthspring.fragment.DiagnosisAddUpdateActivity"
+            android:name="com.palash.healthspringapp.fragment.DiagnosisAddUpdateActivity"
             android:label="@string/diagnosis_add"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.fragment.CPOEInvestigationAddUpdateActivity"
+            android:name="com.palash.healthspringapp.fragment.CPOEInvestigationAddUpdateActivity"
             android:label="@string/cpoeinvestigation_add"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.fragment.ReferralAddUpdateActivity"
+            android:name="com.palash.healthspringapp.fragment.ReferralAddUpdateActivity"
             android:label="@string/referral_add"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.fragment.VitalsAddUpdateActivity"
+            android:name="com.palash.healthspringapp.fragment.VitalsAddUpdateActivity"
             android:label="@string/vitals_add"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.fragment.CPOEPrescriptionAddUpdateActivity"
+            android:name="com.palash.healthspringapp.fragment.CPOEPrescriptionAddUpdateActivity"
             android:label="@string/cpoemedicine_add"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.SynchronizationActivity"
+            android:name="com.palash.healthspringapp.activity.SynchronizationActivity"
             android:label="@string/please_wait"
             android:launchMode="singleTop"
             android:theme="@style/Base.V7.Theme.AppCompat.Light.Dialog"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.PatientConsoleActivity"
+            android:name="com.palash.healthspringapp.activity.PatientConsoleActivity"
             android:label="Patient Console"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspring.activity.ViewPDFActivity"
+            android:name="com.palash.healthspringapp.activity.ViewPDFActivity"
             android:label="Report"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
