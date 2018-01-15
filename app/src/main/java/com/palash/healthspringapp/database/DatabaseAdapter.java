@@ -804,6 +804,7 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 db.delete(DatabaseContract.DoctorProfile.TABLE_NAME, null, null);
+                db.delete(DatabaseContract.UnitMaster.TABLE_NAME, null, null);
                 db.delete(DatabaseContract.BookAppointment.TABLE_NAME, null, null);
                 db.delete(DatabaseContract.PatientQueue.TABLE_NAME, null, null);
                 db.delete(DatabaseContract.VisitList.TABLE_NAME, null, null);
@@ -1121,7 +1122,7 @@ public class DatabaseAdapter {
                 SQLiteDatabase db = databaseContract.open();
                 result = db.query(DatabaseContract.UnitMaster.TABLE_NAME,
                         projection, null,
-                        null, null, null, null);
+                        null, null, null, DatabaseContract.UnitMaster.DEFAULT_SORT_ORDER);
                 listELUnitMaster = CursorToArrayList(result);
             } catch (SQLException e) {
                 e.printStackTrace();

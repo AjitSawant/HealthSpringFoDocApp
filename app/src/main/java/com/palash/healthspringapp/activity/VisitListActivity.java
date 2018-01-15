@@ -272,7 +272,7 @@ public class VisitListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_search).setVisible(false);
-        menu.findItem(R.id.menu_toolbar_add).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_add).setVisible(false);
         menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }

@@ -188,6 +188,7 @@ public class DatabaseContract {
         }
 
         public static final String TABLE_NAME = "T_UnitMaster";
+        public static final String DEFAULT_SORT_ORDER = "UnitID ASC";
 
         public static final String COLUMN_NAME_UNITID = "UnitID";
         public static final String COLUMN_NAME_UNIT_CODE = "UnitCode";

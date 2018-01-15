@@ -3,6 +3,7 @@ package com.palash.healthspringapp.activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspringapp.R;
 import com.palash.healthspringapp.adapter.SpinnerAdapter;
 import com.palash.healthspringapp.api.JsonObjectMapper;
@@ -25,6 +27,7 @@ import com.palash.healthspringapp.entity.BookAppointment;
 import com.palash.healthspringapp.entity.Department;
 import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.Flag;
+import com.palash.healthspringapp.task.SynchronizationTask;
 import com.palash.healthspringapp.utilities.Constants;
 import com.palash.healthspringapp.utilities.LocalSetting;
 import com.palash.healthspringapp.utilities.TransparentProgressDialog;
@@ -456,8 +459,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             .setPositiveButton("Go to Appointment", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-                                    //startActivity(new Intent(context, AppointmentListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                    SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
+                                    startActivity(new Intent(context, AppointmentListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                     finish();
                                 }
                             })

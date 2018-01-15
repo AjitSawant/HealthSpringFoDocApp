@@ -325,7 +325,7 @@ public class PatientListActivity extends PatientQueueActivity implements View.On
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_add_patient).setVisible(false);
-        menu.findItem(R.id.menu_toolbar_search).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_search).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -22,10 +22,16 @@ public class Constants {
 
     public static boolean refreshPatient = false;
     public static boolean backFromAddEMR = false;
+    public static boolean isFromLogin = false;
 
-    //public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
+    //Developer URL
     //public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
-    public static final String BASE_URL = "http://103.229.5.99/HealthSpringDocApp/";
+
+    // Test URL
+    //public static final String BASE_URL = "http://103.229.5.99/HealthSpringDocApp/";
+
+    //Live URL
+    public static final String BASE_URL = "http://103.229.5.91/HealthSpringDocApp/";
 
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
     public static final String APP_VERSION_URL = BASE_URL + "Master/AppVersion";
@@ -104,8 +110,17 @@ public class Constants {
     public static final int ALL_URL_TASK = 0;
     public static final int ONLINE_SYNC = 10;
 
-    public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.99:2121";
+    // Local URL
+    /*public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.99:2121";
     public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.99/healthspring_test/Reports/EMR/PatientEMRReport.aspx?UnitID=";
     public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.99/healthspring_test/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
     public static final String Patient_ICE_URL = "http://103.229.5.99/healthspring_test/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
+    public static final String FTP_Link = "ftp://103.229.5.99:2121/&FtpUserName=customerexperience@healthspring.in&FtpPassword=Health$pring&MrNumber=";*/
+
+    // Live URL
+    public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.91:2121";
+    public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.91/healthspring/Reports/EMR/PatientEMRReport.aspx?UnitID=";
+    public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.91/healthspring/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
+    public static final String Patient_ICE_URL = "http://103.229.5.91/healthspring/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
+    public static final String FTP_Link = "ftp://103.229.5.91:2121/&FtpUserName=HSFTP&FtpPassword=Rational@1&MrNumber=";
 }

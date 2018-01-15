@@ -285,14 +285,13 @@ public class LocalSetting {
         return isHeadOfficeSelected;
     }
 
-    public String returnPDFUrl(String fromActivity, String UnitID, String PatientID, String PatientUnitID, String VisitID, String mrNo, String VisitType,String L1,String L3) {
+    public String returnPDFUrl(String fromActivity, String UnitID, String PatientID, String PatientUnitID, String VisitID, String mrNo, String VisitType, String L1, String L3) {
         String pdfURL = "";
         if (fromActivity.equals("Summary")) {
             pdfURL = Constants.PATIENT_VISIT_SUMMARY_URL + UnitID + "&VisitID=" + VisitID + "&PatientID=" + PatientID + "&PatientUnitID=" + PatientUnitID + "&TemplateID=0&UserID=0&PDF=1";
         } else if (fromActivity.equals("ICE")) {
             pdfURL = Constants.Patient_ICE_URL + UnitID + "&PatientUnitID=" + PatientUnitID + "&PatientID=" + PatientID + "&Username=" + "" + "&VisitID=" + VisitID + "&IsPrintPDF=1&L1="
-                    + L1 + "&L3=" + L3 + "&FtpLink=ftp://103.229.5.99:2121/&FtpUserName=customerexperience@healthspring.in&FtpPassword=Health$pring&MrNumber=" + mrNo
-                    + "&VisitTypeID=" + VisitType + "";
+                    + L1 + "&L3=" + L3 + "&FtpLink=" + Constants.FTP_Link + mrNo + "&VisitTypeID=" + VisitType + "";
         } else if (fromActivity.equals("ConsolePrescription")) {
             pdfURL = Constants.Patient_PRESCRIPTION_URL + UnitID + "&VisitID=" + VisitID + "&PatientID=" + PatientID + "&PatientUnitID=" + PatientUnitID + "&TemplateID=0&UserID=0&PDF=1";
         }

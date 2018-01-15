@@ -304,6 +304,15 @@ public class AppointmentListActivity extends AppCompatActivity implements View.O
     public void onResume() {
         appointment_chronometer.setBase(SystemClock.elapsedRealtime());
         appointment_chronometer.start();
+        appointment_edt_fromdate.setText(format.format(new Date()));
+        appointment_edt_todate.setText(format.format(new Date()));
+        FromDate = localSetting.formatDate(appointment_edt_fromdate.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+        ToDate = localSetting.formatDate(appointment_edt_todate.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+        if (localSetting.isNetworkAvailable(context)) {
+            new GetAppointmentListTask().execute();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+        }
         super.onResume();
     }
 

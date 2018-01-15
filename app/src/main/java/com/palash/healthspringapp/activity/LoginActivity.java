@@ -234,6 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //startActivity(new Intent(context, MainDashActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 startActivity(new Intent(context, DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 finish();
+                Constants.isFromLogin=true;
                 Toast.makeText(context, "Login Successfully", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {

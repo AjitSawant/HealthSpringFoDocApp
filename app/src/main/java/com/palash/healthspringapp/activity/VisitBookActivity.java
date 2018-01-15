@@ -3,6 +3,7 @@ package com.palash.healthspringapp.activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -371,7 +372,7 @@ public class VisitBookActivity extends AppCompatActivity {
                             .setPositiveButton("Go to Patient Queue", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //startActivity(new Intent(context, PatientQueueActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                    startActivity(new Intent(context, PatientQueueActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                     finish();
                                 }
                             })

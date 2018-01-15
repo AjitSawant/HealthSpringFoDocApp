@@ -225,10 +225,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private void setUnitMasterData() {
         listELUnitMaster = unitMasterAdapter.listAll();
-        if (listELUnitMaster == null && listELUnitMaster.size() == 0) {
+        if (Constants.isFromLogin) {
             GetUnitMasterList();
+            Constants.isFromLogin = false;
         } else {
-            RefreshUnitMatserSpinnerData();
+            if (listELUnitMaster == null && listELUnitMaster.size() == 0) {
+                GetUnitMasterList();
+            } else {
+                RefreshUnitMatserSpinnerData();
+            }
         }
     }
 
@@ -237,7 +242,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         super.onResume();
         listProfile = doctorProfileAdapter.listAll();
         setUnitMasterData();
-        //SynchOfflineData();
     }
 
     private void RefreshUnitMatserSpinnerData() {
@@ -357,7 +361,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                             || (complaintsArrayList != null && complaintsArrayList.size() > 0) || (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
 
                         startActivity(new Intent(context, SynchronizationActivity.class).putExtra("reason", "offline data"));
-                    }else{
+                    } else {
                         Toast.makeText(context, "No data available. All data synchronized.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
