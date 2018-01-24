@@ -144,7 +144,7 @@ public class PatientQueueFragment extends Fragment {
             patientqueue_bnt_search.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GetPatientQueueWebcall();
+                    //GetPatientQueueWebcall();
                 }
             });
 

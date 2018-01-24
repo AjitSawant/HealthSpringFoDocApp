@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PatientListActivity extends PatientQueueActivity implements View.OnClickListener {
+public class PatientListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context context;
     private LocalSetting localSetting;
@@ -272,6 +273,19 @@ public class PatientListActivity extends PatientQueueActivity implements View.On
         }
     }*/
 
+    @Override
+    public void onResume() {
+        if (Constants.refreshPatient == true) {
+            patient_register_start_date_edt.setText(format.format(new Date()));
+            patient_register_end_date_edt.setText(format.format(new Date()));
+            startDate = localSetting.formatDate(patient_register_start_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+            endDate = localSetting.formatDate(patient_register_end_date_edt.getText().toString(), Constants.PATIENT_QUEUE_DATE, Constants.SEARCH_DATE_FORMAT);
+            RefreshPatientList();
+            GetPatientListWebcall();
+        }
+        super.onResume();
+    }
+
     private void RefreshPatientList() {
         doctorProfileList = doctorProfileAdapter.listAll();
         patientList = patientAdapterDB.listPatient(doctorProfileList.get(0).getUnitID(), null);
@@ -326,6 +340,7 @@ public class PatientListActivity extends PatientQueueActivity implements View.On
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_add_patient).setVisible(false);
         menu.findItem(R.id.menu_toolbar_search).setVisible(false);
+        menu.findItem(R.id.menu_toolbar_refresh).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
