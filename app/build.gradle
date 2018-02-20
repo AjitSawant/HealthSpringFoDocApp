@@ -28,7 +28,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    /*compile files('libs/mpandroidchartlibrary-2-2-4.jar')*/
     compile files('libs/buzzboxSDK-0.5.3.jar')
     compile files('libs/okhttp-2.2.0.jar')
     compile files('libs/okio-1.2.0.jar')
@@ -42,5 +41,6 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.3'
     compile 'com.squareup:android-times-square:1.6.5@aar'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.orhanobut:dialogplus:1.11@aar'
     testCompile 'junit:junit:4.12'
 }

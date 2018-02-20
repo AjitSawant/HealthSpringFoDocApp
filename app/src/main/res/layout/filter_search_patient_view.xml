@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_patient_list_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A0277BD"
+    android:orientation="vertical"
+    android:layout_marginBottom="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:padding="6dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:text="Search By -"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_box"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/radio_group_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_by_mrno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:checked="true"
+                    android:text="MRNo"
+                    android:textSize="12sp"
+                    app:buttonTint="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_by_fname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:text="First name"
+                    android:textSize="12sp"
+                    app:buttonTint="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_by_lname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:text="Last name"
+                    android:textSize="12sp"
+                    app:buttonTint="@android:color/darker_gray" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/radio_group_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_by_mobileNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:checked="false"
+                    android:text="Mobile no"
+                    android:textSize="12sp"
+                    app:buttonTint="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_by_reg_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:checked="false"
+                    android:text="Reg. date"
+                    android:textSize="12sp"
+                    app:buttonTint="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_by_visit_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:checked="false"
+                    android:text="Visit date"
+                    android:textSize="12sp"
+                    app:buttonTint="@android:color/darker_gray" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/radio_group_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/radio_button_by_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:checked="false"
+                    android:text="Patient Category L3"
+                    android:textSize="12sp"
+                    app:buttonTint="@android:color/darker_gray" />
+                </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/filter_text_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:text="Enter start date"
+                android:textColor="@color/blue_box"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/filter_text_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:text="Enter end date"
+                android:textColor="@color/blue_box"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/patient_registration_mrno_edt"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:gravity="center_vertical"
+                android:hint="Enter MRNo"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingLeft="8dp"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/patient_registration_firstname_edt"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:gravity="center_vertical"
+                android:hint="Enter first name"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:paddingLeft="8dp"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/patient_registration_lastname_edt"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:gravity="center_vertical"
+                android:hint="Enter last name"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:paddingLeft="8dp"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/patient_registration_mobile_no_edt"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/bnt_dashboard"
+                android:gravity="center_vertical"
+                android:hint="Enter mobile number"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingLeft="8dp"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:id="@+id/layout_search_by_reg_date_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/patient_registration_start_date_edt"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:hint="Enter start date"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/patient_registration_end_date_edt"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:hint="Enter end date"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_search_by_visit_date_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/patient_register_visit_start_date_edt"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:hint="Enter start date"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/patient_register_visit_end_date_edt"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:hint="Enter end date"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/patient_register_layout_category_L3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_lighter_gray">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/patient_register_category_L3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_text_size"
+                    android:background="@null"
+                    android:visibility="visible"
+                    app:ms_arrowColor="@color/text_color"
+                    app:ms_arrowSize="12sp"
+                    android:layout_margin="4dp"
+                    app:ms_enableErrorLabel="false"
+                    app:ms_enableFloatingLabel="false"
+                    app:ms_floatingLabelText="Selected Category"
+                    app:ms_hintColor="@color/text_color"
+                    app:ms_thickness="0dp"
+                    app:ms_multiline="false" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/patient_report_date_search_btn"
+        android:layout_width="170dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/card_layout"
+        android:text="Search Patient"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

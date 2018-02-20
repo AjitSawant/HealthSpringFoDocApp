@@ -231,7 +231,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 doctorProfileAdapter.delete();
                 doctorProfileAdapter.create(profile);
 
-                //startActivity(new Intent(context, MainDashActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 startActivity(new Intent(context, DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 finish();
                 Constants.isFromLogin=true;

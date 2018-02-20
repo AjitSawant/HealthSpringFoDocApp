@@ -11,10 +11,12 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.palash.healthspringapp.R;
+import com.palash.healthspringapp.entity.ELAppointmentStatus;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -297,5 +299,43 @@ public class LocalSetting {
         }
         Log.d(Constants.TAG + "pdfURL : ", pdfURL);
         return pdfURL;
+    }
+
+    public ArrayList<ELAppointmentStatus> returnAppointmentStatus(){
+        ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList= new ArrayList<>();
+        ELAppointmentStatus elAppointmentStatus1 = new ELAppointmentStatus();
+        elAppointmentStatus1.setID("0");
+        elAppointmentStatus1.setDescription("New");
+
+        ELAppointmentStatus elAppointmentStatus2 = new ELAppointmentStatus();
+        elAppointmentStatus2.setID("1");
+        elAppointmentStatus2.setDescription("Reschedule");
+
+        ELAppointmentStatus elAppointmentStatus3 = new ELAppointmentStatus();
+        elAppointmentStatus3.setID("2");
+        elAppointmentStatus3.setDescription("Cancelled");
+
+        elAppointmentStatusArrayList.add(elAppointmentStatus1);
+        elAppointmentStatusArrayList.add(elAppointmentStatus2);
+        elAppointmentStatusArrayList.add(elAppointmentStatus3);
+
+        return elAppointmentStatusArrayList;
+    }
+
+    public ArrayList<ELAppointmentStatus> returnVisitStatus(){
+        ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList= new ArrayList<>();
+        ELAppointmentStatus elAppointmentStatus1 = new ELAppointmentStatus();
+        elAppointmentStatus1.setID("0");
+        elAppointmentStatus1.setDescription("Open");
+
+        ELAppointmentStatus elAppointmentStatus2 = new ELAppointmentStatus();
+        elAppointmentStatus2.setID("1");
+        elAppointmentStatus2.setDescription("Close");
+
+
+        elAppointmentStatusArrayList.add(elAppointmentStatus1);
+        elAppointmentStatusArrayList.add(elAppointmentStatus2);
+
+        return elAppointmentStatusArrayList;
     }
 }

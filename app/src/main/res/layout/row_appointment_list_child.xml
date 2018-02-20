@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border_primary_dark"
+        android:padding="6dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingTop="3dp"
+            android:paddingLeft="4dp"
             android:orientation="horizontal">
 
             <TextView
@@ -44,7 +44,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingLeft="4dp"
             android:layout_marginBottom="2dp"
             android:layout_marginTop="2dp"
             android:orientation="horizontal">
@@ -124,8 +124,8 @@
 
             <ImageView
                 android:id="@+id/row_appointment_iv_gender"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:padding="@dimen/five_margin"
                 android:src="@drawable/dash_profile_male" />
 
@@ -215,7 +215,7 @@
 
                         <TextView
                             android:id="@+id/row_appointment_bnt_visit"
-                            android:layout_width="75dp"
+                            android:layout_width="70dp"
                             android:layout_height="25dp"
                             android:layout_marginBottom="2dp"
                             android:layout_marginTop="2dp"
@@ -225,12 +225,12 @@
                             android:text="Visit"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="12sp"
+                            android:textSize="11sp"
                             android:visibility="visible" />
 
                         <TextView
                             android:id="@+id/row_appointment_bnt_reschedual"
-                            android:layout_width="75dp"
+                            android:layout_width="70dp"
                             android:layout_height="25dp"
                             android:layout_margin="2dp"
                             android:background="@drawable/card_layout"
@@ -239,12 +239,12 @@
                             android:text="Reschedule"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="12sp"
+                            android:textSize="11sp"
                             android:visibility="visible" />
 
                         <TextView
                             android:id="@+id/row_appointment_bnt_cancle"
-                            android:layout_width="75dp"
+                            android:layout_width="70dp"
                             android:layout_height="25dp"
                             android:layout_margin="2dp"
                             android:background="@drawable/card_layout"
@@ -254,7 +254,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="12sp"
-                            android:visibility="visible" />
+                            android:visibility="11sp" />
                     </LinearLayout>
                 </LinearLayout>
 

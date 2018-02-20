@@ -14,89 +14,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/layout_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/five_margin"
-        android:background="@drawable/border_card"
-        android:orientation="horizontal"
-        android:padding="4dp"
-        android:visibility="visible">
-
-        <EditText
-            android:id="@+id/patientqueue_edt_search"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/bnt_dashboard"
-            android:gravity="center_vertical"
-            android:hint="Enter Name"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:paddingLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textSize="13sp" />
-
-        <!--<android.support.design.widget.TextInputLayout
-            style="@style/TextLabel_setting"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <EditText
-                android:id="@+id/patientqueue_edt_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Search by name"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="@dimen/ten_margin"
-                android:singleLine="true"
-                android:textColor="@color/text_color"
-                android:textSize="13sp" />
-
-        </android.support.design.widget.TextInputLayout>-->
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/patientqueue_bnt_clear"
-                android:layout_width="54dp"
-                android:layout_height="30dp"
-                android:layout_gravity="bottom"
-                android:layout_margin="1dp"
-                android:background="@drawable/card_layout"
-                android:gravity="center_vertical|center_horizontal"
-                android:padding="3dp"
-                android:text="Clear"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/patientqueue_bnt_search"
-                android:layout_width="64dp"
-                android:layout_height="30dp"
-                android:layout_gravity="bottom"
-                android:layout_margin="3dp"
-                android:background="@drawable/card_layout"
-                android:gravity="center_vertical|center_horizontal"
-                android:padding="3dp"
-                android:text="Search"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-    </LinearLayout>
-
     <ListView
         android:id="@+id/patient_queue_list"
         android:layout_width="match_parent"
@@ -104,7 +21,7 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="4dp"
         android:smoothScrollbar="true"
-        android:visibility="gone"></ListView>
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/patient_queue_empty"
@@ -112,7 +29,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/empty_list"
+        android:text="@string/no_data_list"
         android:textSize="@dimen/fifteen_margin" />
 
 </LinearLayout>

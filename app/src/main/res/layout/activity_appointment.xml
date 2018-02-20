@@ -13,107 +13,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/layout_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/border_card"
-        android:orientation="vertical"
-        android:padding="4dp">
-
-        <LinearLayout
-            android:id="@+id/layout_search_by_date_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/appointment_edt_fromdate"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
-                android:focusable="false"
-                android:longClickable="false"
-                android:background="@drawable/bnt_dashboard"
-                android:gravity="center_vertical"
-                android:hint="Enter start date"
-                android:inputType="number"
-                android:paddingLeft="8dp"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/appointment_edt_todate"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/bnt_dashboard"
-                android:gravity="center_vertical"
-                android:hint="Enter end date"
-                android:focusable="false"
-                android:longClickable="false"
-                android:inputType="number"
-                android:paddingLeft="8dp"
-                android:textSize="13sp" />
-
-            <Button
-                android:id="@+id/appointment_list_search_bnt"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/card_layout"
-                android:textAllCaps="false"
-                android:text="Search"
-                android:textSize="12sp"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_search_by_patient_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/appointment_edt_patient_name"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/bnt_dashboard"
-                android:gravity="center_vertical"
-                android:hint="Enter Name"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:paddingLeft="8dp"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/appointment_list_bnt_clear"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/card_layout"
-                android:gravity="center"
-                android:text="Clear"
-                android:textAllCaps="false"
-                android:textSize="12sp"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-    </LinearLayout>
-
     <ExpandableListView
         android:id="@+id/appointment_List"
         android:layout_width="match_parent"
@@ -128,6 +27,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/empty_list"
+        android:text="@string/no_data_list"
         android:textSize="@dimen/fifteen_margin" />
 </LinearLayout>

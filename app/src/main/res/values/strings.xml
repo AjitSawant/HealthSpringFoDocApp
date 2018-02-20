@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name"><b>H</b>ealth<b>S</b>pring</string>
     <string name="empty_list">No Record Found</string>
+    <string name="no_data_list">No data available.\n Please try with another filter.</string>
     <string name="runtime_permissions_txt">Please enable all permissions from app settings.</string>
 
     <!---Login-->

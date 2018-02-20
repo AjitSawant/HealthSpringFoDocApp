@@ -46,6 +46,15 @@
             android:textColor="@color/colorGreen"
             android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/row_search_patient_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="4dp"
+            android:textColor="@color/blue_box"
+            android:textSize="11sp" />
+
     </LinearLayout>
 
     <LinearLayout

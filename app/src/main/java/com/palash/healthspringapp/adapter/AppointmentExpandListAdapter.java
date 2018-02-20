@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.palash.healthspringapp.R;
@@ -34,6 +35,7 @@ import com.squareup.okhttp.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,16 +62,19 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
     private ArrayList<AppointmentReason> appointmentReasonsList;
     private ArrayList<DoctorProfile> doctorprofilelist = null;
 
-    private HashMap<String, ArrayList<Appointment>> _listDataChild;
-    private List<String> _listDataHeader; // header titles
+    HashMap<String, ArrayList<ArrayList<Appointment>>> elAppointmentMainHashMapList = new HashMap<>();
+    ArrayList<String> appointmentChildList = new ArrayList<>();
+
+    //private HashMap<String, ArrayList<Appointment>> _listDataChild;
+    //private List<String> _listDataHeader; // header titles
 
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat df = new SimpleDateFormat(Constants.TIME_FORMAT, Locale.US);
 
-    public AppointmentExpandListAdapter(Context context, List<String> listDataHeader, HashMap<String, ArrayList<Appointment>> listDataChild) {
+    public AppointmentExpandListAdapter(Context context, HashMap<String, ArrayList<ArrayList<Appointment>>> elAppointmentMainHashMapList, ArrayList<String> appointmentChildList) {
         this.context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listDataChild;
+        this.elAppointmentMainHashMapList = elAppointmentMainHashMapList;
+        this.appointmentChildList = appointmentChildList;
 
         localSetting = new LocalSetting();
         localSetting.Init(context);
@@ -87,22 +92,22 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return elAppointmentMainHashMapList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
+        return elAppointmentMainHashMapList.get(appointmentChildList.get(groupPosition)).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return appointmentChildList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosition);
+        return elAppointmentMainHashMapList.get(appointmentChildList.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -129,9 +134,13 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = infalInflater.inflate(R.layout.row_appointment_list_header, null);
             }
-
             TextView heading = (TextView) convertView.findViewById(R.id.tvAppointmentListHeader);
-            heading.setText(headerTitle);
+            try {
+                List<String> elDiagnosisGroupData = Arrays.asList(headerTitle.split(",.,"));
+                heading.setText(elDiagnosisGroupData.get(1));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -139,269 +148,279 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.row_exp_list_child_parent, null);
+        }
+
+        LinearLayout service_exp_list_child_layout = (LinearLayout) convertView.findViewById(R.id.service_exp_list_child_layout);
+
+        // fetch data
         try {
-            Log.d(TAG, "Group position" + groupPosition);
-            final Appointment appointment = (Appointment) getChild(groupPosition, childPosition);
-            if (view == null) {
-                LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = infalInflater.inflate(R.layout.row_appointment_list_child, null);
-            }
-            ImageView row_appointment_iv_gender = (ImageView) view.findViewById(R.id.row_appointment_iv_gender);
-            TextView row_appointment_tv_dept = (TextView) view.findViewById(R.id.row_appointment_tv_dept);
-            TextView row_appointment_tv_reason = (TextView) view.findViewById(R.id.row_appointment_tv_reason);
-            TextView row_appointment_tv_date = (TextView) view.findViewById(R.id.row_appointment_tv_date);
-            TextView row_appointment_tv_from_time = (TextView) view.findViewById(R.id.row_appointment_tv_from_time);
-            TextView row_appointment_tv_to_time = (TextView) view.findViewById(R.id.row_appointment_tv_to_time);
-            TextView row_appointment_tv_name = (TextView) view.findViewById(R.id.row_appointment_tv_name);
-            TextView row_appointment_tv_dob = (TextView) view.findViewById(R.id.row_appointment_tv_dob);
-            TextView row_appointment_tv_marital_status = (TextView) view.findViewById(R.id.row_appointment_tv_marital_status);
-            TextView row_appointment_tv_contact = (TextView) view.findViewById(R.id.row_appointment_tv_contact);
-            TextView row_appointment_tv_email = (TextView) view.findViewById(R.id.row_appointment_tv_email);
-            TextView row_appointment_bnt_reschedual = (TextView) view.findViewById(R.id.row_appointment_bnt_reschedual);
-            TextView row_appointment_bnt_visit = (TextView) view.findViewById(R.id.row_appointment_bnt_visit);
-            TextView row_appointment_bnt_cancle = (TextView) view.findViewById(R.id.row_appointment_bnt_cancle);
-            TextView row_appointment_tv_unit_name = (TextView) view.findViewById(R.id.row_appointment_tv_unit_name);
-            TextView row_appointment_tv_doctor_name = (TextView) view.findViewById(R.id.row_appointment_tv_doctor_name);
+            service_exp_list_child_layout.removeAllViews();
+            ArrayList<Appointment> elAppointmentChild = (ArrayList<Appointment>) getChild(groupPosition, childPosition);
+            for (int i = 0; i < elAppointmentChild.size(); i++) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.row_appointment_list_child, null);
 
-            if (appointment.getGender().equals("Male")) {
-                row_appointment_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personmale));
-            } else if (appointment.getGender().equals("Female")) {
-                row_appointment_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personfemale));
-            }
+                ImageView row_appointment_iv_gender = (ImageView) view.findViewById(R.id.row_appointment_iv_gender);
+                TextView row_appointment_tv_dept = (TextView) view.findViewById(R.id.row_appointment_tv_dept);
+                TextView row_appointment_tv_reason = (TextView) view.findViewById(R.id.row_appointment_tv_reason);
+                TextView row_appointment_tv_date = (TextView) view.findViewById(R.id.row_appointment_tv_date);
+                TextView row_appointment_tv_from_time = (TextView) view.findViewById(R.id.row_appointment_tv_from_time);
+                TextView row_appointment_tv_to_time = (TextView) view.findViewById(R.id.row_appointment_tv_to_time);
+                TextView row_appointment_tv_name = (TextView) view.findViewById(R.id.row_appointment_tv_name);
+                TextView row_appointment_tv_dob = (TextView) view.findViewById(R.id.row_appointment_tv_dob);
+                TextView row_appointment_tv_marital_status = (TextView) view.findViewById(R.id.row_appointment_tv_marital_status);
+                TextView row_appointment_tv_contact = (TextView) view.findViewById(R.id.row_appointment_tv_contact);
+                TextView row_appointment_tv_email = (TextView) view.findViewById(R.id.row_appointment_tv_email);
+                TextView row_appointment_bnt_reschedual = (TextView) view.findViewById(R.id.row_appointment_bnt_reschedual);
+                TextView row_appointment_bnt_visit = (TextView) view.findViewById(R.id.row_appointment_bnt_visit);
+                TextView row_appointment_bnt_cancle = (TextView) view.findViewById(R.id.row_appointment_bnt_cancle);
+                TextView row_appointment_tv_unit_name = (TextView) view.findViewById(R.id.row_appointment_tv_unit_name);
+                TextView row_appointment_tv_doctor_name = (TextView) view.findViewById(R.id.row_appointment_tv_doctor_name);
 
-            if (appointment.getAppointmentReason() != null && appointment.getAppointmentReason().length() > 0) {
-                row_appointment_tv_reason.setText(appointment.getAppointmentReason());
-                row_appointment_tv_reason.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_reason.setVisibility(View.GONE);
-            }
-
-            if (appointment.getUnitName() != null && appointment.getUnitName().length() > 0) {
-                row_appointment_tv_unit_name.setText(appointment.getUnitName());
-                row_appointment_tv_unit_name.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_unit_name.setVisibility(View.GONE);
-            }
-
-            if (appointment.getDrName() != null && appointment.getDrName().length() > 0) {
-                row_appointment_tv_doctor_name.setText(appointment.getDrName());
-                row_appointment_tv_doctor_name.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_doctor_name.setVisibility(View.GONE);
-            }
-
-            if (appointment.getDepartment() != null && appointment.getDepartment().length() > 0) {
-                row_appointment_tv_dept.setText(appointment.getDepartment());
-                row_appointment_tv_dept.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_dept.setVisibility(View.GONE);
-            }
-
-            if (appointment.getAppointmentDate() != null && appointment.getAppointmentDate().length() > 0) {
-                row_appointment_tv_date.setText(appointment.getAppointmentDate());
-                row_appointment_tv_date.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_date.setVisibility(View.GONE);
-            }
-
-            if (appointment.getFromTime() != null && appointment.getFromTime().length() > 0) {
-                row_appointment_tv_from_time.setText(localSetting.formatDate(appointment.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
-                row_appointment_tv_from_time.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_from_time.setVisibility(View.GONE);
-            }
-
-            if (appointment.getToTime() != null && appointment.getToTime().length() > 0) {
-                row_appointment_tv_to_time.setText(localSetting.formatDate(appointment.getToTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
-                row_appointment_tv_to_time.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_to_time.setVisibility(View.GONE);
-            }
-
-            if (appointment.getDOB() != null && appointment.getDOB().length() > 0 && appointment.getDOB().length() > 3) {
-                row_appointment_tv_dob.setText(appointment.getDOB());
-                row_appointment_tv_dob.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_dob.setVisibility(View.GONE);
-            }
-
-            String firstName = appointment.getFirstName();
-            String lastName = appointment.getLastName();
-            String middleName = appointment.getMiddleName();
-            if (middleName.length() > 0) {
-                row_appointment_tv_name.setText(firstName + " " + middleName + " " + lastName);
-            } else {
-                row_appointment_tv_name.setText(firstName + " " + lastName);
-            }
-
-            if (appointment.getContact1() != null && appointment.getContact1().length() > 0 && appointment.getContact1().length() >= 10) {
-                row_appointment_tv_contact.setText(appointment.getContact1());
-                row_appointment_tv_contact.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_contact.setVisibility(View.GONE);
-            }
-
-            if (appointment.getMaritalStatus() != null && appointment.getMaritalStatus().length() > 0) {
-                row_appointment_tv_marital_status.setText(appointment.getMaritalStatus());
-                row_appointment_tv_marital_status.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_marital_status.setVisibility(View.GONE);
-            }
-
-            if (appointment.getEmailId() != null && appointment.getEmailId().length() > 0) {
-                row_appointment_tv_email.setText(appointment.getEmailId());
-                row_appointment_tv_email.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_tv_email.setVisibility(View.GONE);
-            }
-
-            String CurrentDate = new SimpleDateFormat(Constants.PATIENT_QUEUE_DATE, Locale.getDefault()).format(new Date());
-            if (CurrentDate.equals(appointment.getAppointmentDate())) {
-                row_appointment_bnt_reschedual.setVisibility(View.VISIBLE);
-                row_appointment_bnt_visit.setVisibility(View.VISIBLE);
-                row_appointment_bnt_cancle.setVisibility(View.VISIBLE);
-            } else {
-                row_appointment_bnt_reschedual.setVisibility(View.VISIBLE);
-                row_appointment_bnt_visit.setVisibility(View.GONE);
-                row_appointment_bnt_cancle.setVisibility(View.VISIBLE);
-            }
-
-            // schedule and cancel button hide                        // commented by Ajit
-            row_appointment_bnt_reschedual.setVisibility(View.GONE);
-            row_appointment_bnt_cancle.setVisibility(View.GONE);
-            row_appointment_bnt_visit.setVisibility(View.GONE);
-
-            row_appointment_bnt_reschedual.getId();
-            row_appointment_bnt_reschedual.setTag(appointment);
-            row_appointment_bnt_reschedual.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.app_name))
-                            .setMessage("Do you really want to reschedule this appointment?")
-                            .setCancelable(false)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    bookAppointment.setAppointmentId(appointment.getID());
-                                    bookAppointment.setUnitID(appointment.getUnitID());
-                                    bookAppointment.setPatientID(appointment.getPatientID());
-                                    bookAppointment.setFirstName(appointment.getFirstName());
-                                    bookAppointment.setLastName(appointment.getLastName());
-                                    bookAppointment.setMiddleName(appointment.getMiddleName());
-                                    bookAppointment.setEmailId(appointment.getEmailId());
-                                    bookAppointment.setContact1(appointment.getContact1());
-                                    bookAppointment.setGenderID(appointment.getGenderID());
-                                    bookAppointment.setBloodGroupID(appointment.getBloodGroupID());
-                                    bookAppointment.setDOB(appointment.getDOB());
-                                    bookAppointment.setMaritalStatusID(appointment.getMaritalStatusID());
-                                    bookAppointmentAdapter.create(bookAppointment);
-                                    String FirstName = doctorprofilelist.get(0).getFirstName();
-                                    String MiddleName = doctorprofilelist.get(0).getMiddleName();
-                                    String LastName = doctorprofilelist.get(0).getLastName();
-                                    String Name = FirstName + " " + LastName;
-                                    if (MiddleName.trim().length() > 0) {
-                                        Name = FirstName + " " + MiddleName + " " + LastName;
-                                    }
-                                    bookAppointment.setID(doctorprofilelist.get(0).getID());
-                                    bookAppointment.setDoctorID(doctorprofilelist.get(0).getDoctorID());
-                                    bookAppointment.setDoctorName(Name);
-                                    bookAppointment.setSpecialization(doctorprofilelist.get(0).getSpecialization());
-                                    bookAppointment.setDoctorEducation(doctorprofilelist.get(0).getEducation());
-                                    bookAppointment.setDoctorMobileNo(doctorprofilelist.get(0).getPFNumber());
-                                    bookAppointmentAdapter.updateDoctor(bookAppointment);
-
-                                    bookAppointment.setAppointmentReasonID(appointment.getAppointmentReasonID());
-                                    bookAppointment.setDepartmentID(appointment.getDepartmentID());
-                                    bookAppointment.setComplaintId(appointment.getComplaintId());
-                                    bookAppointment.setRemark(appointment.getRemark());
-                                    bookAppointmentAdapter.updateAppointment(bookAppointment);
-                                    localSetting.Activityname = "RescheduleAppointment";
-                                    localSetting.Save();
-                                    Intent doctorlist_intent = new Intent(context, TimeSlotActivity.class);
-                                    context.startActivity(doctorlist_intent);
-                                    doctorlist_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    ((Activity) context).finish();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .show();
+                final Appointment appointment = elAppointmentChild.get(i);
+                if (appointment.getGender().equals("Male")) {
+                    row_appointment_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personmale));
+                } else if (appointment.getGender().equals("Female")) {
+                    row_appointment_iv_gender.setImageDrawable(context.getResources().getDrawable(R.drawable.personfemale));
                 }
-            });
-            row_appointment_bnt_visit.getId();
-            row_appointment_bnt_visit.setTag(appointment);
-            row_appointment_bnt_visit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
+
+                if (appointment.getAppointmentReason() != null && appointment.getAppointmentReason().length() > 0) {
+                    row_appointment_tv_reason.setText(appointment.getAppointmentReason());
+                    row_appointment_tv_reason.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_reason.setVisibility(View.GONE);
+                }
+
+                if (appointment.getUnitName() != null && appointment.getUnitName().length() > 0) {
+                    row_appointment_tv_unit_name.setText("Unit : "+appointment.getUnitName());
+                    row_appointment_tv_unit_name.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_unit_name.setVisibility(View.GONE);
+                }
+
+                if (appointment.getDrName() != null && appointment.getDrName().length() > 0) {
+                    row_appointment_tv_doctor_name.setText(appointment.getDrName());
+                    row_appointment_tv_doctor_name.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_doctor_name.setVisibility(View.GONE);
+                }
+
+                if (appointment.getDepartment() != null && appointment.getDepartment().length() > 0) {
+                    row_appointment_tv_dept.setText(appointment.getDepartment());
+                    row_appointment_tv_dept.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_dept.setVisibility(View.GONE);
+                }
+
+                if (appointment.getAppointmentDate() != null && appointment.getAppointmentDate().length() > 0) {
+                    row_appointment_tv_date.setText(appointment.getAppointmentDate());
+                    row_appointment_tv_date.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_date.setVisibility(View.GONE);
+                }
+
+                if (appointment.getFromTime() != null && appointment.getFromTime().length() > 0) {
+                    row_appointment_tv_from_time.setText(localSetting.formatDate(appointment.getFromTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
+                    row_appointment_tv_from_time.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_from_time.setVisibility(View.GONE);
+                }
+
+                if (appointment.getToTime() != null && appointment.getToTime().length() > 0) {
+                    row_appointment_tv_to_time.setText(localSetting.formatDate(appointment.getToTime(), "HH:mm:ss", Constants.OFFLINE_TIME));
+                    row_appointment_tv_to_time.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_to_time.setVisibility(View.GONE);
+                }
+
+                if (appointment.getDOB() != null && appointment.getDOB().length() > 0 && appointment.getDOB().length() > 3) {
+                    row_appointment_tv_dob.setText(appointment.getDOB());
+                    row_appointment_tv_dob.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_dob.setVisibility(View.GONE);
+                }
+
+                String firstName = appointment.getFirstName();
+                String lastName = appointment.getLastName();
+                String middleName = appointment.getMiddleName();
+                if (middleName.length() > 0) {
+                    row_appointment_tv_name.setText(firstName + " " + middleName + " " + lastName + " (" + appointment.getMRNo() + ")");
+                } else {
+                    row_appointment_tv_name.setText(firstName + " " + lastName + " (" + appointment.getMRNo() + ")");
+                }
+
+                if (appointment.getContact1() != null && appointment.getContact1().length() > 0 && appointment.getContact1().length() >= 10) {
+                    row_appointment_tv_contact.setText(appointment.getContact1());
+                    row_appointment_tv_contact.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_contact.setVisibility(View.GONE);
+                }
+
+                if (appointment.getMaritalStatus() != null && appointment.getMaritalStatus().length() > 0) {
+                    row_appointment_tv_marital_status.setText(appointment.getMaritalStatus());
+                    row_appointment_tv_marital_status.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_marital_status.setVisibility(View.GONE);
+                }
+
+                if (appointment.getEmailId() != null && appointment.getEmailId().length() > 0) {
+                    row_appointment_tv_email.setText(appointment.getEmailId());
+                    row_appointment_tv_email.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_tv_email.setVisibility(View.GONE);
+                }
+
+                String CurrentDate = new SimpleDateFormat(Constants.PATIENT_QUEUE_DATE, Locale.getDefault()).format(new Date());
+                if (CurrentDate.equals(appointment.getAppointmentDate())) {
+                    row_appointment_bnt_reschedual.setVisibility(View.VISIBLE);
+                    row_appointment_bnt_visit.setVisibility(View.VISIBLE);
+                    row_appointment_bnt_cancle.setVisibility(View.VISIBLE);
+                } else {
+                    row_appointment_bnt_reschedual.setVisibility(View.VISIBLE);
+                    row_appointment_bnt_visit.setVisibility(View.GONE);
+                    row_appointment_bnt_cancle.setVisibility(View.VISIBLE);
+                }
+
+                row_appointment_bnt_reschedual.getId();
+                row_appointment_bnt_reschedual.setTag(appointment);
+                row_appointment_bnt_reschedual.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         new AlertDialog.Builder(context)
                                 .setTitle(context.getResources().getString(R.string.app_name))
-                                .setMessage("Do you really want to mark this appointment as visit?")
+                                .setMessage("Do you really want to reschedule this appointment?")
                                 .setCancelable(false)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Visit visit = new Visit();
-                                        visit.setAppointmentId(appointment.getID());
-                                        visit.setUnitID(appointment.getUnitID());
-                                        visit.setDate(df.format(c.getTime()));
-                                        visit.setPatientID(appointment.getPatientID());
-                                        visit.setPatientUnitID(appointment.getPatientUnitID());
-                                        visit.setVisitTypeID(appointment.getAppointmentReasonID());
-                                        visit.setDepartmentID(appointment.getDepartmentID());
-                                        visit.setDoctorID(appointment.getDoctorID());
-                                        visit.setComplaints(appointment.getComplaint());
-                                        visit.setReferredDoctorID(doctorprofilelist.get(0).getDoctorID());
-                                        visit.setVisitDateTime(df.format(c.getTime()));
-                                        String name = "Dr." + doctorprofilelist.get(0).getFirstName() + " " + doctorprofilelist.get(0).getMiddleName() + " " + doctorprofilelist.get(0).getLastName();
-                                        visit.setReferredDoctor(name);
-                                        visit.setAddedBy(doctorprofilelist.get(0).getID());
-                                        appointmentReasonsList = appointmentReasonAdapterDB.listVisitTypeServiceID(appointment.getAppointmentReasonID());
-                                        visit.setVisitTypeServiceID(appointmentReasonsList.get(0).getServiceID());
-                                        objMapper = new JsonObjectMapper();
-                                        jSonData = objMapper.unMap(visit);
-                                        new VisitAppointmentTask().execute();
+                                        bookAppointment.setAppointmentId(appointment.getID());
+                                        bookAppointment.setUnitID(appointment.getUnitID());
+                                        bookAppointment.setPatientID(appointment.getPatientID());
+                                        bookAppointment.setFirstName(appointment.getFirstName());
+                                        bookAppointment.setLastName(appointment.getLastName());
+                                        bookAppointment.setMiddleName(appointment.getMiddleName());
+                                        bookAppointment.setEmailId(appointment.getEmailId());
+                                        bookAppointment.setContact1(appointment.getContact1());
+                                        bookAppointment.setGenderID(appointment.getGenderID());
+                                        bookAppointment.setBloodGroupID(appointment.getBloodGroupID());
+                                        bookAppointment.setDOB(appointment.getDOB());
+                                        bookAppointment.setMaritalStatusID(appointment.getMaritalStatusID());
+                                        bookAppointmentAdapter.create(bookAppointment);
+                                        String FirstName = doctorprofilelist.get(0).getFirstName();
+                                        String MiddleName = doctorprofilelist.get(0).getMiddleName();
+                                        String LastName = doctorprofilelist.get(0).getLastName();
+                                        String Name = FirstName + " " + LastName;
+                                        if (MiddleName.trim().length() > 0) {
+                                            Name = FirstName + " " + MiddleName + " " + LastName;
+                                        }
+                                        bookAppointment.setID(doctorprofilelist.get(0).getID());
+                                        bookAppointment.setDoctorID(doctorprofilelist.get(0).getDoctorID());
+                                        bookAppointment.setDoctorName(Name);
+                                        bookAppointment.setSpecialization(doctorprofilelist.get(0).getSpecialization());
+                                        bookAppointment.setDoctorEducation(doctorprofilelist.get(0).getEducation());
+                                        bookAppointment.setDoctorMobileNo(doctorprofilelist.get(0).getPFNumber());
+                                        bookAppointmentAdapter.updateDoctor(bookAppointment);
+
+                                        bookAppointment.setAppointmentReasonID(appointment.getAppointmentReasonID());
+                                        bookAppointment.setDepartmentID(appointment.getDepartmentID());
+                                        bookAppointment.setComplaintId(appointment.getComplaintId());
+                                        bookAppointment.setRemark(appointment.getRemark());
+                                        bookAppointmentAdapter.updateAppointment(bookAppointment);
+                                        localSetting.Activityname = "RescheduleAppointment";
+                                        localSetting.Save();
+                                        Intent doctorlist_intent = new Intent(context, TimeSlotActivity.class);
+                                        context.startActivity(doctorlist_intent);
+                                        doctorlist_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        //((Activity) context).finish();
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, null)
                                 .setIcon(R.mipmap.ic_launcher)
                                 .show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
-                }
-            });
-            row_appointment_bnt_cancle.getId();
-            row_appointment_bnt_cancle.setTag(appointment);
-            row_appointment_bnt_cancle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.app_name))
-                            .setMessage("Do you really want to cancel this appointment?")
-                            .setCancelable(false)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(context, CancelAppointmentActivity.class);
-                                    intent.putExtra("UnitID", appointment.getUnitID());
-                                    intent.putExtra("AppoinmentID", appointment.getID());
-                                    context.startActivity(intent);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    ((Activity) context).finish();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .show();
-                }
-            });
-            return view;
-        } catch (Exception ex) {
-            return view;
+                });
+                row_appointment_bnt_visit.getId();
+                row_appointment_bnt_visit.setTag(appointment);
+                row_appointment_bnt_visit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            new AlertDialog.Builder(context)
+                                    .setTitle(context.getResources().getString(R.string.app_name))
+                                    .setMessage("Do you really want to mark this appointment as visit?")
+                                    .setCancelable(false)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Visit visit = new Visit();
+                                            visit.setAppointmentId(appointment.getID());
+                                            visit.setUnitID(appointment.getUnitID());
+                                            visit.setDate(df.format(c.getTime()));
+                                            visit.setPatientID(appointment.getPatientID());
+                                            visit.setPatientUnitID(appointment.getPatientUnitID());
+                                            visit.setVisitTypeID(appointment.getAppointmentReasonID());
+                                            visit.setDepartmentID(appointment.getDepartmentID());
+                                            visit.setDoctorID(appointment.getDoctorID());
+                                            visit.setComplaints(appointment.getComplaint());
+                                            visit.setReferredDoctorID(doctorprofilelist.get(0).getDoctorID());
+                                            visit.setVisitDateTime(df.format(c.getTime()));
+                                            String name = "Dr." + doctorprofilelist.get(0).getFirstName() + " " + doctorprofilelist.get(0).getMiddleName() + " " + doctorprofilelist.get(0).getLastName();
+                                            visit.setReferredDoctor(name);
+                                            visit.setAddedBy(doctorprofilelist.get(0).getID());
+                                            appointmentReasonsList = appointmentReasonAdapterDB.listVisitTypeServiceID(appointment.getAppointmentReasonID());
+                                            visit.setVisitTypeServiceID(appointmentReasonsList.get(0).getServiceID());
+                                            objMapper = new JsonObjectMapper();
+                                            jSonData = objMapper.unMap(visit);
+                                            new VisitAppointmentTask().execute();
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, null)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                row_appointment_bnt_cancle.getId();
+                row_appointment_bnt_cancle.setTag(appointment);
+                row_appointment_bnt_cancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(context)
+                                .setTitle(context.getResources().getString(R.string.app_name))
+                                .setMessage("Do you really want to cancel this appointment?")
+                                .setCancelable(false)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(context, CancelAppointmentActivity.class);
+                                        intent.putExtra("UnitID", appointment.getUnitID());
+                                        intent.putExtra("AppoinmentID", appointment.getID());
+                                        context.startActivity(intent);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        ((Activity) context).finish();
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(R.mipmap.ic_launcher)
+                                .show();
+                    }
+                });
+
+                service_exp_list_child_layout.addView(view);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return convertView;
     }
 
     @Override

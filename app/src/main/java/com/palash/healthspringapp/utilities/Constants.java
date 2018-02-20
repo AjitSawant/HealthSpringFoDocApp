@@ -24,18 +24,28 @@ public class Constants {
     public static boolean backFromAddEMR = false;
     public static boolean isFromLogin = false;
 
-    //Developer URL
-    //public static final String BASE_URL = "http://103.229.5.22/HealthSpringDocApp/";
+    //localhost Test URL
+    public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
 
     // Test URL
     //public static final String BASE_URL = "http://103.229.5.99/HealthSpringDocApp/";
+    public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.99:2121";
+    public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.99/healthspring_test/Reports/EMR/PatientEMRReport.aspx?UnitID=";
+    public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.99/healthspring_test/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
+    public static final String Patient_ICE_URL = "http://103.229.5.99/healthspring_test/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
+    public static final String FTP_Link = "ftp://103.229.5.99:2121/&FtpUserName=customerexperience@healthspring.in&FtpPassword=Health$pring&MrNumber=";
 
     //Live URL
-    public static final String BASE_URL = "http://103.229.5.91/HealthSpringDocApp/";
+    /*public static final String BASE_URL = "http://103.229.5.91/HealthSpringDocApp/";
+    public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.91:2121";
+    public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.91/healthspring/Reports/EMR/PatientEMRReport.aspx?UnitID=";
+    public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.91/healthspring/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
+    public static final String Patient_ICE_URL = "http://103.229.5.91/healthspring/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
+    public static final String FTP_Link = "ftp://103.229.5.91:2121/&FtpUserName=HSFTP&FtpPassword=Rational@1&MrNumber=";*/
 
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
     public static final String APP_VERSION_URL = BASE_URL + "Master/AppVersion";
-    public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList?UnitId=";
+    public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList";
     public static final String TIME_SLOT_URL = BASE_URL + "timeslot/timeslot";
     public static final String PATIENT_REGISTRATION_URL = BASE_URL + "Patient/PatientRegistration";
 
@@ -47,7 +57,7 @@ public class Constants {
     public static final String GET_DOCTOR_TYPE_URL = BASE_URL + "Master/GetDoctorType";
     public static final String GET_UNIT_MASTER_URL = BASE_URL + "Master/GetUnitMaster?DoctorID=";
     public static final String GET_SPECIALIZATION_URL = BASE_URL + "Master/GetSpecilization";
-    public static final String GET_APPOINTMENT_URL = BASE_URL + "Appointment/GetApointmentsByDoctorID?DoctorID=";
+    public static final String GET_APPOINTMENT_URL = BASE_URL + "Appointment/GetApointmentList";
     public static final String GET_APPOINTMENT_REASON_URL = BASE_URL + "Master/GetAppointmentReason";
     public static final String GET_DEPARTMENT_URL = BASE_URL + "Master/GetDepartment?DoctorID=";
     public static final String GET_COMPLAINT_URL = BASE_URL + "Master/GetComplaint";
@@ -57,7 +67,7 @@ public class Constants {
     public static final String CANCLE_APPOINTMENT_URL = BASE_URL + "Appointment/CancleAppointment";
     public static final String VISIT_MARK_APPOINTMENT_URL = BASE_URL + "Visit/VisitMarkAdd";
     public static final String VISIT_LISIT_URL = BASE_URL + "Visit/VisitList?UnitID=";
-    public static final String PATIENT_QUEUE_URL = BASE_URL + "Patient/PatientQueue?UnitID=";
+    public static final String PATIENT_QUEUE_URL = BASE_URL + "Patient/PatientQueue";
     public static final String VISIT_BOOK_URL = BASE_URL + "Visit/VisitBook";
     public static final String MEDICIENNAME_URL = BASE_URL + "Master/GetMedicienName";
     public static final String MEDICIENROUTE_URL = BASE_URL + "Master/GetMedicienRoute";
@@ -109,18 +119,4 @@ public class Constants {
     public static final int STOP_TASK = 99;
     public static final int ALL_URL_TASK = 0;
     public static final int ONLINE_SYNC = 10;
-
-    // Local URL
-    /*public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.99:2121";
-    public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.99/healthspring_test/Reports/EMR/PatientEMRReport.aspx?UnitID=";
-    public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.99/healthspring_test/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
-    public static final String Patient_ICE_URL = "http://103.229.5.99/healthspring_test/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
-    public static final String FTP_Link = "ftp://103.229.5.99:2121/&FtpUserName=customerexperience@healthspring.in&FtpPassword=Health$pring&MrNumber=";*/
-
-    // Live URL
-    public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.91:2121";
-    public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.91/healthspring/Reports/EMR/PatientEMRReport.aspx?UnitID=";
-    public static final String Patient_PRESCRIPTION_URL = "http://103.229.5.91/healthspring/Reports/Patient/EMRPatientPrescription.aspx?UnitID=";
-    public static final String Patient_ICE_URL = "http://103.229.5.91/healthspring/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
-    public static final String FTP_Link = "ftp://103.229.5.91:2121/&FtpUserName=HSFTP&FtpPassword=Rational@1&MrNumber=";
 }

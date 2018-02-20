@@ -128,12 +128,13 @@ public class TimeSlotActivity extends AppCompatActivity {
 
     private void bindView(final ArrayList<TimeSlot> listData) {
         try {
-            listData.remove(listData.size() - 1);
+            //listData.remove(listData.size() - 1);
             if (listData != null && listData.size() > 0) {
                 timeSlotAdapter = new TimeSlotAdapter(context, listData);
                 time_slot_schedule_list.setAdapter(timeSlotAdapter);
                 time_slot_schedule_list.setVisibility(View.VISIBLE);
                 time_slot_tv_empty.setVisibility(View.GONE);
+
                 time_slot_schedule_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -235,7 +236,6 @@ public class TimeSlotActivity extends AppCompatActivity {
             try {
                 if (responseCode == Constants.HTTP_OK_200) {
                     localSetting.hideDialog(progressDialog);
-                    objectMapper = new JsonObjectMapper();
                     timeSlotArrayList = objectMapper.map(responseString, TimeSlot.class);
                     bindView(timeSlotArrayList);
                 } else {

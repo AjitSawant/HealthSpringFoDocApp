@@ -67,13 +67,6 @@
             android:theme="@style/myAppTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.palash.healthspringapp.activity.MainDashActivity"
-            android:label="@string/dashboard_patientqueue"
-            android:launchMode="singleTop"
-            android:noHistory="false"
-            android:theme="@style/myAppTheme"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name="com.palash.healthspringapp.activity.SettingActivity"
             android:label="@string/setting"
             android:launchMode="singleTop"

@@ -8,6 +8,7 @@ public class Appointment {
     private String ID;
     private String UnitID;
     private String UnitName;
+    private String MRNo;
     private String PatientID;
     private String PatientUnitID;
     private String VisitID;
@@ -81,6 +82,15 @@ public class Appointment {
 
     public void setUnitName(String unitName) {
         UnitName = unitName;
+    }
+
+    @JsonProperty("MRNo")
+    public String getMRNo() {
+        return MRNo;
+    }
+
+    public void setMRNo(String MRNo) {
+        this.MRNo = MRNo;
     }
 
     @JsonProperty("PatientID")

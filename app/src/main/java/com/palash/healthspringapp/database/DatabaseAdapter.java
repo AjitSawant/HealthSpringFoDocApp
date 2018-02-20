@@ -689,6 +689,7 @@ public class DatabaseAdapter {
                 DatabaseContract.DoctorProfile.COLUMN_NAME_REGESTRATIONNUMBER,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS,
+                DatabaseContract.DoctorProfile.COLUMN_NAME_IsFrontOfficeUser,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME
         };
 
@@ -728,6 +729,7 @@ public class DatabaseAdapter {
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS, doctorProfile.getMaritialStatus());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME, doctorProfile.getRememberMe());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS, doctorProfile.getLoginStatus());
+                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_IsFrontOfficeUser, doctorProfile.getIsFrontOfficeUser());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -773,6 +775,7 @@ public class DatabaseAdapter {
                         doctorProfile.setMaritialStatus(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS)));
                         doctorProfile.setLoginStatus(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS)));
                         doctorProfile.setRememberMe(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME)));
+                        doctorProfile.setIsFrontOfficeUser(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_IsFrontOfficeUser)));
                         listDoctorProfile.add(doctorProfile);
                     }
                     result.close();
@@ -2108,6 +2111,7 @@ public class DatabaseAdapter {
                 DatabaseContract.Appointment.COLUMN_NAME_ID,
                 DatabaseContract.Appointment.COLUMN_NAME_UNIT_ID,
                 DatabaseContract.Appointment.COLUMN_NAME_UNIT_NAME,
+                DatabaseContract.Appointment.COLUMN_NAME_MRNo,
                 DatabaseContract.Appointment.COLUMN_NAME_PATIENT_ID,
                 DatabaseContract.Appointment.COLUMN_NAME_PATIENT_UNIT_ID,
                 DatabaseContract.Appointment.COLUMN_NAME_VISIT_ID,
@@ -2154,6 +2158,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_ID, appointment.getID());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_UNIT_ID, appointment.getUnitID());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_UNIT_NAME, appointment.getUnitName());
+                values.put(DatabaseContract.Appointment.COLUMN_NAME_MRNo, appointment.getMRNo());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_ID, appointment.getPatientID());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_UNIT_ID, appointment.getPatientUnitID());
                 values.put(DatabaseContract.Appointment.COLUMN_NAME_VISIT_ID, appointment.getVisitID());
@@ -2204,6 +2209,7 @@ public class DatabaseAdapter {
                     appointment.setID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_ID)));
                     appointment.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_UNIT_ID)));
                     appointment.setUnitName(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_UNIT_NAME)));
+                    appointment.setMRNo(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_MRNo)));
                     appointment.setPatientID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_ID)));
                     appointment.setPatientUnitID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_PATIENT_UNIT_ID)));
                     appointment.setVisitID(result.getString(result.getColumnIndex(DatabaseContract.Appointment.COLUMN_NAME_VISIT_ID)));
@@ -2296,8 +2302,32 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
-                if (ID != null) {
+                if (ID != null && ID.length()>0) {
                     whereClause = DatabaseContract.Appointment.COLUMN_NAME_ID + "='" + ID + "'";
+                }
+                result = db.query(DatabaseContract.Appointment.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.Appointment.DEFAULT_SORT_ORDER);
+                appointmentArrayList = CursorToAppointmentArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return appointmentArrayList;
+        }
+
+        public ArrayList<Appointment> listAllWithDate(String Date) {
+            ArrayList<Appointment> appointmentArrayList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (Date != null && Date.length()>0) {
+                    whereClause = DatabaseContract.Appointment.COLUMN_NAME_APPOINTMENT_DATE + "='" + Date + "'";
                 }
                 result = db.query(DatabaseContract.Appointment.TABLE_NAME,
                         projection, whereClause,
@@ -2435,6 +2465,32 @@ public class DatabaseAdapter {
             return headerList;
         }
 
+        public ArrayList<Appointment> listAllAppointmentWithUnit(String UnitID) {
+            ArrayList<Appointment> appointmentArrayList = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (UnitID != null && UnitID.equals("1")) {
+                    whereClause = null;
+                } else {
+                    whereClause = DatabaseContract.Appointment.COLUMN_NAME_UNIT_ID + " = '" + UnitID + "' ";
+                }
+                result = db.query(DatabaseContract.Appointment.TABLE_NAME,
+                        projection, whereClause,
+                        null, null, null,
+                        DatabaseContract.Appointment.DEFAULT_SORT_ORDER);
+                appointmentArrayList = CursorToAppointmentArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return appointmentArrayList;
+        }
+
         public int HeaderCount(String patientID, String FromDate, String ToDate) {
             int headerCount = 0;
             ArrayList<String> listAppointmentHeader = null;
@@ -2518,7 +2574,6 @@ public class DatabaseAdapter {
                 databaseContract.open().delete(DatabaseContract.Appointment.TABLE_NAME, whereClause, null);
             } catch (SQLException e) {
                 e.printStackTrace();
-
             } finally {
                 databaseContract.close();
             }

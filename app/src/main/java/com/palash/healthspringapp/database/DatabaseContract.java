@@ -84,6 +84,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_MARITAL_STATUS = "MaritialStatus";
         public static final String COLUMN_NAME_REMEMBER_ME = "RememberMe";
         public static final String COLUMN_NAME_LOGIN_STATUS = "LoginStatus";
+        public static final String COLUMN_NAME_IsFrontOfficeUser = "IsFrontOfficeUser";
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
@@ -151,6 +152,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_REMEMBER_ME
                 + " TEXT,"
                 + COLUMN_NAME_LOGIN_STATUS
+                + " TEXT,"
+                + COLUMN_NAME_IsFrontOfficeUser
                 + " TEXT,"
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"
@@ -445,6 +448,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNIT_ID = "UnitID";
         public static final String COLUMN_NAME_UNIT_NAME = "UnitName";
+        public static final String COLUMN_NAME_MRNo = "MRNo";
         public static final String COLUMN_NAME_PATIENT_ID = "PatientID";
         public static final String COLUMN_NAME_PATIENT_UNIT_ID = "PatientUnitID";
         public static final String COLUMN_NAME_VISIT_ID = "VisitID";
@@ -493,6 +497,8 @@ public class DatabaseContract {
                 + COLUMN_NAME_UNIT_ID
                 + " TEXT,"
                 + COLUMN_NAME_UNIT_NAME
+                + " TEXT,"
+                 + COLUMN_NAME_MRNo
                 + " TEXT,"
                 + COLUMN_NAME_PATIENT_ID
                 + " TEXT,"

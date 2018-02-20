@@ -272,7 +272,7 @@ public class VisitListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_search).setVisible(false);
-        menu.findItem(R.id.menu_toolbar_add).setVisible(false);
+        menu.findItem(R.id.menu_toolbar_add).setVisible(true);
         menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
@@ -372,6 +372,9 @@ public class VisitListActivity extends AppCompatActivity {
                         visitListAdapterDB.create(visitListArrayList.get(index));
                     }
                 }
+            }else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
+                visitListAdapterDB.delete();
+                Toast.makeText(context, "Patient visit not available for selected unit", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }

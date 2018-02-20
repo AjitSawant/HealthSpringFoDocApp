@@ -102,6 +102,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.row_search_patient_unit = (TextView) convertView.findViewById(R.id.row_search_patient_unit);
                 holder.patient_row_bnt_book = (TextView) convertView.findViewById(R.id.patient_row_bnt_book);
                 holder.patient_row_bnt_visit = (TextView) convertView.findViewById(R.id.patient_row_bnt_visit);
+                holder.row_search_patient_date = (TextView) convertView.findViewById(R.id.row_search_patient_date);
                 holder.patient_row_bnt_patient_console = (TextView) convertView.findViewById(R.id.patient_row_bnt_patient_console);
                 convertView.setTag(holder);
             } else {
@@ -124,6 +125,8 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
             holder.patient_mrno.setText("Age : " + elPatient.getAge() + " Yrs");
 
             holder.row_search_patient_unit.setText("" + elPatient.getClinicName());
+
+            holder.row_search_patient_date.setText("Date : " + elPatient.getRegistrationDate());
 
             holder.patient_row_bnt_book.getId();
             holder.patient_row_bnt_book.setTag(position);
@@ -278,6 +281,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
         TextView patient_row_bnt_visit;
         TextView patient_row_bnt_patient_console;
         TextView row_search_patient_unit;
+        TextView row_search_patient_date;
     }
 
     private void MasterFlagTask() {

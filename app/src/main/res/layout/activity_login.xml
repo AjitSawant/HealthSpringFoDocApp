@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
+        android:background="@drawable/border_bluedark"
         android:padding="12dp">
 
         <LinearLayout
@@ -129,20 +130,20 @@
             android:checked="false"
             android:text="Remember me"
             android:paddingLeft="2dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:textSize="12sp"
             android:textColor="@android:color/darker_gray"
             app:buttonTint="@color/blue_box" />
 
         <Button
             android:id="@+id/login_btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18sp"
             android:background="@drawable/card_layout"
             android:text="@string/action_sign_in"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/common_text_size"
             android:textStyle="bold" />

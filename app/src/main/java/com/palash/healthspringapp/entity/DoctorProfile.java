@@ -40,6 +40,7 @@ public class DoctorProfile {
     private String DoctorTypeID;
     private String AppointmentSlot;
     private String DepartmentID;
+    private String IsFrontOfficeUser;
 
 
     @JsonProperty("SubSpecializationID")
@@ -349,5 +350,12 @@ public class DoctorProfile {
         this.MaritialStatus = MaritialStatus;
     }
 
+    @JsonProperty("IsFrontOfficeUser")
+    public String getIsFrontOfficeUser() {
+        return IsFrontOfficeUser;
+    }
 
+    public void setIsFrontOfficeUser(String isFrontOfficeUser) {
+        IsFrontOfficeUser = isFrontOfficeUser;
+    }
 }

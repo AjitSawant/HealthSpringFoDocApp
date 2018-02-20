@@ -16,6 +16,7 @@ import com.palash.healthspringapp.entity.Complaint;
 import com.palash.healthspringapp.entity.DaignosisMaster;
 import com.palash.healthspringapp.entity.DaignosisTypeMaster;
 import com.palash.healthspringapp.entity.Department;
+import com.palash.healthspringapp.entity.ELAppointmentStatus;
 import com.palash.healthspringapp.entity.ELUnitMaster;
 import com.palash.healthspringapp.entity.Gender;
 import com.palash.healthspringapp.entity.MaritalStatus;
@@ -179,7 +180,6 @@ public class SpinnerAdapter {
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
-
                 holder.row_txt_id.setText(maritalStatuseslist.get(position).getID());
                 holder.row_txt_description.setText(maritalStatuseslist.get(position).getDescription());
             } catch (Exception e) {
@@ -233,7 +233,6 @@ public class SpinnerAdapter {
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
-
                 holder.row_txt_id.setText(appointmentReasonlist.get(position).getID());
                 holder.row_txt_description.setText(appointmentReasonlist.get(position).getDescription());
             } catch (Exception e) {
@@ -290,6 +289,60 @@ public class SpinnerAdapter {
 
                 holder.row_txt_id.setText(bloodGrouplist.get(position).getID());
                 holder.row_txt_description.setText(bloodGrouplist.get(position).getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class AppointmentStatusAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList; // Values to be displayed
+
+        public AppointmentStatusAdapter(Context context, ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList) {
+            mContext = context;
+            this.elAppointmentStatusArrayList = elAppointmentStatusArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elAppointmentStatusArrayList.size();
+        }
+
+        @Override
+        public ELAppointmentStatus getItem(int position) {
+            return elAppointmentStatusArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elAppointmentStatusArrayList.get(position).getID());
+                holder.row_txt_description.setText(elAppointmentStatusArrayList.get(position).getDescription());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -388,7 +441,7 @@ public class SpinnerAdapter {
             try {
                 if (convertView == null) {
                     holder = new ViewHolder();
-                    convertView = inflater.inflate(R.layout.row_spinner_textview, null);
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
                     holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
                     holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
                     convertView.setTag(holder);

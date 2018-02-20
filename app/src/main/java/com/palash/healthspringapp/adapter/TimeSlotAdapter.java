@@ -53,7 +53,7 @@ public class TimeSlotAdapter extends BaseAdapter {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.row_tvTimeslot_fromslot.setText(timeSlotlist.get(position).getFromSlot());
+            holder.row_tvTimeslot_fromslot.setText(timeSlotlist.get(position).getFromSlot()+" - "+timeSlotlist.get(position).getToSlot());
             holder.row_tvTimeslot_toslot.setText(timeSlotlist.get(position).getToSlot());
         } catch (Exception e) {
             e.printStackTrace();
