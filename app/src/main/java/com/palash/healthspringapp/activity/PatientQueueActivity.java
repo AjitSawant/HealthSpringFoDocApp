@@ -680,7 +680,7 @@ public class PatientQueueActivity extends AppCompatActivity {
                 }
             } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                 patientQueueAdapterDB.delete(doctorProfileList.get(0).getUnitID());
-                Toast.makeText(context, "Patient queue not available for selected unit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Queue not available for selected unit", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }

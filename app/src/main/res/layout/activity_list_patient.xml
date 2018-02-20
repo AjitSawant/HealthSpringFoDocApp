@@ -7,6 +7,16 @@
     android:orientation="vertical"
     android:padding="4dp">
 
+    <EditText
+        android:id="@+id/patient_list_search_by_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_gray"
+        android:padding="6dp"
+        android:hint="Search by name"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
     <ListView
         android:id="@+id/search_patient_List"
         android:layout_width="match_parent"

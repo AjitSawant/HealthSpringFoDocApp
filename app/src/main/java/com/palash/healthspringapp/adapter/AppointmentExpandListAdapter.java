@@ -277,6 +277,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                 }
 
                 String CurrentDate = new SimpleDateFormat(Constants.PATIENT_QUEUE_DATE, Locale.getDefault()).format(new Date());
+
                 if (CurrentDate.equals(appointment.getAppointmentDate())) {
                     row_appointment_bnt_reschedual.setVisibility(View.VISIBLE);
                     row_appointment_bnt_visit.setVisibility(View.VISIBLE);
@@ -312,6 +313,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                                         bookAppointment.setDOB(appointment.getDOB());
                                         bookAppointment.setMaritalStatusID(appointment.getMaritalStatusID());
                                         bookAppointmentAdapter.create(bookAppointment);
+
                                         String FirstName = doctorprofilelist.get(0).getFirstName();
                                         String MiddleName = doctorprofilelist.get(0).getMiddleName();
                                         String LastName = doctorprofilelist.get(0).getLastName();
@@ -345,6 +347,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
                                 .show();
                     }
                 });
+
                 row_appointment_bnt_visit.getId();
                 row_appointment_bnt_visit.setTag(appointment);
                 row_appointment_bnt_visit.setOnClickListener(new View.OnClickListener() {

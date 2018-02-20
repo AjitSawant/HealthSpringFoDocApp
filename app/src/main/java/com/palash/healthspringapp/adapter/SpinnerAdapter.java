@@ -66,7 +66,7 @@ public class SpinnerAdapter {
             try {
                 if (convertView == null) {
                     holder = new ViewHolder();
-                    convertView = inflater.inflate(R.layout.row_spinner_textview, null);
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
                     holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
                     holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
                     convertView.setTag(holder);
@@ -119,7 +119,7 @@ public class SpinnerAdapter {
             try {
                 if (convertView == null) {
                     holder = new ViewHolder();
-                    convertView = inflater.inflate(R.layout.row_spinner_textview, null);
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
                     holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
                     holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
                     convertView.setTag(holder);
@@ -173,7 +173,7 @@ public class SpinnerAdapter {
             try {
                 if (convertView == null) {
                     holder = new ViewHolder();
-                    convertView = inflater.inflate(R.layout.row_spinner_textview, null);
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
                     holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
                     holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
                     convertView.setTag(holder);
@@ -279,7 +279,7 @@ public class SpinnerAdapter {
             try {
                 if (convertView == null) {
                     holder = new ViewHolder();
-                    convertView = inflater.inflate(R.layout.row_spinner_textview, null);
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
                     holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
                     holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
                     convertView.setTag(holder);

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +62,7 @@ public class PatientListActivity extends AppCompatActivity {
     private ArrayList<Patient> patientList;
     private ListView search_patient_List;
     private TextView search_patient_empty;
+    private EditText patient_list_search_by_name;
 
     private static String startDate = "";
     private static String endDate = "";
@@ -139,6 +142,26 @@ public class PatientListActivity extends AppCompatActivity {
         try {
             search_patient_List = (ListView) findViewById(R.id.search_patient_List);
             search_patient_empty = (TextView) findViewById(R.id.search_patient_empty);
+            patient_list_search_by_name = (EditText) findViewById(R.id.patient_list_search_by_name);
+
+            patient_list_search_by_name.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start,
+                                              int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start,
+                                          int before, int count) {
+                    if (patientList != null && patientList.size() > 0) {
+                        searchPatientAdapter.getFilter().filter(s);
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -161,29 +184,30 @@ public class PatientListActivity extends AppCompatActivity {
             searchPatientAdapter.notifyDataSetChanged();
             search_patient_empty.setVisibility(View.GONE);
             search_patient_List.setVisibility(View.VISIBLE);
+            patient_list_search_by_name.setVisibility(View.VISIBLE);
         } else {
             search_patient_empty.setVisibility(View.VISIBLE);
             search_patient_List.setVisibility(View.GONE);
+            patient_list_search_by_name.setVisibility(View.GONE);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        menu.findItem(R.id.menu_toolbar_add_patient).setVisible(false);
+        menu.findItem(R.id.menu_toolbar_add_patient).setVisible(true);
         menu.findItem(R.id.menu_toolbar_filter).setVisible(true);
-        menu.findItem(R.id.menu_toolbar_refresh).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_toolbar_filter:
-                showFilterDialog();
-                return true;
             case R.id.menu_toolbar_add_patient:
                 startActivity(new Intent(context, PatientRegistrationActivity.class));
+                return true;
+            case R.id.menu_toolbar_filter:
+                showFilterDialog();
                 return true;
             case android.R.id.home:
                 finish();
@@ -610,6 +634,7 @@ public class PatientListActivity extends AppCompatActivity {
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
                 ELFilter elFilter = new ELFilter();
                 elFilter.setUnitID(doctorProfileList.get(0).getUnitID());
+                elFilter.setSelectedDoctorID(doctorProfileList.get(0).getDoctorID());
                 elFilter.setMRNo(mrNO);
                 elFilter.setFirstName(firstName);
                 elFilter.setLastName(lastName);

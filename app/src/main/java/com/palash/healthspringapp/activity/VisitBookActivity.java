@@ -88,7 +88,6 @@ public class VisitBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visit_book);
         InitSetting();
-        MasterflagTask();
         InitView();
         InitAdapter();
     }
@@ -137,13 +136,6 @@ public class VisitBookActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void MasterflagTask() {
-        masterflag = masterFlagAdapter.listCurrent();
-        masterflag.setFlag(Constants.BOOK_APPOINTMENT_TASK);
-        masterFlagAdapter.create(masterflag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
     }
 
     private void InitAdapter() {
@@ -284,7 +276,6 @@ public class VisitBookActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_save).setVisible(true);
-        menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -295,10 +286,6 @@ public class VisitBookActivity extends AppCompatActivity {
                 if (validateControls()) {
                     VisitBookBindView();
                 }
-                return true;
-            case R.id.menu_toolbar_refresh:
-                MasterflagTask();
-                InitAdapter();
                 return true;
             case android.R.id.home:
                 onBackPressed();

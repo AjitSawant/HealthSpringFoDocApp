@@ -374,7 +374,7 @@ public class VisitListActivity extends AppCompatActivity {
                 }
             }else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                 visitListAdapterDB.delete();
-                Toast.makeText(context, "Patient visit not available for selected unit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Visit not available for selected unit", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }

@@ -57,10 +57,10 @@ public class MasterTask implements Task {
     private DatabaseAdapter.PriorityAdapter priorityAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
 
-    /*private DatabaseAdapter.GenderAdapter genderAdapter;
     private DatabaseAdapter.PrefixAdapter prefixAdapter;
+    private DatabaseAdapter.GenderAdapter genderAdapter;
     private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
-    private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;*/
+    private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;
 
     /*private DatabaseAdapter.MedicienNameAdapter medicienNameAdapter;
     private DatabaseAdapter.DaignosisMasterAdapter daignosisMasterAdapter;
@@ -91,7 +91,6 @@ public class MasterTask implements Task {
     private ArrayList<DaignosisTypeMaster> daignosisTypeMasterList;
     private ArrayList<Priority> priorityList;
     private ArrayList<Flag> masterflagArrayList;
-
 
     /*private ArrayList<MedicienName> medicienNameList;
     private ArrayList<DaignosisMaster> daignosisMasterList;
@@ -136,10 +135,10 @@ public class MasterTask implements Task {
             priorityAdapter = databaseAdapter.new PriorityAdapter();
             masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
 
-            /*genderAdapter = databaseAdapter.new GenderAdapter();
             prefixAdapter = databaseAdapter.new PrefixAdapter();
+            genderAdapter = databaseAdapter.new GenderAdapter();
             maritalStatusAdapter = databaseAdapter.new MaritalStatusAdapter();
-            bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();*/
+            bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
 
             /*medicienNameAdapter = databaseAdapter.new MedicienNameAdapter();
             daignosisMasterAdapter = databaseAdapter.new DaignosisMasterAdapter();
@@ -206,15 +205,16 @@ public class MasterTask implements Task {
                                         DepartmentTask();
                                         break;
                                     case Constants.EMR_TASK:
+
                                         //Master data
-                                        /*masterdataflag = masterFlagAdapter.listCurrent();
+                                        masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Master");
                                         masterFlagAdapter.create(masterdataflag);
 
                                         PrefixTask();
                                         GenderTask();
                                         MaritalStatusTask();
-                                        BloodGroupTask();*/
+                                        BloodGroupTask();
 
                                         //Appointment related data
                                         masterdataflag = masterFlagAdapter.listCurrent();
@@ -325,7 +325,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = appointmentReasonAdapter.TotalCount();
             Log.d(Constants.TAG, "Appointment Reason Local size : " + Count);
-            if (synchronizationList.get(0).getAppointmentReasonCount() != null &&(!synchronizationList.get(0).getAppointmentReasonCount().equals("")) && (!synchronizationList.get(0).getAppointmentReasonCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getAppointmentReasonCount() != null && (!synchronizationList.get(0).getAppointmentReasonCount().equals("")) && (!synchronizationList.get(0).getAppointmentReasonCount().equals(String.valueOf(Count)))) {
                 // Appointment reason list task
                 response = serviceConsumer.GET(Constants.GET_APPOINTMENT_REASON_URL);
                 if (response != null) {
@@ -382,7 +382,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = specializationAdapter.TotalCount();
             Log.d(Constants.TAG, "SpecializationTask Local size : " + Count);
-            if (synchronizationList.get(0).getSpecializationCount() != null &&(!synchronizationList.get(0).getSpecializationCount().equals("")) && (!synchronizationList.get(0).getSpecializationCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getSpecializationCount() != null && (!synchronizationList.get(0).getSpecializationCount().equals("")) && (!synchronizationList.get(0).getSpecializationCount().equals(String.valueOf(Count)))) {
                 //Specialization Task
                 response = serviceConsumer.GET(Constants.GET_SPECIALIZATION_URL);
                 if (response != null) {
@@ -411,7 +411,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = doctorTypeAdapter.TotalCount();
             Log.d(Constants.TAG, "DoctorType Task Local size : " + Count);
-            if (synchronizationList.get(0).getDoctorTypeCount() != null &&(!synchronizationList.get(0).getDoctorTypeCount().equals("")) && (!synchronizationList.get(0).getDoctorTypeCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getDoctorTypeCount() != null && (!synchronizationList.get(0).getDoctorTypeCount().equals("")) && (!synchronizationList.get(0).getDoctorTypeCount().equals(String.valueOf(Count)))) {
                 //Doctor type list
                 response = serviceConsumer.GET(Constants.GET_DOCTOR_TYPE_URL);
                 if (response != null) {
@@ -440,7 +440,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = departmentAdapter.TotalCount();
             Log.d(Constants.TAG, "Department Task Local size : " + Count);
-            if (synchronizationList.get(0).getDepartmentCount() != null &&(!synchronizationList.get(0).getDepartmentCount().equals("")) && (!synchronizationList.get(0).getDepartmentCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getDepartmentCount() != null && (!synchronizationList.get(0).getDepartmentCount().equals("")) && (!synchronizationList.get(0).getDepartmentCount().equals(String.valueOf(Count)))) {
                 //Department list task
                 response = serviceConsumer.GET(Constants.GET_DEPARTMENT_URL + doctorProfileList.get(0).getDoctorID() + "&UnitID=" + doctorProfileList.get(0).getUnitID());
                 if (response != null) {
@@ -469,7 +469,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = complaintAdapter.TotalCount();
             Log.d(Constants.TAG, "ComplaintTask Local size : " + Count);
-            if (synchronizationList.get(0).getComplaintCount() != null &&(!synchronizationList.get(0).getComplaintCount().equals("")) && (!synchronizationList.get(0).getComplaintCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getComplaintCount() != null && (!synchronizationList.get(0).getComplaintCount().equals("")) && (!synchronizationList.get(0).getComplaintCount().equals(String.valueOf(Count)))) {
                 //Complaint list task
                 response = serviceConsumer.GET(Constants.GET_COMPLAINT_URL);
                 if (response != null) {
@@ -498,7 +498,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = medicienRouteAdapter.TotalCount();
             Log.d(Constants.TAG, "Medicine RouteTask Local size : " + Count);
-            if (synchronizationList.get(0).getMedicienRouteCount() != null &&(!synchronizationList.get(0).getMedicienRouteCount().equals("")) && (!synchronizationList.get(0).getMedicienRouteCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getMedicienRouteCount() != null && (!synchronizationList.get(0).getMedicienRouteCount().equals("")) && (!synchronizationList.get(0).getMedicienRouteCount().equals(String.valueOf(Count)))) {
                 //MedicineRoute list task
                 response = serviceConsumer.GET(Constants.MEDICIENROUTE_URL);
                 if (response != null) {
@@ -527,7 +527,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = medicienFrequencyAdapter.TotalCount();
             Log.d(Constants.TAG, "MedicineFrequencyTask Local size : " + Count);
-            if (synchronizationList.get(0).getMedicienFrequencyCount() != null &&(!synchronizationList.get(0).getMedicienFrequencyCount().equals("")) && (!synchronizationList.get(0).getMedicienFrequencyCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getMedicienFrequencyCount() != null && (!synchronizationList.get(0).getMedicienFrequencyCount().equals("")) && (!synchronizationList.get(0).getMedicienFrequencyCount().equals(String.valueOf(Count)))) {
 
                 response = serviceConsumer.GET(Constants.MEDICIENFREQUENCY_URL);
                 if (response != null) {
@@ -556,7 +556,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = vitalAdapter.TotalCount();
             Log.d(Constants.TAG, "VitalTask Local size : " + Count);
-            if (synchronizationList.get(0).getVitalCount() != null &&(!synchronizationList.get(0).getVitalCount().equals("")) && (!synchronizationList.get(0).getVitalCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getVitalCount() != null && (!synchronizationList.get(0).getVitalCount().equals("")) && (!synchronizationList.get(0).getVitalCount().equals(String.valueOf(Count)))) {
                 //Vital list task
                 response = serviceConsumer.GET(Constants.VITAL_URL);
                 if (response != null) {
@@ -585,7 +585,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = daignosisTypeMasterAdapter.TotalCount();
             Log.d(Constants.TAG, "DiagnosisType Task Local size : " + Count);
-            if (synchronizationList.get(0).getDaignosisTypeCount() != null &&(!synchronizationList.get(0).getDaignosisTypeCount().equals("")) && (!synchronizationList.get(0).getDaignosisTypeCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getDaignosisTypeCount() != null && (!synchronizationList.get(0).getDaignosisTypeCount().equals("")) && (!synchronizationList.get(0).getDaignosisTypeCount().equals(String.valueOf(Count)))) {
                 //DiagnosisTypeMaster list task
                 response = serviceConsumer.GET(Constants.DAIGNOSISTYPEMASTER_URL);
                 if (response != null) {
@@ -614,7 +614,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = priorityAdapter.TotalCount();
             Log.d(Constants.TAG, "PriorityTask Local size : " + Count);
-            if (synchronizationList.get(0).getPriorityCount() != null &&(!synchronizationList.get(0).getPriorityCount().equals("")) && (!synchronizationList.get(0).getPriorityCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getPriorityCount() != null && (!synchronizationList.get(0).getPriorityCount().equals("")) && (!synchronizationList.get(0).getPriorityCount().equals(String.valueOf(Count)))) {
                 //Priority list task
                 response = serviceConsumer.GET(Constants.PRIORITY_URL);
                 if (response != null) {
@@ -643,7 +643,7 @@ public class MasterTask implements Task {
             responseString = null;
             Count = medicienInstructionAdapter.TotalCount();
             Log.d(Constants.TAG, "Medicine InstructionTask Local size : " + Count);
-            if (synchronizationList.get(0).getMedicienInstructionCount() != null &&(!synchronizationList.get(0).getMedicienInstructionCount().equals("")) && (!synchronizationList.get(0).getMedicienInstructionCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getMedicienInstructionCount() != null && (!synchronizationList.get(0).getMedicienInstructionCount().equals("")) && (!synchronizationList.get(0).getMedicienInstructionCount().equals(String.valueOf(Count)))) {
                 //Medicine Instruction list task
                 response = serviceConsumer.GET(Constants.MEDICIENINSTRUCTION_URL);
                 if (response != null) {
@@ -666,101 +666,13 @@ public class MasterTask implements Task {
         }
     }
 
-    /*public void BloodGroupTask() {
-        try {
-            responseCode = 0;
-            responseString = null;
-            Count = bloodGroupAdapter.TotalCount();
-            Log.d(Constants.TAG, "bloodGroup List Local size : " + Count);
-            if ((!synchronizationList.get(0).getBloodGroupCount().equals("")) && (!synchronizationList.get(0).getBloodGroupCount().equals(String.valueOf(Count)))) {
-                //Bloodgroup list task
-                response = serviceConsumer.GET(Constants.GET_BLOODGROUP_URL);
-                if (response != null) {
-                    responseString = response.body().string();
-                    responseCode = response.code();
-                    if (responseCode == Constants.HTTP_OK_200) {
-                        bloodGroupList = objectMapper.map(responseString, BloodGroup.class);
-                        Log.d(Constants.TAG, "bloodGroup List size : " + bloodGroupList.size());
-                        bloodGroupAdapter.delete();
-                        if (bloodGroupList != null && bloodGroupList.size() > 0) {
-                            for (int index = 0; index < bloodGroupList.size(); index++) {
-                                bloodGroupAdapter.create(bloodGroupList.get(index));
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-
-    /*public void MaritalStatusTask() {
-        try {
-            responseCode = 0;
-            responseString = null;
-            Count = maritalStatusAdapter.TotalCount();
-            Log.d(Constants.TAG, "MaritalStatus Task Local size : " + Count);
-            if ((!synchronizationList.get(0).getMaritalStatusCount().equals("")) && (!synchronizationList.get(0).getMaritalStatusCount().equals(String.valueOf(Count)))) {
-                //Marital status list
-                response = serviceConsumer.GET(Constants.GET_MARITAL_STATUS_URL);
-                if (response != null) {
-                    responseString = response.body().string();
-                    responseCode = response.code();
-                    if (responseCode == Constants.HTTP_OK_200) {
-                        maritalStatusList = objectMapper.map(responseString, MaritalStatus.class);
-                        Log.d(Constants.TAG, "MaritalStatusTask size : " + maritalStatusList.size());
-                        maritalStatusAdapter.delete();
-                        if (maritalStatusList != null && maritalStatusList.size() > 0) {
-                            for (int index = 0; index < maritalStatusList.size(); index++) {
-                                maritalStatusAdapter.create(maritalStatusList.get(index));
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    /*public void GenderTask() {
-        try {
-            responseCode = 0;
-            responseString = null;
-            Count = genderAdapter.TotalCount();
-            Log.d(Constants.TAG, "Gender Task Local size : " + Count);
-            if ((!synchronizationList.get(0).getGenderCount().equals("")) && (!synchronizationList.get(0).getGenderCount().equals(String.valueOf(Count)))) {
-                //Gender list task
-                response = serviceConsumer.GET(Constants.GET_GENDER_URL);
-                if (response != null) {
-                    responseString = response.body().string();
-                    responseCode = response.code();
-                    if (responseCode == Constants.HTTP_OK_200) {
-                        genderList = objectMapper.map(responseString, Gender.class);
-                        Log.d(Constants.TAG, "GenderTask size : " + genderList.size());
-                        genderAdapter.delete();
-                        if (genderList != null && genderList.size() > 0) {
-                            for (int index = 0; index < genderList.size(); index++) {
-                                genderAdapter.create(genderList.get(index));
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    /*public void PrefixTask() {
+    public void PrefixTask() {
         try {
             responseCode = 0;
             responseString = null;
             Count = prefixAdapter.TotalCount();
             Log.d(Constants.TAG, "Prefix Task Local size : " + Count);
-            if ((!synchronizationList.get(0).getPrefixCount().equals("")) && (!synchronizationList.get(0).getPrefixCount().equals(String.valueOf(Count)))) {
+            if (synchronizationList.get(0).getPrefixCount() != null && (!synchronizationList.get(0).getPrefixCount().equals("")) && (!synchronizationList.get(0).getPrefixCount().equals(String.valueOf(Count)))) {
                 //Prefix list task
                 response = serviceConsumer.GET(Constants.GET_PREFIX_URL);
                 if (response != null) {
@@ -781,7 +693,95 @@ public class MasterTask implements Task {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
+
+    public void GenderTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = genderAdapter.TotalCount();
+            Log.d(Constants.TAG, "Gender Task Local size : " + Count);
+            if (synchronizationList.get(0).getGenderCount() != null && (!synchronizationList.get(0).getGenderCount().equals("")) && (!synchronizationList.get(0).getGenderCount().equals(String.valueOf(Count)))) {
+                //Gender list task
+                response = serviceConsumer.GET(Constants.GET_GENDER_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        genderList = objectMapper.map(responseString, Gender.class);
+                        Log.d(Constants.TAG, "GenderTask size : " + genderList.size());
+                        genderAdapter.delete();
+                        if (genderList != null && genderList.size() > 0) {
+                            for (int index = 0; index < genderList.size(); index++) {
+                                genderAdapter.create(genderList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void MaritalStatusTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = maritalStatusAdapter.TotalCount();
+            Log.d(Constants.TAG, "MaritalStatus Task Local size : " + Count);
+            if (synchronizationList.get(0).getMaritalStatusCount() != null && (!synchronizationList.get(0).getMaritalStatusCount().equals("")) && (!synchronizationList.get(0).getMaritalStatusCount().equals(String.valueOf(Count)))) {
+                //Marital status list
+                response = serviceConsumer.GET(Constants.GET_MARITAL_STATUS_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        maritalStatusList = objectMapper.map(responseString, MaritalStatus.class);
+                        Log.d(Constants.TAG, "MaritalStatusTask size : " + maritalStatusList.size());
+                        maritalStatusAdapter.delete();
+                        if (maritalStatusList != null && maritalStatusList.size() > 0) {
+                            for (int index = 0; index < maritalStatusList.size(); index++) {
+                                maritalStatusAdapter.create(maritalStatusList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void BloodGroupTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = bloodGroupAdapter.TotalCount();
+            Log.d(Constants.TAG, "bloodGroup List Local size : " + Count);
+            if (synchronizationList.get(0).getBloodGroupCount() != null && (!synchronizationList.get(0).getBloodGroupCount().equals("")) && (!synchronizationList.get(0).getBloodGroupCount().equals(String.valueOf(Count)))) {
+                //Bloodgroup list task
+                response = serviceConsumer.GET(Constants.GET_BLOODGROUP_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        bloodGroupList = objectMapper.map(responseString, BloodGroup.class);
+                        Log.d(Constants.TAG, "bloodGroup List size : " + bloodGroupList.size());
+                        bloodGroupAdapter.delete();
+                        if (bloodGroupList != null && bloodGroupList.size() > 0) {
+                            for (int index = 0; index < bloodGroupList.size(); index++) {
+                                bloodGroupAdapter.create(bloodGroupList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /*public void MedicienNameTask() {
         try {

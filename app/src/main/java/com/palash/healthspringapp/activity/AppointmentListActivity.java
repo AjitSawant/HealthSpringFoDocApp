@@ -80,11 +80,6 @@ public class AppointmentListActivity extends AppCompatActivity {
     private SpinnerAdapter.AppointmentStatusAdapter appointmentStatusAdapter;
     private SpinnerAdapter.DepartmentAdapter departmentAdapter;
 
-    private int headerlistCount = 0;
-    private int childlistCount = 0;
-    private int currentCountheader = 0;
-    private int currentCountchild = 0;
-
     private DialogPlus dialog;
     private RadioGroup radio_group_1;
     private RadioGroup radio_group_2;

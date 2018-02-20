@@ -32,7 +32,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/row_search_patient_mrno_txt"
+            android:id="@+id/row_search_patient_mobile_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/row_search_patient_age_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"

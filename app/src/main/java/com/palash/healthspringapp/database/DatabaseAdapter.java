@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.palash.healthspringapp.entity.Appointment;
 import com.palash.healthspringapp.entity.AppointmentReason;
+import com.palash.healthspringapp.entity.BloodGroup;
 import com.palash.healthspringapp.entity.BookAppointment;
 import com.palash.healthspringapp.entity.CPOEPrescription;
 import com.palash.healthspringapp.entity.CPOEService;
@@ -22,11 +23,14 @@ import com.palash.healthspringapp.entity.ELFollowUp;
 import com.palash.healthspringapp.entity.ELSynchOfflineData;
 import com.palash.healthspringapp.entity.ELUnitMaster;
 import com.palash.healthspringapp.entity.Flag;
+import com.palash.healthspringapp.entity.Gender;
+import com.palash.healthspringapp.entity.MaritalStatus;
 import com.palash.healthspringapp.entity.MedicienFrequency;
 import com.palash.healthspringapp.entity.MedicienInstruction;
 import com.palash.healthspringapp.entity.MedicienRoute;
 import com.palash.healthspringapp.entity.Patient;
 import com.palash.healthspringapp.entity.PatientQueue;
+import com.palash.healthspringapp.entity.Prefix;
 import com.palash.healthspringapp.entity.Priority;
 import com.palash.healthspringapp.entity.ReferralDoctorPerService;
 import com.palash.healthspringapp.entity.Specialization;
@@ -7985,52 +7989,52 @@ public class DatabaseAdapter {
         }
     }*/
 
-    /*public class BloodGroupAdapter {
+    public class PrefixAdapter {
 
         String[] projection = {
-                DatabaseContract.BloodGroup.COLUMN_NAME_ID,
-                DatabaseContract.BloodGroup.COLUMN_NAME_DESCRIPTION
+                DatabaseContract.Prefix.COLUMN_NAME_ID,
+                DatabaseContract.Prefix.COLUMN_NAME_DESCRIPTION
         };
 
-        private ContentValues BloodGroupToContentValues(BloodGroup bloodGroup) {
+        private ContentValues PrefixToContentValues(Prefix bloodGroup) {
             ContentValues values = null;
             try {
                 values = new ContentValues();
-                values.put(DatabaseContract.BloodGroup.COLUMN_NAME_ID, bloodGroup.getID());
-                values.put(DatabaseContract.BloodGroup.COLUMN_NAME_DESCRIPTION, bloodGroup.getDescription());
+                values.put(DatabaseContract.Prefix.COLUMN_NAME_ID, bloodGroup.getID());
+                values.put(DatabaseContract.Prefix.COLUMN_NAME_DESCRIPTION, bloodGroup.getDescription());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return values;
         }
 
-        private ArrayList<BloodGroup> CursorToArrayList(Cursor result) {
-            ArrayList<BloodGroup> listBloodGroup = null;
+        private ArrayList<Prefix> CursorToArrayList(Cursor result) {
+            ArrayList<Prefix> listPrefix = null;
             try {
                 if (result != null) {
-                    listBloodGroup = new ArrayList<BloodGroup>();
+                    listPrefix = new ArrayList<Prefix>();
                     while (result.moveToNext()) {
-                        BloodGroup bloodGroup = new BloodGroup();
-                        bloodGroup.setID(result.getString(result.getColumnIndex(DatabaseContract.BloodGroup.COLUMN_NAME_ID)));
-                        bloodGroup.setDescription(result.getString(result.getColumnIndex(DatabaseContract.BloodGroup.COLUMN_NAME_DESCRIPTION)));
-                        listBloodGroup.add(bloodGroup);
+                        Prefix bloodGroup = new Prefix();
+                        bloodGroup.setID(result.getString(result.getColumnIndex(DatabaseContract.Prefix.COLUMN_NAME_ID)));
+                        bloodGroup.setDescription(result.getString(result.getColumnIndex(DatabaseContract.Prefix.COLUMN_NAME_DESCRIPTION)));
+                        listPrefix.add(bloodGroup);
                     }
                     result.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return listBloodGroup;
+            return listPrefix;
         }
 
-        public long create(BloodGroup bloodGroup) {
+        public long create(Prefix bloodGroup) {
             long rowId = -1;
             try {
                 if (Count(bloodGroup.getID()) == 0) {
-                    ContentValues values = BloodGroupToContentValues(bloodGroup);
+                    ContentValues values = PrefixToContentValues(bloodGroup);
                     if (values != null) {
                         rowId = databaseContract.open().insert(
-                                DatabaseContract.BloodGroup.TABLE_NAME, null, values);
+                                DatabaseContract.Prefix.TABLE_NAME, null, values);
                     }
                 }
             } catch (SQLException e) {
@@ -8041,16 +8045,16 @@ public class DatabaseAdapter {
             return rowId;
         }
 
-        public ArrayList<BloodGroup> listAll() {
-            ArrayList<BloodGroup> listBloodGroup = null;
+        public ArrayList<Prefix> listAll() {
+            ArrayList<Prefix> listPrefix = null;
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.BloodGroup.TABLE_NAME,
+                result = db.query(DatabaseContract.Prefix.TABLE_NAME,
                         projection, null,
                         null, null, null,
-                        DatabaseContract.BloodGroup.DEFAULT_SORT_ORDER);
-                listBloodGroup = CursorToArrayList(result);
+                        DatabaseContract.Prefix.DEFAULT_SORT_ORDER);
+                listPrefix = CursorToArrayList(result);
             } catch (SQLException e) {
                 e.printStackTrace();
 
@@ -8058,7 +8062,7 @@ public class DatabaseAdapter {
                 databaseContract.close();
                 result.close();
             }
-            return listBloodGroup;
+            return listPrefix;
         }
 
         public int TotalCount() {
@@ -8066,10 +8070,10 @@ public class DatabaseAdapter {
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.BloodGroup.TABLE_NAME,
+                result = db.query(DatabaseContract.Prefix.TABLE_NAME,
                         projection, null,
                         null, null, null,
-                        DatabaseContract.BloodGroup.DEFAULT_SORT_ORDER);
+                        DatabaseContract.Prefix.DEFAULT_SORT_ORDER);
                 if (result != null) {
                     Count = result.getCount();
                     result.close();
@@ -8090,11 +8094,11 @@ public class DatabaseAdapter {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
                 if (ID != null) {
-                    whereClause = DatabaseContract.BloodGroup.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.BloodGroup.TABLE_NAME,
+                    whereClause = DatabaseContract.Prefix.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.Prefix.TABLE_NAME,
                             projection, whereClause,
                             null, null, null,
-                            DatabaseContract.BloodGroup.DEFAULT_SORT_ORDER);
+                            DatabaseContract.Prefix.DEFAULT_SORT_ORDER);
                     if (result != null) {
                         Count = result.getCount();
                         result.close();
@@ -8112,149 +8116,15 @@ public class DatabaseAdapter {
         public void delete() {
             try {
                 SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.BloodGroup.TABLE_NAME, null, null);
+                db.delete(DatabaseContract.Prefix.TABLE_NAME, null, null);
                 db.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 
-    /*public class MaritalStatusAdapter {
-
-        String[] projection = {
-                DatabaseContract.MaritalStatus.COLUMN_NAME_ID,
-                DatabaseContract.MaritalStatus.COLUMN_NAME_DESCRIPTION
-        };
-
-        private ContentValues MaritalStatusToContentValues(MaritalStatus maritalStatus) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.MaritalStatus.COLUMN_NAME_ID, maritalStatus.getID());
-                values.put(DatabaseContract.MaritalStatus.COLUMN_NAME_DESCRIPTION, maritalStatus.getDescription());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
-        private ArrayList<MaritalStatus> CursorToArrayList(Cursor result) {
-            ArrayList<MaritalStatus> listMaritalStatus = null;
-            try {
-                if (result != null) {
-                    listMaritalStatus = new ArrayList<MaritalStatus>();
-                    while (result.moveToNext()) {
-                        MaritalStatus maritalStatus = new MaritalStatus();
-                        maritalStatus.setID(result.getString(result.getColumnIndex(DatabaseContract.MaritalStatus.COLUMN_NAME_ID)));
-                        maritalStatus.setDescription(result.getString(result.getColumnIndex(DatabaseContract.MaritalStatus.COLUMN_NAME_DESCRIPTION)));
-                        listMaritalStatus.add(maritalStatus);
-                    }
-                    result.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return listMaritalStatus;
-        }
-
-        public long create(MaritalStatus maritalStatus) {
-            long rowId = -1;
-            try {
-                if (Count(maritalStatus.getID()) == 0) {
-                    ContentValues values = MaritalStatusToContentValues(maritalStatus);
-                    if (values != null) {
-                        rowId = databaseContract.open().insert(
-                                DatabaseContract.MaritalStatus.TABLE_NAME, null, values);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public ArrayList<MaritalStatus> listAll() {
-            ArrayList<MaritalStatus> listMaritalStatus = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.MaritalStatus.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.MaritalStatus.DEFAULT_SORT_ORDER);
-                listMaritalStatus = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listMaritalStatus;
-        }
-
-        public int TotalCount() {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.MaritalStatus.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.MaritalStatus.DEFAULT_SORT_ORDER);
-                if (result != null) {
-                    Count = result.getCount();
-                    result.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public int Count(String ID) {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                if (ID != null) {
-                    String whereClause = DatabaseContract.MaritalStatus.COLUMN_NAME_ID + "='" + ID + "'";
-                    SQLiteDatabase db = databaseContract.open();
-                    result = db.query(DatabaseContract.MaritalStatus.TABLE_NAME,
-                            projection, whereClause,
-                            null, null, null,
-                            DatabaseContract.MaritalStatus.DEFAULT_SORT_ORDER);
-                    if (result != null) {
-                        Count = result.getCount();
-                        result.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public void delete() {
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.MaritalStatus.TABLE_NAME, null, null);
-                db.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-
-    /*public class GenderAdapter {
+    public class GenderAdapter {
 
         String[] projection = {
                 DatabaseContract.Gender.COLUMN_NAME_ID,
@@ -8389,52 +8259,52 @@ public class DatabaseAdapter {
         }
     }
 
-    public class PrefixAdapter {
+    public class MaritalStatusAdapter {
 
         String[] projection = {
-                DatabaseContract.Prefix.COLUMN_NAME_ID,
-                DatabaseContract.Prefix.COLUMN_NAME_DESCRIPTION
+                DatabaseContract.MaritalStatus.COLUMN_NAME_ID,
+                DatabaseContract.MaritalStatus.COLUMN_NAME_DESCRIPTION
         };
 
-        private ContentValues PrefixToContentValues(Prefix bloodGroup) {
+        private ContentValues MaritalStatusToContentValues(MaritalStatus maritalStatus) {
             ContentValues values = null;
             try {
                 values = new ContentValues();
-                values.put(DatabaseContract.Prefix.COLUMN_NAME_ID, bloodGroup.getID());
-                values.put(DatabaseContract.Prefix.COLUMN_NAME_DESCRIPTION, bloodGroup.getDescription());
+                values.put(DatabaseContract.MaritalStatus.COLUMN_NAME_ID, maritalStatus.getID());
+                values.put(DatabaseContract.MaritalStatus.COLUMN_NAME_DESCRIPTION, maritalStatus.getDescription());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return values;
         }
 
-        private ArrayList<Prefix> CursorToArrayList(Cursor result) {
-            ArrayList<Prefix> listPrefix = null;
+        private ArrayList<MaritalStatus> CursorToArrayList(Cursor result) {
+            ArrayList<MaritalStatus> listMaritalStatus = null;
             try {
                 if (result != null) {
-                    listPrefix = new ArrayList<Prefix>();
+                    listMaritalStatus = new ArrayList<MaritalStatus>();
                     while (result.moveToNext()) {
-                        Prefix bloodGroup = new Prefix();
-                        bloodGroup.setID(result.getString(result.getColumnIndex(DatabaseContract.Prefix.COLUMN_NAME_ID)));
-                        bloodGroup.setDescription(result.getString(result.getColumnIndex(DatabaseContract.Prefix.COLUMN_NAME_DESCRIPTION)));
-                        listPrefix.add(bloodGroup);
+                        MaritalStatus maritalStatus = new MaritalStatus();
+                        maritalStatus.setID(result.getString(result.getColumnIndex(DatabaseContract.MaritalStatus.COLUMN_NAME_ID)));
+                        maritalStatus.setDescription(result.getString(result.getColumnIndex(DatabaseContract.MaritalStatus.COLUMN_NAME_DESCRIPTION)));
+                        listMaritalStatus.add(maritalStatus);
                     }
                     result.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return listPrefix;
+            return listMaritalStatus;
         }
 
-        public long create(Prefix bloodGroup) {
+        public long create(MaritalStatus maritalStatus) {
             long rowId = -1;
             try {
-                if (Count(bloodGroup.getID()) == 0) {
-                    ContentValues values = PrefixToContentValues(bloodGroup);
+                if (Count(maritalStatus.getID()) == 0) {
+                    ContentValues values = MaritalStatusToContentValues(maritalStatus);
                     if (values != null) {
                         rowId = databaseContract.open().insert(
-                                DatabaseContract.Prefix.TABLE_NAME, null, values);
+                                DatabaseContract.MaritalStatus.TABLE_NAME, null, values);
                     }
                 }
             } catch (SQLException e) {
@@ -8445,16 +8315,16 @@ public class DatabaseAdapter {
             return rowId;
         }
 
-        public ArrayList<Prefix> listAll() {
-            ArrayList<Prefix> listPrefix = null;
+        public ArrayList<MaritalStatus> listAll() {
+            ArrayList<MaritalStatus> listMaritalStatus = null;
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.Prefix.TABLE_NAME,
+                result = db.query(DatabaseContract.MaritalStatus.TABLE_NAME,
                         projection, null,
                         null, null, null,
-                        DatabaseContract.Prefix.DEFAULT_SORT_ORDER);
-                listPrefix = CursorToArrayList(result);
+                        DatabaseContract.MaritalStatus.DEFAULT_SORT_ORDER);
+                listMaritalStatus = CursorToArrayList(result);
             } catch (SQLException e) {
                 e.printStackTrace();
 
@@ -8462,7 +8332,7 @@ public class DatabaseAdapter {
                 databaseContract.close();
                 result.close();
             }
-            return listPrefix;
+            return listMaritalStatus;
         }
 
         public int TotalCount() {
@@ -8470,10 +8340,144 @@ public class DatabaseAdapter {
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.Prefix.TABLE_NAME,
+                result = db.query(DatabaseContract.MaritalStatus.TABLE_NAME,
                         projection, null,
                         null, null, null,
-                        DatabaseContract.Prefix.DEFAULT_SORT_ORDER);
+                        DatabaseContract.MaritalStatus.DEFAULT_SORT_ORDER);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                if (ID != null) {
+                    String whereClause = DatabaseContract.MaritalStatus.COLUMN_NAME_ID + "='" + ID + "'";
+                    SQLiteDatabase db = databaseContract.open();
+                    result = db.query(DatabaseContract.MaritalStatus.TABLE_NAME,
+                            projection, whereClause,
+                            null, null, null,
+                            DatabaseContract.MaritalStatus.DEFAULT_SORT_ORDER);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.MaritalStatus.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class BloodGroupAdapter {
+
+        String[] projection = {
+                DatabaseContract.BloodGroup.COLUMN_NAME_ID,
+                DatabaseContract.BloodGroup.COLUMN_NAME_DESCRIPTION
+        };
+
+        private ContentValues BloodGroupToContentValues(BloodGroup bloodGroup) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.BloodGroup.COLUMN_NAME_ID, bloodGroup.getID());
+                values.put(DatabaseContract.BloodGroup.COLUMN_NAME_DESCRIPTION, bloodGroup.getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<BloodGroup> CursorToArrayList(Cursor result) {
+            ArrayList<BloodGroup> listBloodGroup = null;
+            try {
+                if (result != null) {
+                    listBloodGroup = new ArrayList<BloodGroup>();
+                    while (result.moveToNext()) {
+                        BloodGroup bloodGroup = new BloodGroup();
+                        bloodGroup.setID(result.getString(result.getColumnIndex(DatabaseContract.BloodGroup.COLUMN_NAME_ID)));
+                        bloodGroup.setDescription(result.getString(result.getColumnIndex(DatabaseContract.BloodGroup.COLUMN_NAME_DESCRIPTION)));
+                        listBloodGroup.add(bloodGroup);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listBloodGroup;
+        }
+
+        public long create(BloodGroup bloodGroup) {
+            long rowId = -1;
+            try {
+                if (Count(bloodGroup.getID()) == 0) {
+                    ContentValues values = BloodGroupToContentValues(bloodGroup);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.BloodGroup.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<BloodGroup> listAll() {
+            ArrayList<BloodGroup> listBloodGroup = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.BloodGroup.TABLE_NAME,
+                        projection, null,
+                        null, null, null,
+                        DatabaseContract.BloodGroup.DEFAULT_SORT_ORDER);
+                listBloodGroup = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listBloodGroup;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.BloodGroup.TABLE_NAME,
+                        projection, null,
+                        null, null, null,
+                        DatabaseContract.BloodGroup.DEFAULT_SORT_ORDER);
                 if (result != null) {
                     Count = result.getCount();
                     result.close();
@@ -8494,11 +8498,11 @@ public class DatabaseAdapter {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
                 if (ID != null) {
-                    whereClause = DatabaseContract.Prefix.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.Prefix.TABLE_NAME,
+                    whereClause = DatabaseContract.BloodGroup.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.BloodGroup.TABLE_NAME,
                             projection, whereClause,
                             null, null, null,
-                            DatabaseContract.Prefix.DEFAULT_SORT_ORDER);
+                            DatabaseContract.BloodGroup.DEFAULT_SORT_ORDER);
                     if (result != null) {
                         Count = result.getCount();
                         result.close();
@@ -8516,13 +8520,15 @@ public class DatabaseAdapter {
         public void delete() {
             try {
                 SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.Prefix.TABLE_NAME, null, null);
+                db.delete(DatabaseContract.BloodGroup.TABLE_NAME, null, null);
                 db.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
+
+
 
     /*public class MedicienNameAdapter {
 

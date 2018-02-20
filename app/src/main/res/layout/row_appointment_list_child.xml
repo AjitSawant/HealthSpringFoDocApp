@@ -253,11 +253,10 @@
                             android:text="Cancel"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="12sp"
-                            android:visibility="11sp" />
+                            android:textSize="11sp"
+                            android:visibility="visible" />
                     </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

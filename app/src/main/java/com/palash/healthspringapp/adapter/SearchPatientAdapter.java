@@ -98,7 +98,8 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 convertView = inflater.inflate(R.layout.row_list_patient, null);
                 holder.patient_img = (ImageView) convertView.findViewById(R.id.row_search_patient_image);
                 holder.patient_name = (TextView) convertView.findViewById(R.id.row_search_patient_name_txt);
-                holder.patient_mrno = (TextView) convertView.findViewById(R.id.row_search_patient_mrno_txt);
+                holder.patient_age = (TextView) convertView.findViewById(R.id.row_search_patient_age_txt);
+                holder.row_search_patient_mobile_txt = (TextView) convertView.findViewById(R.id.row_search_patient_mobile_txt);
                 holder.row_search_patient_unit = (TextView) convertView.findViewById(R.id.row_search_patient_unit);
                 holder.patient_row_bnt_book = (TextView) convertView.findViewById(R.id.patient_row_bnt_book);
                 holder.patient_row_bnt_visit = (TextView) convertView.findViewById(R.id.patient_row_bnt_visit);
@@ -122,11 +123,23 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 holder.patient_img.setImageResource(R.drawable.personfemale);
             }
 
-            holder.patient_mrno.setText("Age : " + elPatient.getAge() + " Yrs");
+            if(elPatient.getContactNo1()!=null && elPatient.getContactNo1().length()>0){
+                holder.row_search_patient_mobile_txt.setVisibility(View.VISIBLE);
+                holder.row_search_patient_mobile_txt.setText("Mobile : "+elPatient.getContactNo1());
+            }else{
+                holder.row_search_patient_mobile_txt.setVisibility(View.GONE);
+            }
 
-            holder.row_search_patient_unit.setText("" + elPatient.getClinicName());
+            if(elPatient.getAge()!=null && elPatient.getAge().length()>0){
+                holder.patient_age.setVisibility(View.VISIBLE);
+                holder.patient_age.setText("Age : "+elPatient.getAge()+ " Yrs");
+            }else{
+                holder.patient_age.setVisibility(View.GONE);
+            }
 
-            holder.row_search_patient_date.setText("Date : " + elPatient.getRegistrationDate());
+            holder.row_search_patient_unit.setText("Unit : " + elPatient.getClinicName());
+
+            holder.row_search_patient_date.setText("Reg. Date : " + elPatient.getRegistrationDate());
 
             holder.patient_row_bnt_book.getId();
             holder.patient_row_bnt_book.setTag(position);
@@ -276,7 +289,8 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
     private class ViewHolder {
         ImageView patient_img;
         TextView patient_name;
-        TextView patient_mrno;
+        TextView patient_age;
+        TextView row_search_patient_mobile_txt;
         TextView patient_row_bnt_book;
         TextView patient_row_bnt_visit;
         TextView patient_row_bnt_patient_console;

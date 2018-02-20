@@ -498,7 +498,7 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_UNIT_NAME
                 + " TEXT,"
-                 + COLUMN_NAME_MRNo
+                + COLUMN_NAME_MRNo
                 + " TEXT,"
                 + COLUMN_NAME_PATIENT_ID
                 + " TEXT,"
@@ -1786,12 +1786,12 @@ public class DatabaseContract {
                 + ")";
     }
 
-     /*public static final class BloodGroup implements BaseColumns {
+    public static final class Prefix implements BaseColumns {
 
-        private BloodGroup() {
+        private Prefix() {
         }
 
-        public static final String TABLE_NAME = "T_BloodGroup";
+        public static final String TABLE_NAME = "T_Prefix";
         public static final String DEFAULT_SORT_ORDER = "_id ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
@@ -1800,7 +1800,7 @@ public class DatabaseContract {
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
                 + "("
-                + BloodGroup._ID
+                + Prefix._ID
                 + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
                 + COLUMN_NAME_ID
                 + " TEXT,"
@@ -1861,12 +1861,12 @@ public class DatabaseContract {
                 + ")";
     }
 
-    public static final class Prefix implements BaseColumns {
+    public static final class BloodGroup implements BaseColumns {
 
-        private Prefix() {
+        private BloodGroup() {
         }
 
-        public static final String TABLE_NAME = "T_Prefix";
+        public static final String TABLE_NAME = "T_BloodGroup";
         public static final String DEFAULT_SORT_ORDER = "_id ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
@@ -1875,7 +1875,7 @@ public class DatabaseContract {
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
                 + "("
-                + Prefix._ID
+                + BloodGroup._ID
                 + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
                 + COLUMN_NAME_ID
                 + " TEXT,"
@@ -1884,8 +1884,7 @@ public class DatabaseContract {
                 + COLUMN_NAME_IS_SYNC
                 + " INTEGER DEFAULT 0"
                 + ")";
-    }*/
-
+    }
 
     /*public static final class MedicienName implements BaseColumns {
 
@@ -2110,20 +2109,23 @@ public class DatabaseContract {
                 Log.d(Constants.TAG, "Creating table 27: " + ReferralServiceList.CREATE_TABLE);
                 db.execSQL(ReferralServiceList.CREATE_TABLE);
 
-                /*Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
-                db.execSQL(PatientConsoleList.CREATE_TABLE);*/
-
                 Log.d(Constants.TAG, "Creating table 29: " + PatientFollowUp.CREATE_TABLE);
                 db.execSQL(PatientFollowUp.CREATE_TABLE);
 
-              /*Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
-                db.execSQL(Gender.CREATE_TABLE);
-                Log.d(Constants.TAG, "Creating table 5: " + MaritalStatus.CREATE_TABLE);
-                db.execSQL(MaritalStatus.CREATE_TABLE);
                 Log.d(Constants.TAG, "Creating table 6: " + Prefix.CREATE_TABLE);
                 db.execSQL(Prefix.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 4: " + Gender.CREATE_TABLE);
+                db.execSQL(Gender.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 5: " + MaritalStatus.CREATE_TABLE);
+                db.execSQL(MaritalStatus.CREATE_TABLE);
+
                 Log.d(Constants.TAG, "Creating table 14: " + BloodGroup.CREATE_TABLE);
                 db.execSQL(BloodGroup.CREATE_TABLE);
+
+                /*Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
+                db.execSQL(PatientConsoleList.CREATE_TABLE);
                 Log.d(Constants.TAG, "Creating table 17: " + MedicienName.CREATE_TABLE);
                 db.execSQL(MedicienName.CREATE_TABLE);
                 Log.d(Constants.TAG, "Creating table 24: " + ServiceName.CREATE_TABLE);
