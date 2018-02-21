@@ -12,6 +12,7 @@ public class ELUnitMaster {
     private String UnitID;
     private String UnitCode;
     private String UnitDesc;
+    private String IsDefault;
 
     @JsonProperty("UnitID")
     public String getUnitID() {
@@ -38,5 +39,14 @@ public class ELUnitMaster {
 
     public void setUnitDesc(String unitDesc) {
         UnitDesc = unitDesc;
+    }
+
+    @JsonProperty("IsDefault")
+    public String getIsDefault() {
+        return IsDefault;
+    }
+
+    public void setIsDefault(String isDefault) {
+        IsDefault = isDefault;
     }
 }

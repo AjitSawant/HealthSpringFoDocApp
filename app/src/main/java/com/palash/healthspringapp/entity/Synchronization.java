@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Synchronization {
 
+    private String ID;
     private String DoctorID;
     private String UnitID;
     private String DoctorProfileCount;
@@ -34,6 +35,20 @@ public class Synchronization {
     private String PriorityCount;
     private String ControlCaptionCount;
     private String MoleculeCount;
+    private String CountryCount;
+    private String RegionCount;
+    private String StateCount;
+    private String CityCount;
+    private String ReferralFromCount;
+
+    @JsonProperty("ID")
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     @JsonProperty("BloodGroupCount")
     public String getBloodGroupCount() {
@@ -285,5 +300,50 @@ public class Synchronization {
 
     public void setMoleculeCount(String moleculeCount) {
         MoleculeCount = moleculeCount;
+    }
+
+    @JsonProperty("CountryCount")
+    public String getCountryCount() {
+        return CountryCount;
+    }
+
+    public void setCountryCount(String countryCount) {
+        CountryCount = countryCount;
+    }
+
+    @JsonProperty("RegionCount")
+    public String getRegionCount() {
+        return RegionCount;
+    }
+
+    public void setRegionCount(String regionCount) {
+        RegionCount = regionCount;
+    }
+
+    @JsonProperty("StateCount")
+    public String getStateCount() {
+        return StateCount;
+    }
+
+    public void setStateCount(String stateCount) {
+        StateCount = stateCount;
+    }
+
+    @JsonProperty("CityCount")
+    public String getCityCount() {
+        return CityCount;
+    }
+
+    public void setCityCount(String cityCount) {
+        CityCount = cityCount;
+    }
+
+    @JsonProperty("ReferralFromCount")
+    public String getReferralFromCount() {
+        return ReferralFromCount;
+    }
+
+    public void setReferralFromCount(String referralFromCount) {
+        ReferralFromCount = referralFromCount;
     }
 }

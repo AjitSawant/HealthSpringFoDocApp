@@ -18,6 +18,11 @@ import com.palash.healthspringapp.entity.DaignosisTypeMaster;
 import com.palash.healthspringapp.entity.Department;
 import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.DoctorType;
+import com.palash.healthspringapp.entity.ELCityMaster;
+import com.palash.healthspringapp.entity.ELCountryMaster;
+import com.palash.healthspringapp.entity.ELHealthspringReferral;
+import com.palash.healthspringapp.entity.ELRegionMaster;
+import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELUnitMaster;
 import com.palash.healthspringapp.entity.Flag;
 import com.palash.healthspringapp.entity.Gender;
@@ -56,7 +61,11 @@ public class MasterTask implements Task {
     private DatabaseAdapter.DaignosisTypeMasterAdapter daignosisTypeMasterAdapter;
     private DatabaseAdapter.PriorityAdapter priorityAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
-
+    private DatabaseAdapter.CountryMasterAdapter countryMasterAdapter;
+    private DatabaseAdapter.RegionMasterAdapter regionMasterAdapter;
+    private DatabaseAdapter.StateMasterAdapter stateMasterAdapter;
+    private DatabaseAdapter.CityMasterAdapter cityMasterAdapter;
+    private DatabaseAdapter.HealthSpringReferralMasterAdapter healthSpringReferralMasterAdapter;
     private DatabaseAdapter.PrefixAdapter prefixAdapter;
     private DatabaseAdapter.GenderAdapter genderAdapter;
     private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
@@ -91,6 +100,11 @@ public class MasterTask implements Task {
     private ArrayList<DaignosisTypeMaster> daignosisTypeMasterList;
     private ArrayList<Priority> priorityList;
     private ArrayList<Flag> masterflagArrayList;
+    private ArrayList<ELCountryMaster> elCountryMasterArrayList;
+    private ArrayList<ELRegionMaster> elRegionMasterArrayList;
+    private ArrayList<ELStateMaster> elStateMasterArrayList;
+    private ArrayList<ELCityMaster> elCityMasterArrayList;
+    private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList;
 
     /*private ArrayList<MedicienName> medicienNameList;
     private ArrayList<DaignosisMaster> daignosisMasterList;
@@ -134,11 +148,15 @@ public class MasterTask implements Task {
             daignosisTypeMasterAdapter = databaseAdapter.new DaignosisTypeMasterAdapter();
             priorityAdapter = databaseAdapter.new PriorityAdapter();
             masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
-
+            countryMasterAdapter = databaseAdapter.new CountryMasterAdapter();
+            regionMasterAdapter = databaseAdapter.new RegionMasterAdapter();
+            stateMasterAdapter = databaseAdapter.new StateMasterAdapter();
+            cityMasterAdapter = databaseAdapter.new CityMasterAdapter();
             prefixAdapter = databaseAdapter.new PrefixAdapter();
             genderAdapter = databaseAdapter.new GenderAdapter();
             maritalStatusAdapter = databaseAdapter.new MaritalStatusAdapter();
             bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
+            healthSpringReferralMasterAdapter = databaseAdapter.new HealthSpringReferralMasterAdapter();
 
             /*medicienNameAdapter = databaseAdapter.new MedicienNameAdapter();
             daignosisMasterAdapter = databaseAdapter.new DaignosisMasterAdapter();
@@ -152,6 +170,7 @@ public class MasterTask implements Task {
                 synchronization = new Synchronization();
                 synchronization.setUnitID(doctorProfileList.get(0).getUnitID());
                 synchronization.setDoctorID(doctorProfileList.get(0).getDoctorID());
+                synchronization.setID(doctorProfileList.get(0).getID());
                 // Synchronization task
                 response = serviceConsumer.POST(Constants.SYNCHRONIZATION_URL, objectMapper.unMap(synchronization));
                 if (response != null) {
@@ -210,6 +229,12 @@ public class MasterTask implements Task {
                                         masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Master");
                                         masterFlagAdapter.create(masterdataflag);
+
+                                        CountryMasterTask();
+                                        RegionMasterTask();
+                                        StateMatserTask();
+                                        CityMasterTask();
+                                        HealthSpringMasterTask();
 
                                         PrefixTask();
                                         GenderTask();
@@ -782,6 +807,150 @@ public class MasterTask implements Task {
         }
     }
 
+    public void CountryMasterTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = countryMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "Country Task Local size : " + Count);
+            if (synchronizationList.get(0).getCountryCount() != null && (!synchronizationList.get(0).getCountryCount().equals("")) && (!synchronizationList.get(0).getCountryCount().equals(String.valueOf(Count)))) {
+                //Prefix list task
+                response = serviceConsumer.GET(Constants.COUNTRY_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elCountryMasterArrayList = objectMapper.map(responseString, ELCountryMaster.class);
+                        Log.d(Constants.TAG, "Country Task size:" + elCountryMasterArrayList.size());
+                        countryMasterAdapter.delete();
+                        if (elCountryMasterArrayList != null && elCountryMasterArrayList.size() > 0) {
+                            for (int index = 0; index < elCountryMasterArrayList.size(); index++) {
+                                countryMasterAdapter.create(elCountryMasterArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void RegionMasterTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = regionMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "Region Task Local size : " + Count);
+            if (synchronizationList.get(0).getRegionCount() != null && (!synchronizationList.get(0).getRegionCount().equals("")) && (!synchronizationList.get(0).getRegionCount().equals(String.valueOf(Count)))) {
+                //Gender list task
+                response = serviceConsumer.GET(Constants.REGION_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elRegionMasterArrayList = objectMapper.map(responseString, ELRegionMaster.class);
+                        Log.d(Constants.TAG, "Region Task size : " + elRegionMasterArrayList.size());
+                        regionMasterAdapter.delete();
+                        if (elRegionMasterArrayList != null && elRegionMasterArrayList.size() > 0) {
+                            for (int index = 0; index < elRegionMasterArrayList.size(); index++) {
+                                regionMasterAdapter.create(elRegionMasterArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void StateMatserTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = stateMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "State Task Local size : " + Count);
+            if (synchronizationList.get(0).getStateCount() != null && (!synchronizationList.get(0).getStateCount().equals("")) && (!synchronizationList.get(0).getStateCount().equals(String.valueOf(Count)))) {
+                //Marital status list
+                response = serviceConsumer.GET(Constants.STATE_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elStateMasterArrayList = objectMapper.map(responseString, ELStateMaster.class);
+                        Log.d(Constants.TAG, "State Task size : " + elStateMasterArrayList.size());
+                        stateMasterAdapter.delete();
+                        if (elStateMasterArrayList != null && elStateMasterArrayList.size() > 0) {
+                            for (int index = 0; index < elStateMasterArrayList.size(); index++) {
+                                stateMasterAdapter.create(elStateMasterArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void CityMasterTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = cityMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "city List Local size : " + Count);
+            if (synchronizationList.get(0).getCityCount() != null && (!synchronizationList.get(0).getCityCount().equals("")) && (!synchronizationList.get(0).getCityCount().equals(String.valueOf(Count)))) {
+                //Bloodgroup list task
+                response = serviceConsumer.GET(Constants.CITY_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elCityMasterArrayList = objectMapper.map(responseString, ELCityMaster.class);
+                        Log.d(Constants.TAG, "city List size : " + elCityMasterArrayList.size());
+                        cityMasterAdapter.delete();
+                        if (elCityMasterArrayList != null && elCityMasterArrayList.size() > 0) {
+                            for (int index = 0; index < elCityMasterArrayList.size(); index++) {
+                                cityMasterAdapter.create(elCityMasterArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void HealthSpringMasterTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = healthSpringReferralMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "Healthspring Referral List Local size : " + Count);
+            if (synchronizationList.get(0).getReferralFromCount() != null && (!synchronizationList.get(0).getReferralFromCount().equals("")) && (!synchronizationList.get(0).getReferralFromCount().equals(String.valueOf(Count)))) {
+                //Bloodgroup list task
+                response = serviceConsumer.GET(Constants.HEALTHSPRING_REFERRAL_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elHealthspringReferralArrayList = objectMapper.map(responseString, ELHealthspringReferral.class);
+                        Log.d(Constants.TAG, "Healthspring Referral List size : " + elHealthspringReferralArrayList.size());
+                        healthSpringReferralMasterAdapter.delete();
+                        if (elHealthspringReferralArrayList != null && elHealthspringReferralArrayList.size() > 0) {
+                            for (int index = 0; index < elHealthspringReferralArrayList.size(); index++) {
+                                healthSpringReferralMasterAdapter.create(elHealthspringReferralArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /*public void MedicienNameTask() {
         try {

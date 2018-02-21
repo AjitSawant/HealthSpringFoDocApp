@@ -36,8 +36,15 @@
     <string name="profile_gender">Gender</string>
     <string name="profile_email">Email ID</string>
     <string name="profile_mob">Mobile No.</string>
+    <string name="profile_flat_build">Flat and Building</string>
+    <string name="profile_street">Street name</string>
     <string name="profile_maritalstatus">Marital Status</string>
     <string name="profile_blood">Blood Group</string>
+    <string name="profile_known">Known of Healthspring</string>
+    <string name="profile_country">Select Country</string>
+    <string name="profile_region">Select Region</string>
+    <string name="profile_state">Select State</string>
+    <string name="profile_city">Select City</string>
 
     <!---Search Patient-->
     <string name="serach">Search Patient...</string>

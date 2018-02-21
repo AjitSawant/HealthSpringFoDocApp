@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -23,6 +24,11 @@ import com.palash.healthspringapp.database.DatabaseAdapter;
 import com.palash.healthspringapp.database.DatabaseContract;
 import com.palash.healthspringapp.entity.BloodGroup;
 import com.palash.healthspringapp.entity.DoctorProfile;
+import com.palash.healthspringapp.entity.ELCityMaster;
+import com.palash.healthspringapp.entity.ELCountryMaster;
+import com.palash.healthspringapp.entity.ELHealthspringReferral;
+import com.palash.healthspringapp.entity.ELRegionMaster;
+import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.Flag;
 import com.palash.healthspringapp.entity.Gender;
 import com.palash.healthspringapp.entity.MaritalStatus;
@@ -52,7 +58,11 @@ public class PatientRegistrationActivity extends AppCompatActivity {
     private DatabaseAdapter.GenderAdapter genderAdapter;
     private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
     private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;
-    private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
+    private DatabaseAdapter.CountryMasterAdapter countryMasterAdapter;
+    private DatabaseAdapter.RegionMasterAdapter regionMasterAdapter;
+    private DatabaseAdapter.StateMasterAdapter stateMasterAdapter;
+    private DatabaseAdapter.CityMasterAdapter cityMasterAdapter;
+    private DatabaseAdapter.HealthSpringReferralMasterAdapter healthSpringReferralMasterAdapter;
 
     private Patient patient;
     private Flag flag;
@@ -61,11 +71,12 @@ public class PatientRegistrationActivity extends AppCompatActivity {
     private ArrayList<Gender> listGender;
     private ArrayList<MaritalStatus> listMaritalStatus;
     private ArrayList<BloodGroup> listbloodGroups;
+    private ArrayList<ELCountryMaster> elCountryMasterArrayList;
+    private ArrayList<ELRegionMaster> elRegionMasterArrayList;
+    private ArrayList<ELStateMaster> elStateMasterArrayList;
+    private ArrayList<ELCityMaster> elCityMasterArrayList;
+    private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList;
 
-    private MaterialSpinner patient_reg_spinner_perfix;
-    private MaterialSpinner patient_reg_spinner_gender;
-    private MaterialSpinner patient_reg_spinner_maritalstatus;
-    private MaterialSpinner patient_reg_spinner_bloodgroup;
     private EditText patient_reg_edt_fname;
     private EditText patient_reg_edt_mname;
     private EditText patient_reg_edt_lname;
@@ -74,12 +85,36 @@ public class PatientRegistrationActivity extends AppCompatActivity {
     private EditText patient_reg_edt_email;
     private EditText patient_reg_edt_mobile;
 
+    private MaterialSpinner patient_reg_spinner_perfix;
+    private MaterialSpinner patient_reg_spinner_gender;
+    private MaterialSpinner patient_reg_spinner_maritalstatus;
+    private MaterialSpinner patient_reg_spinner_bloodgroup;
+    private MaterialSpinner patient_reg_spinner_country;
+    private MaterialSpinner patient_reg_spinner_region;
+    private MaterialSpinner patient_reg_spinner_state;
+    private MaterialSpinner patient_reg_spinner_city;
+    private MaterialSpinner patient_reg_spinner_known_from;
+
     private SpinnerAdapter.GenderAdapter getGenderArrayAdapter;
     private SpinnerAdapter.PerfixAdapter getPerfixArrayAdapter;
     private SpinnerAdapter.MaritalStatusAdapter getMaritalStatusArrayAdapter;
     private SpinnerAdapter.BloodGroupAdapter getBloodGroupArrayAdapter;
+    private SpinnerAdapter.CountryAdapter countryAdapter;
+    private SpinnerAdapter.RegionAdapter regionAdapter;
+    private SpinnerAdapter.StateAdapter stateAdapter;
+    private SpinnerAdapter.CityAdapter cityAdapter;
+    private SpinnerAdapter.HealthspringReferralAdapter healthspringReferralAdapter;
 
-    private String jSonData = "";
+    private String PrefixID = "";
+    private String GenderID = "";
+    private String MarriedStatusID = "";
+    private String BloodGroupID = "";
+    private String HealthSpringReferralID = "";
+    private String CountryID = "";
+    private String RegionID = "";
+    private String StateID = "";
+    private String CityID = "";
+
     private DatePickerDialog.OnDateSetListener dateListener;
 
     @Override
@@ -87,7 +122,6 @@ public class PatientRegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_registration);
         InitSetting();
-        MasterFlagTask();
         InitView();
     }
 
@@ -101,17 +135,18 @@ public class PatientRegistrationActivity extends AppCompatActivity {
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-            masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             genderAdapter = databaseAdapter.new GenderAdapter();
             maritalStatusAdapter = databaseAdapter.new MaritalStatusAdapter();
             prefixAdapter = databaseAdapter.new PrefixAdapter();
             bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
+            countryMasterAdapter = databaseAdapter.new CountryMasterAdapter();
+            stateMasterAdapter = databaseAdapter.new StateMasterAdapter();
+            regionMasterAdapter = databaseAdapter.new RegionMasterAdapter();
+            cityMasterAdapter = databaseAdapter.new CityMasterAdapter();
+            healthSpringReferralMasterAdapter = databaseAdapter.new HealthSpringReferralMasterAdapter();
+
             listProfile = doctorProfileAdapter.listAll();
-            listGender = genderAdapter.listAll();
-            listMaritalStatus = maritalStatusAdapter.listAll();
-            listPrefix = prefixAdapter.listAll();
-            listbloodGroups = bloodGroupAdapter.listAll();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,11 +161,18 @@ public class PatientRegistrationActivity extends AppCompatActivity {
             patient_reg_edt_education = (EditText) findViewById(R.id.patient_reg_edt_education);
             patient_reg_edt_email = (EditText) findViewById(R.id.patient_reg_email);
             patient_reg_edt_mobile = (EditText) findViewById(R.id.patient_reg_mobile);
+
             patient_reg_spinner_perfix = (MaterialSpinner) findViewById(R.id.patient_reg_spinnerperfix);
             patient_reg_spinner_gender = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_gender);
             patient_reg_spinner_maritalstatus = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_maritalstatus);
             patient_reg_spinner_bloodgroup = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_bloodgroup);
+            patient_reg_spinner_country = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_country);
+            patient_reg_spinner_region = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_region);
+            patient_reg_spinner_state = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_state);
+            patient_reg_spinner_city = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_city);
+            patient_reg_spinner_known_from = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_known_from);
             patient_reg_edt_dob.setFocusable(false);
+
             patient_reg_edt_dob.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -160,40 +202,269 @@ public class PatientRegistrationActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void MasterFlagTask() {
-        flag = masterFlagAdapter.listCurrent();
-        flag.setFlag(Constants.PATIENT_REGISTRATION_TASK);
-        masterFlagAdapter.create(flag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
-    }
-
     private void InitAdapter() {
         try {
+            listGender = genderAdapter.listAll();
+            listMaritalStatus = maritalStatusAdapter.listAll();
+            listPrefix = prefixAdapter.listAll();
+            listbloodGroups = bloodGroupAdapter.listAll();
+            elCountryMasterArrayList = countryMasterAdapter.listAll();
+            elHealthspringReferralArrayList = healthSpringReferralMasterAdapter.listAll();
+
             if (listGender != null && listGender.size() > 0) {
                 getGenderArrayAdapter = new SpinnerAdapter.GenderAdapter(context, listGender);
                 patient_reg_spinner_gender.setAdapter(getGenderArrayAdapter);
                 getGenderArrayAdapter.notifyDataSetChanged();
+
+                patient_reg_spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sGenderPos = patient_reg_spinner_gender.getSelectedItemPosition();
+                        if (sGenderPos == 0) {
+                            GenderID = "0";
+                        } else if (sGenderPos > 0) {
+                            sGenderPos = sGenderPos - 1;
+                            GenderID = listGender.get(sGenderPos).getID();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                getGenderArrayAdapter = new SpinnerAdapter.GenderAdapter(context, listGender);
+                patient_reg_spinner_gender.setAdapter(getGenderArrayAdapter);
             }
 
             if (listPrefix != null && listPrefix.size() > 0) {
                 getPerfixArrayAdapter = new SpinnerAdapter.PerfixAdapter(context, listPrefix);
                 patient_reg_spinner_perfix.setAdapter(getPerfixArrayAdapter);
                 getPerfixArrayAdapter.notifyDataSetChanged();
+
+                patient_reg_spinner_perfix.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sPrefixPos = patient_reg_spinner_perfix.getSelectedItemPosition();
+                        if (sPrefixPos == 0) {
+                            PrefixID = "0";
+                        } else if (sPrefixPos > 0) {
+                            sPrefixPos = sPrefixPos - 1;
+                            PrefixID = listPrefix.get(sPrefixPos).getID();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                getPerfixArrayAdapter = new SpinnerAdapter.PerfixAdapter(context, listPrefix);
+                patient_reg_spinner_perfix.setAdapter(getPerfixArrayAdapter);
             }
 
             if (listMaritalStatus != null && listMaritalStatus.size() > 0) {
                 getMaritalStatusArrayAdapter = new SpinnerAdapter.MaritalStatusAdapter(context, listMaritalStatus);
                 patient_reg_spinner_maritalstatus.setAdapter(getMaritalStatusArrayAdapter);
                 getMaritalStatusArrayAdapter.notifyDataSetChanged();
+
+                patient_reg_spinner_maritalstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sMarriedStatusPos = patient_reg_spinner_maritalstatus.getSelectedItemPosition();
+                        if (sMarriedStatusPos == 0) {
+                            MarriedStatusID = "0";
+                        } else if (sMarriedStatusPos > 0) {
+                            sMarriedStatusPos = sMarriedStatusPos - 1;
+                            MarriedStatusID = listMaritalStatus.get(sMarriedStatusPos).getID();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                getMaritalStatusArrayAdapter = new SpinnerAdapter.MaritalStatusAdapter(context, listMaritalStatus);
+                patient_reg_spinner_maritalstatus.setAdapter(getMaritalStatusArrayAdapter);
             }
 
             if (listbloodGroups != null && listbloodGroups.size() > 0) {
                 getBloodGroupArrayAdapter = new SpinnerAdapter.BloodGroupAdapter(context, listbloodGroups);
                 patient_reg_spinner_bloodgroup.setAdapter(getBloodGroupArrayAdapter);
                 getBloodGroupArrayAdapter.notifyDataSetChanged();
+
+                patient_reg_spinner_bloodgroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sBloodGroupPos = patient_reg_spinner_bloodgroup.getSelectedItemPosition();
+                        if (sBloodGroupPos == 0) {
+                            BloodGroupID = "0";
+                        } else if (sBloodGroupPos > 0) {
+                            sBloodGroupPos = sBloodGroupPos - 1;
+                            BloodGroupID = listbloodGroups.get(sBloodGroupPos).getID();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                getBloodGroupArrayAdapter = new SpinnerAdapter.BloodGroupAdapter(context, listbloodGroups);
+                patient_reg_spinner_bloodgroup.setAdapter(getBloodGroupArrayAdapter);
+            }
+
+            if (elHealthspringReferralArrayList != null && elHealthspringReferralArrayList.size() > 0) {
+                healthspringReferralAdapter = new SpinnerAdapter.HealthspringReferralAdapter(context, elHealthspringReferralArrayList);
+                patient_reg_spinner_known_from.setAdapter(healthspringReferralAdapter);
+                healthspringReferralAdapter.notifyDataSetChanged();
+
+                patient_reg_spinner_known_from.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sRefferalPos = patient_reg_spinner_known_from.getSelectedItemPosition();
+                        if (sRefferalPos == 0) {
+                            HealthSpringReferralID = "0";
+                        } else if (sRefferalPos > 0) {
+                            sRefferalPos = sRefferalPos - 1;
+                            HealthSpringReferralID = elHealthspringReferralArrayList.get(sRefferalPos).getID();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                healthspringReferralAdapter = new SpinnerAdapter.HealthspringReferralAdapter(context, elHealthspringReferralArrayList);
+                patient_reg_spinner_known_from.setAdapter(healthspringReferralAdapter);
+            }
+
+            if (elCountryMasterArrayList != null && elCountryMasterArrayList.size() > 0) {
+                countryAdapter = new SpinnerAdapter.CountryAdapter(context, elCountryMasterArrayList);
+                patient_reg_spinner_country.setAdapter(countryAdapter);
+                countryAdapter.notifyDataSetChanged();
+
+                patient_reg_spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sCountryPos = patient_reg_spinner_country.getSelectedItemPosition();
+                        if (sCountryPos == 0) {
+                            CountryID = "0";
+                        } else if (sCountryPos > 0) {
+                            sCountryPos = sCountryPos - 1;
+                            CountryID = elCountryMasterArrayList.get(sCountryPos).getID();
+                        }
+                        setRegionDropdown(CountryID);
+                        setStateDropdown(CountryID, "0");
+                        setCityDropdown(CountryID, "0", "0");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                countryAdapter = new SpinnerAdapter.CountryAdapter(context, elCountryMasterArrayList);
+                patient_reg_spinner_country.setAdapter(countryAdapter);
+                CountryID = "0";
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setRegionDropdown(String countryID) {
+        elRegionMasterArrayList = regionMasterAdapter.listAll(countryID);
+        if (elRegionMasterArrayList != null && elRegionMasterArrayList.size() > 0) {
+            regionAdapter = new SpinnerAdapter.RegionAdapter(context, elRegionMasterArrayList);
+            patient_reg_spinner_region.setAdapter(regionAdapter);
+            regionAdapter.notifyDataSetChanged();
+
+            patient_reg_spinner_region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    int sRegionPos = patient_reg_spinner_region.getSelectedItemPosition();
+                    if (sRegionPos == 0) {
+                        RegionID = "0";
+                    } else if (sRegionPos > 0) {
+                        sRegionPos = sRegionPos - 1;
+                        RegionID = elRegionMasterArrayList.get(sRegionPos).getID();
+                    }
+                    setStateDropdown(CountryID, RegionID);
+                    setCityDropdown(CountryID, RegionID, "0");
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        } else {
+            regionAdapter = new SpinnerAdapter.RegionAdapter(context, elRegionMasterArrayList);
+            patient_reg_spinner_region.setAdapter(regionAdapter);
+            RegionID = "0";
+        }
+    }
+
+    private void setStateDropdown(String countryID, String regionID) {
+        elStateMasterArrayList = stateMasterAdapter.listAll(countryID, regionID);
+        if (elStateMasterArrayList != null && elStateMasterArrayList.size() > 0) {
+            stateAdapter = new SpinnerAdapter.StateAdapter(context, elStateMasterArrayList);
+            patient_reg_spinner_state.setAdapter(stateAdapter);
+            stateAdapter.notifyDataSetChanged();
+
+            patient_reg_spinner_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    int sStatePos = patient_reg_spinner_state.getSelectedItemPosition();
+                    if (sStatePos == 0) {
+                        StateID = "0";
+                    } else if (sStatePos > 0) {
+                        sStatePos = sStatePos - 1;
+                        StateID = elStateMasterArrayList.get(sStatePos).getID();
+                    }
+                    setCityDropdown(CountryID, RegionID, StateID);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        } else {
+            stateAdapter = new SpinnerAdapter.StateAdapter(context, elStateMasterArrayList);
+            patient_reg_spinner_state.setAdapter(stateAdapter);
+            StateID = "0";
+        }
+    }
+
+    private void setCityDropdown(String countryID, String regionID, String stateID) {
+        elCityMasterArrayList = cityMasterAdapter.listAll(countryID, regionID, stateID);
+        if (elCityMasterArrayList != null && elCityMasterArrayList.size() > 0) {
+            cityAdapter = new SpinnerAdapter.CityAdapter(context, elCityMasterArrayList);
+            patient_reg_spinner_city.setAdapter(cityAdapter);
+            cityAdapter.notifyDataSetChanged();
+
+            patient_reg_spinner_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    int sCityPos = patient_reg_spinner_city.getSelectedItemPosition();
+                    if (sCityPos == 0) {
+                        CityID = "0";
+                    } else if (sCityPos > 0) {
+                        sCityPos = sCityPos - 1;
+                        CityID = elCityMasterArrayList.get(sCityPos).getID();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        } else {
+            cityAdapter = new SpinnerAdapter.CityAdapter(context, elCityMasterArrayList);
+            patient_reg_spinner_city.setAdapter(cityAdapter);
+            CityID = "0";
         }
     }
 
@@ -323,6 +594,7 @@ public class PatientRegistrationActivity extends AppCompatActivity {
         private JsonObjectMapper objMapper = null;
         private WebServiceConsumer serviceConsumer = null;
         private Response response = null;
+        private String jSonData = null;
 
         @Override
         protected void onPreExecute() {

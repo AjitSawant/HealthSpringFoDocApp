@@ -19,7 +19,12 @@ import com.palash.healthspringapp.entity.Department;
 import com.palash.healthspringapp.entity.DiagnosisList;
 import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.DoctorType;
+import com.palash.healthspringapp.entity.ELCityMaster;
+import com.palash.healthspringapp.entity.ELCountryMaster;
 import com.palash.healthspringapp.entity.ELFollowUp;
+import com.palash.healthspringapp.entity.ELHealthspringReferral;
+import com.palash.healthspringapp.entity.ELRegionMaster;
+import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELSynchOfflineData;
 import com.palash.healthspringapp.entity.ELUnitMaster;
 import com.palash.healthspringapp.entity.Flag;
@@ -1068,7 +1073,8 @@ public class DatabaseAdapter {
         String[] projection = {
                 DatabaseContract.UnitMaster.COLUMN_NAME_UNITID,
                 DatabaseContract.UnitMaster.COLUMN_NAME_UNIT_CODE,
-                DatabaseContract.UnitMaster.COLUMN_NAME_UNIT_DESC
+                DatabaseContract.UnitMaster.COLUMN_NAME_UNIT_DESC,
+                DatabaseContract.UnitMaster.COLUMN_NAME_IsDefault
         };
 
         private ContentValues UnitMasterToContentValues(ELUnitMaster elUnitMaster) {
@@ -1078,6 +1084,7 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.UnitMaster.COLUMN_NAME_UNITID, elUnitMaster.getUnitID());
                 values.put(DatabaseContract.UnitMaster.COLUMN_NAME_UNIT_CODE, elUnitMaster.getUnitCode());
                 values.put(DatabaseContract.UnitMaster.COLUMN_NAME_UNIT_DESC, elUnitMaster.getUnitDesc());
+                values.put(DatabaseContract.UnitMaster.COLUMN_NAME_IsDefault, elUnitMaster.getIsDefault());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1094,6 +1101,7 @@ public class DatabaseAdapter {
                         elUnitMaster.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.UnitMaster.COLUMN_NAME_UNITID)));
                         elUnitMaster.setUnitCode(result.getString(result.getColumnIndex(DatabaseContract.UnitMaster.COLUMN_NAME_UNIT_CODE)));
                         elUnitMaster.setUnitDesc(result.getString(result.getColumnIndex(DatabaseContract.UnitMaster.COLUMN_NAME_UNIT_DESC)));
+                        elUnitMaster.setIsDefault(result.getString(result.getColumnIndex(DatabaseContract.UnitMaster.COLUMN_NAME_IsDefault)));
                         listELUnitMaster.add(elUnitMaster);
                     }
                     result.close();
@@ -1188,6 +1196,650 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 db.delete(DatabaseContract.UnitMaster.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class CountryMasterAdapter {
+
+        String[] projection = {
+                DatabaseContract.CountryMaster.COLUMN_NAME_ID,
+                DatabaseContract.CountryMaster.COLUMN_NAME_COUNTRY_NAME
+        };
+
+        private ContentValues ELCountryMasterToContentValues(ELCountryMaster elCountryMaster) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.CountryMaster.COLUMN_NAME_ID, elCountryMaster.getID());
+                values.put(DatabaseContract.CountryMaster.COLUMN_NAME_COUNTRY_NAME, elCountryMaster.getCountryName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELCountryMaster> CursorToArrayList(Cursor result) {
+            ArrayList<ELCountryMaster> listELCountryMaster = null;
+            try {
+                if (result != null) {
+                    listELCountryMaster = new ArrayList<ELCountryMaster>();
+                    while (result.moveToNext()) {
+                        ELCountryMaster elCountryMaster = new ELCountryMaster();
+                        elCountryMaster.setID(result.getString(result.getColumnIndex(DatabaseContract.CountryMaster.COLUMN_NAME_ID)));
+                        elCountryMaster.setCountryName(result.getString(result.getColumnIndex(DatabaseContract.CountryMaster.COLUMN_NAME_COUNTRY_NAME)));
+                        listELCountryMaster.add(elCountryMaster);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listELCountryMaster;
+        }
+
+        public long create(ELCountryMaster elCountryMaster) {
+            long rowId = -1;
+            try {
+                if (Count(elCountryMaster.getID()) == 0) {
+                    ContentValues values = ELCountryMasterToContentValues(elCountryMaster);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(DatabaseContract.CountryMaster.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELCountryMaster> listAll() {
+            ArrayList<ELCountryMaster> listELCountryMaster = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.CountryMaster.TABLE_NAME, projection, null, null, null, null, null);
+                listELCountryMaster = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELCountryMaster;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.CountryMaster.TABLE_NAME, projection, null, null, null, null, null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.CountryMaster.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.CountryMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.CountryMaster.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class RegionMasterAdapter {
+
+        String[] projection = {
+                DatabaseContract.RegionMaster.COLUMN_NAME_ID,
+                DatabaseContract.RegionMaster.COLUMN_NAME_COUNTRY_ID,
+                DatabaseContract.RegionMaster.COLUMN_NAME_REGION_ID,
+                DatabaseContract.RegionMaster.COLUMN_NAME_REGION_NAME
+        };
+
+        private ContentValues ELRegionMasterToContentValues(ELRegionMaster elRegionMaster) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.RegionMaster.COLUMN_NAME_ID, elRegionMaster.getID());
+                values.put(DatabaseContract.RegionMaster.COLUMN_NAME_COUNTRY_ID, elRegionMaster.getCountryID());
+                values.put(DatabaseContract.RegionMaster.COLUMN_NAME_REGION_ID, elRegionMaster.getRegionID());
+                values.put(DatabaseContract.RegionMaster.COLUMN_NAME_REGION_NAME, elRegionMaster.getRegionName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELRegionMaster> CursorToArrayList(Cursor result) {
+            ArrayList<ELRegionMaster> listELRegionMaster = null;
+            try {
+                if (result != null) {
+                    listELRegionMaster = new ArrayList<ELRegionMaster>();
+                    while (result.moveToNext()) {
+                        ELRegionMaster elRegionMaster = new ELRegionMaster();
+                        elRegionMaster.setID(result.getString(result.getColumnIndex(DatabaseContract.RegionMaster.COLUMN_NAME_ID)));
+                        elRegionMaster.setCountryID(result.getString(result.getColumnIndex(DatabaseContract.RegionMaster.COLUMN_NAME_COUNTRY_ID)));
+                        elRegionMaster.setRegionID(result.getString(result.getColumnIndex(DatabaseContract.RegionMaster.COLUMN_NAME_REGION_ID)));
+                        elRegionMaster.setRegionName(result.getString(result.getColumnIndex(DatabaseContract.RegionMaster.COLUMN_NAME_REGION_NAME)));
+                        listELRegionMaster.add(elRegionMaster);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listELRegionMaster;
+        }
+
+        public long create(ELRegionMaster elRegionMaster) {
+            long rowId = -1;
+            try {
+                if (Count(elRegionMaster.getID()) == 0) {
+                    ContentValues values = ELRegionMasterToContentValues(elRegionMaster);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(DatabaseContract.RegionMaster.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELRegionMaster> listAll(String countryID) {
+            ArrayList<ELRegionMaster> listELRegionMaster = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (countryID != null && countryID.length() > 0 && countryID.equals("1")) {
+                    whereClause = DatabaseContract.RegionMaster.COLUMN_NAME_COUNTRY_ID + "='" + countryID + "'";
+                } else if (countryID != null && countryID.length() > 0) {
+                    whereClause = DatabaseContract.RegionMaster.COLUMN_NAME_COUNTRY_ID + "='" + countryID + "'";
+                }
+                result = db.query(DatabaseContract.RegionMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                listELRegionMaster = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELRegionMaster;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.RegionMaster.TABLE_NAME, projection, null, null, null, null, null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.RegionMaster.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.RegionMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.RegionMaster.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class StateMasterAdapter {
+
+        String[] projection = {
+                DatabaseContract.StateMaster.COLUMN_NAME_ID,
+                DatabaseContract.StateMaster.COLUMN_NAME_STATE_NAME,
+                DatabaseContract.StateMaster.COLUMN_NAME_REGION_ID
+        };
+
+        private ContentValues ELStateMasterToContentValues(ELStateMaster elStateMaster) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.StateMaster.COLUMN_NAME_ID, elStateMaster.getID());
+                values.put(DatabaseContract.StateMaster.COLUMN_NAME_STATE_NAME, elStateMaster.getStateName());
+                values.put(DatabaseContract.StateMaster.COLUMN_NAME_REGION_ID, elStateMaster.getRegionID());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELStateMaster> CursorToArrayList(Cursor result) {
+            ArrayList<ELStateMaster> listELStateMaster = null;
+            try {
+                if (result != null) {
+                    listELStateMaster = new ArrayList<ELStateMaster>();
+                    while (result.moveToNext()) {
+                        ELStateMaster elStateMaster = new ELStateMaster();
+                        elStateMaster.setID(result.getString(result.getColumnIndex(DatabaseContract.StateMaster.COLUMN_NAME_ID)));
+                        elStateMaster.setStateName(result.getString(result.getColumnIndex(DatabaseContract.StateMaster.COLUMN_NAME_STATE_NAME)));
+                        elStateMaster.setRegionID(result.getString(result.getColumnIndex(DatabaseContract.StateMaster.COLUMN_NAME_REGION_ID)));
+                        listELStateMaster.add(elStateMaster);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listELStateMaster;
+        }
+
+        public long create(ELStateMaster elStateMaster) {
+            long rowId = -1;
+            try {
+                if (Count(elStateMaster.getID(), elStateMaster.getRegionID()) == 0) {
+                    ContentValues values = ELStateMasterToContentValues(elStateMaster);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(DatabaseContract.StateMaster.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELStateMaster> listAll(String countryID, String regionID) {
+            ArrayList<ELStateMaster> listELStateMaster = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (regionID != null && regionID.length() > 0 && regionID.equals("1")) {
+                    whereClause = DatabaseContract.StateMaster.COLUMN_NAME_REGION_ID + "='" + regionID + "'";
+                } else if (regionID != null && regionID.length() > 0) {
+                    whereClause = //DatabaseContract.StateMaster.COLUMN_NAME_COUNTRY_ID + "='" + countryID + "' AND " +
+                            DatabaseContract.StateMaster.COLUMN_NAME_REGION_ID + "='" + regionID + "'";
+                }
+                result = db.query(DatabaseContract.StateMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                listELStateMaster = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELStateMaster;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.StateMaster.TABLE_NAME, projection, null, null, null, null, null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID, String RegionID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.StateMaster.COLUMN_NAME_ID + "='" + ID + "' AND "
+                            + DatabaseContract.StateMaster.COLUMN_NAME_REGION_ID + "='" + RegionID + "'";
+                    result = db.query(DatabaseContract.StateMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.StateMaster.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class CityMasterAdapter {
+
+        String[] projection = {
+                DatabaseContract.CityMaster.COLUMN_NAME_ID,
+                DatabaseContract.CityMaster.COLUMN_NAME_CITY_NAME,
+                DatabaseContract.CityMaster.COLUMN_NAME_STATE_ID
+        };
+
+        private ContentValues ELCityMasterToContentValues(ELCityMaster elCityMaster) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.CityMaster.COLUMN_NAME_ID, elCityMaster.getID());
+                values.put(DatabaseContract.CityMaster.COLUMN_NAME_CITY_NAME, elCityMaster.getCityName());
+                values.put(DatabaseContract.CityMaster.COLUMN_NAME_STATE_ID, elCityMaster.getStateID());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELCityMaster> CursorToArrayList(Cursor result) {
+            ArrayList<ELCityMaster> listELCityMaster = null;
+            try {
+                if (result != null) {
+                    listELCityMaster = new ArrayList<ELCityMaster>();
+                    while (result.moveToNext()) {
+                        ELCityMaster elCityMaster = new ELCityMaster();
+                        elCityMaster.setID(result.getString(result.getColumnIndex(DatabaseContract.CityMaster.COLUMN_NAME_ID)));
+                        elCityMaster.setCityName(result.getString(result.getColumnIndex(DatabaseContract.CityMaster.COLUMN_NAME_CITY_NAME)));
+                        elCityMaster.setStateID(result.getString(result.getColumnIndex(DatabaseContract.CityMaster.COLUMN_NAME_STATE_ID)));
+                        listELCityMaster.add(elCityMaster);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listELCityMaster;
+        }
+
+        public long create(ELCityMaster elCityMaster) {
+            long rowId = -1;
+            try {
+                if (Count(elCityMaster.getID()) == 0) {
+                    ContentValues values = ELCityMasterToContentValues(elCityMaster);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(DatabaseContract.CityMaster.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELCityMaster> listAll(String countryID, String regionID, String stateID) {
+            ArrayList<ELCityMaster> listELCityMaster = null;
+            Cursor result = null;
+            try {
+                String whereClause = null;
+                if (stateID != null && stateID.length() > 0 && stateID.equals("1")) {
+                    whereClause = DatabaseContract.CityMaster.COLUMN_NAME_STATE_ID + "='" + stateID + "'";
+                } else if (stateID != null && stateID.length() > 0) {
+                    whereClause = //DatabaseContract.CityMaster.COLUMN_NAME_COUNTRY_ID + "='" + countryID + "' AND "
+                            // + DatabaseContract.CityMaster.COLUMN_NAME_COUNTRY_ID + "='" + countryID + "' AND " +
+                            DatabaseContract.CityMaster.COLUMN_NAME_STATE_ID + "='" + stateID + "'";
+                }
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.CityMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                listELCityMaster = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELCityMaster;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.CityMaster.TABLE_NAME, projection, null, null, null, null, null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.CityMaster.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.CityMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.CityMaster.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class HealthSpringReferralMasterAdapter {
+
+        String[] projection = {
+                DatabaseContract.HealthspringReferralMaster.COLUMN_NAME_ID,
+                DatabaseContract.HealthspringReferralMaster.COLUMN_NAME_DESCRIPTION
+        };
+
+        private ContentValues ELHealthspringReferralToContentValues(ELHealthspringReferral elHealthspringReferral) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.HealthspringReferralMaster.COLUMN_NAME_ID, elHealthspringReferral.getID());
+                values.put(DatabaseContract.HealthspringReferralMaster.COLUMN_NAME_DESCRIPTION, elHealthspringReferral.getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELHealthspringReferral> CursorToArrayList(Cursor result) {
+            ArrayList<ELHealthspringReferral> listELHealthspringReferral = null;
+            try {
+                if (result != null) {
+                    listELHealthspringReferral = new ArrayList<ELHealthspringReferral>();
+                    while (result.moveToNext()) {
+                        ELHealthspringReferral elHealthspringReferral = new ELHealthspringReferral();
+                        elHealthspringReferral.setID(result.getString(result.getColumnIndex(DatabaseContract.HealthspringReferralMaster.COLUMN_NAME_ID)));
+                        elHealthspringReferral.setDescription(result.getString(result.getColumnIndex(DatabaseContract.HealthspringReferralMaster.COLUMN_NAME_DESCRIPTION)));
+                        listELHealthspringReferral.add(elHealthspringReferral);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listELHealthspringReferral;
+        }
+
+        public long create(ELHealthspringReferral elHealthspringReferral) {
+            long rowId = -1;
+            try {
+                if (Count(elHealthspringReferral.getID()) == 0) {
+                    ContentValues values = ELHealthspringReferralToContentValues(elHealthspringReferral);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(DatabaseContract.HealthspringReferralMaster.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELHealthspringReferral> listAll() {
+            ArrayList<ELHealthspringReferral> listELHealthspringReferral = null;
+            Cursor result = null;
+            try {
+                String whereClause = null;
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.HealthspringReferralMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                listELHealthspringReferral = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELHealthspringReferral;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.HealthspringReferralMaster.TABLE_NAME, projection, null, null, null, null, null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.HealthspringReferralMaster.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.HealthspringReferralMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.HealthspringReferralMaster.TABLE_NAME, null, null);
                 db.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -2306,7 +2958,7 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
-                if (ID != null && ID.length()>0) {
+                if (ID != null && ID.length() > 0) {
                     whereClause = DatabaseContract.Appointment.COLUMN_NAME_ID + "='" + ID + "'";
                 }
                 result = db.query(DatabaseContract.Appointment.TABLE_NAME,
@@ -2330,7 +2982,7 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
-                if (Date != null && Date.length()>0) {
+                if (Date != null && Date.length() > 0) {
                     whereClause = DatabaseContract.Appointment.COLUMN_NAME_APPOINTMENT_DATE + "='" + Date + "'";
                 }
                 result = db.query(DatabaseContract.Appointment.TABLE_NAME,

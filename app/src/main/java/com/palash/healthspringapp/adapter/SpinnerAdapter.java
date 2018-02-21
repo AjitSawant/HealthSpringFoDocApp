@@ -17,6 +17,11 @@ import com.palash.healthspringapp.entity.DaignosisMaster;
 import com.palash.healthspringapp.entity.DaignosisTypeMaster;
 import com.palash.healthspringapp.entity.Department;
 import com.palash.healthspringapp.entity.ELAppointmentStatus;
+import com.palash.healthspringapp.entity.ELCityMaster;
+import com.palash.healthspringapp.entity.ELCountryMaster;
+import com.palash.healthspringapp.entity.ELHealthspringReferral;
+import com.palash.healthspringapp.entity.ELRegionMaster;
+import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELUnitMaster;
 import com.palash.healthspringapp.entity.Gender;
 import com.palash.healthspringapp.entity.MaritalStatus;
@@ -289,6 +294,275 @@ public class SpinnerAdapter {
 
                 holder.row_txt_id.setText(bloodGrouplist.get(position).getID());
                 holder.row_txt_description.setText(bloodGrouplist.get(position).getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class CountryAdapter extends BaseAdapter {
+        private Context mContext;
+        private LayoutInflater inflater;
+        private ArrayList<ELCountryMaster> elCountryMasterArrayList; // Values to be displayed
+
+        public CountryAdapter(Context context, ArrayList<ELCountryMaster> elCountryMasterArrayList) {
+            mContext = context;
+            this.elCountryMasterArrayList = elCountryMasterArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elCountryMasterArrayList.size();
+        }
+
+        @Override
+        public ELCountryMaster getItem(int position) {
+            return elCountryMasterArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elCountryMasterArrayList.get(position).getID());
+                holder.row_txt_description.setText(elCountryMasterArrayList.get(position).getCountryName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class RegionAdapter extends BaseAdapter {
+        private Context mContext;
+        private LayoutInflater inflater;
+        private ArrayList<ELRegionMaster> elRegionMasterArrayList; // Values to be displayed
+
+        public RegionAdapter(Context context, ArrayList<ELRegionMaster> elRegionMasterArrayList) {
+            mContext = context;
+            this.elRegionMasterArrayList = elRegionMasterArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elRegionMasterArrayList.size();
+        }
+
+        @Override
+        public ELRegionMaster getItem(int position) {
+            return elRegionMasterArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+                holder.row_txt_id.setText(elRegionMasterArrayList.get(position).getID());
+                holder.row_txt_description.setText(elRegionMasterArrayList.get(position).getRegionName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class StateAdapter extends BaseAdapter {
+        private Context mContext;
+        private LayoutInflater inflater;
+        private ArrayList<ELStateMaster> elStateMasterArrayList; // Values to be displayed
+
+        public StateAdapter(Context context, ArrayList<ELStateMaster> elStateMasterArrayList) {
+            mContext = context;
+            this.elStateMasterArrayList = elStateMasterArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elStateMasterArrayList.size();
+        }
+
+        @Override
+        public ELStateMaster getItem(int position) {
+            return elStateMasterArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elStateMasterArrayList.get(position).getID());
+                holder.row_txt_description.setText(elStateMasterArrayList.get(position).getStateName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class CityAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELCityMaster> elCityMasterArrayList; // Values to be displayed
+
+        public CityAdapter(Context context, ArrayList<ELCityMaster> elCityMasterArrayList) {
+            mContext = context;
+            this.elCityMasterArrayList = elCityMasterArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elCityMasterArrayList.size();
+        }
+
+        @Override
+        public ELCityMaster getItem(int position) {
+            return elCityMasterArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elCityMasterArrayList.get(position).getID());
+                holder.row_txt_description.setText(elCityMasterArrayList.get(position).getCityName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class HealthspringReferralAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList; // Values to be displayed
+
+        public HealthspringReferralAdapter(Context context, ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList) {
+            mContext = context;
+            this.elHealthspringReferralArrayList = elHealthspringReferralArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elHealthspringReferralArrayList.size();
+        }
+
+        @Override
+        public ELHealthspringReferral getItem(int position) {
+            return elHealthspringReferralArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elHealthspringReferralArrayList.get(position).getID());
+                holder.row_txt_description.setText(elHealthspringReferralArrayList.get(position).getDescription());
             } catch (Exception e) {
                 e.printStackTrace();
             }

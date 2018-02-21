@@ -196,6 +196,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_UNITID = "UnitID";
         public static final String COLUMN_NAME_UNIT_CODE = "UnitCode";
         public static final String COLUMN_NAME_UNIT_DESC = "UnitDesc";
+        public static final String COLUMN_NAME_IsDefault = "IsDefault";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
                 + "("
@@ -206,6 +207,125 @@ public class DatabaseContract {
                 + COLUMN_NAME_UNIT_CODE
                 + " TEXT,"
                 + COLUMN_NAME_UNIT_DESC
+                + " TEXT,"
+                + COLUMN_NAME_IsDefault
+                + " TEXT"
+                + ")";
+    }
+
+    public static final class CountryMaster implements BaseColumns {
+
+        private CountryMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_CountryMaster";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_COUNTRY_NAME = "CountryName";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + CountryMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_COUNTRY_NAME
+                + " TEXT"
+                + ")";
+    }
+
+    public static final class RegionMaster implements BaseColumns {
+
+        private RegionMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_RegionMaster";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_COUNTRY_ID = "CountryID";
+        public static final String COLUMN_NAME_REGION_ID = "RegionID";
+        public static final String COLUMN_NAME_REGION_NAME = "RegionName";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + RegionMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_COUNTRY_ID
+                + " TEXT,"
+                + COLUMN_NAME_REGION_ID
+                + " TEXT,"
+                + COLUMN_NAME_REGION_NAME
+                + " TEXT"
+                + ")";
+    }
+
+    public static final class StateMaster implements BaseColumns {
+
+        private StateMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_StateMaster";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_STATE_NAME = "StateName";
+        public static final String COLUMN_NAME_REGION_ID = "RegionID";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + StateMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_STATE_NAME
+                + " TEXT,"
+                + COLUMN_NAME_REGION_ID
+                + " TEXT"
+                + ")";
+    }
+
+    public static final class CityMaster implements BaseColumns {
+
+        private CityMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_CityMaster";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_CITY_NAME = "CityName";
+        public static final String COLUMN_NAME_STATE_ID = "StateID";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + CityMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_CITY_NAME
+                + " TEXT,"
+                + COLUMN_NAME_STATE_ID
+                + " TEXT"
+                + ")";
+    }
+
+    public static final class HealthspringReferralMaster implements BaseColumns {
+
+        private HealthspringReferralMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_HealthSpringReferralMaster";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_DESCRIPTION = "Description";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + HealthspringReferralMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_DESCRIPTION
                 + " TEXT"
                 + ")";
     }
@@ -2042,6 +2162,21 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 5: " + DoctorType.CREATE_TABLE);
                 db.execSQL(DoctorType.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 5: " + CountryMaster.CREATE_TABLE);
+                db.execSQL(CountryMaster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 5: " + RegionMaster.CREATE_TABLE);
+                db.execSQL(RegionMaster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 5: " + StateMaster.CREATE_TABLE);
+                db.execSQL(StateMaster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 5: " + CityMaster.CREATE_TABLE);
+                db.execSQL(CityMaster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 5: " + HealthspringReferralMaster.CREATE_TABLE);
+                db.execSQL(HealthspringReferralMaster.CREATE_TABLE);
 
                 Log.d(Constants.TAG, "Creating table 6: " + Specialization.CREATE_TABLE);
                 db.execSQL(Specialization.CREATE_TABLE);

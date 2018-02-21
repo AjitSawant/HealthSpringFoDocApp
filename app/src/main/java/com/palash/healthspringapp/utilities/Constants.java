@@ -55,7 +55,7 @@ public class Constants {
     public static final String UPDATE_PASSWORD_URL = BASE_URL + "Profile/UpdatePassword";
     public static final String GET_PREFIX_URL = BASE_URL + "Master/GetPrefix";
     public static final String GET_DOCTOR_TYPE_URL = BASE_URL + "Master/GetDoctorType";
-    public static final String GET_UNIT_MASTER_URL = BASE_URL + "Master/GetUnitMaster?DoctorID=";
+    public static final String GET_UNIT_MASTER_URL = BASE_URL + "Master/GetUnitMaster?ID=";
     public static final String GET_SPECIALIZATION_URL = BASE_URL + "Master/GetSpecilization";
     public static final String GET_APPOINTMENT_URL = BASE_URL + "Appointment/GetApointmentList";
     public static final String GET_APPOINTMENT_REASON_URL = BASE_URL + "Master/GetAppointmentReason";
@@ -82,6 +82,11 @@ public class Constants {
     public static final String MULTI_VITALS_ADD_UPDATE_URL = BASE_URL + "VitalsList/AddMultiVitalsList";
     public static final String CPOESERVICE_ADD_UPDATE_URL = BASE_URL + "CPOEService/AddUpdateCPOEService";
     public static final String MOLECULE_URL = BASE_URL + "Master/GetMolecule";
+    public static final String COUNTRY_URL = BASE_URL + "Master/GetCountry";
+    public static final String REGION_URL = BASE_URL + "Master/GetRegion";
+    public static final String STATE_URL = BASE_URL + "Master/GetState";
+    public static final String CITY_URL = BASE_URL + "Master/GetCity";
+    public static final String HEALTHSPRING_REFERRAL_URL = BASE_URL + "Master/GetHealthspringReferral";
     public static final String CPOEMEDICINE_ADD_UPDATE_URL = BASE_URL + "CPOEMedicine/AddCPOEMedicine";
     public static final String COMPLAINTS_ADD_UPDATE_URL = BASE_URL + "Complaint/AddUpdateComplaint";
     public static final String FOLLOWUP_ADD_UPDATE_URL = BASE_URL + "FollowUp/AddUpdateFollowUp";

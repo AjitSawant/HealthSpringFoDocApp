@@ -54,7 +54,6 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = DashboardActivity.class.getSimpleName();
     private Context context;
     private LocalSetting localSetting;
     private DatabaseAdapter databaseAdapter;
@@ -72,7 +71,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private ArrayList<DoctorProfile> listProfile;
     private ArrayList<ELUnitMaster> listELUnitMaster;
-    ArrayList<ELSynchOfflineData> elSynchOfflineDataList;
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -246,29 +244,21 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private void RefreshUnitMatserSpinnerData() {
         listELUnitMaster = unitMasterAdapter.listAll();
-        listProfile = doctorProfileAdapter.listAll();
         if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
             unitMasterListAdapter = new SpinnerAdapter.UnitMasterListAdapter(context, listELUnitMaster);
             unitMasterSpinner.setAdapter(unitMasterListAdapter);
             unitMasterListAdapter.notifyDataSetChanged();
-
-            if (listProfile != null && listProfile.size() > 0 && listProfile.get(0).getUnitID() != null && listProfile.get(0).getUnitID().length() > 0) {
-                try {
-                    boolean matchFlag = false;
-                    int pos = 0;
-                    for (int i = 0; i < listELUnitMaster.size(); i++) {
-                        if (listProfile.get(0).getUnitID().equals(listELUnitMaster.get(i).getUnitID())) {
-                            matchFlag = true;
-                            pos = i;
-                        }
-                    }
-                    if (matchFlag == true) {
-                        //pos = pos + 1;
-                        unitMasterSpinner.setSelection(pos);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+            boolean matchFlag = false;
+            int pos = 0;
+            for (int i = 0; i < listELUnitMaster.size(); i++) {
+                if (listELUnitMaster.get(i).getIsDefault().equals("1") || listELUnitMaster.get(i).getIsDefault().equals("True")) {
+                    matchFlag = true;
+                    pos = i;
                 }
+            }
+            if (matchFlag == true) {
+                //pos = pos + 1;
+                unitMasterSpinner.setSelection(pos);
             }
         }
     }
