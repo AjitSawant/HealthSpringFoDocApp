@@ -21,6 +21,7 @@ import com.palash.healthspringapp.entity.DoctorType;
 import com.palash.healthspringapp.entity.ELCityMaster;
 import com.palash.healthspringapp.entity.ELCountryMaster;
 import com.palash.healthspringapp.entity.ELHealthspringReferral;
+import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.ELRegionMaster;
 import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELUnitMaster;
@@ -70,6 +71,7 @@ public class MasterTask implements Task {
     private DatabaseAdapter.GenderAdapter genderAdapter;
     private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
     private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;
+    private DatabaseAdapter.PatientCategoryL1Adapter patientCategoryL1Adapter;
 
     /*private DatabaseAdapter.MedicienNameAdapter medicienNameAdapter;
     private DatabaseAdapter.DaignosisMasterAdapter daignosisMasterAdapter;
@@ -105,6 +107,7 @@ public class MasterTask implements Task {
     private ArrayList<ELStateMaster> elStateMasterArrayList;
     private ArrayList<ELCityMaster> elCityMasterArrayList;
     private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList;
+    private ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList;
 
     /*private ArrayList<MedicienName> medicienNameList;
     private ArrayList<DaignosisMaster> daignosisMasterList;
@@ -157,6 +160,7 @@ public class MasterTask implements Task {
             maritalStatusAdapter = databaseAdapter.new MaritalStatusAdapter();
             bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
             healthSpringReferralMasterAdapter = databaseAdapter.new HealthSpringReferralMasterAdapter();
+            patientCategoryL1Adapter = databaseAdapter.new PatientCategoryL1Adapter();
 
             /*medicienNameAdapter = databaseAdapter.new MedicienNameAdapter();
             daignosisMasterAdapter = databaseAdapter.new DaignosisMasterAdapter();
@@ -246,6 +250,11 @@ public class MasterTask implements Task {
                                         masterdataflag.setMsg("Synchronizing Unit Master");
                                         masterFlagAdapter.create(masterdataflag);
                                         UnitMasterTask();
+
+                                        masterdataflag = masterFlagAdapter.listCurrent();
+                                        masterdataflag.setMsg("Synchronizing Patient category");
+                                        masterFlagAdapter.create(masterdataflag);
+                                        PatientCategoryL1Task();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Appointment Reason");
@@ -342,6 +351,36 @@ public class MasterTask implements Task {
             e.printStackTrace();
         }
         return taskResult;
+    }
+
+    public void PatientCategoryL1Task() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = patientCategoryL1Adapter.TotalCount();
+            Log.d(Constants.TAG, "Patient Category L1 Local size : " + Count);
+            if (synchronizationList.get(0).getPatientCategoryL1Count() != null && (!synchronizationList.get(0).getPatientCategoryL1Count().equals(""))
+                    && (!synchronizationList.get(0).getPatientCategoryL1Count().equals(String.valueOf(Count)))) {
+                // Appointment reason list task
+                response = serviceConsumer.GET(Constants.PATIENT_CATEGORY_L1_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elPatientCategoryL1ArrayList = objectMapper.map(responseString, ELPatientCategory.class);
+                        Log.d(Constants.TAG, "Patient Category L1 size : " + elPatientCategoryL1ArrayList.size());
+                        patientCategoryL1Adapter.delete();
+                        if (elPatientCategoryL1ArrayList != null && elPatientCategoryL1ArrayList.size() > 0) {
+                            for (int index = 0; index < elPatientCategoryL1ArrayList.size(); index++) {
+                                patientCategoryL1Adapter.create(elPatientCategoryL1ArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void AppointmentReasonTask() {

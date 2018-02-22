@@ -40,6 +40,9 @@ public class Synchronization {
     private String StateCount;
     private String CityCount;
     private String ReferralFromCount;
+    private String PatientCategoryL1Count;
+    private String DoctorNameCount;
+    private String PCPDoctorCount;
 
     @JsonProperty("ID")
     public String getID() {
@@ -345,5 +348,32 @@ public class Synchronization {
 
     public void setReferralFromCount(String referralFromCount) {
         ReferralFromCount = referralFromCount;
+    }
+
+    @JsonProperty("PatientCategoryL1Count")
+    public String getPatientCategoryL1Count() {
+        return PatientCategoryL1Count;
+    }
+
+    public void setPatientCategoryL1Count(String patientCategoryL1Count) {
+        PatientCategoryL1Count = patientCategoryL1Count;
+    }
+
+    @JsonProperty("DoctorNameCount")
+    public String getDoctorNameCount() {
+        return DoctorNameCount;
+    }
+
+    public void setDoctorNameCount(String doctorNameCount) {
+        DoctorNameCount = doctorNameCount;
+    }
+
+    @JsonProperty("PCPDoctorCount")
+    public String getPCPDoctorCount() {
+        return PCPDoctorCount;
+    }
+
+    public void setPCPDoctorCount(String PCPDoctorCount) {
+        this.PCPDoctorCount = PCPDoctorCount;
     }
 }

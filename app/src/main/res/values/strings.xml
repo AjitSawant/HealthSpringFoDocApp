@@ -17,6 +17,8 @@
     <string name="dashboard_patientqueue">Patient Queue</string>
     <string name="dashboard_searchpatient">Search Patient</string>
     <string name="dashboard_aboutpalash">About</string>
+    <string name="dashboard_patientinfo">Patient Information</string>
+    <string name="dashboard_sponsor_info">Sponsor Information</string>
 
     <!---ChangePassword-->
     <string name="current_password">Current Password</string>
@@ -45,6 +47,15 @@
     <string name="profile_region">Select Region</string>
     <string name="profile_state">Select State</string>
     <string name="profile_city">Select City</string>
+    <string name="patient_category_l1">Select Category L1</string>
+    <string name="patient_category_l2">Select Category L2</string>
+    <string name="patient_company">Select Company</string>
+    <string name="patient_category_l3">Select Category L3</string>
+    <string name="patient_effective_date">Effective Date</string>
+    <string name="patient_expiry_date">Expiry Date</string>
+    <string name="patient_card_issue_date">Care Issue Date</string>
+    <string name="patient_pcp_doctor">Select PCP Doctor</string>
+    <string name="patient_doctor_name">Select Doctor name</string>
 
     <!---Search Patient-->
     <string name="serach">Search Patient...</string>
@@ -148,5 +159,8 @@
     <string name="update_title">App update available</string>
     <string name="update_sub_title">Update the app to enjoy a much faster app with many new feature</string>
     <string name="update">Update</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

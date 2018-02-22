@@ -23,6 +23,7 @@ import com.palash.healthspringapp.entity.ELCityMaster;
 import com.palash.healthspringapp.entity.ELCountryMaster;
 import com.palash.healthspringapp.entity.ELFollowUp;
 import com.palash.healthspringapp.entity.ELHealthspringReferral;
+import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.ELRegionMaster;
 import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELSynchOfflineData;
@@ -8469,178 +8470,7 @@ public class DatabaseAdapter {
             return rowId;
         }
     }
-
-    /*public class PatientConsoleListDBAdapter {
-
-        String[] projection = {
-                DatabaseContract.PatientConsoleList._ID,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_ID,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitID,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitDate,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_visitDoctor,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_clinic,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_OPDNO,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitType,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_Prescription,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_EMR,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_Attachment,
-                DatabaseContract.PatientConsoleList.COLUMN_NAME_IS_UPDATE
-        };
-
-        private ContentValues PatientConsoleListToContentValues(PatientConsole elPatientConsole) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_ID, elPatientConsole.getID());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitID, elPatientConsole.getVisitID());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitDate, elPatientConsole.getVisitDate());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_visitDoctor, elPatientConsole.getVisitDoctor());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_clinic, elPatientConsole.getClinic());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_OPDNO, elPatientConsole.getOPDNO());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitType, elPatientConsole.getVisitType());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_Prescription, elPatientConsole.getPrescription());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_EMR, elPatientConsole.getEMR());
-                values.put(DatabaseContract.PatientConsoleList.COLUMN_NAME_Attachment, elPatientConsole.getAttachment());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
-        private ArrayList<PatientConsole> CursorToArrayList(Cursor result) {
-            ArrayList<PatientConsole> listPatientConsoleList = null;
-            try {
-                if (result != null) {
-                    listPatientConsoleList = new ArrayList<PatientConsole>();
-                    while (result.moveToNext()) {
-                        PatientConsole elPatientConsole = new PatientConsole();
-                        elPatientConsole.setID(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_ID)));
-                        elPatientConsole.setVisitID(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitID)));
-                        elPatientConsole.setVisitDate(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitDate)));
-                        elPatientConsole.setVisitDoctor(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_visitDoctor)));
-                        elPatientConsole.setClinic(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_clinic)));
-                        elPatientConsole.setOPDNO(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_OPDNO)));
-                        elPatientConsole.setVisitType(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_VisitType)));
-                        elPatientConsole.setPrescription(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_Prescription)));
-                        elPatientConsole.setEMR(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_EMR)));
-                        elPatientConsole.setAttachment(result.getString(result.getColumnIndex(DatabaseContract.PatientConsoleList.COLUMN_NAME_Attachment)));
-                        listPatientConsoleList.add(elPatientConsole);
-                    }
-                    result.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return listPatientConsoleList;
-        }
-
-        public long create(PatientConsole elPatientConsole) {
-            long rowId = -1;
-            try {
-
-                if (Count(elPatientConsole.getID()) == 0) {
-                    ContentValues values = PatientConsoleListToContentValues(elPatientConsole);
-                    if (values != null) {
-                        rowId = databaseContract.open().insert(
-                                DatabaseContract.PatientConsoleList.TABLE_NAME, null, values);
-                    }
-                } else {
-                    update(elPatientConsole);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public long update(PatientConsole elPatientConsole) {
-            long rowId = -1;
-            try {
-                ContentValues values = PatientConsoleListToContentValues(elPatientConsole);
-                String whereClause = null;
-                whereClause = DatabaseContract.PatientConsoleList.COLUMN_NAME_ID + "='" + elPatientConsole.getID() + "'";
-                if (values != null) {
-                    rowId = databaseContract.open().update(
-                            DatabaseContract.PatientConsoleList.TABLE_NAME, values, whereClause, null);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public ArrayList<PatientConsole> listAll() {
-            ArrayList<PatientConsole> listPatientConsoleList = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.PatientConsoleList.TABLE_NAME,
-                        projection, null,
-                        null, null, null,null);
-                listPatientConsoleList = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listPatientConsoleList;
-        }
-
-        public ArrayList<PatientConsole> listAll(String ID) {
-            ArrayList<PatientConsole> listPatientConsoleList = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (ID != null) {
-                    whereClause = DatabaseContract.PatientConsoleList.COLUMN_NAME_ID + "='" + ID + "'";
-                }
-                result = db.query(DatabaseContract.PatientConsoleList.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,null);
-                listPatientConsoleList = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listPatientConsoleList;
-        }
-
-        public int Count(String ID) {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (ID != null) {
-                    whereClause = DatabaseContract.PatientConsoleList.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.PatientConsoleList.TABLE_NAME,
-                            projection, whereClause,
-                            null, null, null,null);
-                    if (result != null) {
-                        Count = result.getCount();
-                        result.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-    }*/
-
+  
     public class PrefixAdapter {
 
         String[] projection = {
@@ -9180,65 +9010,53 @@ public class DatabaseAdapter {
         }
     }
 
-
-
-    /*public class MedicienNameAdapter {
+    public class PatientCategoryL1Adapter {
 
         String[] projection = {
-                DatabaseContract.MedicienName.COLUMN_NAME_ID,
-                DatabaseContract.MedicienName.COLUMN_NAME_ITEMNAME,
-                DatabaseContract.MedicienName.COLUMN_NAME_MRP
+                DatabaseContract.PatientCategoryL1.COLUMN_NAME_ID,
+                DatabaseContract.PatientCategoryL1.COLUMN_NAME_DESCRIPTION
         };
 
-        private ContentValues MedicienNameToContentValues(MedicienName medicienname) {
+        private ContentValues PatientCategoryL1ToContentValues(ELPatientCategory elPatientCategory) {
             ContentValues values = null;
             try {
                 values = new ContentValues();
-                values.put(DatabaseContract.MedicienName.COLUMN_NAME_ID, medicienname.getID());
-                String itemName = medicienname.getItemName();
-                itemName = itemName.replace("#", "\"");
-                values.put(DatabaseContract.MedicienName.COLUMN_NAME_ITEMNAME, itemName);
-                values.put(DatabaseContract.MedicienName.COLUMN_NAME_MRP, medicienname.getMRP());
+                values.put(DatabaseContract.PatientCategoryL1.COLUMN_NAME_ID, elPatientCategory.getID());
+                values.put(DatabaseContract.PatientCategoryL1.COLUMN_NAME_DESCRIPTION, elPatientCategory.getDescription());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return values;
         }
 
-        private ArrayList<MedicienName> CursorToArrayList(Cursor result) {
-            ArrayList<MedicienName> listMedicienName = null;
+        private ArrayList<ELPatientCategory> CursorToArrayList(Cursor result) {
+            ArrayList<ELPatientCategory> listPatientCategoryL1 = null;
             try {
                 if (result != null) {
-                    listMedicienName = new ArrayList<MedicienName>();
+                    listPatientCategoryL1 = new ArrayList<ELPatientCategory>();
                     while (result.moveToNext()) {
-                        MedicienName medicienname = new MedicienName();
-                        medicienname.setID(result.getString(result.getColumnIndex(DatabaseContract.MedicienName.COLUMN_NAME_ID)));
-                        medicienname.setItemName(result.getString(result.getColumnIndex(DatabaseContract.MedicienName.COLUMN_NAME_ITEMNAME)));
-                        medicienname.setMRP(result.getString(result.getColumnIndex(DatabaseContract.MedicienName.COLUMN_NAME_MRP)));
-                        listMedicienName.add(medicienname);
+                        ELPatientCategory elPatientCategory = new ELPatientCategory();
+                        elPatientCategory.setID(result.getString(result.getColumnIndex(DatabaseContract.PatientCategoryL1.COLUMN_NAME_ID)));
+                        elPatientCategory.setDescription(result.getString(result.getColumnIndex(DatabaseContract.PatientCategoryL1.COLUMN_NAME_DESCRIPTION)));
+                        listPatientCategoryL1.add(elPatientCategory);
                     }
                     result.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return listMedicienName;
+            return listPatientCategoryL1;
         }
 
-        public long create(MedicienName medicienname) {
+        public long create(ELPatientCategory elPatientCategory) {
             long rowId = -1;
             try {
-                ArrayList<MedicienName> listMedicienName = listAll(medicienname.getID());
-                if (listMedicienName.size() == 0) {
-                    if (Count(medicienname.getID()) == 0) {
-                        ContentValues values = MedicienNameToContentValues(medicienname);
-                        if (values != null) {
-                            rowId = databaseContract.open().insert(
-                                    DatabaseContract.MedicienName.TABLE_NAME, null, values);
-                        }
+                if (Count(elPatientCategory.getID()) == 0) {
+                    ContentValues values = PatientCategoryL1ToContentValues(elPatientCategory);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.PatientCategoryL1.TABLE_NAME, null, values);
                     }
-                } else {
-                    update(medicienname);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -9248,34 +9066,13 @@ public class DatabaseAdapter {
             return rowId;
         }
 
-        public long update(MedicienName medicienName) {
-            long rowId = -1;
-            try {
-                ContentValues values = MedicienNameToContentValues(medicienName);
-                String whereClause = null;
-                whereClause = DatabaseContract.MedicienName.COLUMN_NAME_ID + "='" + medicienName.getID() + "'";
-                if (values != null) {
-                    rowId = databaseContract.open().update(
-                            DatabaseContract.MedicienName.TABLE_NAME, values, whereClause, null);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public ArrayList<MedicienName> listAll() {
-            ArrayList<MedicienName> listMedicienName = null;
+        public ArrayList<ELPatientCategory> listAll() {
+            ArrayList<ELPatientCategory> listPatientCategoryL1 = null;
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.MedicienName.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.MedicienName.DEFAULT_SORT_ORDER);
-                listMedicienName = CursorToArrayList(result);
+                result = db.query(DatabaseContract.PatientCategoryL1.TABLE_NAME,projection, null, null, null, null,null);
+                listPatientCategoryL1 = CursorToArrayList(result);
             } catch (SQLException e) {
                 e.printStackTrace();
 
@@ -9283,64 +9080,7 @@ public class DatabaseAdapter {
                 databaseContract.close();
                 result.close();
             }
-            return listMedicienName;
-        }
-
-        public ArrayList<MedicienName> listAll(String name) {
-            ArrayList<MedicienName> listMedicienName = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (name != null) {
-                    whereClause = DatabaseContract.MedicienName.COLUMN_NAME_ITEMNAME + "='" + name + "'";
-                }
-                result = db.query(DatabaseContract.MedicienName.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.MedicienName.DEFAULT_SORT_ORDER);
-                listMedicienName = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listMedicienName;
-        }
-
-        public boolean isListMatch(String name) {
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (name != null) {
-                    whereClause = DatabaseContract.MedicienName.COLUMN_NAME_ITEMNAME + " LIKE '"
-                            + name + "'";
-
-                }
-                result = db.query(DatabaseContract.MedicienName.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.MedicienName.DEFAULT_SORT_ORDER);
-                result.moveToFirst();
-                if (result.getCount() <= 0) {
-                    result.close();
-                    return false;
-
-                } else {
-                    result.close();
-                    return true;
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return false;
+            return listPatientCategoryL1;
         }
 
         public int TotalCount() {
@@ -9348,10 +9088,7 @@ public class DatabaseAdapter {
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.MedicienName.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.MedicienName.DEFAULT_SORT_ORDER);
+                result = db.query(DatabaseContract.PatientCategoryL1.TABLE_NAME, projection, null, null, null, null,null);
                 if (result != null) {
                     Count = result.getCount();
                     result.close();
@@ -9372,11 +9109,8 @@ public class DatabaseAdapter {
                 SQLiteDatabase db = databaseContract.open();
                 String whereClause = null;
                 if (ID != null) {
-                    whereClause = DatabaseContract.MedicienName.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.MedicienName.TABLE_NAME,
-                            projection, whereClause,
-                            null, null, null,
-                            DatabaseContract.MedicienName.DEFAULT_SORT_ORDER);
+                    whereClause = DatabaseContract.PatientCategoryL1.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.PatientCategoryL1.TABLE_NAME, projection, whereClause, null, null, null,null);
                     if (result != null) {
                         Count = result.getCount();
                         result.close();
@@ -9394,578 +9128,11 @@ public class DatabaseAdapter {
         public void delete() {
             try {
                 SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.MedicienName.TABLE_NAME, null, null);
+                db.delete(DatabaseContract.PatientCategoryL1.TABLE_NAME, null, null);
                 db.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
-    public class MoleculeAdapter {
-
-        String[] projection = {
-                DatabaseContract.Molecule.COLUMN_NAME_ID,
-                DatabaseContract.Molecule.COLUMN_NAME_DESCRIPTION
-        };
-
-        private ContentValues MoleculeToContentValues(Molecule molecule) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.Molecule.COLUMN_NAME_ID, molecule.getID());
-                values.put(DatabaseContract.Molecule.COLUMN_NAME_DESCRIPTION, molecule.getDescription());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
-        private ArrayList<Molecule> CursorToArrayList(Cursor result) {
-            ArrayList<Molecule> listMolecule = null;
-            try {
-                if (result != null) {
-                    listMolecule = new ArrayList<Molecule>();
-                    while (result.moveToNext()) {
-                        Molecule molecule = new Molecule();
-                        molecule.setID(result.getString(result.getColumnIndex(DatabaseContract.Molecule.COLUMN_NAME_ID)));
-                        molecule.setDescription(result.getString(result.getColumnIndex(DatabaseContract.Molecule.COLUMN_NAME_DESCRIPTION)));
-                        listMolecule.add(molecule);
-                    }
-                    result.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return listMolecule;
-        }
-
-        public long create(Molecule molecule) {
-            long rowId = -1;
-            try {
-                if (Count(molecule.getID()) == 0) {
-                    ContentValues values = MoleculeToContentValues(molecule);
-                    if (values != null) {
-                        rowId = databaseContract.open().insert(
-                                DatabaseContract.Molecule.TABLE_NAME, null, values);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public ArrayList<Molecule> listAll() {
-            ArrayList<Molecule> listMolecule = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.Molecule.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.Molecule.DEFAULT_SORT_ORDER);
-                listMolecule = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listMolecule;
-        }
-
-        public ArrayList<Molecule> listAll(String name) {
-            ArrayList<Molecule> listMolecule = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (name != null) {
-                    whereClause = DatabaseContract.Molecule.COLUMN_NAME_DESCRIPTION + "='" + name + "'";
-                }
-                result = db.query(DatabaseContract.Molecule.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.Molecule.DEFAULT_SORT_ORDER);
-                listMolecule = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listMolecule;
-        }
-
-        public boolean isListMatch(String name) {
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (name != null) {
-                    whereClause = DatabaseContract.Molecule.COLUMN_NAME_DESCRIPTION + " LIKE '"
-                            + name + "'";
-
-                }
-                result = db.query(DatabaseContract.Molecule.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.Molecule.DEFAULT_SORT_ORDER);
-                result.moveToFirst();
-                if (result.getCount() <= 0) {
-                    result.close();
-                    return false;
-
-                } else {
-                    result.close();
-                    return true;
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return false;
-        }
-
-        public int TotalCount() {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.Molecule.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.Molecule.DEFAULT_SORT_ORDER);
-                if (result != null) {
-                    Count = result.getCount();
-                    result.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public int Count(String ID) {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (ID != null) {
-                    whereClause = DatabaseContract.Molecule.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.Molecule.TABLE_NAME,
-                            projection, whereClause,
-                            null, null, null,
-                            DatabaseContract.Molecule.DEFAULT_SORT_ORDER);
-                    if (result != null) {
-                        Count = result.getCount();
-                        result.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public void delete() {
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.Molecule.TABLE_NAME, null, null);
-                db.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public class ServiceNameAdapter {
-
-        String[] projection = {
-                DatabaseContract.ServiceName.COLUMN_NAME_ID,
-                DatabaseContract.ServiceName.COLUMN_NAME_DESCRIPTION,
-                DatabaseContract.ServiceName.COLUMN_NAME_BASESERVICERATE
-        };
-
-        private ContentValues ServiceNameToContentValues(ServiceName serviceName) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.ServiceName.COLUMN_NAME_ID, serviceName.getID());
-                values.put(DatabaseContract.ServiceName.COLUMN_NAME_DESCRIPTION, serviceName.getDescription());
-                values.put(DatabaseContract.ServiceName.COLUMN_NAME_BASESERVICERATE, serviceName.getBaseServiceRate());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
-        private ArrayList<ServiceName> CursorToArrayList(Cursor result) {
-            ArrayList<ServiceName> listServiceName = null;
-            try {
-                if (result != null) {
-                    listServiceName = new ArrayList<ServiceName>();
-                    while (result.moveToNext()) {
-                        ServiceName serviceName = new ServiceName();
-                        serviceName.setID(result.getString(result.getColumnIndex(DatabaseContract.ServiceName.COLUMN_NAME_ID)));
-                        serviceName.setDescription(result.getString(result.getColumnIndex(DatabaseContract.ServiceName.COLUMN_NAME_DESCRIPTION)));
-                        serviceName.setBaseServiceRate(result.getString(result.getColumnIndex(DatabaseContract.ServiceName.COLUMN_NAME_BASESERVICERATE)));
-                        listServiceName.add(serviceName);
-                    }
-                    result.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return listServiceName;
-        }
-
-        public long create(ServiceName serviceName) {
-            long rowId = -1;
-            try {
-                if (Count(serviceName.getID()) == 0) {
-                    ContentValues values = ServiceNameToContentValues(serviceName);
-                    if (values != null) {
-                        rowId = databaseContract.open().insert(
-                                DatabaseContract.ServiceName.TABLE_NAME, null, values);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public ArrayList<ServiceName> listAll() {
-            ArrayList<ServiceName> listServiceName = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.ServiceName.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.ServiceName.DEFAULT_SORT_ORDER);
-                listServiceName = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listServiceName;
-        }
-
-        public ArrayList<ServiceName> listAll(String servicename) {
-            ArrayList<ServiceName> listServiceName = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (servicename != null) {
-                    whereClause = DatabaseContract.ServiceName.COLUMN_NAME_DESCRIPTION + "='" + servicename + "'";
-                }
-                result = db.query(DatabaseContract.ServiceName.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.ServiceName.DEFAULT_SORT_ORDER);
-                listServiceName = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listServiceName;
-        }
-
-        public boolean isServicenameMatch(String name) {
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (name != null) {
-                    whereClause = DatabaseContract.ServiceName.COLUMN_NAME_DESCRIPTION + " LIKE '"
-                            + name + "'";
-                    ;
-                }
-                result = db.query(DatabaseContract.ServiceName.TABLE_NAME,
-                        projection, whereClause,
-                        null, null, null,
-                        DatabaseContract.ServiceName.DEFAULT_SORT_ORDER);
-                result.moveToFirst();
-                if (result.getCount() <= 0) {
-                    result.close();
-                    return false;
-
-                } else {
-                    result.close();
-                    return true;
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return false;
-        }
-
-        public int TotalCount() {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.ServiceName.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
-                        DatabaseContract.ServiceName.DEFAULT_SORT_ORDER);
-                if (result != null) {
-                    Count = result.getCount();
-                    result.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public int Count(String ID) {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (ID != null) {
-                    whereClause = DatabaseContract.ServiceName.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.ServiceName.TABLE_NAME,
-                            projection, whereClause,
-                            null, null, null,
-                            DatabaseContract.ServiceName.DEFAULT_SORT_ORDER);
-                    if (result != null) {
-                        Count = result.getCount();
-                        result.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public void delete() {
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.ServiceName.TABLE_NAME, null, null);
-                db.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public class DaignosisMasterAdapter {
-
-        String[] projection = {
-                DatabaseContract.DaignosisMaster.COLUMN_NAME_ID,
-                DatabaseContract.DaignosisMaster.COLUMN_NAME_CODE,
-                DatabaseContract.DaignosisMaster.COLUMN_NAME_DIAGNOSIS
-        };
-
-        private ContentValues DaignosisMasterToContentValues(DaignosisMaster daignosisMaster) {
-            ContentValues values = null;
-            try {
-                values = new ContentValues();
-                values.put(DatabaseContract.DaignosisMaster.COLUMN_NAME_ID, daignosisMaster.getID());
-                values.put(DatabaseContract.DaignosisMaster.COLUMN_NAME_CODE, daignosisMaster.getCode());
-                values.put(DatabaseContract.DaignosisMaster.COLUMN_NAME_DIAGNOSIS, daignosisMaster.getDiagnosis());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return values;
-        }
-
-        private ArrayList<DaignosisMaster> CursorToArrayList(Cursor result) {
-            ArrayList<DaignosisMaster> listDaignosisMaster = null;
-            try {
-                if (result != null) {
-                    listDaignosisMaster = new ArrayList<DaignosisMaster>();
-                    while (result.moveToNext()) {
-                        DaignosisMaster daignosisMaster = new DaignosisMaster();
-                        daignosisMaster.setID(result.getString(result.getColumnIndex(DatabaseContract.DaignosisMaster.COLUMN_NAME_ID)));
-                        daignosisMaster.setCode(result.getString(result.getColumnIndex(DatabaseContract.DaignosisMaster.COLUMN_NAME_CODE)));
-                        daignosisMaster.setDiagnosis(result.getString(result.getColumnIndex(DatabaseContract.DaignosisMaster.COLUMN_NAME_DIAGNOSIS)));
-                        listDaignosisMaster.add(daignosisMaster);
-                    }
-                    result.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return listDaignosisMaster;
-        }
-
-        public long create(DaignosisMaster daignosisMaster) {
-            long rowId = -1;
-            try {
-                if (Count(daignosisMaster.getID()) == 0) {
-                    ContentValues values = DaignosisMasterToContentValues(daignosisMaster);
-                    if (values != null) {
-                        rowId = databaseContract.open().insert(
-                                DatabaseContract.DaignosisMaster.TABLE_NAME, null, values);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                databaseContract.close();
-            }
-            return rowId;
-        }
-
-        public ArrayList<DaignosisMaster> listAll() {
-            ArrayList<DaignosisMaster> listDaignosisMaster = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.DaignosisMaster.TABLE_NAME,
-                        projection, null, null, null, null, null);
-                listDaignosisMaster = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listDaignosisMaster;
-        }
-
-        public ArrayList<DaignosisMaster> listAll(String name) {
-            ArrayList<DaignosisMaster> listDaignosisMaster = null;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (name != null) {
-                    whereClause = DatabaseContract.DaignosisMaster.COLUMN_NAME_DIAGNOSIS + "='" + name + "'";
-                }
-                result = db.query(DatabaseContract.DaignosisMaster.TABLE_NAME,
-                        projection, whereClause, null, null, null, null);
-                listDaignosisMaster = CursorToArrayList(result);
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-                result.close();
-            }
-            return listDaignosisMaster;
-        }
-
-        public boolean isDiagnosisnameMatch(String name) {
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (name != null) {
-                    whereClause = DatabaseContract.DaignosisMaster.COLUMN_NAME_DIAGNOSIS + " LIKE '"
-                            + name + "'";
-                    ;
-                }
-                result = db.query(DatabaseContract.DaignosisMaster.TABLE_NAME,
-                        projection, whereClause, null, null, null, null);
-                result.moveToFirst();
-                if (result.getCount() <= 0) {
-                    result.close();
-                    return false;
-
-                } else {
-                    result.close();
-                    return true;
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return false;
-        }
-
-        public int TotalCount() {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.DaignosisMaster.TABLE_NAME,
-                        projection, null, null, null, null, null);
-                if (result != null) {
-                    Count = result.getCount();
-                    result.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public int Count(String ID) {
-            int Count = -1;
-            Cursor result = null;
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                String whereClause = null;
-                if (ID != null) {
-                    whereClause = DatabaseContract.DaignosisMaster.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.DaignosisMaster.TABLE_NAME,
-                            projection, whereClause, null, null, null, null);
-                    if (result != null) {
-                        Count = result.getCount();
-                        result.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } finally {
-                databaseContract.close();
-            }
-            return Count;
-        }
-
-        public void delete() {
-            try {
-                SQLiteDatabase db = databaseContract.open();
-                db.delete(DatabaseContract.DaignosisMaster.TABLE_NAME, null, null);
-                db.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
 }

@@ -9,7 +9,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
+        android:padding="6dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -18,10 +18,21 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="(*) indicate manditory field."
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="10dp" />
+
+            <TextView
                 android:id="@+id/txt_profile_lable1"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginTop="4dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
                 android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:maxLines="1"
@@ -29,7 +40,7 @@
                 android:singleLine="true"
                 android:text="Personal Information"
                 android:textColor="@color/white"
-                android:textSize="@dimen/small_text_size" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,216 +51,342 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinnerperfix"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_perfix"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
-                </LinearLayout>
+                        android:background="@drawable/border_lighter_gray">
 
-                <EditText
-                    android:id="@+id/patient_reg_edt_fname"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_fname"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinnerperfix"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_perfix"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
 
-                <EditText
-                    android:id="@+id/patient_reg_edt_mname"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_mname"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/patient_reg_edt_lname"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_lname"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/patient_reg_edt_dob"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:digits="0123456789/"
-                    android:focusable="false"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_dob"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/patient_reg_edt_education"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_edu"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
-
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_gender"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_maritalstatus"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_maritalstatus"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_edt_fname"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_fname"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_bloodgroup"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_blood"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:visibility="invisible"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_edt_mname"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_mname"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_known_from"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_edt_lname"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_lname"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_edt_dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:digits="0123456789/"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_dob"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_known"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_gender"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_maritalstatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_maritalstatus"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_bloodgroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_blood"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_known_from"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_known"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -257,8 +394,9 @@
             <TextView
                 android:id="@+id/txt_profile_lable3"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
                 android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:maxLines="1"
@@ -266,7 +404,7 @@
                 android:singleLine="true"
                 android:text="Residence Contact Details"
                 android:textColor="@color/white"
-                android:textSize="@dimen/small_text_size" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -274,170 +412,299 @@
                 android:orientation="vertical"
                 android:paddingRight="@dimen/five_margin">
 
-                <EditText
-                    android:id="@+id/patient_reg_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_email"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/patient_reg_mobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_mob"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-                <EditText
-                    android:id="@+id/patient_reg_flat_building_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_flat_build"
-                    android:imeOptions="actionNext"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/patient_reg_street"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bnt_dashboard"
-                    android:gravity="center_vertical"
-                    android:hint="@string/profile_street"
-                    android:imeOptions="actionDone"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:textColorHint="@color/dark_gray"
-                    android:textColor="@color/text_color"
-                    android:textSize="15sp" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_country"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_country"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_email"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_region"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_region"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_mob"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_state"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_state"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_flat_building_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_flat_build"
+                        android:imeOptions="actionNext"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_lighter_gray">
+                    android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/patient_reg_spinner_city"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <EditText
+                        android:id="@+id/patient_reg_street"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bnt_dashboard"
+                        android:gravity="center_vertical"
+                        android:hint="@string/profile_street"
+                        android:imeOptions="actionDone"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:background="@null"
-                        android:textSize="@dimen/small_text_size"
-                        android:visibility="visible"
-                        app:ms_arrowColor="@color/text_color"
-                        app:ms_arrowSize="12sp"
-                        app:ms_enableErrorLabel="false"
-                        app:ms_enableFloatingLabel="false"
-                        app:ms_hint="@string/profile_city"
-                        app:ms_hintColor="@color/dark_gray"
-                        app:ms_multiline="false"
-                        app:ms_thickness="0dp" />
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_country"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_country"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_region"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_region"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_state"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/border_lighter_gray">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/patient_reg_spinner_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@null"
+                            android:textSize="@dimen/small_text_size"
+                            android:visibility="visible"
+                            app:ms_arrowColor="@color/text_color"
+                            app:ms_arrowSize="12sp"
+                            app:ms_enableErrorLabel="false"
+                            app:ms_enableFloatingLabel="false"
+                            app:ms_hint="@string/profile_city"
+                            app:ms_hintColor="@color/dark_gray"
+                            app:ms_multiline="false"
+                            app:ms_thickness="0dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

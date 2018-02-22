@@ -14,23 +14,41 @@ public class Patient {
     private String PatientCategoryID;
     private String MRNo;
     private String RegistrationDate;
+    private String PrefixId;
     private String LastName;
     private String FirstName;
     private String MiddleName;
     private String FamilyName;
+    private String DateOfBirth;
+    private String Age;
     private String Gender;
     private String GenderID;
-    private String DateOfBirth;
-    private String Education;
     private String MaritalStatus;
     private String MaritalStatusID;
     private String BloodGroup;
     private String BloodGroupID;
+    private String HealthSpringReferralID;
+    private String Education;
     private String ContactNo1;
     private String Email;
-    private String PrefixId;
-    private String Age;
+    private String FlatBuildingName;
+    private String StreetName;
+    private String CountryID;
+    private String RegionID;
+    private String StateID;
+    private String CityID;
     private String ClinicName;
+
+    // sponsor
+    private String CategoryL1ID;
+    private String CompanyID;
+    private String CategoryL2ID;
+    private String CategoryL3ID;
+    private String PCPDoctorID;
+    private String DoctorNameID;
+    private String EffectiveDate;
+    private String Expirydate;
+    private String CardIssueDate;
 
     public Patient() {
 
@@ -81,13 +99,13 @@ public class Patient {
         this.RegistrationDate = RegistrationDate;
     }
 
-    @JsonProperty("LastName")
-    public String getLastName() {
-        return LastName;
+    @JsonProperty("PrefixId")
+    public String getPrefixId() {
+        return PrefixId;
     }
 
-    public void setLastName(String LastName) {
-        this.LastName = LastName;
+    public void setPrefixId(String PrefixId) {
+        this.PrefixId = PrefixId;
     }
 
     @JsonProperty("FirstName")
@@ -106,6 +124,15 @@ public class Patient {
 
     public void setMiddleName(String MiddleName) {
         this.MiddleName = MiddleName;
+    }
+
+    @JsonProperty("LastName")
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String LastName) {
+        this.LastName = LastName;
     }
 
     @JsonProperty("FamilyName")
@@ -189,15 +216,6 @@ public class Patient {
         this.Email = Email;
     }
 
-    @JsonProperty("PrefixId")
-    public String getPrefixId() {
-        return PrefixId;
-    }
-
-    public void setPrefixId(String PrefixId) {
-        this.PrefixId = PrefixId;
-    }
-
     @JsonProperty("Age")
     public String getAge() {
         return Age;
@@ -232,5 +250,149 @@ public class Patient {
 
     public void setClinicName(String clinicName) {
         ClinicName = clinicName;
+    }
+
+    @JsonProperty("HealthSpringReferralID")
+    public String getHealthSpringReferralID() {
+        return HealthSpringReferralID;
+    }
+
+    public void setHealthSpringReferralID(String healthSpringReferralID) {
+        HealthSpringReferralID = healthSpringReferralID;
+    }
+
+    @JsonProperty("FlatBuildingName")
+    public String getFlatBuildingName() {
+        return FlatBuildingName;
+    }
+
+    public void setFlatBuildingName(String flatBuildingName) {
+        FlatBuildingName = flatBuildingName;
+    }
+
+    @JsonProperty("StreetName")
+    public String getStreetName() {
+        return StreetName;
+    }
+
+    public void setStreetName(String streetName) {
+        StreetName = streetName;
+    }
+
+    @JsonProperty("CountryID")
+    public String getCountryID() {
+        return CountryID;
+    }
+
+    public void setCountryID(String countryID) {
+        CountryID = countryID;
+    }
+
+    @JsonProperty("RegionID")
+    public String getRegionID() {
+        return RegionID;
+    }
+
+    public void setRegionID(String regionID) {
+        RegionID = regionID;
+    }
+
+    @JsonProperty("StateID")
+    public String getStateID() {
+        return StateID;
+    }
+
+    public void setStateID(String stateID) {
+        StateID = stateID;
+    }
+
+    @JsonProperty("CityID")
+    public String getCityID() {
+        return CityID;
+    }
+
+    public void setCityID(String cityID) {
+        CityID = cityID;
+    }
+
+    @JsonProperty("CityID")
+    public String getCategoryL1ID() {
+        return CategoryL1ID;
+    }
+
+    public void setCategoryL1ID(String categoryL1ID) {
+        CategoryL1ID = categoryL1ID;
+    }
+
+    @JsonProperty("CompanyID")
+    public String getCompanyID() {
+        return CompanyID;
+    }
+
+    public void setCompanyID(String companyID) {
+        CompanyID = companyID;
+    }
+
+    @JsonProperty("CategoryL2ID")
+    public String getCategoryL2ID() {
+        return CategoryL2ID;
+    }
+
+    public void setCategoryL2ID(String categoryL2ID) {
+        CategoryL2ID = categoryL2ID;
+    }
+
+    @JsonProperty("CategoryL3ID")
+    public String getCategoryL3ID() {
+        return CategoryL3ID;
+    }
+
+    public void setCategoryL3ID(String categoryL3ID) {
+        CategoryL3ID = categoryL3ID;
+    }
+
+    @JsonProperty("PCPDoctorID")
+    public String getPCPDoctorID() {
+        return PCPDoctorID;
+    }
+
+    public void setPCPDoctorID(String PCPDoctorID) {
+        this.PCPDoctorID = PCPDoctorID;
+    }
+
+    @JsonProperty("DoctorNameID")
+    public String getDoctorNameID() {
+        return DoctorNameID;
+    }
+
+    public void setDoctorNameID(String doctorNameID) {
+        DoctorNameID = doctorNameID;
+    }
+
+    @JsonProperty("EffectiveDate")
+    public String getEffectiveDate() {
+        return EffectiveDate;
+    }
+
+    public void setEffectiveDate(String effectiveDate) {
+        EffectiveDate = effectiveDate;
+    }
+
+    @JsonProperty("Expirydate")
+    public String getExpirydate() {
+        return Expirydate;
+    }
+
+    public void setExpirydate(String expirydate) {
+        Expirydate = expirydate;
+    }
+
+    @JsonProperty("CardIssueDate")
+    public String getCardIssueDate() {
+        return CardIssueDate;
+    }
+
+    public void setCardIssueDate(String cardIssueDate) {
+        CardIssueDate = cardIssueDate;
     }
 }

@@ -6,16 +6,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspringapp.R;
 import com.palash.healthspringapp.adapter.SpinnerAdapter;
 import com.palash.healthspringapp.api.JsonObjectMapper;
@@ -34,20 +38,21 @@ import com.palash.healthspringapp.entity.Gender;
 import com.palash.healthspringapp.entity.MaritalStatus;
 import com.palash.healthspringapp.entity.Patient;
 import com.palash.healthspringapp.entity.Prefix;
-import com.palash.healthspringapp.task.MasterTask;
+import com.palash.healthspringapp.fragment.ComplaintsFragment;
 import com.palash.healthspringapp.utilities.Constants;
 import com.palash.healthspringapp.utilities.LocalSetting;
 import com.palash.healthspringapp.utilities.TransparentProgressDialog;
 import com.palash.healthspringapp.utilities.Validate;
 import com.squareup.okhttp.Response;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-public class PatientRegistrationActivity extends AppCompatActivity {
+public class RegistrationPatientInformationFragment extends Fragment {
 
     private Context context;
     private LocalSetting localSetting;
@@ -77,13 +82,15 @@ public class PatientRegistrationActivity extends AppCompatActivity {
     private ArrayList<ELCityMaster> elCityMasterArrayList;
     private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList;
 
-    private EditText patient_reg_edt_fname;
-    private EditText patient_reg_edt_mname;
-    private EditText patient_reg_edt_lname;
-    private EditText patient_reg_edt_dob;
-    private EditText patient_reg_edt_education;
-    private EditText patient_reg_edt_email;
-    private EditText patient_reg_edt_mobile;
+    private static EditText patient_reg_edt_fname;
+    private static EditText patient_reg_edt_mname;
+    private static EditText patient_reg_edt_lname;
+    private static EditText patient_reg_edt_dob;
+    //private static EditText patient_reg_edt_education;
+    private static EditText patient_reg_edt_email;
+    private static EditText patient_reg_edt_mobile;
+    private static EditText patient_reg_flat_building_name;
+    private static EditText patient_reg_street;
 
     private MaterialSpinner patient_reg_spinner_perfix;
     private MaterialSpinner patient_reg_spinner_gender;
@@ -105,33 +112,39 @@ public class PatientRegistrationActivity extends AppCompatActivity {
     private SpinnerAdapter.CityAdapter cityAdapter;
     private SpinnerAdapter.HealthspringReferralAdapter healthspringReferralAdapter;
 
-    private String PrefixID = "";
-    private String GenderID = "";
-    private String MarriedStatusID = "";
-    private String BloodGroupID = "";
-    private String HealthSpringReferralID = "";
-    private String CountryID = "";
-    private String RegionID = "";
-    private String StateID = "";
-    private String CityID = "";
+    private static String PrefixID = "0";
+    private static String GenderID = "0";
+    private static String MarriedStatusID = "0";
+    private static String BloodGroupID = "0";
+    private static String HealthSpringReferralID = "0";
+    private static String CountryID = "0";
+    private static String RegionID = "0";
+    private static String StateID = "0";
+    private static String CityID = "0";
 
     private DatePickerDialog.OnDateSetListener dateListener;
+    private Calendar calendar = Calendar.getInstance();
+    private static SimpleDateFormat formate = new SimpleDateFormat(Constants.TIME_FORMAT);
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_registration);
         InitSetting();
         InitView();
+    }*/
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_patient_registration, container, false);
+        InitSetting();
+        InitView(rootView);
+        return rootView;
     }
 
     private void InitSetting() {
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-            context = PatientRegistrationActivity.this;
+            context = getActivity();
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
@@ -152,25 +165,27 @@ public class PatientRegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private void InitView() {
+    private void InitView(View rootView) {
         try {
-            patient_reg_edt_fname = (EditText) findViewById(R.id.patient_reg_edt_fname);
-            patient_reg_edt_mname = (EditText) findViewById(R.id.patient_reg_edt_mname);
-            patient_reg_edt_lname = (EditText) findViewById(R.id.patient_reg_edt_lname);
-            patient_reg_edt_dob = (EditText) findViewById(R.id.patient_reg_edt_dob);
-           // patient_reg_edt_education = (EditText) findViewById(R.id.patient_reg_edt_education);
-            patient_reg_edt_email = (EditText) findViewById(R.id.patient_reg_email);
-            patient_reg_edt_mobile = (EditText) findViewById(R.id.patient_reg_mobile);
+            patient_reg_edt_fname = (EditText) rootView.findViewById(R.id.patient_reg_edt_fname);
+            patient_reg_edt_mname = (EditText) rootView.findViewById(R.id.patient_reg_edt_mname);
+            patient_reg_edt_lname = (EditText) rootView.findViewById(R.id.patient_reg_edt_lname);
+            patient_reg_edt_dob = (EditText) rootView.findViewById(R.id.patient_reg_edt_dob);
+            //patient_reg_edt_education = (EditText) rootView.findViewById(R.id.patient_reg_edt_education);
+            patient_reg_edt_email = (EditText) rootView.findViewById(R.id.patient_reg_email);
+            patient_reg_edt_mobile = (EditText) rootView.findViewById(R.id.patient_reg_mobile);
+            patient_reg_flat_building_name = (EditText) rootView.findViewById(R.id.patient_reg_flat_building_name);
+            patient_reg_street = (EditText) rootView.findViewById(R.id.patient_reg_street);
 
-            patient_reg_spinner_perfix = (MaterialSpinner) findViewById(R.id.patient_reg_spinnerperfix);
-            patient_reg_spinner_gender = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_gender);
-            patient_reg_spinner_maritalstatus = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_maritalstatus);
-            patient_reg_spinner_bloodgroup = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_bloodgroup);
-            patient_reg_spinner_country = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_country);
-            patient_reg_spinner_region = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_region);
-            patient_reg_spinner_state = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_state);
-            patient_reg_spinner_city = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_city);
-            patient_reg_spinner_known_from = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_known_from);
+            patient_reg_spinner_perfix = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinnerperfix);
+            patient_reg_spinner_gender = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_gender);
+            patient_reg_spinner_maritalstatus = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_maritalstatus);
+            patient_reg_spinner_bloodgroup = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_bloodgroup);
+            patient_reg_spinner_country = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_country);
+            patient_reg_spinner_region = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_region);
+            patient_reg_spinner_state = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_state);
+            patient_reg_spinner_city = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_city);
+            patient_reg_spinner_known_from = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_known_from);
             patient_reg_edt_dob.setFocusable(false);
 
             patient_reg_edt_dob.setOnClickListener(new View.OnClickListener() {
@@ -193,13 +208,6 @@ public class PatientRegistrationActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        Constants.refreshPatient = false;
-        finish();
-        super.onBackPressed();
     }
 
     private void InitAdapter() {
@@ -468,57 +476,53 @@ public class PatientRegistrationActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+    /*@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_save).setVisible(true);
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_save:
-                if (validateControls()) {
+                if (validateControls(context)) {
                     PatientRegistration();
                 }
                 return true;
-            case android.R.id.home:
-                Constants.refreshPatient = false;
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
-    }
+        return super.onOptionsItemSelected(item);
+    }*/
 
-    private boolean validateControls() {
-        if (!Validate.isValidOption(patient_reg_spinner_perfix.getSelectedItemPosition())) {
+    public static boolean validateControls(Context context) {
+        if (PrefixID.equals("0")) {
             Validate.Msgshow(context, "Please select prefix.");
             return false;
         } else if (!Validate.hasTextIn(patient_reg_edt_fname.getText().toString())) {
             Validate.Msgshow(context, "Please enter first name.");
             return false;
-        } else if (!Validate.hasTextIn(patient_reg_edt_mname.getText().toString())) {
+        }
+        /*else if (!Validate.hasTextIn(patient_reg_edt_mname.getText().toString())) {
             Validate.Msgshow(context, "Please enter middle name.");
             return false;
-        } else if (!Validate.hasTextIn(patient_reg_edt_lname.getText().toString())) {
+        }*/
+        else if (!Validate.hasTextIn(patient_reg_edt_lname.getText().toString())) {
             Validate.Msgshow(context, "Please enter last name.");
             return false;
         } else if (!Validate.hasTextIn(patient_reg_edt_dob.getText().toString())) {
             Validate.Msgshow(context, "Please enter birth date.");
             return false;
-        } else if (!Validate.hasTextIn(patient_reg_edt_education.getText().toString())) {
-            Validate.Msgshow(context, "Please enter education.");
-            return false;
-        } else if (!Validate.isValidOption(patient_reg_spinner_gender.getSelectedItemPosition())) {
+        } else if (GenderID.equals("0")) {
             Validate.Msgshow(context, "Please select Gender.");
             return false;
-        } else if (!Validate.isValidOption(patient_reg_spinner_maritalstatus.getSelectedItemPosition())) {
+        }
+        /*else if (MarriedStatusID.equals("")) {
             Validate.Msgshow(context, "Please select Marital Status.");
             return false;
-        } else if (!Validate.isValidOption(patient_reg_spinner_bloodgroup.getSelectedItemPosition())) {
-            Validate.Msgshow(context, "Please select Blood Group.");
+        }*/
+        else if (HealthSpringReferralID.equals("0")) {
+            Validate.Msgshow(context, "Please select known of Healthspring.");
             return false;
         } else if (!Validate.hasTextIn(patient_reg_edt_email.getText().toString())) {
             Validate.Msgshow(context, "Please enter email address.");
@@ -532,63 +536,58 @@ public class PatientRegistrationActivity extends AppCompatActivity {
         } else if (patient_reg_edt_mobile.getText().toString().trim().length() != 10) {
             Validate.Msgshow(context, "Mobile number length must be 10 digit.");
             return false;
+        } else if (!Validate.hasTextIn(patient_reg_flat_building_name.getText().toString())) {
+            Validate.Msgshow(context, "Please enter flat and Building info.");
+            return false;
+        } else if (!Validate.hasTextIn(patient_reg_street.getText().toString())) {
+            Validate.Msgshow(context, "Please enter street address.");
+            return false;
         }
         return true;
     }
 
-    private void Clear() {
+    public static Patient PatientInformation() {
+        Patient patient = new Patient();
+        try {
+            patient.setPrefixId(PrefixID);
+            patient.setFirstName(patient_reg_edt_fname.getText().toString());
+            patient.setMiddleName(patient_reg_edt_mname.getText().toString());
+            patient.setLastName(patient_reg_edt_lname.getText().toString());
+            patient.setDateOfBirth(patient_reg_edt_dob.getText().toString().trim());
+            patient.setGenderID(GenderID);
+            patient.setMaritalStatusID(MarriedStatusID);
+            patient.setBloodGroupID(BloodGroupID);
+            patient.setHealthSpringReferralID(HealthSpringReferralID);
+            patient.setEmail(patient_reg_edt_email.getText().toString().trim());
+            patient.setContactNo1(patient_reg_edt_mobile.getText().toString().trim());
+            patient.setFlatBuildingName(patient_reg_flat_building_name.getText().toString().trim());
+            patient.setStreetName(patient_reg_street.getText().toString().trim());
+            patient.setCountryID(CountryID);
+            patient.setRegionID(RegionID);
+            patient.setStateID(StateID);
+            patient.setCityID(CityID);
+            patient.setRegistrationDate(formate.format(new Date()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return patient;
+    }
+
+    /*private void Clear() {
         patient_reg_edt_fname.setText(null);
         patient_reg_edt_mname.setText(null);
         patient_reg_edt_lname.setText(null);
         patient_reg_edt_dob.setText(null);
         patient_reg_edt_email.setText(null);
         patient_reg_edt_mobile.setText(null);
-        patient_reg_edt_education.setText(null);
+        //patient_reg_edt_education.setText(null);
         patient_reg_spinner_gender.setSelection(0);
         patient_reg_spinner_perfix.setSelection(0);
         patient_reg_spinner_maritalstatus.setSelection(0);
         patient_reg_spinner_perfix.requestFocus();
-    }
+    }*/
 
-    private void PatientRegistration() {
-        try {
-            patient = new Patient();
-            patient.setUnitID(listProfile.get(0).getUnitID());
-            patient.setFirstName(patient_reg_edt_fname.getText().toString());
-            patient.setMiddleName(patient_reg_edt_mname.getText().toString());
-            patient.setLastName(patient_reg_edt_lname.getText().toString());
-            patient.setEducation(patient_reg_edt_education.getText().toString().trim());
-            patient.setDateOfBirth(patient_reg_edt_dob.getText().toString().trim());
-            patient.setEmail(patient_reg_edt_email.getText().toString().trim());
-            patient.setContactNo1(patient_reg_edt_mobile.getText().toString().trim());
-            int Posprefix = patient_reg_spinner_perfix.getSelectedItemPosition();
-            if (Posprefix > 0) {
-                Posprefix = Posprefix - 1;
-            }
-            patient.setPrefixId(listPrefix.get(Posprefix).getID());
-            int Posgender = patient_reg_spinner_gender.getSelectedItemPosition();
-            if (Posgender > 0) {
-                Posgender = Posgender - 1;
-            }
-            patient.setGenderID(listGender.get(Posgender).getID());
-            int Posmarital = patient_reg_spinner_maritalstatus.getSelectedItemPosition();
-            if (Posmarital > 0) {
-                Posmarital = Posmarital - 1;
-            }
-            patient.setMaritalStatusID(listMaritalStatus.get(Posmarital).getID());
-            int Posbloodgroup = patient_reg_spinner_bloodgroup.getSelectedItemPosition();
-            if (Posbloodgroup > 0) {
-                Posbloodgroup = Posbloodgroup - 1;
-            }
-            patient.setBloodGroupID(listbloodGroups.get(Posbloodgroup).getID());
-            new PatientRegistrationTask().execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public class PatientRegistrationTask extends AsyncTask<Void, Void, String> {
-
+    /*public class PatientRegistrationTask extends AsyncTask<Void, Void, String> {
         private int responseCode = 0;
         private TransparentProgressDialog progressDialog = null;
         private JsonObjectMapper objMapper = null;
@@ -636,13 +635,13 @@ public class PatientRegistrationActivity extends AppCompatActivity {
                             .setPositiveButton("Go to Patient List", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    /*flag = flagAdapter.listCurrent();
+                                    *//*flag = flagAdapter.listCurrent();
                                     flag.setFlag(Constants.PATIENT_LIST_TASK);
                                     flagAdapter.create(flag);
-                                    SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);*/
+                                    SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);*//*
                                     Clear();
                                     Constants.refreshPatient = true;
-                                    finish();
+                                    //finish();
                                     //startActivity(new Intent(context, PatientListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                     //startActivity(new Intent(context, DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                 }
@@ -657,5 +656,5 @@ public class PatientRegistrationActivity extends AppCompatActivity {
             }
             super.onPostExecute(result);
         }
-    }
+    }*/
 }

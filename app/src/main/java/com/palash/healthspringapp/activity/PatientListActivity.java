@@ -204,7 +204,8 @@ public class PatientListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add_patient:
-                startActivity(new Intent(context, PatientRegistrationActivity.class));
+                startActivity(new Intent(context, RegistrationDashActivity.class));
+                //startActivity(new Intent(context, PatientRegistrationActivity.class));
                 return true;
             case R.id.menu_toolbar_filter:
                 showFilterDialog();

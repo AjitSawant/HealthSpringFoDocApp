@@ -86,6 +86,7 @@ public class Constants {
     public static final String REGION_URL = BASE_URL + "Master/GetRegion";
     public static final String STATE_URL = BASE_URL + "Master/GetState";
     public static final String CITY_URL = BASE_URL + "Master/GetCity";
+    public static final String PATIENT_CATEGORY_L1_URL = BASE_URL + "Master/GetPatientCategory";
     public static final String HEALTHSPRING_REFERRAL_URL = BASE_URL + "Master/GetHealthspringReferral";
     public static final String CPOEMEDICINE_ADD_UPDATE_URL = BASE_URL + "CPOEMedicine/AddCPOEMedicine";
     public static final String COMPLAINTS_ADD_UPDATE_URL = BASE_URL + "Complaint/AddUpdateComplaint";

@@ -82,7 +82,7 @@
 
     <!-- for tab. -->
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@drawable/tab_text_color</item>
     </style>
 

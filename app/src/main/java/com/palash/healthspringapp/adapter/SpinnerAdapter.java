@@ -20,6 +20,7 @@ import com.palash.healthspringapp.entity.ELAppointmentStatus;
 import com.palash.healthspringapp.entity.ELCityMaster;
 import com.palash.healthspringapp.entity.ELCountryMaster;
 import com.palash.healthspringapp.entity.ELHealthspringReferral;
+import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.ELRegionMaster;
 import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELUnitMaster;
@@ -509,6 +510,60 @@ public class SpinnerAdapter {
 
                 holder.row_txt_id.setText(elCityMasterArrayList.get(position).getID());
                 holder.row_txt_description.setText(elCityMasterArrayList.get(position).getCityName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class PatientCatogoryL1Adapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList; // Values to be displayed
+
+        public PatientCatogoryL1Adapter(Context context, ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList) {
+            mContext = context;
+            this.elPatientCategoryL1ArrayList = elPatientCategoryL1ArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elPatientCategoryL1ArrayList.size();
+        }
+
+        @Override
+        public ELPatientCategory getItem(int position) {
+            return elPatientCategoryL1ArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elPatientCategoryL1ArrayList.get(position).getID());
+                holder.row_txt_description.setText(elPatientCategoryL1ArrayList.get(position).getDescription());
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DoctorType {
+public class ELPatientCategory {
     private String ID;
     private String Description;
 
@@ -29,4 +29,7 @@ public class DoctorType {
     public void setDescription(String Description) {
         this.Description = Description;
     }
+
+
+
 }

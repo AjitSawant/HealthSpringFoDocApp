@@ -1804,57 +1804,6 @@ public class DatabaseContract {
                 + ")";
     }
 
-    /*public static final class PatientConsoleList implements BaseColumns {
-
-        private PatientConsoleList() {
-        }
-
-        public static final String TABLE_NAME = "T_PatientConsoleList";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_VisitID = "VisitID";
-        public static final String COLUMN_NAME_VisitDate = "VisitDate";
-        public static final String COLUMN_NAME_visitDoctor = "visitDoctor";
-        public static final String COLUMN_NAME_clinic = "clinic";
-        public static final String COLUMN_NAME_OPDNO = "OPDNO";
-        public static final String COLUMN_NAME_VisitType = "VisitType";
-        public static final String COLUMN_NAME_Prescription = "Prescription";
-        public static final String COLUMN_NAME_EMR = "EMR";
-        public static final String COLUMN_NAME_Attachment = "Attachment";
-        public static final String COLUMN_NAME_FilePath = "FilePath";
-        public static final String COLUMN_NAME_IS_UPDATE = "IsUpdate";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + PatientConsoleList._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_VisitID
-                + " TEXT,"
-                + COLUMN_NAME_VisitDate
-                + " TEXT,"
-                + COLUMN_NAME_visitDoctor
-                + " TEXT,"
-                + COLUMN_NAME_clinic
-                + " TEXT,"
-                + COLUMN_NAME_OPDNO
-                + " TEXT,"
-                + COLUMN_NAME_VisitType
-                + " TEXT,"
-                + COLUMN_NAME_Prescription
-                + " TEXT,"
-                + COLUMN_NAME_EMR
-                + " TEXT,"
-                + COLUMN_NAME_Attachment
-                + " TEXT,"
-                + COLUMN_NAME_FilePath
-                + " TEXT,"
-                + COLUMN_NAME_IS_UPDATE
-                + " TEXT DEFAULT 0"
-                + ")";
-    }*/
-
     public static final class PatientFollowUp implements BaseColumns {
 
         private PatientFollowUp() {
@@ -2006,110 +1955,26 @@ public class DatabaseContract {
                 + ")";
     }
 
-    /*public static final class MedicienName implements BaseColumns {
+    public static final class PatientCategoryL1 implements BaseColumns {
 
-        private MedicienName() {
+        private PatientCategoryL1() {
         }
 
-        public static final String TABLE_NAME = "T_MedicienName";
-        public static final String DEFAULT_SORT_ORDER = "ItemName ASC";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_ITEMNAME = "ItemName";
-        public static final String COLUMN_NAME_MRP = "MRP";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + MedicienName._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_ITEMNAME
-                + " TEXT,"
-                + COLUMN_NAME_MRP
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
-                + ")";
-    }
-    public static final class DaignosisMaster implements BaseColumns {
-
-        private DaignosisMaster() {
-        }
-
-        public static final String TABLE_NAME = "T_DaignosisMaster";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_CODE = "Code";
-        public static final String COLUMN_NAME_DIAGNOSIS = "Diagnosis";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + DaignosisMaster._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_CODE
-                + " TEXT,"
-                + COLUMN_NAME_DIAGNOSIS
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
-                + ")";
-    }
-    public static final class Molecule implements BaseColumns {
-
-        private Molecule() {
-        }
-
-        public static final String TABLE_NAME = "T_Molecule";
-        public static final String DEFAULT_SORT_ORDER = "ID ASC";
+        public static final String TABLE_NAME = "T_PatientCategoryL1";
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_DESCRIPTION = "Description";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
                 + "("
-                + Molecule._ID
+                + PatientCategoryL1._ID
                 + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
                 + COLUMN_NAME_ID
                 + " TEXT,"
                 + COLUMN_NAME_DESCRIPTION
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
+                + " TEXT"
                 + ")";
     }
-    public static final class ServiceName implements BaseColumns {
-
-        private ServiceName() {
-        }
-
-        public static final String TABLE_NAME = "T_ServiceName";
-        public static final String DEFAULT_SORT_ORDER = "_id ASC";
-
-        public static final String COLUMN_NAME_ID = "ID";
-        public static final String COLUMN_NAME_DESCRIPTION = "Description";
-        public static final String COLUMN_NAME_BASESERVICERATE = "BaseServiceRate";
-        public static final String COLUMN_NAME_IS_SYNC = "IsSync";
-
-        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
-                + "("
-                + ServiceName._ID
-                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
-                + " TEXT,"
-                + COLUMN_NAME_DESCRIPTION
-                + " TEXT,"
-                + COLUMN_NAME_BASESERVICERATE
-                + " TEXT,"
-                + COLUMN_NAME_IS_SYNC
-                + " INTEGER DEFAULT 0"
-                + ")";
-    }*/
 
     private final Context context;
     private DatabaseHelper databaseHelper;
@@ -2174,6 +2039,9 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 5: " + CityMaster.CREATE_TABLE);
                 db.execSQL(CityMaster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 5: " + PatientCategoryL1.CREATE_TABLE);
+                db.execSQL(PatientCategoryL1.CREATE_TABLE);
 
                 Log.d(Constants.TAG, "Creating table 5: " + HealthspringReferralMaster.CREATE_TABLE);
                 db.execSQL(HealthspringReferralMaster.CREATE_TABLE);
