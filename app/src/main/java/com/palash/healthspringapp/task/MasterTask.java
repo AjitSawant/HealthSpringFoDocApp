@@ -20,6 +20,7 @@ import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.DoctorType;
 import com.palash.healthspringapp.entity.ELCityMaster;
 import com.palash.healthspringapp.entity.ELCountryMaster;
+import com.palash.healthspringapp.entity.ELDoctorMaster;
 import com.palash.healthspringapp.entity.ELHealthspringReferral;
 import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.ELRegionMaster;
@@ -72,6 +73,8 @@ public class MasterTask implements Task {
     private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
     private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;
     private DatabaseAdapter.PatientCategoryL1Adapter patientCategoryL1Adapter;
+    private DatabaseAdapter.DoctorNameMasterAdapter doctorNameMasterAdapter;
+    private DatabaseAdapter.PCPDoctorMasterAdapter pcpDoctorMasterAdapter;
 
     /*private DatabaseAdapter.MedicienNameAdapter medicienNameAdapter;
     private DatabaseAdapter.DaignosisMasterAdapter daignosisMasterAdapter;
@@ -108,6 +111,8 @@ public class MasterTask implements Task {
     private ArrayList<ELCityMaster> elCityMasterArrayList;
     private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList;
     private ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList;
+    private ArrayList<ELDoctorMaster> elDoctorNameMasterArrayList;
+    private ArrayList<ELDoctorMaster> elPCPDoctorMasterArrayList;
 
     /*private ArrayList<MedicienName> medicienNameList;
     private ArrayList<DaignosisMaster> daignosisMasterList;
@@ -161,6 +166,8 @@ public class MasterTask implements Task {
             bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
             healthSpringReferralMasterAdapter = databaseAdapter.new HealthSpringReferralMasterAdapter();
             patientCategoryL1Adapter = databaseAdapter.new PatientCategoryL1Adapter();
+            doctorNameMasterAdapter = databaseAdapter.new DoctorNameMasterAdapter();
+            pcpDoctorMasterAdapter = databaseAdapter.new PCPDoctorMasterAdapter();
 
             /*medicienNameAdapter = databaseAdapter.new MedicienNameAdapter();
             daignosisMasterAdapter = databaseAdapter.new DaignosisMasterAdapter();
@@ -255,6 +262,12 @@ public class MasterTask implements Task {
                                         masterdataflag.setMsg("Synchronizing Patient category");
                                         masterFlagAdapter.create(masterdataflag);
                                         PatientCategoryL1Task();
+
+                                        masterdataflag = masterFlagAdapter.listCurrent();
+                                        masterdataflag.setMsg("Synchronizing Doctor Master");
+                                        masterFlagAdapter.create(masterdataflag);
+                                        DoctorNameTask();
+                                        PCPDoctorTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Appointment Reason");
@@ -373,6 +386,66 @@ public class MasterTask implements Task {
                         if (elPatientCategoryL1ArrayList != null && elPatientCategoryL1ArrayList.size() > 0) {
                             for (int index = 0; index < elPatientCategoryL1ArrayList.size(); index++) {
                                 patientCategoryL1Adapter.create(elPatientCategoryL1ArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DoctorNameTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = doctorNameMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "Doctor Name Local size : " + Count);
+            if (synchronizationList.get(0).getDoctorNameCount() != null && (!synchronizationList.get(0).getDoctorNameCount().equals(""))
+                    && (!synchronizationList.get(0).getDoctorNameCount().equals(String.valueOf(Count)))) {
+                // Appointment reason list task
+                response = serviceConsumer.GET(Constants.DOCTOR_NAME_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elDoctorNameMasterArrayList = objectMapper.map(responseString, ELDoctorMaster.class);
+                        Log.d(Constants.TAG, "Doctor Name size : " + elDoctorNameMasterArrayList.size());
+                        doctorNameMasterAdapter.delete();
+                        if (elDoctorNameMasterArrayList != null && elDoctorNameMasterArrayList.size() > 0) {
+                            for (int index = 0; index < elDoctorNameMasterArrayList.size(); index++) {
+                                doctorNameMasterAdapter.create(elDoctorNameMasterArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void PCPDoctorTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = pcpDoctorMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "PCP Doctor Local size : " + Count);
+            if (synchronizationList.get(0).getPCPDoctorCount() != null && (!synchronizationList.get(0).getPCPDoctorCount().equals(""))
+                    && (!synchronizationList.get(0).getPCPDoctorCount().equals(String.valueOf(Count)))) {
+                // Appointment reason list task
+                response = serviceConsumer.GET(Constants.PCPDOCTOR_URL + doctorProfileList.get(0).getUnitID());
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elPCPDoctorMasterArrayList = objectMapper.map(responseString, ELDoctorMaster.class);
+                        Log.d(Constants.TAG, "PCP Doctor size : " + elPCPDoctorMasterArrayList.size());
+                        pcpDoctorMasterAdapter.delete();
+                        if (elPCPDoctorMasterArrayList != null && elPCPDoctorMasterArrayList.size() > 0) {
+                            for (int index = 0; index < elPCPDoctorMasterArrayList.size(); index++) {
+                                pcpDoctorMasterAdapter.create(elPCPDoctorMasterArrayList.get(index));
                             }
                         }
                     }

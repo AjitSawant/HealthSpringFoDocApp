@@ -5,20 +5,20 @@
     android:background="@color/bgcolor"
     android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/cancel_appointment_edt_reason"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/border_whitedark"
-            android:gravity="left"
-            android:hint="@string/appointmentcanclereason"
-            android:maxLines="1"
-            android:layout_margin="@dimen/ten_margin"
-            android:textColorHint="@color/text_color"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^*()+_-,.0123456789 "
-            android:padding="@dimen/ten_margin"
-            android:singleLine="true"
-            android:textColor="@color/text_color" />
+    <EditText
+        android:id="@+id/cancel_appointment_edt_reason"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/ten_margin"
+        android:background="@drawable/border_whitedark"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^*()+_-,.0123456789 "
+        android:gravity="left"
+        android:hint="@string/appointmentcanclereason"
+        android:maxLines="1"
+        android:padding="@dimen/ten_margin"
+        android:singleLine="true"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/text_color" />
 
     <Button
         android:id="@+id/cancel_appointment_bnt_submit"
@@ -29,7 +29,6 @@
         android:background="@drawable/card_layout"
         android:text="@string/sumbmit"
         android:textColor="@color/white"
-        android:textSize="@dimen/common_text_size"
-        android:textStyle="bold" />
+        android:textSize="@dimen/common_text_size" />
 
 </LinearLayout>

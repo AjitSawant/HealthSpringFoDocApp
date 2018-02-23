@@ -1976,6 +1976,51 @@ public class DatabaseContract {
                 + ")";
     }
 
+    public static final class DoctorNameMaster implements BaseColumns {
+
+        private DoctorNameMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_DoctorNameMaster";
+
+        public static final String COLUMN_NAME_DOCTOR_ID = "DoctorID";
+        public static final String COLUMN_NAME_DOCTOR_NAME = "DoctorName";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + DoctorNameMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_DOCTOR_ID
+                + " TEXT,"
+                + COLUMN_NAME_DOCTOR_NAME
+                + " TEXT"
+                + ")";
+    }
+
+    public static final class PCPDoctorMster implements BaseColumns {
+
+        private PCPDoctorMster() {
+        }
+
+        public static final String TABLE_NAME = "T_PCPDoctorMster";
+
+        public static final String COLUMN_NAME_DOCTOR_ID = "DoctorID";
+        public static final String COLUMN_NAME_DOCTOR_NAME = "DoctorName";
+        public static final String COLUMN_NAME_SPEC_ID = "SpecializationID";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + PCPDoctorMster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_DOCTOR_ID
+                + " TEXT,"
+                + COLUMN_NAME_DOCTOR_NAME
+                + " TEXT,"
+                + COLUMN_NAME_SPEC_ID
+                + " TEXT"
+                + ")";
+    }
+
     private final Context context;
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase sqLiteDatabase;
@@ -2126,6 +2171,12 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 14: " + BloodGroup.CREATE_TABLE);
                 db.execSQL(BloodGroup.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 14: " + DoctorNameMaster.CREATE_TABLE);
+                db.execSQL(DoctorNameMaster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 14: " + PCPDoctorMster.CREATE_TABLE);
+                db.execSQL(PCPDoctorMster.CREATE_TABLE);
 
                 /*Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
                 db.execSQL(PatientConsoleList.CREATE_TABLE);

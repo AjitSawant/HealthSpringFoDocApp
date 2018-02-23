@@ -253,25 +253,24 @@ public class LocalSetting {
         return result;
     }
 
-    public String dateString(int date, int month, int year) {
-        //SimpleDateFormat dateFormat = new SimpleDateFormat();
+    public String calculateExpiryDate(String effectiveDate, String month) {
         String result = null;
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date currentDate = new Date();
-            System.out.println(dateFormat.format(currentDate));
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            Date currentDate = dateFormat.parse(effectiveDate);
             // convert date to calendar
             Calendar c = Calendar.getInstance();
             c.setTime(currentDate);
-
             // manipulate date
-            c.add(Calendar.YEAR, -year);
-            c.add(Calendar.MONTH, -month);
-            c.add(Calendar.DATE, -date);
-
+            if (!month.equals("")) {
+                if (month.equals("12")) {
+                    c.add(Calendar.YEAR, 1);
+                } else {
+                    c.add(Calendar.MONTH, Integer.parseInt(month));
+                }
+            }
             // convert calendar to date
             Date currentDatePlusOne = c.getTime();
-
             result = dateFormat.format(currentDatePlusOne);
         } catch (Exception e) {
             e.printStackTrace();
@@ -301,8 +300,8 @@ public class LocalSetting {
         return pdfURL;
     }
 
-    public ArrayList<ELAppointmentStatus> returnAppointmentStatus(){
-        ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList= new ArrayList<>();
+    public ArrayList<ELAppointmentStatus> returnAppointmentStatus() {
+        ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList = new ArrayList<>();
         ELAppointmentStatus elAppointmentStatus1 = new ELAppointmentStatus();
         elAppointmentStatus1.setID("0");
         elAppointmentStatus1.setDescription("New");
@@ -322,8 +321,8 @@ public class LocalSetting {
         return elAppointmentStatusArrayList;
     }
 
-    public ArrayList<ELAppointmentStatus> returnVisitStatus(){
-        ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList= new ArrayList<>();
+    public ArrayList<ELAppointmentStatus> returnVisitStatus() {
+        ArrayList<ELAppointmentStatus> elAppointmentStatusArrayList = new ArrayList<>();
         ELAppointmentStatus elAppointmentStatus1 = new ELAppointmentStatus();
         elAppointmentStatus1.setID("0");
         elAppointmentStatus1.setDescription("Open");

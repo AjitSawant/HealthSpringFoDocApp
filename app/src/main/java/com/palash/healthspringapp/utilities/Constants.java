@@ -87,6 +87,12 @@ public class Constants {
     public static final String STATE_URL = BASE_URL + "Master/GetState";
     public static final String CITY_URL = BASE_URL + "Master/GetCity";
     public static final String PATIENT_CATEGORY_L1_URL = BASE_URL + "Master/GetPatientCategory";
+    public static final String PATIENT_CATEGORY_L2_URL = BASE_URL + "Master/GetPatientCategoryL2?CategoryL1ID=";
+    public static final String PATIENT_CATEGORY_L3_URL = BASE_URL + "Master/GetPatientCategoryL3?CategoryL2ID=";
+    public static final String DOCTOR_NAME_URL = BASE_URL + "Master/GetDoctorName";
+    public static final String PCPDOCTOR_URL = BASE_URL + "Master/GetPCPDoctor?UnitID=";
+    public static final String COMPANY_NAME_URL = BASE_URL + "Master/GetCompanyList";
+    public static final String GET_PACKAGE_VALIDITY_URL = BASE_URL + "Master/GetPackageValidity?TariffID=";
     public static final String HEALTHSPRING_REFERRAL_URL = BASE_URL + "Master/GetHealthspringReferral";
     public static final String CPOEMEDICINE_ADD_UPDATE_URL = BASE_URL + "CPOEMedicine/AddCPOEMedicine";
     public static final String COMPLAINTS_ADD_UPDATE_URL = BASE_URL + "Complaint/AddUpdateComplaint";

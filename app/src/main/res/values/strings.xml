@@ -53,7 +53,7 @@
     <string name="patient_category_l3">Select Category L3</string>
     <string name="patient_effective_date">Effective Date</string>
     <string name="patient_expiry_date">Expiry Date</string>
-    <string name="patient_card_issue_date">Care Issue Date</string>
+    <string name="patient_card_issue_date">Card Issue Date</string>
     <string name="patient_pcp_doctor">Select PCP Doctor</string>
     <string name="patient_doctor_name">Select Doctor name</string>
 

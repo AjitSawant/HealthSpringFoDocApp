@@ -18,7 +18,9 @@ import com.palash.healthspringapp.entity.DaignosisTypeMaster;
 import com.palash.healthspringapp.entity.Department;
 import com.palash.healthspringapp.entity.ELAppointmentStatus;
 import com.palash.healthspringapp.entity.ELCityMaster;
+import com.palash.healthspringapp.entity.ELCompanyName;
 import com.palash.healthspringapp.entity.ELCountryMaster;
+import com.palash.healthspringapp.entity.ELDoctorMaster;
 import com.palash.healthspringapp.entity.ELHealthspringReferral;
 import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.ELRegionMaster;
@@ -522,12 +524,174 @@ public class SpinnerAdapter {
         }
     }
 
-    public static class PatientCatogoryL1Adapter extends BaseAdapter {
+    public static class DoctorNameListAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELDoctorMaster> elDoctorMasterArrayList; // Values to be displayed
+
+        public DoctorNameListAdapter(Context context, ArrayList<ELDoctorMaster> elDoctorMasterArrayList) {
+            mContext = context;
+            this.elDoctorMasterArrayList = elDoctorMasterArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elDoctorMasterArrayList.size();
+        }
+
+        @Override
+        public ELDoctorMaster getItem(int position) {
+            return elDoctorMasterArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elDoctorMasterArrayList.get(position).getDoctorID());
+                holder.row_txt_description.setText(elDoctorMasterArrayList.get(position).getDoctorName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class PCPDoctorListAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELDoctorMaster> elPCPDoctorMasterArrayList; // Values to be displayed
+
+        public PCPDoctorListAdapter(Context context, ArrayList<ELDoctorMaster> elPCPDoctorMasterArrayList) {
+            mContext = context;
+            this.elPCPDoctorMasterArrayList = elPCPDoctorMasterArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elPCPDoctorMasterArrayList.size();
+        }
+
+        @Override
+        public ELDoctorMaster getItem(int position) {
+            return elPCPDoctorMasterArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elPCPDoctorMasterArrayList.get(position).getDoctorID());
+                holder.row_txt_description.setText(elPCPDoctorMasterArrayList.get(position).getDoctorName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class CompanyListAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELCompanyName> elCompanyNameArrayList; // Values to be displayed
+
+        public CompanyListAdapter(Context context, ArrayList<ELCompanyName> elCompanyNameArrayList) {
+            mContext = context;
+            this.elCompanyNameArrayList = elCompanyNameArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elCompanyNameArrayList.size();
+        }
+
+        @Override
+        public ELCompanyName getItem(int position) {
+            return elCompanyNameArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elCompanyNameArrayList.get(position).getID());
+                holder.row_txt_description.setText(elCompanyNameArrayList.get(position).getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class PatientCatogoryListAdapter extends BaseAdapter {
         Context mContext;
         LayoutInflater inflater;
         private ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList; // Values to be displayed
 
-        public PatientCatogoryL1Adapter(Context context, ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList) {
+        public PatientCatogoryListAdapter(Context context, ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList) {
             mContext = context;
             this.elPatientCategoryL1ArrayList = elPatientCategoryL1ArrayList;
             inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

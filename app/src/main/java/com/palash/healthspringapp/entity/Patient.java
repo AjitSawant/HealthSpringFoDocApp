@@ -315,7 +315,7 @@ public class Patient {
         CityID = cityID;
     }
 
-    @JsonProperty("CityID")
+    @JsonProperty("CategoryL1ID")
     public String getCategoryL1ID() {
         return CategoryL1ID;
     }

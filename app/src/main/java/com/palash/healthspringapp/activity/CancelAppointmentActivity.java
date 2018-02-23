@@ -56,6 +56,7 @@ public class CancelAppointmentActivity extends AppCompatActivity {
         cancel_appointment_bnt_submit = (Button) findViewById(R.id.cancel_appointment_bnt_submit);
         UnitID = getIntent().getStringExtra("UnitID");
         AppointmentID = getIntent().getStringExtra("AppointmentID");
+
         cancel_appointment_bnt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +92,6 @@ public class CancelAppointmentActivity extends AppCompatActivity {
             appointment.setAppointmentId(AppointmentID);
             appointment.setAppCancelReason(cancel_appointment_edt_reason.getText().toString());
             new CancleAppointmentTask().execute();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
