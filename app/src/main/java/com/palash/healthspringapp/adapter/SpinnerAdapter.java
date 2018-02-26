@@ -26,6 +26,7 @@ import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.ELRegionMaster;
 import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELUnitMaster;
+import com.palash.healthspringapp.entity.ELVisitType;
 import com.palash.healthspringapp.entity.Gender;
 import com.palash.healthspringapp.entity.MaritalStatus;
 import com.palash.healthspringapp.entity.MedicienFrequency;
@@ -836,6 +837,60 @@ public class SpinnerAdapter {
 
                 holder.row_txt_id.setText(elAppointmentStatusArrayList.get(position).getID());
                 holder.row_txt_description.setText(elAppointmentStatusArrayList.get(position).getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView row_txt_id;
+            TextView row_txt_description;
+        }
+    }
+
+    public static class VisitTypeListAdapter extends BaseAdapter {
+        Context mContext;
+        LayoutInflater inflater;
+        private ArrayList<ELVisitType> elVisitTypeArrayList; // Values to be displayed
+
+        public VisitTypeListAdapter(Context context, ArrayList<ELVisitType> elVisitTypeArrayList) {
+            mContext = context;
+            this.elVisitTypeArrayList = elVisitTypeArrayList;
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return elVisitTypeArrayList.size();
+        }
+
+        @Override
+        public ELVisitType getItem(int position) {
+            return elVisitTypeArrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            try {
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.row_spinner_textview_unit_master, null);
+                    holder.row_txt_id = (TextView) convertView.findViewById(R.id.row_txt_id);
+                    holder.row_txt_description = (TextView) convertView.findViewById(R.id.row_txt_description);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
+                holder.row_txt_id.setText(elVisitTypeArrayList.get(position).getID());
+                holder.row_txt_description.setText(elVisitTypeArrayList.get(position).getDescription());
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -144,11 +144,22 @@ public class RegistrationSponsorFragment extends Fragment {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                     month = month + 1;
+                    String mMonth = "0";
                     if (month >= 0 && month < 9) {
-                        String mMonth = "0" + String.valueOf(month);
-                        month = Integer.parseInt(mMonth);
+                        mMonth = "0" + String.valueOf(month);
+                        //month = Integer.parseInt(mMonth);
+                    } else {
+                        mMonth = String.valueOf(month);
                     }
-                    patient_reg_edt_effective_date.setText(year + "-" + month + "-" + day);
+
+                    String mDay = "0";
+                    if (day >= 0 && day < 9) {
+                        mDay = "0" + String.valueOf(day);
+                    } else {
+                        mDay = String.valueOf(day);
+                    }
+
+                    patient_reg_edt_effective_date.setText(year + "-" + mMonth + "-" + mDay);
                     setExpiryDate();
                 }
             };
@@ -167,11 +178,22 @@ public class RegistrationSponsorFragment extends Fragment {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                     month = month + 1;
-                    if (month >= 0 && month < 10) {
-                        String mMonth = "0" + String.valueOf(month);
-                        month = Integer.parseInt(mMonth);
+                    String mMonth = "0";
+                    if (month >= 0 && month < 9) {
+                        mMonth = "0" + String.valueOf(month);
+                        //month = Integer.parseInt(mMonth);
+                    } else {
+                        mMonth = String.valueOf(month);
                     }
-                    patient_reg_edt_card_issue_date.setText(year + "-" + month + "-" + day);
+
+                    String mDay = "0";
+                    if (day >= 0 && day < 9) {
+                        mDay = "0" + String.valueOf(day);
+                    } else {
+                        mDay = String.valueOf(day);
+                    }
+
+                    patient_reg_edt_card_issue_date.setText(year + "-" + mMonth + "-" + mDay);
                 }
             };
             InitAdapter();
@@ -687,7 +709,8 @@ public class RegistrationSponsorFragment extends Fragment {
 
     private void setExpiryDate() {
         if (elPackageValidityArrayList != null && elPackageValidityArrayList.size() > 0) {
-            String calculateExpiryDate = localSetting.calculateExpiryDate(patient_reg_edt_effective_date.getText().toString(), elPackageValidityArrayList.get(0).getIsMonth());
+            String calculateExpiryDate = localSetting.calculateExpiryDate(patient_reg_edt_effective_date.getText().toString(), elPackageValidityArrayList.get(0).getValidity());
+            //String calculateExpiryDate = localSetting.calculateExpiryDate(patient_reg_edt_effective_date.getText().toString(),"4");
             patient_reg_edt_expiry_date.setText(calculateExpiryDate);
         }
     }

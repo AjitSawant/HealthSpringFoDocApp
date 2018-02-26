@@ -26,6 +26,7 @@ import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.ELRegionMaster;
 import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELUnitMaster;
+import com.palash.healthspringapp.entity.ELVisitType;
 import com.palash.healthspringapp.entity.Flag;
 import com.palash.healthspringapp.entity.Gender;
 import com.palash.healthspringapp.entity.MaritalStatus;
@@ -75,6 +76,7 @@ public class MasterTask implements Task {
     private DatabaseAdapter.PatientCategoryL1Adapter patientCategoryL1Adapter;
     private DatabaseAdapter.DoctorNameMasterAdapter doctorNameMasterAdapter;
     private DatabaseAdapter.PCPDoctorMasterAdapter pcpDoctorMasterAdapter;
+    private DatabaseAdapter.VisitTypeMasterAdapter visitTypeMasterAdapter;
 
     /*private DatabaseAdapter.MedicienNameAdapter medicienNameAdapter;
     private DatabaseAdapter.DaignosisMasterAdapter daignosisMasterAdapter;
@@ -113,6 +115,7 @@ public class MasterTask implements Task {
     private ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList;
     private ArrayList<ELDoctorMaster> elDoctorNameMasterArrayList;
     private ArrayList<ELDoctorMaster> elPCPDoctorMasterArrayList;
+    private ArrayList<ELVisitType> elVisitTypeArrayList;
 
     /*private ArrayList<MedicienName> medicienNameList;
     private ArrayList<DaignosisMaster> daignosisMasterList;
@@ -168,6 +171,7 @@ public class MasterTask implements Task {
             patientCategoryL1Adapter = databaseAdapter.new PatientCategoryL1Adapter();
             doctorNameMasterAdapter = databaseAdapter.new DoctorNameMasterAdapter();
             pcpDoctorMasterAdapter = databaseAdapter.new PCPDoctorMasterAdapter();
+            visitTypeMasterAdapter = databaseAdapter.new VisitTypeMasterAdapter();
 
             /*medicienNameAdapter = databaseAdapter.new MedicienNameAdapter();
             daignosisMasterAdapter = databaseAdapter.new DaignosisMasterAdapter();
@@ -268,6 +272,11 @@ public class MasterTask implements Task {
                                         masterFlagAdapter.create(masterdataflag);
                                         DoctorNameTask();
                                         PCPDoctorTask();
+
+                                        masterdataflag = masterFlagAdapter.listCurrent();
+                                        masterdataflag.setMsg("Synchronizing Visit Type Master");
+                                        masterFlagAdapter.create(masterdataflag);
+                                        VisitTypeTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Appointment Reason");
@@ -446,6 +455,36 @@ public class MasterTask implements Task {
                         if (elPCPDoctorMasterArrayList != null && elPCPDoctorMasterArrayList.size() > 0) {
                             for (int index = 0; index < elPCPDoctorMasterArrayList.size(); index++) {
                                 pcpDoctorMasterAdapter.create(elPCPDoctorMasterArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void VisitTypeTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = visitTypeMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "Visit type Local size : " + Count);
+            if (synchronizationList.get(0).getVisitTypeCount() != null && (!synchronizationList.get(0).getVisitTypeCount().equals(""))
+                    && (!synchronizationList.get(0).getVisitTypeCount().equals(String.valueOf(Count)))) {
+                // Appointment reason list task
+                response = serviceConsumer.GET(Constants.VISIT_TYPE_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elVisitTypeArrayList = objectMapper.map(responseString, ELVisitType.class);
+                        Log.d(Constants.TAG, "Visit type size : " + elVisitTypeArrayList.size());
+                        visitTypeMasterAdapter.delete();
+                        if (elVisitTypeArrayList != null && elVisitTypeArrayList.size() > 0) {
+                            for (int index = 0; index < elVisitTypeArrayList.size(); index++) {
+                                visitTypeMasterAdapter.create(elVisitTypeArrayList.get(index));
                             }
                         }
                     }

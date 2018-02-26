@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.DatePicker;
@@ -37,6 +38,7 @@ import com.palash.healthspringapp.entity.Department;
 import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.ELAppointmentStatus;
 import com.palash.healthspringapp.entity.ELFilter;
+import com.palash.healthspringapp.entity.ELVisitType;
 import com.palash.healthspringapp.entity.PatientQueue;
 import com.palash.healthspringapp.utilities.Constants;
 import com.palash.healthspringapp.utilities.LocalSetting;
@@ -59,15 +61,18 @@ public class PatientQueueActivity extends AppCompatActivity {
     private DatabaseAdapter.PatientQueueAdapter patientQueueAdapterDB;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.DepartmentAdapter departmentAdapterBD;
+    private DatabaseAdapter.VisitTypeMasterAdapter visitTypeMasterAdapterDB;
 
     private ArrayList<DoctorProfile> doctorProfileList;
     private ArrayList<PatientQueue> patientQueueArrayList = null;
     ArrayList<ELAppointmentStatus> elVisitStatusArrayList = null;
     private ArrayList<Department> departmentslist;
+    private ArrayList<ELVisitType> elVisitTypeArrayList;
 
     private PatientQueueAdapter patientQueueAdapter;
     private SpinnerAdapter.DepartmentAdapter departmentAdapter;
     private SpinnerAdapter.AppointmentStatusAdapter visitStatusAdapter;
+    private SpinnerAdapter.VisitTypeListAdapter visitTypeListAdapter;
 
     private Chronometer patient_queue_chronometer;
     private ListView patient_queue_list;
@@ -153,8 +158,10 @@ public class PatientQueueActivity extends AppCompatActivity {
             patientQueueAdapterDB = databaseAdapter.new PatientQueueAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
+            visitTypeMasterAdapterDB = databaseAdapter.new VisitTypeMasterAdapter();
             doctorProfileList = doctorProfileAdapter.listAll();
             departmentslist = departmentAdapterBD.listAll();
+            elVisitTypeArrayList = visitTypeMasterAdapterDB.listAll();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -415,28 +422,6 @@ public class PatientQueueActivity extends AppCompatActivity {
             }
         });
 
-        radio_button_by_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                patient_registration_mrno_edt.setVisibility(View.GONE);
-                patient_registration_firstname_edt.setVisibility(View.GONE);
-                patient_registration_lastname_edt.setVisibility(View.GONE);
-                patient_registration_mobile_no_edt.setVisibility(View.GONE);
-                //layout_search_by_doctor.setVisibility(View.GONE);
-                layout_search_by_department.setVisibility(View.GONE);
-                patient_register_layout_category_L3.setVisibility(View.VISIBLE);
-                layout_search_by_visit_type.setVisibility(View.GONE);
-                layout_search_by_visit_status.setVisibility(View.GONE);
-                radio_group_1.clearCheck();
-                radio_group_2.clearCheck();
-
-                filter_text_1.setVisibility(View.VISIBLE);
-                filter_text_2.setVisibility(View.GONE);
-                filter_text_1.setText("Select Patient Category L3");
-                checkRadio = 6;
-            }
-        });
-
         radio_button_by_visit_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -450,12 +435,14 @@ public class PatientQueueActivity extends AppCompatActivity {
                 layout_search_by_visit_type.setVisibility(View.VISIBLE);
                 layout_search_by_visit_status.setVisibility(View.GONE);
                 radio_group_1.clearCheck();
-                radio_group_2.clearCheck();
+                radio_group_3.clearCheck();
 
                 filter_text_1.setVisibility(View.VISIBLE);
                 filter_text_2.setVisibility(View.GONE);
                 filter_text_1.setText("Select Visit Type");
                 checkRadio = 7;
+
+                setVisitTypeData();
             }
         });
 
@@ -480,6 +467,28 @@ public class PatientQueueActivity extends AppCompatActivity {
                 checkRadio = 8;
 
                 setVisitStatusData();
+            }
+        });
+
+        radio_button_by_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                patient_registration_mrno_edt.setVisibility(View.GONE);
+                patient_registration_firstname_edt.setVisibility(View.GONE);
+                patient_registration_lastname_edt.setVisibility(View.GONE);
+                patient_registration_mobile_no_edt.setVisibility(View.GONE);
+                //layout_search_by_doctor.setVisibility(View.GONE);
+                layout_search_by_department.setVisibility(View.GONE);
+                patient_register_layout_category_L3.setVisibility(View.VISIBLE);
+                layout_search_by_visit_type.setVisibility(View.GONE);
+                layout_search_by_visit_status.setVisibility(View.GONE);
+                radio_group_1.clearCheck();
+                radio_group_2.clearCheck();
+
+                filter_text_1.setVisibility(View.VISIBLE);
+                filter_text_2.setVisibility(View.GONE);
+                filter_text_1.setText("Select Patient Category L3");
+                checkRadio = 6;
             }
         });
 
@@ -580,6 +589,23 @@ public class PatientQueueActivity extends AppCompatActivity {
             visitStatusAdapter = new SpinnerAdapter.AppointmentStatusAdapter(context, elVisitStatusArrayList);
             patient_register_visit_status.setAdapter(visitStatusAdapter);
             visitStatusAdapter.notifyDataSetChanged();
+
+            patient_register_visit_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    int sVisitStatusPos = patient_register_visit_status.getSelectedItemPosition();
+                    if (sVisitStatusPos == 0) {
+                        SelectedVisitStatus = "0";
+                    } else if (sVisitStatusPos > 0) {
+                        sVisitStatusPos = sVisitStatusPos - 1;
+                        SelectedVisitStatus = elVisitStatusArrayList.get(sVisitStatusPos).getID();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
         }
     }
 
@@ -588,6 +614,48 @@ public class PatientQueueActivity extends AppCompatActivity {
             departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentslist);
             patient_register_department.setAdapter(departmentAdapter);
             departmentAdapter.notifyDataSetChanged();
+
+            patient_register_department.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    int sDeptPos = patient_register_department.getSelectedItemPosition();
+                    if (sDeptPos == 0) {
+                        SelectedDeptID = "0";
+                    } else if (sDeptPos > 0) {
+                        sDeptPos = sDeptPos - 1;
+                        SelectedDeptID = departmentslist.get(sDeptPos).getID();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        }
+    }
+
+    private void setVisitTypeData() {
+        if (elVisitTypeArrayList != null && elVisitTypeArrayList.size() > 0) {
+            visitTypeListAdapter = new SpinnerAdapter.VisitTypeListAdapter(context, elVisitTypeArrayList);
+            patient_register_visit_type.setAdapter(visitTypeListAdapter);
+            visitTypeListAdapter.notifyDataSetChanged();
+
+            patient_register_visit_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    int sVisitTypePos = patient_register_visit_type.getSelectedItemPosition();
+                    if (sVisitTypePos == 0) {
+                        SelectedVisitType = "0";
+                    } else if (sVisitTypePos > 0) {
+                        sVisitTypePos = sVisitTypePos - 1;
+                        SelectedVisitType = elVisitTypeArrayList.get(sVisitTypePos).getID();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
         }
     }
 

@@ -115,6 +115,7 @@
                 android:id="@+id/radio_group_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="horizontal">
                 <RadioButton
                     android:id="@+id/radio_button_by_category"
@@ -310,6 +311,7 @@
                 android:id="@+id/patient_register_layout_category_L3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:background="@drawable/border_lighter_gray">
 
                 <fr.ganfra.materialspinner.MaterialSpinner

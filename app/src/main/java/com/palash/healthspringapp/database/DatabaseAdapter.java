@@ -29,6 +29,7 @@ import com.palash.healthspringapp.entity.ELRegionMaster;
 import com.palash.healthspringapp.entity.ELStateMaster;
 import com.palash.healthspringapp.entity.ELSynchOfflineData;
 import com.palash.healthspringapp.entity.ELUnitMaster;
+import com.palash.healthspringapp.entity.ELVisitType;
 import com.palash.healthspringapp.entity.Flag;
 import com.palash.healthspringapp.entity.Gender;
 import com.palash.healthspringapp.entity.MaritalStatus;
@@ -9005,6 +9006,132 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 db.delete(DatabaseContract.BloodGroup.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class VisitTypeMasterAdapter {
+
+        String[] projection = {
+                DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID,
+                DatabaseContract.VisitTypeMaster.COLUMN_NAME_DESCRIPTION
+        };
+
+        private ContentValues VisitTypeMasterToContentValues(ELVisitType elVisitType) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID, elVisitType.getID());
+                values.put(DatabaseContract.VisitTypeMaster.COLUMN_NAME_DESCRIPTION, elVisitType.getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELVisitType> CursorToArrayList(Cursor result) {
+            ArrayList<ELVisitType> listVisitTypeMaster = null;
+            try {
+                if (result != null) {
+                    listVisitTypeMaster = new ArrayList<ELVisitType>();
+                    while (result.moveToNext()) {
+                        ELVisitType elVisitType = new ELVisitType();
+                        elVisitType.setID(result.getString(result.getColumnIndex(DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID)));
+                        elVisitType.setDescription(result.getString(result.getColumnIndex(DatabaseContract.VisitTypeMaster.COLUMN_NAME_DESCRIPTION)));
+                        listVisitTypeMaster.add(elVisitType);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listVisitTypeMaster;
+        }
+
+        public long create(ELVisitType elVisitType) {
+            long rowId = -1;
+            try {
+                if (Count(elVisitType.getID()) == 0) {
+                    ContentValues values = VisitTypeMasterToContentValues(elVisitType);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.VisitTypeMaster.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELVisitType> listAll() {
+            ArrayList<ELVisitType> listVisitTypeMaster = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME,projection, null,null, null, null,null);
+                listVisitTypeMaster = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listVisitTypeMaster;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME,projection, null,null, null, null,null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME,projection, whereClause,null, null, null,null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.VisitTypeMaster.TABLE_NAME, null, null);
                 db.close();
             } catch (SQLException e) {
                 e.printStackTrace();

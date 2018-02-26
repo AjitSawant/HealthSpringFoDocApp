@@ -92,6 +92,7 @@ public class Constants {
     public static final String DOCTOR_NAME_URL = BASE_URL + "Master/GetDoctorName";
     public static final String PCPDOCTOR_URL = BASE_URL + "Master/GetPCPDoctor?UnitID=";
     public static final String COMPANY_NAME_URL = BASE_URL + "Master/GetCompanyList";
+    public static final String VISIT_TYPE_URL = BASE_URL + "Master/GetVisitTypeList";
     public static final String GET_PACKAGE_VALIDITY_URL = BASE_URL + "Master/GetPackageValidity?TariffID=";
     public static final String HEALTHSPRING_REFERRAL_URL = BASE_URL + "Master/GetHealthspringReferral";
     public static final String CPOEMEDICINE_ADD_UPDATE_URL = BASE_URL + "CPOEMedicine/AddCPOEMedicine";

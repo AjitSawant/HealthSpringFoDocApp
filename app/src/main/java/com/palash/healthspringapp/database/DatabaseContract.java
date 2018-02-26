@@ -2021,6 +2021,27 @@ public class DatabaseContract {
                 + ")";
     }
 
+    public static final class VisitTypeMaster implements BaseColumns {
+
+        private VisitTypeMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_VisitTypeMaster";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_DESCRIPTION = "Description";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + VisitTypeMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_DESCRIPTION
+                + " TEXT"
+                + ")";
+    }
+
     private final Context context;
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase sqLiteDatabase;
@@ -2177,6 +2198,9 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 14: " + PCPDoctorMster.CREATE_TABLE);
                 db.execSQL(PCPDoctorMster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 14: " + VisitTypeMaster.CREATE_TABLE);
+                db.execSQL(VisitTypeMaster.CREATE_TABLE);
 
                 /*Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
                 db.execSQL(PatientConsoleList.CREATE_TABLE);

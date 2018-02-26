@@ -256,22 +256,29 @@ public class LocalSetting {
     public String calculateExpiryDate(String effectiveDate, String month) {
         String result = null;
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-            Date currentDate = dateFormat.parse(effectiveDate);
-            // convert date to calendar
-            Calendar c = Calendar.getInstance();
-            c.setTime(currentDate);
-            // manipulate date
-            if (!month.equals("")) {
-                if (month.equals("12")) {
-                    c.add(Calendar.YEAR, 1);
-                } else {
-                    c.add(Calendar.MONTH, Integer.parseInt(month));
+            SimpleDateFormat form = new SimpleDateFormat("yyyy-mm-dd");
+            Date date = null;
+            try {
+                date = form.parse(effectiveDate);
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+
+                // manipulate date
+                if (!month.equals("")) {
+                    if (month.equals("12")) {
+                        c.add(Calendar.YEAR, 1);
+                    } else {
+                        c.add(Calendar.MONTH, Integer.parseInt(month));
+                    }
                 }
+
+                // convert calendar to date
+                Date currentDatePlusOne = c.getTime();
+                SimpleDateFormat postFormater = new SimpleDateFormat("yyyy-mm-dd");
+                result = postFormater.format(currentDatePlusOne);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            // convert calendar to date
-            Date currentDatePlusOne = c.getTime();
-            result = dateFormat.format(currentDatePlusOne);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -330,7 +337,6 @@ public class LocalSetting {
         ELAppointmentStatus elAppointmentStatus2 = new ELAppointmentStatus();
         elAppointmentStatus2.setID("1");
         elAppointmentStatus2.setDescription("Close");
-
 
         elAppointmentStatusArrayList.add(elAppointmentStatus1);
         elAppointmentStatusArrayList.add(elAppointmentStatus2);
