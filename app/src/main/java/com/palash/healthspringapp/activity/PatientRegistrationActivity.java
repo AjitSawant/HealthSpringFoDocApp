@@ -557,7 +557,6 @@ public class PatientRegistrationActivity extends AppCompatActivity {
             patient.setFirstName(patient_reg_edt_fname.getText().toString());
             patient.setMiddleName(patient_reg_edt_mname.getText().toString());
             patient.setLastName(patient_reg_edt_lname.getText().toString());
-            patient.setEducation(patient_reg_edt_education.getText().toString().trim());
             patient.setDateOfBirth(patient_reg_edt_dob.getText().toString().trim());
             patient.setEmail(patient_reg_edt_email.getText().toString().trim());
             patient.setContactNo1(patient_reg_edt_mobile.getText().toString().trim());
@@ -565,7 +564,7 @@ public class PatientRegistrationActivity extends AppCompatActivity {
             if (Posprefix > 0) {
                 Posprefix = Posprefix - 1;
             }
-            patient.setPrefixId(listPrefix.get(Posprefix).getID());
+            patient.setPrefixID(listPrefix.get(Posprefix).getID());
             int Posgender = patient_reg_spinner_gender.getSelectedItemPosition();
             if (Posgender > 0) {
                 Posgender = Posgender - 1;

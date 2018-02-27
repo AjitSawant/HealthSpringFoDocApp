@@ -3245,7 +3245,6 @@ public class DatabaseAdapter {
         String[] projection = {
                 DatabaseContract.Patient.COLUMN_NAME_ID,
                 DatabaseContract.Patient.COLUMN_NAME_UNITID,
-                DatabaseContract.Patient.COLUMN_NAME_PATIENTCATEGORYID,
                 DatabaseContract.Patient.COLUMN_NAME_MRNO,
                 DatabaseContract.Patient.COLUMN_NAME_CLINIC,
                 DatabaseContract.Patient.COLUMN_NAME_REGISTRATIONDATE,
@@ -3272,7 +3271,6 @@ public class DatabaseAdapter {
                 values = new ContentValues();
                 values.put(DatabaseContract.Patient.COLUMN_NAME_ID, patient.getID());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_UNITID, patient.getUnitID());
-                values.put(DatabaseContract.Patient.COLUMN_NAME_PATIENTCATEGORYID, patient.getPatientCategoryID());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_CLINIC, patient.getClinicName());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_MRNO, patient.getMRNo());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_REGISTRATIONDATE, patient.getRegistrationDate());
@@ -3282,7 +3280,6 @@ public class DatabaseAdapter {
                 values.put(DatabaseContract.Patient.COLUMN_NAME_FIMLIY_NAME, patient.getFamilyName());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_GENDER, patient.getGender());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_DATEOFBIRTH, patient.getDateOfBirth());
-                values.put(DatabaseContract.Patient.COLUMN_NAME_EDUCATION, patient.getEducation());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUS, patient.getMaritalStatus());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_CONTACTNO1, patient.getContactNo1());
                 values.put(DatabaseContract.Patient.COLUMN_NAME_EMAIL, patient.getEmail());
@@ -3306,7 +3303,6 @@ public class DatabaseAdapter {
                         Patient patient = new Patient();
                         patient.setID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_ID)));
                         patient.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_UNITID)));
-                        patient.setPatientCategoryID(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_PATIENTCATEGORYID)));
                         patient.setMRNo(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_MRNO)));
                         patient.setClinicName(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_CLINIC)));
                         patient.setRegistrationDate(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_REGISTRATIONDATE)));
@@ -3316,7 +3312,6 @@ public class DatabaseAdapter {
                         patient.setFamilyName(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_FIMLIY_NAME)));
                         patient.setGender(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_GENDER)));
                         patient.setDateOfBirth(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_DATEOFBIRTH)));
-                        patient.setEducation(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_EDUCATION)));
                         patient.setMaritalStatus(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_MARITALSTATUS)));
                         patient.setContactNo1(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_CONTACTNO1)));
                         patient.setEmail(result.getString(result.getColumnIndex(DatabaseContract.Patient.COLUMN_NAME_EMAIL)));

@@ -709,7 +709,6 @@ public class DatabaseContract {
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_UNITID = "UnitID";
-        public static final String COLUMN_NAME_PATIENTCATEGORYID = "PatientCategoryID";
         public static final String COLUMN_NAME_MRNO = "MRNo";
         public static final String COLUMN_NAME_CLINIC = "ClinicName";
         public static final String COLUMN_NAME_REGISTRATIONDATE = "RegistrationDate";
@@ -737,8 +736,6 @@ public class DatabaseContract {
                 + COLUMN_NAME_ID
                 + " TEXT,"
                 + COLUMN_NAME_UNITID
-                + " TEXT,"
-                + COLUMN_NAME_PATIENTCATEGORYID
                 + " TEXT,"
                 + COLUMN_NAME_MRNO
                 + " TEXT,"

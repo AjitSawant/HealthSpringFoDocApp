@@ -201,7 +201,23 @@ public class RegistrationPatientInformationFragment extends Fragment {
             dateListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    patient_reg_edt_dob.setText(day + "/" + (month + 1) + "/" + year);
+                    month = month + 1;
+                    String mMonth = "0";
+                    if (month >= 0 && month < 9) {
+                        mMonth = "0" + String.valueOf(month);
+                        //month = Integer.parseInt(mMonth);
+                    } else {
+                        mMonth = String.valueOf(month);
+                    }
+
+                    String mDay = "0";
+                    if (day >= 0 && day < 9) {
+                        mDay = "0" + String.valueOf(day);
+                    } else {
+                        mDay = String.valueOf(day);
+                    }
+
+                    patient_reg_edt_dob.setText(year + "-" + mMonth + "-" + mDay);
                 }
             };
             InitAdapter();
@@ -549,7 +565,7 @@ public class RegistrationPatientInformationFragment extends Fragment {
     public static Patient PatientInformation() {
         Patient patient = new Patient();
         try {
-            patient.setPrefixId(PrefixID);
+            patient.setPrefixID(PrefixID);
             patient.setFirstName(patient_reg_edt_fname.getText().toString());
             patient.setMiddleName(patient_reg_edt_mname.getText().toString());
             patient.setLastName(patient_reg_edt_lname.getText().toString());

@@ -103,7 +103,8 @@ public class LocalSetting {
     }
 
     public boolean isNetworkAvailable(Context context) {
-        boolean status = false;
+        boolean status = true;
+        /*boolean status = false;
         try {
             ConnectivityManager cm = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -121,7 +122,7 @@ public class LocalSetting {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        }
+        }*/
         return status;
     }
 

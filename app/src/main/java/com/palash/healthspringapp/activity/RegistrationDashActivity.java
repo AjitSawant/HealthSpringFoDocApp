@@ -131,29 +131,32 @@ public class RegistrationDashActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_save:
-                if (localSetting.isNetworkAvailable(context)) {
-                    if (RegistrationPatientInformationFragment.validateControls(context)) {
-                        elPatient = new Patient();
-                        elPatient = RegistrationPatientInformationFragment.PatientInformation();
-                        elPatient.setUnitID(listProfile.get(0).getUnitID());
-                        if (RegistrationSponsorFragment.validateControls(context)) {
-                            Patient elPatient1 = new Patient();
-                            elPatient1 = RegistrationSponsorFragment.SponsorInformation();
-                            elPatient.setCategoryL1ID(elPatient1.getCategoryL1ID());
-                            elPatient.setCompanyID(elPatient1.getCompanyID());
-                            elPatient.setCategoryL2ID(elPatient1.getCategoryL2ID());
-                            elPatient.setCategoryL3ID(elPatient1.getCategoryL3ID());
-                            elPatient.setPCPDoctorID(elPatient1.getPCPDoctorID());
-                            elPatient.setDoctorNameID(elPatient1.getDoctorNameID());
-                            elPatient.setEffectiveDate(elPatient1.getEffectiveDate());
-                            elPatient.setExpirydate(elPatient1.getExpirydate());
-                            elPatient.setCardIssueDate(elPatient1.getCardIssueDate());
+                if (RegistrationPatientInformationFragment.validateControls(context)) {
+                    elPatient = new Patient();
+                    elPatient = RegistrationPatientInformationFragment.PatientInformation();
+                    elPatient.setUnitID(listProfile.get(0).getUnitID());
+                    elPatient.setAddedBy(listProfile.get(0).getID());
+                    elPatient.setCreatedUnitID(listProfile.get(0).getUnitID());
 
+                    if (RegistrationSponsorFragment.validateControls(context)) {
+                        Patient elPatient1 = new Patient();
+                        elPatient1 = RegistrationSponsorFragment.SponsorInformation();
+                        elPatient.setCategoryL1ID(elPatient1.getCategoryL1ID());
+                        elPatient.setCompanyID(elPatient1.getCompanyID());
+                        elPatient.setCategoryL2ID(elPatient1.getCategoryL2ID());
+                        elPatient.setCategoryL3ID(elPatient1.getCategoryL3ID());
+                        elPatient.setPCPDoctorID(elPatient1.getPCPDoctorID());
+                        elPatient.setDoctorNameID(elPatient1.getDoctorNameID());
+                        elPatient.setEffectiveDate(elPatient1.getEffectiveDate());
+                        elPatient.setExpirydate(elPatient1.getExpirydate());
+                        elPatient.setCardIssueDate(elPatient1.getCardIssueDate());
+
+                        if (localSetting.isNetworkAvailable(context)) {
                             new PatientRegistrationTask().execute();
+                        } else {
+                            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
                         }
                     }
-                } else {
-                    Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case android.R.id.home:
@@ -187,7 +190,7 @@ public class RegistrationDashActivity extends AppCompatActivity {
                 jSonData = objMapper.unMap(elPatient);
                 Log.d(Constants.TAG + "jSonData:", "" + jSonData);
                 serviceConsumer = new WebServiceConsumer(context, null, null);
-                //response = serviceConsumer.POST(Constants.PATIENT_REGISTRATION_URL, jSonData);
+                response = serviceConsumer.POST(Constants.PATIENT_REGISTRATION_URL, jSonData);
                 if (response != null) {
                     responseString = response.body().string();
                     responseCode = response.code();
