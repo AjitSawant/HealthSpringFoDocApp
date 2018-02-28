@@ -221,6 +221,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }*/
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listProfile = doctorProfileAdapter.listAll();
+        setUnitMasterData();
+    }
+
     private void setUnitMasterData() {
         listELUnitMaster = unitMasterAdapter.listAll();
         if (Constants.isFromLogin) {
@@ -235,30 +242,31 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        listProfile = doctorProfileAdapter.listAll();
-        setUnitMasterData();
-    }
-
     private void RefreshUnitMatserSpinnerData() {
         listELUnitMaster = unitMasterAdapter.listAll();
+        listProfile = doctorProfileAdapter.listAll();
         if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
             unitMasterListAdapter = new SpinnerAdapter.UnitMasterListAdapter(context, listELUnitMaster);
             unitMasterSpinner.setAdapter(unitMasterListAdapter);
             unitMasterListAdapter.notifyDataSetChanged();
-            boolean matchFlag = false;
-            int pos = 0;
-            for (int i = 0; i < listELUnitMaster.size(); i++) {
-                if (listELUnitMaster.get(i).getIsDefault().equals("1") || listELUnitMaster.get(i).getIsDefault().equals("True")) {
-                    matchFlag = true;
-                    pos = i;
+
+            if (listProfile != null && listProfile.size() > 0 && listProfile.get(0).getUnitID() != null && listProfile.get(0).getUnitID().length() > 0) {
+                try {
+                    boolean matchFlag = false;
+                    int pos = 0;
+                    for (int i = 0; i < listELUnitMaster.size(); i++) {
+                        if (listProfile.get(0).getUnitID().equals(listELUnitMaster.get(i).getUnitID())) {
+                            matchFlag = true;
+                            pos = i;
+                        }
+                    }
+                    if (matchFlag == true) {
+                        //pos = pos + 1;
+                        unitMasterSpinner.setSelection(pos);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
-            if (matchFlag == true) {
-                //pos = pos + 1;
-                unitMasterSpinner.setSelection(pos);
             }
         }
     }
@@ -438,8 +446,29 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
             }
             localSetting.hideDialog(progressDialog);
-            RefreshUnitMatserSpinnerData();
+            setDefaultUnitMatserSpinnerData();
             super.onPostExecute(result);
+        }
+    }
+
+    private void setDefaultUnitMatserSpinnerData() {
+        listELUnitMaster = unitMasterAdapter.listAll();
+        if (listELUnitMaster != null && listELUnitMaster.size() > 0) {
+            unitMasterListAdapter = new SpinnerAdapter.UnitMasterListAdapter(context, listELUnitMaster);
+            unitMasterSpinner.setAdapter(unitMasterListAdapter);
+            unitMasterListAdapter.notifyDataSetChanged();
+            boolean matchFlag = false;
+            int pos = 0;
+            for (int i = 0; i < listELUnitMaster.size(); i++) {
+                if (listELUnitMaster.get(i).getIsDefault().equals("1") || listELUnitMaster.get(i).getIsDefault().equals("True")) {
+                    matchFlag = true;
+                    pos = i;
+                }
+            }
+            if (matchFlag == true) {
+                //pos = pos + 1;
+                unitMasterSpinner.setSelection(pos);
+            }
         }
     }
 
