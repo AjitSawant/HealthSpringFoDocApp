@@ -1,8 +1,6 @@
 package com.palash.healthspringapp.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -37,8 +35,8 @@ import com.palash.healthspringapp.entity.CPOEService;
 import com.palash.healthspringapp.entity.ComplaintsList;
 import com.palash.healthspringapp.entity.DiagnosisList;
 import com.palash.healthspringapp.entity.DoctorProfile;
-import com.palash.healthspringapp.entity.ELSynchOfflineData;
 import com.palash.healthspringapp.entity.ELUnitMaster;
+import com.palash.healthspringapp.entity.Flag;
 import com.palash.healthspringapp.entity.ReferralDoctorPerService;
 import com.palash.healthspringapp.entity.VitalsList;
 import com.palash.healthspringapp.utilities.Constants;
@@ -50,6 +48,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -66,7 +65,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private DatabaseAdapter.CPOEMedicineAdapter cpoeMedicineAdapter;
     private DatabaseAdapter.ComplaintsListDBAdapter complaintsListDBAdapter;
     private DatabaseAdapter.ReferralServiceListDBAdapter referralServiceListDBAdapter;
+    private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
 
+    private Flag masterflag;
     private SpinnerAdapter.UnitMasterListAdapter unitMasterListAdapter;
 
     private ArrayList<DoctorProfile> listProfile;
@@ -104,6 +105,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             cpoeMedicineAdapter = databaseAdapter.new CPOEMedicineAdapter();
             complaintsListDBAdapter = databaseAdapter.new ComplaintsListDBAdapter();
             referralServiceListDBAdapter = databaseAdapter.new ReferralServiceListDBAdapter();
+            masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -194,6 +196,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         doctorProfile.setUnitID(listELUnitMaster.get(position).getUnitID());
                         doctorProfile.setUnitName(listELUnitMaster.get(position).getUnitDesc());
                         doctorProfileAdapter.update(doctorProfile);
+
+                        //MasterFlagTask();
                     }
                 }
 
@@ -219,6 +223,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 //synchOfflineDataAdapter.updateDate();
             }
         }
+    }*/
+
+    /*private void MasterFlagTask() {
+        masterflag = masterFlagAdapter.listCurrent();
+        masterflag.setFlag(Constants.PCP_DOCTOR_PER_UNIT_MASTER_TASK);
+        masterFlagAdapter.create(masterflag);
+        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
     }*/
 
     @Override
@@ -264,6 +275,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         //pos = pos + 1;
                         unitMasterSpinner.setSelection(pos);
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -276,25 +288,35 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         drawerLayout.closeDrawers();
         switch (item.getItemId()) {
             case R.id.action_logout:
-                new AlertDialog
-                        .Builder(context)
-                        .setTitle(getResources().getString(R.string.app_name))
-                        .setMessage("Do you really want to logout?")
-                        .setNegativeButton("No", null)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("Do you really want to logout!")
+                        .setConfirmText("Yes")
+                        .setCancelText("No")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
                                 SchedulerManager.getInstance().stopAll(context);
                                 doctorProfileAdapter.LogOut(listProfile.get(0).getDoctorID(), Constants.STATUS_LOG_OUT);
                                 startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                             }
                         })
-                        .setIcon(R.mipmap.ic_launcher)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
                         .show();
                 return true;
             case R.id.action_setting:
                 Intent intent_setting = new Intent(DashboardActivity.this, SettingActivity.class);
                 startActivity(intent_setting);
+                return true;
+            case R.id.action_app_setting:
+                Intent intent_app_setting = new Intent(DashboardActivity.this, AppSettingActivity.class);
+                startActivity(intent_app_setting);
                 return true;
             default:
                 Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
@@ -326,6 +348,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         getMenuInflater().inflate(R.menu.menu_dashboard_drawer, menu);
         menu.findItem(R.id.action_setting).setVisible(false);
         menu.findItem(R.id.action_logout).setVisible(false);
+        menu.findItem(R.id.action_app_setting).setVisible(false);
         menu.findItem(R.id.action_synch_master_data).setVisible(true);
         menu.findItem(R.id.action_synch_offline_data).setVisible(true);
         menu.findItem(R.id.menu_toolbar_refresh).setVisible(true);

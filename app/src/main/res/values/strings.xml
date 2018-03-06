@@ -7,6 +7,7 @@
     <!---Login-->
     <string name="login_screen">Login</string>
     <string name="logout_screen">Logout</string>
+    <string name="synch_category">Default Category</string>
     <string name="prompt_email">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
@@ -26,6 +27,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="change">Change Password</string>
     <string name="setting">Settings</string>
+    <string name="app_setting">App Settings</string>
 
     <!---DoctorProfile-->
     <string name="profile_perfix">Prefix</string>
@@ -55,7 +57,7 @@
     <string name="patient_expiry_date">Expiry Date</string>
     <string name="patient_card_issue_date">Card Issue Date</string>
     <string name="patient_pcp_doctor">Select PCP Doctor</string>
-    <string name="patient_doctor_name">Select Doctor name</string>
+    <string name="patient_doctor_name">Select Doctor</string>
 
     <!---Search Patient-->
     <string name="serach">Search Patient...</string>
@@ -79,6 +81,7 @@
     <string name="patientname">Patient Name</string>
     <string name="docotrname">Doctor Name</string>
     <string name="appointmentreason">Appointment Reason</string>
+    <string name="visit_type">Visit Type</string>
     <string name="department">Department</string>
     <string name="complaint">Complaint</string>
     <string name="remark">Remark</string>
@@ -152,6 +155,9 @@
     <string name="offline_alert">Something went wrong.You still want to save record offline?</string>
     <string name="offline_net_alert">Network is unreachable. You still want to save record offline?</string>
     <string name="network_alert">Network is unreachable. Please check your network and try again.</string>
+    <string name="booking_alert">Appointment booking functionality is not available for Head office</string>
+    <string name="register_alert">Patient registration functionality is not available for Head office</string>
+    <string name="opps_alert">Oops...</string>
     <string name="login_alert">Invalid username or password. Please try again</string>
     <string name="filter_date_alter">"Date difference should be maximum 7 days"</string>
 

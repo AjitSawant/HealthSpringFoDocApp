@@ -11,7 +11,7 @@ import com.palash.healthspringapp.utilities.Constants;
 
 public class DatabaseContract {
 
-    public static final String DATABASE_NAME = "ppd.db";
+    public static final String DATABASE_NAME = "ppdtest.db";
 
     public static final int DATABASE_VERSION = 1;
 
@@ -395,6 +395,7 @@ public class DatabaseContract {
         public static final String DEFAULT_SORT_ORDER = "_id ASC";
 
         public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_UnitID = "UnitID";
         public static final String COLUMN_NAME_DESCRIPTION = "Description";
         public static final String COLUMN_NAME_IS_SYNC = "IsSync";
 
@@ -402,7 +403,9 @@ public class DatabaseContract {
                 + "("
                 + Department._ID
                 + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
-                + COLUMN_NAME_ID
+                + COLUMN_NAME_UnitID
+                + " TEXT,"
+                 + COLUMN_NAME_ID
                 + " TEXT,"
                 + COLUMN_NAME_DESCRIPTION
                 + " TEXT,"
@@ -2002,6 +2005,7 @@ public class DatabaseContract {
         public static final String TABLE_NAME = "T_PCPDoctorMster";
 
         public static final String COLUMN_NAME_DOCTOR_ID = "DoctorID";
+        public static final String COLUMN_NAME_UNIT_ID = "UnitID";
         public static final String COLUMN_NAME_DOCTOR_NAME = "DoctorName";
         public static final String COLUMN_NAME_SPEC_ID = "SpecializationID";
 
@@ -2010,6 +2014,8 @@ public class DatabaseContract {
                 + PCPDoctorMster._ID
                 + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
                 + COLUMN_NAME_DOCTOR_ID
+                + " TEXT,"
+                + COLUMN_NAME_UNIT_ID
                 + " TEXT,"
                 + COLUMN_NAME_DOCTOR_NAME
                 + " TEXT,"
@@ -2027,10 +2033,34 @@ public class DatabaseContract {
 
         public static final String COLUMN_NAME_ID = "ID";
         public static final String COLUMN_NAME_DESCRIPTION = "Description";
+        public static final String COLUMN_NAME_ServiceID = "ServiceID";
 
         static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
                 + "("
                 + VisitTypeMaster._ID
+                + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + COLUMN_NAME_ID
+                + " TEXT,"
+                + COLUMN_NAME_ServiceID
+                + " TEXT,"
+                + COLUMN_NAME_DESCRIPTION
+                + " TEXT"
+                + ")";
+    }
+
+    public static final class CompanyNameMaster implements BaseColumns {
+
+        private CompanyNameMaster() {
+        }
+
+        public static final String TABLE_NAME = "T_CompanyNameMaster";
+
+        public static final String COLUMN_NAME_ID = "ID";
+        public static final String COLUMN_NAME_DESCRIPTION = "Description";
+
+        static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+                + "("
+                + CompanyNameMaster._ID
                 + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
                 + COLUMN_NAME_ID
                 + " TEXT,"
@@ -2198,6 +2228,9 @@ public class DatabaseContract {
 
                 Log.d(Constants.TAG, "Creating table 14: " + VisitTypeMaster.CREATE_TABLE);
                 db.execSQL(VisitTypeMaster.CREATE_TABLE);
+
+                Log.d(Constants.TAG, "Creating table 14: " + CompanyNameMaster.CREATE_TABLE);
+                db.execSQL(CompanyNameMaster.CREATE_TABLE);
 
                 /*Log.d(Constants.TAG, "Creating table 28: " + PatientConsoleList.CREATE_TABLE);
                 db.execSQL(PatientConsoleList.CREATE_TABLE);

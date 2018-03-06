@@ -19,6 +19,7 @@ import com.palash.healthspringapp.entity.Department;
 import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.DoctorType;
 import com.palash.healthspringapp.entity.ELCityMaster;
+import com.palash.healthspringapp.entity.ELCompanyName;
 import com.palash.healthspringapp.entity.ELCountryMaster;
 import com.palash.healthspringapp.entity.ELDoctorMaster;
 import com.palash.healthspringapp.entity.ELHealthspringReferral;
@@ -77,6 +78,7 @@ public class MasterTask implements Task {
     private DatabaseAdapter.DoctorNameMasterAdapter doctorNameMasterAdapter;
     private DatabaseAdapter.PCPDoctorMasterAdapter pcpDoctorMasterAdapter;
     private DatabaseAdapter.VisitTypeMasterAdapter visitTypeMasterAdapter;
+    private DatabaseAdapter.CompanyMasterAdapter companyMasterAdapter;
 
     /*private DatabaseAdapter.MedicienNameAdapter medicienNameAdapter;
     private DatabaseAdapter.DaignosisMasterAdapter daignosisMasterAdapter;
@@ -116,6 +118,7 @@ public class MasterTask implements Task {
     private ArrayList<ELDoctorMaster> elDoctorNameMasterArrayList;
     private ArrayList<ELDoctorMaster> elPCPDoctorMasterArrayList;
     private ArrayList<ELVisitType> elVisitTypeArrayList;
+    private ArrayList<ELCompanyName> elCompanyNameArrayList;
 
     /*private ArrayList<MedicienName> medicienNameList;
     private ArrayList<DaignosisMaster> daignosisMasterList;
@@ -172,6 +175,7 @@ public class MasterTask implements Task {
             doctorNameMasterAdapter = databaseAdapter.new DoctorNameMasterAdapter();
             pcpDoctorMasterAdapter = databaseAdapter.new PCPDoctorMasterAdapter();
             visitTypeMasterAdapter = databaseAdapter.new VisitTypeMasterAdapter();
+            companyMasterAdapter = databaseAdapter.new CompanyMasterAdapter();
 
             /*medicienNameAdapter = databaseAdapter.new MedicienNameAdapter();
             daignosisMasterAdapter = databaseAdapter.new DaignosisMasterAdapter();
@@ -200,27 +204,11 @@ public class MasterTask implements Task {
                             if (masterflagArrayList != null && masterflagArrayList.size() > 0) {
                                 masterdataflag = masterflagArrayList.get(0);
                                 switch (masterdataflag.getFlag()) {
-                                    case Constants.PATIENT_REGISTRATION_TASK:
-                                        //PrefixTask();
-                                        //GenderTask();
-                                        //MaritalStatusTask();
-                                        //BloodGroupTask();
-                                        DepartmentTask();
-                                        AppointmentReasonTask();
-                                        ComplaintTask();
-                                        break;
-                                    case Constants.BOOK_APPOINTMENT_TASK:
-                                        DepartmentTask();
-                                        AppointmentReasonTask();
-                                        ComplaintTask();
-                                        SpecializationTask();
-                                        DoctorTypeTask();
-                                        break;
+
                                     case Constants.EMR_MEDICINE_MASTER_TASK:
                                         MedicienRouteTask();
                                         MedicineFrequencyTask();
                                         MedicienInstructionTask();
-                                        //MedicienNameTask();
                                         break;
                                     case Constants.EMR_COMPLAINT_MASTER_TASK:
                                         ComplaintTask();
@@ -235,6 +223,7 @@ public class MasterTask implements Task {
                                         break;
                                     case Constants.EMR_VITAL_MASTER_TASK:
                                         VitalTask();
+                                        break;
                                     case Constants.EMR_DEPARTMENT_MASTER_TASK:
                                         DepartmentTask();
                                         break;
@@ -270,8 +259,13 @@ public class MasterTask implements Task {
                                         masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Doctor Master");
                                         masterFlagAdapter.create(masterdataflag);
-                                        DoctorNameTask();
+                                        //DoctorNameTask();
                                         PCPDoctorTask();
+
+                                        masterdataflag = masterFlagAdapter.listCurrent();
+                                        masterdataflag.setMsg("Synchronizing Company Master");
+                                        masterFlagAdapter.create(masterdataflag);
+                                        CompanyNameTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Visit Type Master");
@@ -395,6 +389,37 @@ public class MasterTask implements Task {
                         if (elPatientCategoryL1ArrayList != null && elPatientCategoryL1ArrayList.size() > 0) {
                             for (int index = 0; index < elPatientCategoryL1ArrayList.size(); index++) {
                                 patientCategoryL1Adapter.create(elPatientCategoryL1ArrayList.get(index));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void CompanyNameTask() {
+        try {
+            responseCode = 0;
+            responseString = null;
+            Count = companyMasterAdapter.TotalCount();
+            Log.d(Constants.TAG, "Company Local size : " + Count);
+            if (synchronizationList.get(0).getCompanyNameCount() != null && (!synchronizationList.get(0).getCompanyNameCount().equals(""))
+                    && (!synchronizationList.get(0).getCompanyNameCount().equals(String.valueOf(Count)))) {
+                // Appointment reason list task
+                response = serviceConsumer.GET(Constants.COMPANY_NAME_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    if (responseCode == Constants.HTTP_OK_200) {
+                        elCompanyNameArrayList = objectMapper.map(responseString, ELCompanyName.class);
+                        Log.d(Constants.TAG, "Company size : " + elCompanyNameArrayList.size());
+                        companyMasterAdapter.delete();
+                        if (elCompanyNameArrayList != null && elCompanyNameArrayList.size() > 0) {
+                            for (int index = 0; index < elCompanyNameArrayList.size(); index++) {
+                                companyMasterAdapter.create(elCompanyNameArrayList.get(index));
                             }
                         }
                     }

@@ -103,6 +103,7 @@ public class PatientListActivity extends AppCompatActivity {
     private TextView patient_register_visit_start_date_edt;
     private TextView patient_register_visit_end_date_edt;
 
+    private LinearLayout layout_search_by_name_view;
     private LinearLayout layout_search_by_reg_date_view;
     private LinearLayout layout_search_by_visit_date_view;
     private LinearLayout patient_register_layout_category_L3;
@@ -204,7 +205,11 @@ public class PatientListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add_patient:
-                startActivity(new Intent(context, RegistrationDashActivity.class));
+                if (localSetting.checkUnitName(doctorProfileList.get(0).getUnitID())) {
+                    localSetting.showWarningAlert(context, context.getResources().getString(R.string.opps_alert), context.getResources().getString(R.string.register_alert));
+                } else {
+                    startActivity(new Intent(context, RegistrationDashActivity.class));
+                }
                 return true;
             case R.id.menu_toolbar_filter:
                 showFilterDialog();
@@ -253,6 +258,7 @@ public class PatientListActivity extends AppCompatActivity {
         patient_register_visit_start_date_edt = (TextView) view.findViewById(R.id.patient_register_visit_start_date_edt);
         patient_register_visit_end_date_edt = (TextView) view.findViewById(R.id.patient_register_visit_end_date_edt);
 
+        layout_search_by_name_view = (LinearLayout) view.findViewById(R.id.layout_search_by_name_view);
         layout_search_by_reg_date_view = (LinearLayout) view.findViewById(R.id.layout_search_by_reg_date_view);
         layout_search_by_visit_date_view = (LinearLayout) view.findViewById(R.id.layout_search_by_visit_date_view);
         patient_register_layout_category_L3 = (LinearLayout) view.findViewById(R.id.patient_register_layout_category_L3);
@@ -260,8 +266,7 @@ public class PatientListActivity extends AppCompatActivity {
         patient_report_date_search_btn = (Button) view.findViewById(R.id.patient_report_date_search_btn);
 
         patient_registration_mrno_edt.setVisibility(View.VISIBLE);
-        patient_registration_firstname_edt.setVisibility(View.GONE);
-        patient_registration_lastname_edt.setVisibility(View.GONE);
+        layout_search_by_name_view.setVisibility(View.GONE);
         patient_registration_mobile_no_edt.setVisibility(View.GONE);
         layout_search_by_reg_date_view.setVisibility(View.GONE);
         layout_search_by_visit_date_view.setVisibility(View.GONE);
@@ -279,8 +284,7 @@ public class PatientListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 patient_registration_mrno_edt.setVisibility(View.VISIBLE);
-                patient_registration_firstname_edt.setVisibility(View.GONE);
-                patient_registration_lastname_edt.setVisibility(View.GONE);
+                layout_search_by_name_view.setVisibility(View.GONE);
                 patient_registration_mobile_no_edt.setVisibility(View.GONE);
                 layout_search_by_reg_date_view.setVisibility(View.GONE);
                 layout_search_by_visit_date_view.setVisibility(View.GONE);
@@ -299,8 +303,7 @@ public class PatientListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 patient_registration_mrno_edt.setVisibility(View.GONE);
-                patient_registration_firstname_edt.setVisibility(View.VISIBLE);
-                patient_registration_lastname_edt.setVisibility(View.GONE);
+                layout_search_by_name_view.setVisibility(View.VISIBLE);
                 patient_registration_mobile_no_edt.setVisibility(View.GONE);
                 layout_search_by_reg_date_view.setVisibility(View.GONE);
                 layout_search_by_visit_date_view.setVisibility(View.GONE);
@@ -309,13 +312,14 @@ public class PatientListActivity extends AppCompatActivity {
                 radio_group_3.clearCheck();
 
                 filter_text_1.setVisibility(View.VISIBLE);
-                filter_text_2.setVisibility(View.GONE);
+                filter_text_2.setVisibility(View.VISIBLE);
                 filter_text_1.setText("First Name");
+                filter_text_2.setText("Last Name");
                 checkRadio = 1;
             }
         });
 
-        radio_button_by_lname.setOnClickListener(new View.OnClickListener() {
+        /*radio_button_by_lname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 patient_registration_mrno_edt.setVisibility(View.GONE);
@@ -333,7 +337,7 @@ public class PatientListActivity extends AppCompatActivity {
                 filter_text_1.setText("Last Name");
                 checkRadio = 2;
             }
-        });
+        });*/
 
         radio_button_by_mobileNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,7 +349,7 @@ public class PatientListActivity extends AppCompatActivity {
                 layout_search_by_reg_date_view.setVisibility(View.GONE);
                 layout_search_by_visit_date_view.setVisibility(View.GONE);
                 patient_register_layout_category_L3.setVisibility(View.GONE);
-                radio_group_1.clearCheck();
+                radio_group_2.clearCheck();
                 radio_group_3.clearCheck();
 
                 filter_text_1.setVisibility(View.VISIBLE);
@@ -560,8 +564,8 @@ public class PatientListActivity extends AppCompatActivity {
         }
 
         if (checkRadio == 1) {
-            if (firstName.equals("") || firstName.length() == 0) {
-                Toast.makeText(context, "Please enter first name", Toast.LENGTH_SHORT).show();
+            if ((firstName.equals("") || firstName.length() == 0) || (lastName.equals("") || lastName.length() == 0)) {
+                Toast.makeText(context, "Please enter first and last name", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -677,9 +681,9 @@ public class PatientListActivity extends AppCompatActivity {
                 patientAdapterDB.delete(doctorProfileList.get(0).getUnitID());
                 search_patient_empty.setVisibility(View.VISIBLE);
                 search_patient_List.setVisibility(View.GONE);
-                Toast.makeText(context, "Patient not available for selected unit", Toast.LENGTH_SHORT).show();
+                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));
             } else {
-                Toast.makeText(context, localSetting.handleError(responseCode), Toast.LENGTH_SHORT).show();
+                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));
             }
             localSetting.hideDialog(progressDialog);
             RefreshPatientList();

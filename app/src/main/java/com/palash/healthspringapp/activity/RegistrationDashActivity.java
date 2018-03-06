@@ -3,6 +3,7 @@ package com.palash.healthspringapp.activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspringapp.R;
 import com.palash.healthspringapp.api.JsonObjectMapper;
 import com.palash.healthspringapp.api.WebServiceConsumer;
@@ -30,6 +32,8 @@ import com.squareup.okhttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class RegistrationDashActivity extends AppCompatActivity {
 
@@ -131,6 +135,7 @@ public class RegistrationDashActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_save:
+
                 if (RegistrationPatientInformationFragment.validateControls(context)) {
                     elPatient = new Patient();
                     elPatient = RegistrationPatientInformationFragment.PatientInformation();
@@ -151,11 +156,25 @@ public class RegistrationDashActivity extends AppCompatActivity {
                         elPatient.setExpirydate(elPatient1.getExpirydate());
                         elPatient.setCardIssueDate(elPatient1.getCardIssueDate());
 
-                        if (localSetting.isNetworkAvailable(context)) {
-                            new PatientRegistrationTask().execute();
-                        } else {
-                            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
-                        }
+                        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Are you sure?")
+                                .setContentText("Do you really want to register patient!")
+                                .setConfirmText("Yes")
+                                .setCancelText("No")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismissWithAnimation();
+
+                                        if (localSetting.isNetworkAvailable(context)) {
+                                            new PatientRegistrationTask().execute();
+                                        } else {
+                                            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                                .setCancelClickListener(null)
+                                .show();
                     }
                 }
                 return true;
@@ -206,24 +225,14 @@ public class RegistrationDashActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
+                localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Patient registered successfully.")
-                            .setCancelable(true)
-                            .setPositiveButton("Go to Patient List", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Constants.refreshPatient = true;
-                                    finish();
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                    localSetting.showSuccessAlert(context, getResources().getString(R.string.app_name), "Patient registered successfully!");
+                    finish();
+                } else if (responseCode == Constants.HTTP_AMBIGUOUS_300) {
+                    localSetting.showWarningAlert(context, context.getResources().getString(R.string.opps_alert), "Patient already exits!");
                 } else {
-                    localSetting.hideDialog(progressDialog);
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

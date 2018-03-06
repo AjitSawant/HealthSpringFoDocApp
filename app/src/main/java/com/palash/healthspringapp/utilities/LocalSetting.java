@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class LocalSetting {
     public static SharedPreferences settings;
     public static String Activityname;
@@ -128,6 +130,7 @@ public class LocalSetting {
 
     //used to show alert box
     public void alertbox(final Context boxContext, String mymessage, final Boolean isBackPress) {
+
         new AlertDialog
                 .Builder(boxContext)
                 .setTitle(boxContext.getResources().getString(R.string.app_name))
@@ -343,5 +346,26 @@ public class LocalSetting {
         elAppointmentStatusArrayList.add(elAppointmentStatus2);
 
         return elAppointmentStatusArrayList;
+    }
+
+    public void showErrorAlert(Context context, String title, String subTitle) {
+        new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(title)
+                .setContentText(subTitle)
+                .show();
+    }
+
+    public void showSuccessAlert(Context context, String title, String subTitle) {
+        new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(title)
+                .setContentText(subTitle)
+                .show();
+    }
+
+    public void showWarningAlert(Context context, String title, String subTitle) {
+        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(title)
+                .setContentText(subTitle)
+                .show();
     }
 }

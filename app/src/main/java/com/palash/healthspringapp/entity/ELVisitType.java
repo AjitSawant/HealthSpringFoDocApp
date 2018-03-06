@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ELVisitType {
     private String ID;
     private String Description;
+    private String ServiceID;
 
     @JsonProperty("ID")
     public String getID() {
@@ -30,6 +31,12 @@ public class ELVisitType {
         this.Description = Description;
     }
 
+    @JsonProperty("ServiceID")
+    public String getServiceID() {
+        return ServiceID;
+    }
 
-
+    public void setServiceID(String serviceID) {
+        ServiceID = serviceID;
+    }
 }

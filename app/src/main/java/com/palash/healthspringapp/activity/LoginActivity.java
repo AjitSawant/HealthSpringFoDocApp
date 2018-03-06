@@ -215,9 +215,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     e.printStackTrace();
                 }
             } else if (responseCode == Constants.HTTP_OK_200 && responseMsg.equals("Please login.")) {
-                localSetting.alertbox(context, context.getResources().getString(R.string.network_alert), false);
+                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), context.getResources().getString(R.string.network_alert));
             } else {
-                localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));
             }
             super.onPostExecute(result);
         }

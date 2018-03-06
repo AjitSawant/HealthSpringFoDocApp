@@ -148,7 +148,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                 @Override
                 public void onClick(View v) {
                     if (localSetting.checkUnitName(elDoctorProfile.getUnitID())) {
-                        Toast.makeText(context, "Appointment booking functionality is not available for Head office.", Toast.LENGTH_SHORT).show();
+                        localSetting.showWarningAlert(context, context.getResources().getString(R.string.opps_alert),context.getResources().getString(R.string.booking_alert) );
                     } else {
                         Patient elPatient = patientlist.get(position);
                         bookAppointment.setID(elDoctorProfile.getID());
@@ -296,13 +296,6 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
         TextView patient_row_bnt_patient_console;
         TextView row_search_patient_unit;
         TextView row_search_patient_date;
-    }
-
-    private void MasterFlagTask() {
-        flag = new Flag();
-        flag.setFlag(Constants.BOOK_APPOINTMENT_TASK);
-        masterFlagAdapter.updateFalg(flag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
     }
 
     @Override

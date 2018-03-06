@@ -20,6 +20,7 @@ import com.palash.healthspringapp.entity.DiagnosisList;
 import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.DoctorType;
 import com.palash.healthspringapp.entity.ELCityMaster;
+import com.palash.healthspringapp.entity.ELCompanyName;
 import com.palash.healthspringapp.entity.ELCountryMaster;
 import com.palash.healthspringapp.entity.ELDoctorMaster;
 import com.palash.healthspringapp.entity.ELFollowUp;
@@ -2154,6 +2155,7 @@ public class DatabaseAdapter {
 
         String[] projection = {
                 DatabaseContract.Department.COLUMN_NAME_ID,
+                DatabaseContract.Department.COLUMN_NAME_UnitID,
                 DatabaseContract.Department.COLUMN_NAME_DESCRIPTION
         };
 
@@ -2162,6 +2164,7 @@ public class DatabaseAdapter {
             try {
                 values = new ContentValues();
                 values.put(DatabaseContract.Department.COLUMN_NAME_ID, department.getID());
+                values.put(DatabaseContract.Department.COLUMN_NAME_UnitID, department.getUnitID());
                 String description = department.getDescription();
                 description = description.replace("#", "");
                 description = description.replace("*", "");
@@ -2181,6 +2184,7 @@ public class DatabaseAdapter {
                     while (result.moveToNext()) {
                         Department department = new Department();
                         department.setID(result.getString(result.getColumnIndex(DatabaseContract.Department.COLUMN_NAME_ID)));
+                        department.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.Department.COLUMN_NAME_UnitID)));
                         department.setDescription(result.getString(result.getColumnIndex(DatabaseContract.Department.COLUMN_NAME_DESCRIPTION)));
                         listDepartment.add(department);
                     }
@@ -9012,6 +9016,7 @@ public class DatabaseAdapter {
 
         String[] projection = {
                 DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID,
+                DatabaseContract.VisitTypeMaster.COLUMN_NAME_ServiceID,
                 DatabaseContract.VisitTypeMaster.COLUMN_NAME_DESCRIPTION
         };
 
@@ -9021,6 +9026,7 @@ public class DatabaseAdapter {
                 values = new ContentValues();
                 values.put(DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID, elVisitType.getID());
                 values.put(DatabaseContract.VisitTypeMaster.COLUMN_NAME_DESCRIPTION, elVisitType.getDescription());
+                values.put(DatabaseContract.VisitTypeMaster.COLUMN_NAME_ServiceID, elVisitType.getServiceID());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -9036,6 +9042,7 @@ public class DatabaseAdapter {
                         ELVisitType elVisitType = new ELVisitType();
                         elVisitType.setID(result.getString(result.getColumnIndex(DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID)));
                         elVisitType.setDescription(result.getString(result.getColumnIndex(DatabaseContract.VisitTypeMaster.COLUMN_NAME_DESCRIPTION)));
+                        elVisitType.setServiceID(result.getString(result.getColumnIndex(DatabaseContract.VisitTypeMaster.COLUMN_NAME_ServiceID)));
                         listVisitTypeMaster.add(elVisitType);
                     }
                     result.close();
@@ -9069,7 +9076,7 @@ public class DatabaseAdapter {
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME,projection, null,null, null, null,null);
+                result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME, projection, null, null, null, null, null);
                 listVisitTypeMaster = CursorToArrayList(result);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -9086,7 +9093,7 @@ public class DatabaseAdapter {
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME,projection, null,null, null, null,null);
+                result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME, projection, null, null, null, null, null);
                 if (result != null) {
                     Count = result.getCount();
                     result.close();
@@ -9108,7 +9115,7 @@ public class DatabaseAdapter {
                 String whereClause = null;
                 if (ID != null) {
                     whereClause = DatabaseContract.VisitTypeMaster.COLUMN_NAME_ID + "='" + ID + "'";
-                    result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME,projection, whereClause,null, null, null,null);
+                    result = db.query(DatabaseContract.VisitTypeMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
                     if (result != null) {
                         Count = result.getCount();
                         result.close();
@@ -9390,6 +9397,7 @@ public class DatabaseAdapter {
 
         String[] projection = {
                 DatabaseContract.PCPDoctorMster.COLUMN_NAME_DOCTOR_ID,
+                DatabaseContract.PCPDoctorMster.COLUMN_NAME_UNIT_ID,
                 DatabaseContract.PCPDoctorMster.COLUMN_NAME_DOCTOR_NAME,
                 DatabaseContract.PCPDoctorMster.COLUMN_NAME_SPEC_ID
         };
@@ -9399,6 +9407,7 @@ public class DatabaseAdapter {
             try {
                 values = new ContentValues();
                 values.put(DatabaseContract.PCPDoctorMster.COLUMN_NAME_DOCTOR_ID, elDoctorMaster.getDoctorID());
+                values.put(DatabaseContract.PCPDoctorMster.COLUMN_NAME_UNIT_ID, elDoctorMaster.getUnitID());
                 values.put(DatabaseContract.PCPDoctorMster.COLUMN_NAME_DOCTOR_NAME, elDoctorMaster.getDoctorName());
                 values.put(DatabaseContract.PCPDoctorMster.COLUMN_NAME_SPEC_ID, elDoctorMaster.getSpecializationID());
             } catch (Exception e) {
@@ -9415,6 +9424,7 @@ public class DatabaseAdapter {
                     while (result.moveToNext()) {
                         ELDoctorMaster elDoctorMaster = new ELDoctorMaster();
                         elDoctorMaster.setDoctorID(result.getString(result.getColumnIndex(DatabaseContract.PCPDoctorMster.COLUMN_NAME_DOCTOR_ID)));
+                        elDoctorMaster.setUnitID(result.getString(result.getColumnIndex(DatabaseContract.PCPDoctorMster.COLUMN_NAME_UNIT_ID)));
                         elDoctorMaster.setDoctorName(result.getString(result.getColumnIndex(DatabaseContract.PCPDoctorMster.COLUMN_NAME_DOCTOR_NAME)));
                         elDoctorMaster.setSpecializationID(result.getString(result.getColumnIndex(DatabaseContract.PCPDoctorMster.COLUMN_NAME_SPEC_ID)));
                         listELDoctorMaster.add(elDoctorMaster);
@@ -9444,12 +9454,14 @@ public class DatabaseAdapter {
             return rowId;
         }
 
-        public ArrayList<ELDoctorMaster> listAll() {
+        public ArrayList<ELDoctorMaster> listAll(String UnitID) {
             ArrayList<ELDoctorMaster> listELDoctorMaster = null;
             Cursor result = null;
+            String whereClause = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.PCPDoctorMster.TABLE_NAME, projection, null, null, null, null, null);
+                whereClause = DatabaseContract.PCPDoctorMster.COLUMN_NAME_UNIT_ID + "='" + UnitID + "'";
+                result = db.query(DatabaseContract.PCPDoctorMster.TABLE_NAME, projection, whereClause, null, null, null, null);
                 listELDoctorMaster = CursorToArrayList(result);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -9507,6 +9519,132 @@ public class DatabaseAdapter {
             try {
                 SQLiteDatabase db = databaseContract.open();
                 db.delete(DatabaseContract.PCPDoctorMster.TABLE_NAME, null, null);
+                db.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class CompanyMasterAdapter {
+
+        String[] projection = {
+                DatabaseContract.CompanyNameMaster.COLUMN_NAME_ID,
+                DatabaseContract.CompanyNameMaster.COLUMN_NAME_DESCRIPTION
+        };
+
+        private ContentValues ELCompanyNameMasterToContentValues(ELCompanyName elCompanyNameMaster) {
+            ContentValues values = null;
+            try {
+                values = new ContentValues();
+                values.put(DatabaseContract.CompanyNameMaster.COLUMN_NAME_ID, elCompanyNameMaster.getID());
+                values.put(DatabaseContract.CompanyNameMaster.COLUMN_NAME_DESCRIPTION, elCompanyNameMaster.getDescription());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return values;
+        }
+
+        private ArrayList<ELCompanyName> CursorToArrayList(Cursor result) {
+            ArrayList<ELCompanyName> listELCompanyNameMaster = null;
+            try {
+                if (result != null) {
+                    listELCompanyNameMaster = new ArrayList<ELCompanyName>();
+                    while (result.moveToNext()) {
+                        ELCompanyName elCompanyNameMaster = new ELCompanyName();
+                        elCompanyNameMaster.setID(result.getString(result.getColumnIndex(DatabaseContract.CompanyNameMaster.COLUMN_NAME_ID)));
+                        elCompanyNameMaster.setDescription(result.getString(result.getColumnIndex(DatabaseContract.CompanyNameMaster.COLUMN_NAME_DESCRIPTION)));
+                        listELCompanyNameMaster.add(elCompanyNameMaster);
+                    }
+                    result.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return listELCompanyNameMaster;
+        }
+
+        public long create(ELCompanyName elCompanyNameMaster) {
+            long rowId = -1;
+            try {
+                if (Count(elCompanyNameMaster.getID()) == 0) {
+                    ContentValues values = ELCompanyNameMasterToContentValues(elCompanyNameMaster);
+                    if (values != null) {
+                        rowId = databaseContract.open().insert(
+                                DatabaseContract.CompanyNameMaster.TABLE_NAME, null, values);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                databaseContract.close();
+            }
+            return rowId;
+        }
+
+        public ArrayList<ELCompanyName> listAll() {
+            ArrayList<ELCompanyName> listELCompanyNameMaster = null;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.CompanyNameMaster.TABLE_NAME, projection, null, null, null, null, null);
+                listELCompanyNameMaster = CursorToArrayList(result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+                result.close();
+            }
+            return listELCompanyNameMaster;
+        }
+
+        public int TotalCount() {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                result = db.query(DatabaseContract.CompanyNameMaster.TABLE_NAME, projection, null, null, null, null, null);
+                if (result != null) {
+                    Count = result.getCount();
+                    result.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public int Count(String ID) {
+            int Count = -1;
+            Cursor result = null;
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                String whereClause = null;
+                if (ID != null) {
+                    whereClause = DatabaseContract.CompanyNameMaster.COLUMN_NAME_ID + "='" + ID + "'";
+                    result = db.query(DatabaseContract.CompanyNameMaster.TABLE_NAME, projection, whereClause, null, null, null, null);
+                    if (result != null) {
+                        Count = result.getCount();
+                        result.close();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } finally {
+                databaseContract.close();
+            }
+            return Count;
+        }
+
+        public void delete() {
+            try {
+                SQLiteDatabase db = databaseContract.open();
+                db.delete(DatabaseContract.CompanyNameMaster.TABLE_NAME, null, null);
                 db.close();
             } catch (SQLException e) {
                 e.printStackTrace();

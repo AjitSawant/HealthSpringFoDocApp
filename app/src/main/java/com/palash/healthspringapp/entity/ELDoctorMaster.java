@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ELDoctorMaster {
     private String DoctorID;
+    private String UnitID;
     private String DoctorName;
     private String SpecializationID;
 
@@ -20,6 +21,15 @@ public class ELDoctorMaster {
 
     public void setDoctorID(String doctorID) {
         DoctorID = doctorID;
+    }
+
+    @JsonProperty("UnitID")
+    public String getUnitID() {
+        return UnitID;
+    }
+
+    public void setUnitID(String unitID) {
+        UnitID = unitID;
     }
 
     @JsonProperty("DoctorName")

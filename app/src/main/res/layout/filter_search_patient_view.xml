@@ -4,16 +4,16 @@
     android:id="@+id/layout_patient_list_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="4dp"
     android:background="#1A0277BD"
-    android:orientation="vertical"
-    android:layout_marginBottom="4dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:padding="6dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="6dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -42,8 +42,8 @@
                     android:id="@+id/radio_button_by_mrno"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
                     android:checked="true"
                     android:text="MRNo"
                     android:textSize="12sp"
@@ -53,19 +53,20 @@
                     android:id="@+id/radio_button_by_fname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="4dp"
-                    android:text="First name"
+                    android:layout_weight="1"
+                    android:text="Patient Name"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
 
                 <RadioButton
-                    android:id="@+id/radio_button_by_lname"
+                    android:id="@+id/radio_button_by_mobileNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="4dp"
-                    android:text="Last name"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:text="Mobile no"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
 
@@ -78,24 +79,13 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radio_button_by_mobileNo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="4dp"
-                    android:checked="false"
-                    android:text="Mobile no"
-                    android:textSize="12sp"
-                    app:buttonTint="@android:color/darker_gray" />
-
-                <RadioButton
                     android:id="@+id/radio_button_by_reg_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
                     android:checked="false"
-                    android:text="Reg. date"
+                    android:text="Registration date"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
 
@@ -103,31 +93,44 @@
                     android:id="@+id/radio_button_by_visit_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
                     android:checked="false"
                     android:text="Visit date"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:text="Patient Category L3"
+                    android:textSize="12sp"
+                    android:visibility="invisible"
+                    app:buttonTint="@android:color/darker_gray" />
+
             </RadioGroup>
 
             <RadioGroup
                 android:id="@+id/radio_group_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
+
                 <RadioButton
                     android:id="@+id/radio_button_by_category"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
                     android:checked="false"
                     android:text="Patient Category L3"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
-                </RadioGroup>
+            </RadioGroup>
         </LinearLayout>
 
         <LinearLayout
@@ -182,33 +185,42 @@
                 android:paddingLeft="8dp"
                 android:textSize="13sp" />
 
-            <EditText
-                android:id="@+id/patient_registration_firstname_edt"
+            <LinearLayout
+                android:id="@+id/layout_search_by_name_view"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/bnt_dashboard"
-                android:gravity="center_vertical"
-                android:hint="Enter first name"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:paddingLeft="8dp"
-                android:textSize="13sp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/patient_registration_lastname_edt"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/bnt_dashboard"
-                android:gravity="center_vertical"
-                android:hint="Enter last name"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:paddingLeft="8dp"
-                android:textSize="13sp" />
+                <EditText
+                    android:id="@+id/patient_registration_firstname_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:gravity="center_vertical"
+                    android:hint="Enter first name"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/patient_registration_lastname_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:gravity="center_vertical"
+                    android:hint="Enter last name"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/patient_registration_mobile_no_edt"
@@ -311,25 +323,25 @@
                 android:id="@+id/patient_register_layout_category_L3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="@drawable/border_lighter_gray">
+                android:background="@drawable/border_lighter_gray"
+                android:visibility="gone">
 
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/patient_register_category_L3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/small_text_size"
+                    android:layout_margin="4dp"
                     android:background="@null"
+                    android:textSize="@dimen/small_text_size"
                     android:visibility="visible"
                     app:ms_arrowColor="@color/text_color"
                     app:ms_arrowSize="12sp"
-                    android:layout_margin="4dp"
                     app:ms_enableErrorLabel="false"
                     app:ms_enableFloatingLabel="false"
                     app:ms_floatingLabelText="Selected Category"
                     app:ms_hintColor="@color/text_color"
-                    app:ms_thickness="0dp"
-                    app:ms_multiline="false" />
+                    app:ms_multiline="false"
+                    app:ms_thickness="0dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -340,14 +352,14 @@
         android:id="@+id/patient_report_date_search_btn"
         android:layout_width="170dp"
         android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:background="@drawable/card_layout"
         android:text="Search Patient"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="12sp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:textSize="12sp" />
 </RelativeLayout>

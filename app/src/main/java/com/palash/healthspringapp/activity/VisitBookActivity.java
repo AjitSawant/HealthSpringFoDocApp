@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,10 @@ import com.palash.healthspringapp.entity.AppointmentReason;
 import com.palash.healthspringapp.entity.BookAppointment;
 import com.palash.healthspringapp.entity.Complaint;
 import com.palash.healthspringapp.entity.Department;
+import com.palash.healthspringapp.entity.DoctorProfile;
+import com.palash.healthspringapp.entity.ELDoctorMaster;
+import com.palash.healthspringapp.entity.ELPatientCategory;
+import com.palash.healthspringapp.entity.ELVisitType;
 import com.palash.healthspringapp.entity.Flag;
 import com.palash.healthspringapp.entity.Visit;
 import com.palash.healthspringapp.task.MasterTask;
@@ -49,39 +54,39 @@ public class VisitBookActivity extends AppCompatActivity {
     private LocalSetting localSetting;
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
+    private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
-    private DatabaseAdapter.AppointmentReasonAdapter appointmentReasonAdapterDB;
+    private DatabaseAdapter.VisitTypeMasterAdapter visitTypeMasterAdapterDB;
     private DatabaseAdapter.DepartmentAdapter departmentAdapterBD;
-    private DatabaseAdapter.ComplaintAdapter complaintAdapterBD;
-    private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
 
-    private Flag masterflag;
     private Visit visit;
+    private ArrayList<DoctorProfile> doctorProfileArrayList;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
-    private ArrayList<AppointmentReason> appointmentReasonslist;
+    private ArrayList<ELVisitType> elVisitTypeArrayList;
     private ArrayList<Department> departmentslist;
-    private ArrayList<Complaint> complaintslist;
+    private ArrayList<ELDoctorMaster> elDoctorMasterArrayList;
 
     private TextView visit_book_edt_patient_name;
     private TextView visit_book_edt_patient_contact;
     private TextView visit_book_edt_patient_mail;
-    private TextView visit_book_edt_doctor_name;
     private TextView visit_book_edt_patient_gender;
-    private TextView visit_book_edt_doctor_spcilization;
-    private TextView visit_book_edt_doctor_education;
-    private TextView visit_book_edt_doctor_contactno;
     private EditText visit_book_edt_date;
     private EditText visit_book_edt_time;
-    private LinearLayout visit_book_edt_doctor_mobile_layout;
-
-    private MaterialSpinner visit_book_spinner_appointmetreason;
+    private MaterialSpinner visit_book_spinner_visit_type;
     private MaterialSpinner visit_book_spinner_department;
-    private MaterialSpinner visit_book_spinner_complaint;
-    private SpinnerAdapter.AppointmentReasonAdapter appointmentReasonAdapter;
+    private MaterialSpinner visit_book_spinner_doctor;
+    private EditText visit_book_remark_edt;
+    private EditText visit_book_reference_doctor_edt;
+
+    private SpinnerAdapter.VisitTypeListAdapter visitTypeListAdapter;
     private SpinnerAdapter.DepartmentAdapter departmentAdapter;
-    private SpinnerAdapter.ComplaintAdapter complaintAdapter;
+    private SpinnerAdapter.DoctorNameListAdapter doctorNameListAdapter;
 
     private String CurrentDate;
+    private String SelectedVisitTypeID = "";
+    private String SelectedServiceID = "";
+    private String SelectedDepartmentID = "0";
+    private String SelectedDoctorID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +107,13 @@ public class VisitBookActivity extends AppCompatActivity {
             localSetting = new LocalSetting();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-            masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
-            appointmentReasonAdapterDB = databaseAdapter.new AppointmentReasonAdapter();
-            departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
-            complaintAdapterBD = databaseAdapter.new ComplaintAdapter();
+            doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
+            visitTypeMasterAdapterDB = databaseAdapter.new VisitTypeMasterAdapter();
+            departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
+
             bookAppointmentArrayList = bookAppointmentAdapter.listLast();
+            doctorProfileArrayList = doctorProfileAdapter.listAll();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,19 +124,15 @@ public class VisitBookActivity extends AppCompatActivity {
             visit_book_edt_patient_name = (TextView) findViewById(R.id.visit_book_edt_patient_name);
             visit_book_edt_patient_contact = (TextView) findViewById(R.id.visit_book_edt_patient_contact);
             visit_book_edt_patient_mail = (TextView) findViewById(R.id.visit_book_edt_patient_mail);
-            visit_book_edt_doctor_name = (TextView) findViewById(R.id.visit_book_edt_doctor_name);
             visit_book_edt_patient_gender = (TextView) findViewById(R.id.visit_book_edt_patient_gender);
-            visit_book_edt_doctor_spcilization = (TextView) findViewById(R.id.visit_book_edt_doctor_spcilization);
-            visit_book_edt_doctor_education = (TextView) findViewById(R.id.visit_book_edt_doctor_education);
-            visit_book_edt_doctor_contactno = (TextView) findViewById(R.id.visit_book_edt_doctor_contactno);
-            visit_book_edt_doctor_mobile_layout = (LinearLayout) findViewById(R.id.visit_book_edt_doctor_mobile_layout);
             visit_book_edt_date = (EditText) findViewById(R.id.visit_book_edt_date);
             visit_book_edt_time = (EditText) findViewById(R.id.visit_book_edt_time);
+            visit_book_spinner_visit_type = (MaterialSpinner) findViewById(R.id.visit_book_spinner_visit_type);
             visit_book_spinner_department = (MaterialSpinner) findViewById(R.id.visit_book_spinner_department);
-            visit_book_spinner_appointmetreason = (MaterialSpinner) findViewById(R.id.visit_book_spinner_appointmetreason);
-            visit_book_spinner_complaint = (MaterialSpinner) findViewById(R.id.visit_book_spinner_complaint);
+            visit_book_spinner_doctor = (MaterialSpinner) findViewById(R.id.visit_book_spinner_doctor);
+            visit_book_remark_edt = (EditText) findViewById(R.id.visit_book_remark_edt);
+            visit_book_reference_doctor_edt = (EditText) findViewById(R.id.visit_book_reference_doctor_edt);
 
-            visit_book_spinner_complaint.setVisibility(View.GONE);
             Bindview();
             disableView();
         } catch (Exception e) {
@@ -140,25 +142,77 @@ public class VisitBookActivity extends AppCompatActivity {
 
     private void InitAdapter() {
         try {
-            appointmentReasonslist = appointmentReasonAdapterDB.listAll();
+            elVisitTypeArrayList = visitTypeMasterAdapterDB.listAll();
             departmentslist = departmentAdapterBD.listAll();
-            complaintslist = complaintAdapterBD.listAll();
 
-            if (appointmentReasonslist != null && appointmentReasonslist.size() > 0) {
-                appointmentReasonAdapter = new SpinnerAdapter.AppointmentReasonAdapter(context, appointmentReasonslist);
-                visit_book_spinner_appointmetreason.setAdapter(appointmentReasonAdapter);
-                appointmentReasonAdapter.notifyDataSetChanged();
+            if (elVisitTypeArrayList != null && elVisitTypeArrayList.size() > 0) {
+                visitTypeListAdapter = new SpinnerAdapter.VisitTypeListAdapter(context, elVisitTypeArrayList);
+                visit_book_spinner_visit_type.setAdapter(visitTypeListAdapter);
+                visitTypeListAdapter.notifyDataSetChanged();
+                visit_book_spinner_visit_type.setSelection(1);
+
+                visit_book_spinner_visit_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sVisitTypePos = visit_book_spinner_visit_type.getSelectedItemPosition();
+                        if (sVisitTypePos == 0) {
+                            SelectedVisitTypeID = "0";
+                            SelectedServiceID = "0";
+                        } else if (sVisitTypePos > 0) {
+                            sVisitTypePos = sVisitTypePos - 1;
+                            SelectedVisitTypeID = elVisitTypeArrayList.get(sVisitTypePos).getID();
+                            SelectedServiceID = elVisitTypeArrayList.get(sVisitTypePos).getServiceID();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
             }
+
             if (departmentslist != null && departmentslist.size() > 0) {
                 departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentslist);
                 visit_book_spinner_department.setAdapter(departmentAdapter);
                 departmentAdapter.notifyDataSetChanged();
+                visit_book_spinner_department.setSelection(1);
+
+                visit_book_spinner_department.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sVisitTypePos = visit_book_spinner_department.getSelectedItemPosition();
+                        if (sVisitTypePos == 0) {
+                            SelectedDepartmentID = "0";
+                        } else if (sVisitTypePos > 0) {
+                            sVisitTypePos = sVisitTypePos - 1;
+                            SelectedDepartmentID = departmentslist.get(sVisitTypePos).getID();
+                        }
+                        if (!SelectedDepartmentID.equals("0")) {
+                            new VisitDoctorScheduleTask().execute();
+                        } else {
+                            elDoctorMasterArrayList = new ArrayList<ELDoctorMaster>();
+                            doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                            visit_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
             }
+
+            /*if (appointmentReasonslist != null && appointmentReasonslist.size() > 0) {
+                appointmentReasonAdapter = new SpinnerAdapter.AppointmentReasonAdapter(context, appointmentReasonslist);
+                visit_book_spinner_appointmetreason.setAdapter(appointmentReasonAdapter);
+                appointmentReasonAdapter.notifyDataSetChanged();
+            }
+
             if (complaintslist != null && complaintslist.size() > 0) {
                 complaintAdapter = new SpinnerAdapter.ComplaintAdapter(context, complaintslist);
                 visit_book_spinner_complaint.setAdapter(complaintAdapter);
                 complaintAdapter.notifyDataSetChanged();
-            }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,10 +223,6 @@ public class VisitBookActivity extends AppCompatActivity {
             visit_book_edt_patient_name.setEnabled(false);
             visit_book_edt_patient_contact.setEnabled(false);
             visit_book_edt_patient_mail.setEnabled(false);
-            visit_book_edt_doctor_name.setEnabled(false);
-            visit_book_edt_doctor_spcilization.setEnabled(false);
-            visit_book_edt_doctor_education.setEnabled(false);
-            visit_book_edt_doctor_contactno.setEnabled(false);
             visit_book_edt_date.setEnabled(false);
             visit_book_edt_time.setEnabled(false);
         } catch (Exception e) {
@@ -194,17 +244,6 @@ public class VisitBookActivity extends AppCompatActivity {
             visit_book_edt_patient_name.setText(PatientName);
             visit_book_edt_patient_contact.setText(bookAppointmentArrayList.get(0).getContact1());
             visit_book_edt_patient_mail.setText(bookAppointmentArrayList.get(0).getEmailId());
-            visit_book_edt_doctor_name.setText("Dr. " + bookAppointmentArrayList.get(0).getDoctorName());
-            visit_book_edt_doctor_spcilization.setText(bookAppointmentArrayList.get(0).getSpecialization());
-            visit_book_edt_doctor_education.setText(bookAppointmentArrayList.get(0).getDoctorEducation());
-            visit_book_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
-
-            if (bookAppointmentArrayList.get(0).getDoctorMobileNo() != null && bookAppointmentArrayList.get(0).getDoctorMobileNo().trim().length() > 0) {
-                visit_book_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
-                visit_book_edt_doctor_mobile_layout.setVisibility(View.VISIBLE);
-            } else {
-                visit_book_edt_doctor_mobile_layout.setVisibility(View.GONE);
-            }
 
             if (bookAppointmentArrayList.get(0).getGenderID() != null && bookAppointmentArrayList.get(0).getGenderID().trim().length() > 0) {
                 if (bookAppointmentArrayList.get(0).getGenderID().equals("1")) {
@@ -236,30 +275,16 @@ public class VisitBookActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             visit = new Visit();
-                            int Posappointmnetreason = visit_book_spinner_appointmetreason.getSelectedItemPosition();
-                            if (Posappointmnetreason > 0) {
-                                Posappointmnetreason = Posappointmnetreason - 1;
-                            }
-                            int Posdepartment = visit_book_spinner_department.getSelectedItemPosition();
-                            if (Posdepartment > 0) {
-                                Posdepartment = Posdepartment - 1;
-                            }
-//                            int Poscomplaint = visit_book_spinner_complaint.getSelectedItemPosition();
-//                            if (Poscomplaint > 0) {
-//                                Poscomplaint = Poscomplaint - 1;
-//                            }
                             visit.setUnitID(bookAppointmentArrayList.get(0).getDoctorUnitID());
                             visit.setDate(CurrentDate);
                             visit.setPatientID(bookAppointmentArrayList.get(0).getPatientID());
                             visit.setPatientUnitID(bookAppointmentArrayList.get(0).getUnitID());
-                            visit.setDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
-                            visit.setVisitTypeID(appointmentReasonslist.get(Posappointmnetreason).getID());
-                            // visit.setComplaints(complaintslist.get(Poscomplaint).getDescription());
-                            visit.setDepartmentID(departmentslist.get(Posdepartment).getID());
-                            visit.setReferredDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
-                            visit.setReferredDoctor("Dr. " + bookAppointmentArrayList.get(0).getDoctorName());
+                            //visit.setDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
+                            // visit.setVisitTypeID(appointmentReasonslist.get(Posappointmnetreason).getID());
+                            // visit.setDepartmentID(departmentslist.get(Posdepartment).getID());
+                            // visit.setReferredDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
+                            // visit.setReferredDoctor("Dr. " + bookAppointmentArrayList.get(0).getDoctorName());
                             visit.setAddedBy(bookAppointmentArrayList.get(0).getID());
-                            visit.setVisitTypeServiceID(appointmentReasonslist.get(Posappointmnetreason).getServiceID());
                             visit.setVisitDateTime(CurrentDate);
                             new VisitBookTask().execute();
                         }
@@ -296,19 +321,97 @@ public class VisitBookActivity extends AppCompatActivity {
     }
 
     private boolean validateControls() {
-        if (departmentslist == null || departmentslist.size() == 0 || !Validate.isValidOption(visit_book_spinner_department.getSelectedItemPosition())) {
+        if (SelectedVisitTypeID.equals("0")) {
+            Validate.Msgshow(context, "Please select visit type.");
+            return false;
+        } else if (SelectedDepartmentID.equals("0")) {
             Validate.Msgshow(context, "Please select department.");
             return false;
-        } else if (appointmentReasonslist == null || appointmentReasonslist.size() == 0 || !Validate.isValidOption(visit_book_spinner_appointmetreason.getSelectedItemPosition())) {
-            Validate.Msgshow(context, "Please select appointment reason.");
+        } else if (SelectedDoctorID.equals("0")) {
+            Validate.Msgshow(context, "Please select doctor.");
             return false;
         }
-//        else if (!Validate.isValidOption(visit_book_spinner_complaint.getSelectedItemPosition())) {
-//            Validate.Msgshow(context, "Please select complaint.");
-//            return false;
-//        }
 
         return true;
+    }
+
+    public class VisitDoctorScheduleTask extends AsyncTask<Void, Void, String> {
+        private JsonObjectMapper objectMapper;
+        private String responseString = "";
+        private int responseCode = 0;
+        private TransparentProgressDialog progressDialog = null;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = localSetting.showDialog(context);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                Response response = serviceConsumer.GET(Constants.VISIT_SCHEDULE_DOCTOR_NAME_URL + doctorProfileArrayList.get(0).getUnitID() + "&DepartmentID=" + SelectedDepartmentID);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    Log.d(Constants.TAG, "Response code:" + responseCode);
+                    Log.d(Constants.TAG, "Response string:" + responseString);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            localSetting.hideDialog(progressDialog);
+            if (responseCode == Constants.HTTP_OK_200) {
+                try {
+                    objectMapper = new JsonObjectMapper();
+                    elDoctorMasterArrayList = objectMapper.map(responseString, ELDoctorMaster.class);
+
+                    //  --------------- Patient category L3 drop down  -------------------------
+                    if (elDoctorMasterArrayList != null && elDoctorMasterArrayList.size() > 0) {
+                        doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                        visit_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+                        doctorNameListAdapter.notifyDataSetChanged();
+
+                        visit_book_spinner_doctor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                int sCategoryL3Pos = visit_book_spinner_doctor.getSelectedItemPosition();
+                                if (sCategoryL3Pos == 0) {
+                                    SelectedDoctorID = "0";
+                                } else if (sCategoryL3Pos > 0) {
+                                    sCategoryL3Pos = sCategoryL3Pos - 1;
+                                    SelectedDoctorID = elDoctorMasterArrayList.get(sCategoryL3Pos).getDoctorID();
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    } else {
+                        SelectedDoctorID = "0";
+                        doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                        visit_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
+                SelectedDoctorID = "0";
+                doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                visit_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+            } else {
+                localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+            }
+            super.onPostExecute(result);
+        }
     }
 
     public class VisitBookTask extends AsyncTask<Void, Void, String> {

@@ -6,6 +6,7 @@ public class Constants {
     public static final String STATUS_LOG_OUT = "logout";
     public static final String KEY_REQUEST_DATA = "request_data";
     public static final String KEY_ForRefreshData = "thisIsForRefreshData";
+    public static final String KEY_SHARED_Pref = "HealthSpringPref";
 
     public static final int HTTP_OK_200 = 200;
     public static final int HTTP_CREATED_201 = 201;
@@ -18,6 +19,7 @@ public class Constants {
     public static final int HTTP_AMBIGUOUS_300 = 300;
     public static final int HTTP_Expectation_Failed_417 = 417;
     public static final int FILTER_DAYS_COUNT = 7;
+    public static final int FILTER_DAYS_PER_MONTH_COUNT = 30;
     public static int IsVitals = 1;
 
     public static boolean refreshPatient = false;
@@ -95,6 +97,7 @@ public class Constants {
     public static final String VISIT_TYPE_URL = BASE_URL + "Master/GetVisitTypeList";
     public static final String GET_PACKAGE_VALIDITY_URL = BASE_URL + "Master/GetPackageValidity?TariffID=";
     public static final String HEALTHSPRING_REFERRAL_URL = BASE_URL + "Master/GetHealthspringReferral";
+    public static final String VISIT_SCHEDULE_DOCTOR_NAME_URL = BASE_URL + "Master/GetVisitScheduleDoctor?UnitID=";
     public static final String CPOEMEDICINE_ADD_UPDATE_URL = BASE_URL + "CPOEMedicine/AddCPOEMedicine";
     public static final String COMPLAINTS_ADD_UPDATE_URL = BASE_URL + "Complaint/AddUpdateComplaint";
     public static final String FOLLOWUP_ADD_UPDATE_URL = BASE_URL + "FollowUp/AddUpdateFollowUp";
@@ -120,8 +123,6 @@ public class Constants {
     public static final String OFFLINE_DATE = "dd MMM yyyy";
     public static final String OFFLINE_TIME = "hh:mm aa";
 
-    public static final int PATIENT_REGISTRATION_TASK = 16;
-    public static final int BOOK_APPOINTMENT_TASK = 17;
     public static final int EMR_TASK = 88;
     public static final int EMR_MEDICINE_MASTER_TASK = 19;
     public static final int EMR_DIAGNOSIS_MASTER_TASK = 20;
@@ -129,6 +130,7 @@ public class Constants {
     public static final int EMR_VITAL_MASTER_TASK = 22;
     public static final int EMR_COMPLAINT_MASTER_TASK = 23;
     public static final int EMR_DEPARTMENT_MASTER_TASK = 24;
+    public static final int PCP_DOCTOR_PER_UNIT_MASTER_TASK = 25;
     public static final int STOP_TASK = 99;
     public static final int ALL_URL_TASK = 0;
     public static final int ONLINE_SYNC = 10;

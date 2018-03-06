@@ -43,6 +43,7 @@ public class Synchronization {
     private String PatientCategoryL1Count;
     private String DoctorNameCount;
     private String PCPDoctorCount;
+    private String CompanyNameCount;
     private String VisitTypeCount;
 
     @JsonProperty("ID")
@@ -385,5 +386,14 @@ public class Synchronization {
 
     public void setVisitTypeCount(String visitTypeCount) {
         VisitTypeCount = visitTypeCount;
+    }
+
+    @JsonProperty("CompanyNameCount")
+    public String getCompanyNameCount() {
+        return CompanyNameCount;
+    }
+
+    public void setCompanyNameCount(String companyNameCount) {
+        CompanyNameCount = companyNameCount;
     }
 }

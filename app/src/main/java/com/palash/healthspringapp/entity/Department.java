@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Department {
     private String ID;
+    private String UnitID;
     private String Description;
 
     @JsonProperty("ID")
@@ -19,6 +20,15 @@ public class Department {
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    @JsonProperty("UnitID")
+    public String getUnitID() {
+        return UnitID;
+    }
+
+    public void setUnitID(String unitID) {
+        UnitID = unitID;
     }
 
     @JsonProperty("Description")

@@ -21,12 +21,16 @@
             android:icon="@drawable/ic_refresh"
             android:title="Synch Master Data"
             android:visible="false" />
-
         <item
             android:id="@+id/action_setting"
             android:checked="false"
             android:icon="@drawable/ic_settings"
             android:title="@string/setting" />
+        <item
+            android:id="@+id/action_app_setting"
+            android:checked="false"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/app_setting" />
         <item
             android:id="@+id/action_logout"
             android:checked="false"
