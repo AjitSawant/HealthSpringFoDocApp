@@ -79,6 +79,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private LinearLayout layout_appointments;
     private LinearLayout layout_patientqueue;
     private LinearLayout layout_searchpatient;
+    private LinearLayout layout_register_patient;
     private MaterialSpinner unitMasterSpinner;
 
     private static int i = 0;
@@ -89,6 +90,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dashboard);
         InitSetting();
         InitView();
+        setRegistrationHideOption();
     }
 
     private void InitSetting() {
@@ -106,6 +108,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             complaintsListDBAdapter = databaseAdapter.new ComplaintsListDBAdapter();
             referralServiceListDBAdapter = databaseAdapter.new ReferralServiceListDBAdapter();
             masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,6 +123,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             layout_appointments = (LinearLayout) findViewById(R.id.layout_appointments);
             layout_patientqueue = (LinearLayout) findViewById(R.id.layout_patient_queue);
             layout_searchpatient = (LinearLayout) findViewById(R.id.layout_search_patient);
+            layout_register_patient = (LinearLayout) findViewById(R.id.layout_register_patient);
             unitMasterSpinner = (MaterialSpinner) findViewById(R.id.unitMasterSpinner);
             navigationView = (NavigationView) findViewById(R.id.navigation_view);
             drawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);
@@ -211,32 +215,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    /*private void CheckSynchDate() {
-        elSynchOfflineDataList = synchOfflineDataAdapter.listAll();
-        if (elSynchOfflineDataList != null && elSynchOfflineDataList.size() > 0) {
-            String todayDate = new SimpleDateFormat(Constants.OFFLINE_DATE, Locale.getDefault()).format(new Date());
-            if (todayDate.equals(elSynchOfflineDataList.get(0).getOfflineLastDate())) {
-                Toast.makeText(context, "All look good", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "All un synchronize data will be clear", Toast.LENGTH_SHORT).show();
-                synchOfflineDataAdapter.DeleteOfflineEMR();
-                //synchOfflineDataAdapter.updateDate();
-            }
-        }
-    }*/
-
-    /*private void MasterFlagTask() {
-        masterflag = masterFlagAdapter.listCurrent();
-        masterflag.setFlag(Constants.PCP_DOCTOR_PER_UNIT_MASTER_TASK);
-        masterFlagAdapter.create(masterflag);
-        SchedulerManager.getInstance().runNow(context, MasterTask.class, 1);
-    }*/
-
     @Override
     protected void onResume() {
         super.onResume();
-        listProfile = doctorProfileAdapter.listAll();
         setUnitMasterData();
+        setRegistrationHideOption();
+    }
+
+    private void setRegistrationHideOption() {
+        listProfile = doctorProfileAdapter.listAll();
+        if (listProfile != null && listProfile.size() > 0) {
+            if (localSetting.isFrontOfficeUser(listProfile.get(0))) {
+                layout_register_patient.setVisibility(View.VISIBLE);
+                layout_register_patient.setOnClickListener(this);
+            } else {
+                layout_register_patient.setVisibility(View.INVISIBLE);
+                layout_register_patient.setOnClickListener(null);
+            }
+        }
     }
 
     private void setUnitMasterData() {
@@ -297,9 +293,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismissWithAnimation();
-                                SchedulerManager.getInstance().stopAll(context);
-                                doctorProfileAdapter.LogOut(listProfile.get(0).getDoctorID(), Constants.STATUS_LOG_OUT);
-                                startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                if (listProfile != null && listProfile.size() > 0) {
+                                    SchedulerManager.getInstance().stopAll(context);
+                                    doctorProfileAdapter.LogOut(listProfile.get(0).getDoctorID(), Constants.STATUS_LOG_OUT);
+                                    startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                }
                             }
                         })
                         .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -339,6 +337,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             case R.id.layout_search_patient:
                 startActivity(new Intent(DashboardActivity.this, PatientListActivity.class));
                 Constants.refreshPatient = true;
+                break;
+            case R.id.layout_register_patient:
+                listProfile = doctorProfileAdapter.listAll();
+                if (listProfile != null && listProfile.size() > 0) {
+                    if (localSetting.checkUnitName(listProfile.get(0).getUnitID())) {
+                        localSetting.showWarningAlert(context, context.getResources().getString(R.string.opps_alert), context.getResources().getString(R.string.register_alert));
+                    } else {
+                        startActivity(new Intent(context, RegistrationDashActivity.class));
+                    }
+                } else {
+                    startActivity(new Intent(context, RegistrationDashActivity.class));
+                }
                 break;
         }
     }

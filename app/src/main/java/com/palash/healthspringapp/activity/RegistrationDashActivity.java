@@ -135,46 +135,42 @@ public class RegistrationDashActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_save:
+                if (listProfile != null && listProfile.size() > 0) {
+                    if (RegistrationPatientInformationFragment.validateControls(context)) {
+                        elPatient = new Patient();
+                        elPatient = RegistrationPatientInformationFragment.PatientInformation();
+                        elPatient.setUnitID(listProfile.get(0).getUnitID());
+                        elPatient.setAddedBy(listProfile.get(0).getID());
+                        elPatient.setCreatedUnitID(listProfile.get(0).getUnitID());
 
-                if (RegistrationPatientInformationFragment.validateControls(context)) {
-                    elPatient = new Patient();
-                    elPatient = RegistrationPatientInformationFragment.PatientInformation();
-                    elPatient.setUnitID(listProfile.get(0).getUnitID());
-                    elPatient.setAddedBy(listProfile.get(0).getID());
-                    elPatient.setCreatedUnitID(listProfile.get(0).getUnitID());
+                        if (RegistrationSponsorFragment.validateControls(context)) {
+                            Patient elPatient1 = new Patient();
+                            elPatient1 = RegistrationSponsorFragment.SponsorInformation();
+                            elPatient.setCategoryL1ID(elPatient1.getCategoryL1ID());
+                            elPatient.setCompanyID(elPatient1.getCompanyID());
+                            elPatient.setCategoryL2ID(elPatient1.getCategoryL2ID());
+                            elPatient.setCategoryL3ID(elPatient1.getCategoryL3ID());
+                            elPatient.setHealthSpringReferralID(elPatient1.getHealthSpringReferralID());
 
-                    if (RegistrationSponsorFragment.validateControls(context)) {
-                        Patient elPatient1 = new Patient();
-                        elPatient1 = RegistrationSponsorFragment.SponsorInformation();
-                        elPatient.setCategoryL1ID(elPatient1.getCategoryL1ID());
-                        elPatient.setCompanyID(elPatient1.getCompanyID());
-                        elPatient.setCategoryL2ID(elPatient1.getCategoryL2ID());
-                        elPatient.setCategoryL3ID(elPatient1.getCategoryL3ID());
-                        elPatient.setPCPDoctorID(elPatient1.getPCPDoctorID());
-                        elPatient.setDoctorNameID(elPatient1.getDoctorNameID());
-                        elPatient.setEffectiveDate(elPatient1.getEffectiveDate());
-                        elPatient.setExpirydate(elPatient1.getExpirydate());
-                        elPatient.setCardIssueDate(elPatient1.getCardIssueDate());
-
-                        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Are you sure?")
-                                .setContentText("Do you really want to register patient!")
-                                .setConfirmText("Yes")
-                                .setCancelText("No")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismissWithAnimation();
-
-                                        if (localSetting.isNetworkAvailable(context)) {
-                                            new PatientRegistrationTask().execute();
-                                        } else {
-                                            Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                            new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("Are you sure?")
+                                    .setContentText("Do you really want to register patient!")
+                                    .setConfirmText("Yes")
+                                    .setCancelText("No")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismissWithAnimation();
+                                            if (localSetting.isNetworkAvailable(context)) {
+                                                new PatientRegistrationTask().execute();
+                                            } else {
+                                                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
-                                })
-                                .setCancelClickListener(null)
-                                .show();
+                                    })
+                                    .setCancelClickListener(null)
+                                    .show();
+                        }
                     }
                 }
                 return true;

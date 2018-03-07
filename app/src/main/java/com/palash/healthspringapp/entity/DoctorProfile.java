@@ -25,14 +25,6 @@ public class DoctorProfile {
     private String DoctorType;
     private String EmailId;
     private String PFNumber;
-    private String PANNumber;
-    private String DateOfJoining;
-    private String AccessCardNumber;
-    private String Photo;
-    private String DigitalSignature;
-    private String Status;
-    private String Synchronized;
-    private String RegestrationNumber;
     private String MaritialStatus;
     private String LoginStatus;
     private String RememberMe;
@@ -267,78 +259,6 @@ public class DoctorProfile {
 
     public void setPFNumber(String PFNumber) {
         this.PFNumber = PFNumber;
-    }
-
-    @JsonProperty("PANNumber")
-    public String getPANNumber() {
-        return PANNumber;
-    }
-
-    public void setPANNumber(String PANNumber) {
-        this.PANNumber = PANNumber;
-    }
-
-    @JsonProperty("DateOfJoining")
-    public String getDateOfJoining() {
-        return DateOfJoining;
-    }
-
-    public void setDateOfJoining(String DateOfJoining) {
-        this.DateOfJoining = DateOfJoining;
-    }
-
-    @JsonProperty("AccessCardNumber")
-    public String getAccessCardNumber() {
-        return AccessCardNumber;
-    }
-
-    public void setAccessCardNumber(String AccessCardNumber) {
-        this.AccessCardNumber = AccessCardNumber;
-    }
-
-    @JsonProperty("Photo")
-    public String getPhoto() {
-        return Photo;
-    }
-
-    public void setPhoto(String Photo) {
-        this.Photo = Photo;
-    }
-
-    @JsonProperty("DigitalSignature")
-    public String getDigitalSignature() {
-        return DigitalSignature;
-    }
-
-    public void setDigitalSignature(String DigitalSignature) {
-        this.DigitalSignature = DigitalSignature;
-    }
-
-    @JsonProperty("Status")
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String Status) {
-        this.Status = Status;
-    }
-
-    @JsonProperty("Synchronized")
-    public String getSynchronized() {
-        return Synchronized;
-    }
-
-    public void setSynchronized(String Synchronized) {
-        this.Synchronized = Synchronized;
-    }
-
-    @JsonProperty("RegestrationNumber")
-    public String getRegestrationNumber() {
-        return RegestrationNumber;
-    }
-
-    public void setRegestrationNumber(String RegestrationNumber) {
-        this.RegestrationNumber = RegestrationNumber;
     }
 
     @JsonProperty("MaritialStatus")

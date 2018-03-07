@@ -691,15 +691,7 @@ public class DatabaseAdapter {
                 DatabaseContract.DoctorProfile.COLUMN_NAME_SUBSPECIALIZTION,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_DOCTORTYPE,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_EMAIL_ID,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_PFNUMBER,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_PANNUMBER,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_DATEOFJOINING,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_ACCESSCARDNUMBER,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_PHOTO,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_DIGITALSIGNATURE,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_STATUS,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_SYNCHRONIZED,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_REGESTRATIONNUMBER,
+                DatabaseContract.DoctorProfile.COLUMN_NAME_PFNumber,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_IsFrontOfficeUser,
@@ -730,15 +722,7 @@ public class DatabaseAdapter {
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_SUBSPECIALIZTION, doctorProfile.getSubSpecialization());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_DOCTORTYPE, doctorProfile.getDoctorType());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_EMAIL_ID, doctorProfile.getEmailId());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_PFNUMBER, doctorProfile.getPFNumber());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_PANNUMBER, doctorProfile.getPANNumber());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_DATEOFJOINING, doctorProfile.getDateOfJoining());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_ACCESSCARDNUMBER, doctorProfile.getAccessCardNumber());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_PHOTO, doctorProfile.getPhoto());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_DIGITALSIGNATURE, doctorProfile.getDigitalSignature());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_STATUS, doctorProfile.getStatus());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_SYNCHRONIZED, doctorProfile.getSynchronized());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_REGESTRATIONNUMBER, doctorProfile.getRegestrationNumber());
+                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_PFNumber, doctorProfile.getPFNumber());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS, doctorProfile.getMaritialStatus());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME, doctorProfile.getRememberMe());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS, doctorProfile.getLoginStatus());
@@ -776,15 +760,7 @@ public class DatabaseAdapter {
                         doctorProfile.setSubSpecialization(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_SUBSPECIALIZTION)));
                         doctorProfile.setDoctorType(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_DOCTORTYPE)));
                         doctorProfile.setEmailId(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_EMAIL_ID)));
-                        doctorProfile.setPFNumber(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_PFNUMBER)));
-                        doctorProfile.setPANNumber(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_PANNUMBER)));
-                        doctorProfile.setDateOfJoining(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_DATEOFJOINING)));
-                        doctorProfile.setAccessCardNumber(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_ACCESSCARDNUMBER)));
-                        doctorProfile.setPhoto(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_PHOTO)));
-                        doctorProfile.setDigitalSignature(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_DIGITALSIGNATURE)));
-                        doctorProfile.setStatus(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_STATUS)));
-                        doctorProfile.setSynchronized(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_SYNCHRONIZED)));
-                        doctorProfile.setRegestrationNumber(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_REGESTRATIONNUMBER)));
+                        doctorProfile.setPFNumber(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_PFNumber)));
                         doctorProfile.setMaritialStatus(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS)));
                         doctorProfile.setLoginStatus(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS)));
                         doctorProfile.setRememberMe(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME)));

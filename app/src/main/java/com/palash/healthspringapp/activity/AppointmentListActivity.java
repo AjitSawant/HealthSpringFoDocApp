@@ -129,7 +129,7 @@ public class AppointmentListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_appointment);
         InitSetting();
         InitView();
-        showFilterDialog();
+        //showFilterDialog();
         setAppointmentList();
     }
 
@@ -682,58 +682,60 @@ public class AppointmentListActivity extends AppCompatActivity {
     }*/
 
     private void setAppointmentList() {
-        elAppointmentArrayList = appointmentAdapterDB.listAllAppointmentWithUnit(doctorProfileList.get(0).getUnitID());
-        ArrayList<String> mListDates = new ArrayList<>();
-        if (elAppointmentArrayList != null && elAppointmentArrayList.size() > 0) {
-            for (int i = 0; i < elAppointmentArrayList.size(); i++) {
-                elAppointment = elAppointmentArrayList.get(i);
-                String newID = elAppointment.getAppointmentDate();
-                if (mListDates.size() > 0) {
-                    Boolean flagMatch = false;
-                    for (int j = 0; j < mListDates.size(); j++) {
-                        String checkID = mListDates.get(j);
-                        if (checkID.equals(newID)) {
-                            flagMatch = true;
+        if (doctorProfileList != null && doctorProfileList.size() > 0) {
+            elAppointmentArrayList = appointmentAdapterDB.listAllAppointmentWithUnit(doctorProfileList.get(0).getUnitID());
+            ArrayList<String> mListDates = new ArrayList<>();
+            if (elAppointmentArrayList != null && elAppointmentArrayList.size() > 0) {
+                for (int i = 0; i < elAppointmentArrayList.size(); i++) {
+                    elAppointment = elAppointmentArrayList.get(i);
+                    String newID = elAppointment.getAppointmentDate();
+                    if (mListDates.size() > 0) {
+                        Boolean flagMatch = false;
+                        for (int j = 0; j < mListDates.size(); j++) {
+                            String checkID = mListDates.get(j);
+                            if (checkID.equals(newID)) {
+                                flagMatch = true;
+                            }
                         }
-                    }
-                    if (flagMatch == false) {
+                        if (flagMatch == false) {
+                            mListDates.add(elAppointment.getAppointmentDate());
+                        }
+                    } else {
                         mListDates.add(elAppointment.getAppointmentDate());
                     }
-                } else {
-                    mListDates.add(elAppointment.getAppointmentDate());
                 }
-            }
 
-            if (mListDates.size() > 0) {
-                HashMap<String, ArrayList<ArrayList<Appointment>>> elAppointmentMainHashMapList = new HashMap<>();
-                ArrayList<ArrayList<Appointment>> elAppointmentChildList = new ArrayList<>();
-                ArrayList<String> appointmentChildList = new ArrayList<>();
-                for (int k = 0; k < mListDates.size(); k++) {
-                    ArrayList<Appointment> elPathologiesList = appointmentAdapterDB.listAllWithDate(mListDates.get(k));
-                    if (elPathologiesList.size() > 0) {
-                        Appointment elAppointment1 = elPathologiesList.get(0);
-                        elAppointmentChildList = new ArrayList<>();
-                        elAppointmentChildList.add(elPathologiesList);
-                        String key = String.valueOf(k) + ",.," + elAppointment1.getAppointmentDate();
-                        elAppointmentMainHashMapList.put(key, elAppointmentChildList);
-                        appointmentChildList.add(key);
+                if (mListDates.size() > 0) {
+                    HashMap<String, ArrayList<ArrayList<Appointment>>> elAppointmentMainHashMapList = new HashMap<>();
+                    ArrayList<ArrayList<Appointment>> elAppointmentChildList = new ArrayList<>();
+                    ArrayList<String> appointmentChildList = new ArrayList<>();
+                    for (int k = 0; k < mListDates.size(); k++) {
+                        ArrayList<Appointment> elPathologiesList = appointmentAdapterDB.listAllWithDate(mListDates.get(k));
+                        if (elPathologiesList.size() > 0) {
+                            Appointment elAppointment1 = elPathologiesList.get(0);
+                            elAppointmentChildList = new ArrayList<>();
+                            elAppointmentChildList.add(elPathologiesList);
+                            String key = String.valueOf(k) + ",.," + elAppointment1.getAppointmentDate();
+                            elAppointmentMainHashMapList.put(key, elAppointmentChildList);
+                            appointmentChildList.add(key);
+                        }
+                    }
+
+                    if (elAppointmentMainHashMapList != null && elAppointmentMainHashMapList.size() > 0) {
+                        appointmentExpListAdapter = new AppointmentExpandListAdapter(context, elAppointmentMainHashMapList, appointmentChildList);
+                        appointment_List.setAdapter(appointmentExpListAdapter);
+                        appointmentExpListAdapter.notifyDataSetChanged();
+                        appointment_empty.setVisibility(View.GONE);
+                        appointment_List.setVisibility(View.VISIBLE);
+                    } else {
+                        appointment_List.setVisibility(View.GONE);
+                        appointment_empty.setVisibility(View.VISIBLE);
                     }
                 }
-
-                if (elAppointmentMainHashMapList != null && elAppointmentMainHashMapList.size() > 0) {
-                    appointmentExpListAdapter = new AppointmentExpandListAdapter(context, elAppointmentMainHashMapList, appointmentChildList);
-                    appointment_List.setAdapter(appointmentExpListAdapter);
-                    appointmentExpListAdapter.notifyDataSetChanged();
-                    appointment_empty.setVisibility(View.GONE);
-                    appointment_List.setVisibility(View.VISIBLE);
-                } else {
-                    appointment_List.setVisibility(View.GONE);
-                    appointment_empty.setVisibility(View.VISIBLE);
-                }
+            } else {
+                appointment_List.setVisibility(View.GONE);
+                appointment_empty.setVisibility(View.VISIBLE);
             }
-        } else {
-            appointment_List.setVisibility(View.GONE);
-            appointment_empty.setVisibility(View.VISIBLE);
         }
     }
 
@@ -766,28 +768,30 @@ public class AppointmentListActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
-                ELFilter elFilter = new ELFilter();
-                elFilter.setUnitID(doctorProfileList.get(0).getUnitID());
-                elFilter.setSelectedDoctorID(doctorProfileList.get(0).getDoctorID());
-                elFilter.setMRNo(mrNO);
-                elFilter.setFirstName(firstName);
-                elFilter.setLastName(lastName);
-                elFilter.setAppointmentStartDate(startDate);
-                elFilter.setAppointmentEndDate(endDate);
-                elFilter.setSelectedDeptID(SelectedDeptID);
-                elFilter.setSelectedAppointmentStatus(SelectedAppointmentStatus);
-                elFilter.setFilterFlag(String.valueOf(checkRadio));
+                if (doctorProfileList != null && doctorProfileList.size() > 0) {
+                    jsonObjectMapper = new JsonObjectMapper();
+                    webServiceConsumer = new WebServiceConsumer(context, null, null);
+                    ELFilter elFilter = new ELFilter();
+                    elFilter.setUnitID(doctorProfileList.get(0).getUnitID());
+                    elFilter.setSelectedDoctorID(doctorProfileList.get(0).getDoctorID());
+                    elFilter.setMRNo(mrNO);
+                    elFilter.setFirstName(firstName);
+                    elFilter.setLastName(lastName);
+                    elFilter.setAppointmentStartDate(startDate);
+                    elFilter.setAppointmentEndDate(endDate);
+                    elFilter.setSelectedDeptID(SelectedDeptID);
+                    elFilter.setSelectedAppointmentStatus(SelectedAppointmentStatus);
+                    elFilter.setFilterFlag(String.valueOf(checkRadio));
 
-                jSonData = jsonObjectMapper.unMap(elFilter);
-                response = webServiceConsumer.POST(Constants.GET_APPOINTMENT_URL, jSonData);
+                    jSonData = jsonObjectMapper.unMap(elFilter);
+                    response = webServiceConsumer.POST(Constants.GET_APPOINTMENT_URL, jSonData);
 
-                if (response != null) {
-                    responseCode = response.code();
-                    responseString = response.body().string();
-                    Log.d(Constants.TAG, "Response Code :" + responseCode);
-                    Log.d(Constants.TAG, "Response String :" + responseString);
+                    if (response != null) {
+                        responseCode = response.code();
+                        responseString = response.body().string();
+                        Log.d(Constants.TAG, "Response Code :" + responseCode);
+                        Log.d(Constants.TAG, "Response String :" + responseString);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

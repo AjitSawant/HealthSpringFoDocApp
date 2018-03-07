@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.palash.healthspringapp.R;
+import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.ELAppointmentStatus;
 
 import java.text.DateFormat;
@@ -295,6 +296,14 @@ public class LocalSetting {
             isHeadOfficeSelected = true;
         }
         return isHeadOfficeSelected;
+    }
+
+    public static boolean isFrontOfficeUser(DoctorProfile profile) {
+        Boolean isFrontOfficeUser = false;
+        if (profile.getIsFrontOfficeUser() != null && (profile.getIsFrontOfficeUser().equals("1") || profile.getIsFrontOfficeUser().equals("True"))) {
+            isFrontOfficeUser = true;
+        }
+        return isFrontOfficeUser;
     }
 
     public String returnPDFUrl(String fromActivity, String UnitID, String PatientID, String PatientUnitID, String VisitID, String mrNo, String VisitType, String L1, String L3) {

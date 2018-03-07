@@ -178,25 +178,27 @@ public class PatientListActivity extends AppCompatActivity {
 
     private void RefreshPatientList() {
         doctorProfileList = doctorProfileAdapter.listAll();
-        patientList = patientAdapterDB.listPatient(doctorProfileList.get(0).getUnitID(), null);
-        if (patientList != null && patientList.size() > 0) {
-            searchPatientAdapter = new SearchPatientAdapter(context, patientList);
-            search_patient_List.setAdapter(searchPatientAdapter);
-            searchPatientAdapter.notifyDataSetChanged();
-            search_patient_empty.setVisibility(View.GONE);
-            search_patient_List.setVisibility(View.VISIBLE);
-            patient_list_search_by_name.setVisibility(View.VISIBLE);
-        } else {
-            search_patient_empty.setVisibility(View.VISIBLE);
-            search_patient_List.setVisibility(View.GONE);
-            patient_list_search_by_name.setVisibility(View.GONE);
+        if (doctorProfileList != null && doctorProfileList.size() > 0) {
+            patientList = patientAdapterDB.listPatient(doctorProfileList.get(0).getUnitID(), null);
+            if (patientList != null && patientList.size() > 0) {
+                searchPatientAdapter = new SearchPatientAdapter(context, patientList);
+                search_patient_List.setAdapter(searchPatientAdapter);
+                searchPatientAdapter.notifyDataSetChanged();
+                search_patient_empty.setVisibility(View.GONE);
+                search_patient_List.setVisibility(View.VISIBLE);
+                patient_list_search_by_name.setVisibility(View.VISIBLE);
+            } else {
+                search_patient_empty.setVisibility(View.VISIBLE);
+                search_patient_List.setVisibility(View.GONE);
+                patient_list_search_by_name.setVisibility(View.GONE);
+            }
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        menu.findItem(R.id.menu_toolbar_add_patient).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_add_patient).setVisible(false);
         menu.findItem(R.id.menu_toolbar_filter).setVisible(true);
         return super.onCreateOptionsMenu(menu);
     }
@@ -205,9 +207,13 @@ public class PatientListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add_patient:
-                if (localSetting.checkUnitName(doctorProfileList.get(0).getUnitID())) {
-                    localSetting.showWarningAlert(context, context.getResources().getString(R.string.opps_alert), context.getResources().getString(R.string.register_alert));
-                } else {
+                if (doctorProfileList != null && doctorProfileList.size() > 0) {
+                    if (localSetting.checkUnitName(doctorProfileList.get(0).getUnitID())) {
+                        localSetting.showWarningAlert(context, context.getResources().getString(R.string.opps_alert), context.getResources().getString(R.string.register_alert));
+                    } else {
+                        startActivity(new Intent(context, RegistrationDashActivity.class));
+                    }
+                }else{
                     startActivity(new Intent(context, RegistrationDashActivity.class));
                 }
                 return true;

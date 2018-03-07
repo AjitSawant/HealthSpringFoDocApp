@@ -202,6 +202,10 @@
         <service android:name="com.buzzbox.mob.android.scheduler.ScheduledService" />
         <!-- Buzzbox END -->
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAJg8LVXKXJBXMYE6W1xuqxU7JZ4N0MdcA"/>
+
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.palash.healthspringapp.R;
 import com.palash.healthspringapp.adapter.SpinnerAdapter;
 import com.palash.healthspringapp.api.JsonObjectMapper;
@@ -30,6 +39,7 @@ import com.palash.healthspringapp.entity.BloodGroup;
 import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.ELCityMaster;
 import com.palash.healthspringapp.entity.ELCountryMaster;
+import com.palash.healthspringapp.entity.ELDoctorMaster;
 import com.palash.healthspringapp.entity.ELHealthspringReferral;
 import com.palash.healthspringapp.entity.ELRegionMaster;
 import com.palash.healthspringapp.entity.ELStateMaster;
@@ -52,6 +62,9 @@ import java.util.Date;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 public class RegistrationPatientInformationFragment extends Fragment {
 
     private Context context;
@@ -61,84 +74,64 @@ public class RegistrationPatientInformationFragment extends Fragment {
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.PrefixAdapter prefixAdapter;
     private DatabaseAdapter.GenderAdapter genderAdapter;
-    private DatabaseAdapter.MaritalStatusAdapter maritalStatusAdapter;
-    private DatabaseAdapter.BloodGroupAdapter bloodGroupAdapter;
-    private DatabaseAdapter.CountryMasterAdapter countryMasterAdapter;
-    private DatabaseAdapter.RegionMasterAdapter regionMasterAdapter;
-    private DatabaseAdapter.StateMasterAdapter stateMasterAdapter;
-    private DatabaseAdapter.CityMasterAdapter cityMasterAdapter;
-    private DatabaseAdapter.HealthSpringReferralMasterAdapter healthSpringReferralMasterAdapter;
+    private DatabaseAdapter.PCPDoctorMasterAdapter patientPCPDoctorAdapterDB;
+    //private DatabaseAdapter.CountryMasterAdapter countryMasterAdapter;
+    //private DatabaseAdapter.RegionMasterAdapter regionMasterAdapter;
+    //private DatabaseAdapter.StateMasterAdapter stateMasterAdapter;
+    //private DatabaseAdapter.CityMasterAdapter cityMasterAdapter;
 
-    private Patient patient;
-    private Flag flag;
     private ArrayList<DoctorProfile> listProfile;
     private ArrayList<Prefix> listPrefix;
     private ArrayList<Gender> listGender;
-    private ArrayList<MaritalStatus> listMaritalStatus;
-    private ArrayList<BloodGroup> listbloodGroups;
-    private ArrayList<ELCountryMaster> elCountryMasterArrayList;
-    private ArrayList<ELRegionMaster> elRegionMasterArrayList;
-    private ArrayList<ELStateMaster> elStateMasterArrayList;
-    private ArrayList<ELCityMaster> elCityMasterArrayList;
-    private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList;
+    private ArrayList<ELDoctorMaster> elPCPDoctorArrayList = new ArrayList<>();
+    //private ArrayList<ELCountryMaster> elCountryMasterArrayList;
+    //private ArrayList<ELRegionMaster> elRegionMasterArrayList;
+    //private ArrayList<ELStateMaster> elStateMasterArrayList;
+    //private ArrayList<ELCityMaster> elCityMasterArrayList;
 
     private static EditText patient_reg_edt_fname;
-    private static EditText patient_reg_edt_mname;
     private static EditText patient_reg_edt_lname;
     private static EditText patient_reg_edt_dob;
-    //private static EditText patient_reg_edt_education;
     private static EditText patient_reg_edt_email;
     private static EditText patient_reg_edt_mobile;
-    private static EditText patient_reg_flat_building_name;
-    private static EditText patient_reg_street;
+    private static EditText patient_reg_address;
 
     private MaterialSpinner patient_reg_spinner_perfix;
     private MaterialSpinner patient_reg_spinner_gender;
-    private MaterialSpinner patient_reg_spinner_maritalstatus;
-    private MaterialSpinner patient_reg_spinner_bloodgroup;
-    private MaterialSpinner patient_reg_spinner_country;
-    private MaterialSpinner patient_reg_spinner_region;
-    private MaterialSpinner patient_reg_spinner_state;
-    private MaterialSpinner patient_reg_spinner_city;
-    private MaterialSpinner patient_reg_spinner_known_from;
+    private MaterialSpinner patient_reg_pcp_doctor;
+    //private MaterialSpinner patient_reg_spinner_country;
+    //private MaterialSpinner patient_reg_spinner_region;
+    //private MaterialSpinner patient_reg_spinner_state;
+    //private MaterialSpinner patient_reg_spinner_city;
 
     private SpinnerAdapter.GenderAdapter getGenderArrayAdapter;
     private SpinnerAdapter.PerfixAdapter getPerfixArrayAdapter;
-    private SpinnerAdapter.MaritalStatusAdapter getMaritalStatusArrayAdapter;
-    private SpinnerAdapter.BloodGroupAdapter getBloodGroupArrayAdapter;
-    private SpinnerAdapter.CountryAdapter countryAdapter;
-    private SpinnerAdapter.RegionAdapter regionAdapter;
-    private SpinnerAdapter.StateAdapter stateAdapter;
-    private SpinnerAdapter.CityAdapter cityAdapter;
-    private SpinnerAdapter.HealthspringReferralAdapter healthspringReferralAdapter;
+    private SpinnerAdapter.PCPDoctorListAdapter patientPCPDoctorListAdapter;
+    //private SpinnerAdapter.CountryAdapter countryAdapter;
+    //private SpinnerAdapter.RegionAdapter regionAdapter;
+    //private SpinnerAdapter.StateAdapter stateAdapter;
+    //private SpinnerAdapter.CityAdapter cityAdapter;
 
     private static String PrefixID = "0";
     private static String GenderID = "0";
-    private static String MarriedStatusID = "0";
-    private static String BloodGroupID = "0";
-    private static String HealthSpringReferralID = "0";
-    private static String CountryID = "0";
-    private static String RegionID = "0";
-    private static String StateID = "0";
-    private static String CityID = "0";
+    private static String PCPDoctorID = "0";
+    //private static String CountryID = "0";
+    //private static String RegionID = "0";
+    //private static String StateID = "0";
+    //private static String CityID = "0";
+
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     private DatePickerDialog.OnDateSetListener dateListener;
     private Calendar calendar = Calendar.getInstance();
     private static SimpleDateFormat formate = new SimpleDateFormat(Constants.TIME_FORMAT);
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_registration);
-        InitSetting();
-        InitView();
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_patient_registration, container, false);
         InitSetting();
         InitView(rootView);
+        InitAdapter();
         return rootView;
     }
 
@@ -150,14 +143,12 @@ public class RegistrationPatientInformationFragment extends Fragment {
             databaseAdapter = new DatabaseAdapter(databaseContract);
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             genderAdapter = databaseAdapter.new GenderAdapter();
-            maritalStatusAdapter = databaseAdapter.new MaritalStatusAdapter();
             prefixAdapter = databaseAdapter.new PrefixAdapter();
-            bloodGroupAdapter = databaseAdapter.new BloodGroupAdapter();
-            countryMasterAdapter = databaseAdapter.new CountryMasterAdapter();
-            stateMasterAdapter = databaseAdapter.new StateMasterAdapter();
-            regionMasterAdapter = databaseAdapter.new RegionMasterAdapter();
-            cityMasterAdapter = databaseAdapter.new CityMasterAdapter();
-            healthSpringReferralMasterAdapter = databaseAdapter.new HealthSpringReferralMasterAdapter();
+            patientPCPDoctorAdapterDB = databaseAdapter.new PCPDoctorMasterAdapter();
+            //countryMasterAdapter = databaseAdapter.new CountryMasterAdapter();
+            //stateMasterAdapter = databaseAdapter.new StateMasterAdapter();
+            //regionMasterAdapter = databaseAdapter.new RegionMasterAdapter();
+            //cityMasterAdapter = databaseAdapter.new CityMasterAdapter();
 
             listProfile = doctorProfileAdapter.listAll();
         } catch (Exception e) {
@@ -168,24 +159,19 @@ public class RegistrationPatientInformationFragment extends Fragment {
     private void InitView(View rootView) {
         try {
             patient_reg_edt_fname = (EditText) rootView.findViewById(R.id.patient_reg_edt_fname);
-            patient_reg_edt_mname = (EditText) rootView.findViewById(R.id.patient_reg_edt_mname);
             patient_reg_edt_lname = (EditText) rootView.findViewById(R.id.patient_reg_edt_lname);
             patient_reg_edt_dob = (EditText) rootView.findViewById(R.id.patient_reg_edt_dob);
-            //patient_reg_edt_education = (EditText) rootView.findViewById(R.id.patient_reg_edt_education);
             patient_reg_edt_email = (EditText) rootView.findViewById(R.id.patient_reg_email);
             patient_reg_edt_mobile = (EditText) rootView.findViewById(R.id.patient_reg_mobile);
-            patient_reg_flat_building_name = (EditText) rootView.findViewById(R.id.patient_reg_flat_building_name);
-            patient_reg_street = (EditText) rootView.findViewById(R.id.patient_reg_street);
+            patient_reg_address = (EditText) rootView.findViewById(R.id.patient_reg_address);
 
             patient_reg_spinner_perfix = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinnerperfix);
             patient_reg_spinner_gender = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_gender);
-            patient_reg_spinner_maritalstatus = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_maritalstatus);
-            patient_reg_spinner_bloodgroup = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_bloodgroup);
-            patient_reg_spinner_country = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_country);
-            patient_reg_spinner_region = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_region);
-            patient_reg_spinner_state = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_state);
-            patient_reg_spinner_city = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_city);
-            patient_reg_spinner_known_from = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_known_from);
+            patient_reg_pcp_doctor = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_pcp_doctor);
+            //patient_reg_spinner_country = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_country);
+            //patient_reg_spinner_region = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_region);
+            //patient_reg_spinner_state = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_state);
+            //patient_reg_spinner_city = (MaterialSpinner) rootView.findViewById(R.id.patient_reg_spinner_city);
             patient_reg_edt_dob.setFocusable(false);
 
             patient_reg_edt_dob.setOnClickListener(new View.OnClickListener() {
@@ -220,20 +206,56 @@ public class RegistrationPatientInformationFragment extends Fragment {
                     patient_reg_edt_dob.setText(year + "-" + mMonth + "-" + mDay);
                 }
             };
-            InitAdapter();
+
+            patient_reg_address.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    try {
+                        /*AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
+                                .build();*/
+
+                        Intent intent =
+                                new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                        //.setFilter(typeFilter)
+                                        .build(getActivity());
+                        startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                    } catch (GooglePlayServicesRepairableException e) {
+                        // TODO: Handle the error.
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        // TODO: Handle the error.
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
+                Log.i(Constants.TAG, "Place: " + place.getAddress());
+                patient_reg_address.setText(place.getAddress());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(getActivity(), data);
+                // TODO: Handle the error.
+                Log.i(Constants.TAG, status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
         }
     }
 
     private void InitAdapter() {
         try {
             listGender = genderAdapter.listAll();
-            listMaritalStatus = maritalStatusAdapter.listAll();
             listPrefix = prefixAdapter.listAll();
-            listbloodGroups = bloodGroupAdapter.listAll();
-            elCountryMasterArrayList = countryMasterAdapter.listAll();
-            elHealthspringReferralArrayList = healthSpringReferralMasterAdapter.listAll();
+            //elCountryMasterArrayList = countryMasterAdapter.listAll();
 
             if (listGender != null && listGender.size() > 0) {
                 getGenderArrayAdapter = new SpinnerAdapter.GenderAdapter(context, listGender);
@@ -287,20 +309,25 @@ public class RegistrationPatientInformationFragment extends Fragment {
                 patient_reg_spinner_perfix.setAdapter(getPerfixArrayAdapter);
             }
 
-            if (listMaritalStatus != null && listMaritalStatus.size() > 0) {
-                getMaritalStatusArrayAdapter = new SpinnerAdapter.MaritalStatusAdapter(context, listMaritalStatus);
-                patient_reg_spinner_maritalstatus.setAdapter(getMaritalStatusArrayAdapter);
-                getMaritalStatusArrayAdapter.notifyDataSetChanged();
+            if(listProfile!=null && listProfile.size()>0) {
+                elPCPDoctorArrayList = patientPCPDoctorAdapterDB.listAll(listProfile.get(0).getUnitID());
+            }
 
-                patient_reg_spinner_maritalstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //  --------------- Patient PCP Doctor drop down  -------------------------
+            if (elPCPDoctorArrayList != null && elPCPDoctorArrayList.size() > 0) {
+                patientPCPDoctorListAdapter = new SpinnerAdapter.PCPDoctorListAdapter(context, elPCPDoctorArrayList);
+                patient_reg_pcp_doctor.setAdapter(patientPCPDoctorListAdapter);
+                patientPCPDoctorListAdapter.notifyDataSetChanged();
+
+                patient_reg_pcp_doctor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        int sMarriedStatusPos = patient_reg_spinner_maritalstatus.getSelectedItemPosition();
-                        if (sMarriedStatusPos == 0) {
-                            MarriedStatusID = "0";
-                        } else if (sMarriedStatusPos > 0) {
-                            sMarriedStatusPos = sMarriedStatusPos - 1;
-                            MarriedStatusID = listMaritalStatus.get(sMarriedStatusPos).getID();
+                        int sPCPDoctorPos = patient_reg_pcp_doctor.getSelectedItemPosition();
+                        if (sPCPDoctorPos == 0) {
+                            PCPDoctorID = "0";
+                        } else if (sPCPDoctorPos > 0) {
+                            sPCPDoctorPos = sPCPDoctorPos - 1;
+                            PCPDoctorID = elPCPDoctorArrayList.get(sPCPDoctorPos).getDoctorID();
                         }
                     }
 
@@ -309,63 +336,12 @@ public class RegistrationPatientInformationFragment extends Fragment {
                     }
                 });
             } else {
-                getMaritalStatusArrayAdapter = new SpinnerAdapter.MaritalStatusAdapter(context, listMaritalStatus);
-                patient_reg_spinner_maritalstatus.setAdapter(getMaritalStatusArrayAdapter);
+                patientPCPDoctorListAdapter = new SpinnerAdapter.PCPDoctorListAdapter(context, elPCPDoctorArrayList);
+                patient_reg_pcp_doctor.setAdapter(patientPCPDoctorListAdapter);
+                PCPDoctorID = "0";
             }
 
-            if (listbloodGroups != null && listbloodGroups.size() > 0) {
-                getBloodGroupArrayAdapter = new SpinnerAdapter.BloodGroupAdapter(context, listbloodGroups);
-                patient_reg_spinner_bloodgroup.setAdapter(getBloodGroupArrayAdapter);
-                getBloodGroupArrayAdapter.notifyDataSetChanged();
-
-                patient_reg_spinner_bloodgroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        int sBloodGroupPos = patient_reg_spinner_bloodgroup.getSelectedItemPosition();
-                        if (sBloodGroupPos == 0) {
-                            BloodGroupID = "0";
-                        } else if (sBloodGroupPos > 0) {
-                            sBloodGroupPos = sBloodGroupPos - 1;
-                            BloodGroupID = listbloodGroups.get(sBloodGroupPos).getID();
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-            } else {
-                getBloodGroupArrayAdapter = new SpinnerAdapter.BloodGroupAdapter(context, listbloodGroups);
-                patient_reg_spinner_bloodgroup.setAdapter(getBloodGroupArrayAdapter);
-            }
-
-            if (elHealthspringReferralArrayList != null && elHealthspringReferralArrayList.size() > 0) {
-                healthspringReferralAdapter = new SpinnerAdapter.HealthspringReferralAdapter(context, elHealthspringReferralArrayList);
-                patient_reg_spinner_known_from.setAdapter(healthspringReferralAdapter);
-                healthspringReferralAdapter.notifyDataSetChanged();
-
-                patient_reg_spinner_known_from.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        int sRefferalPos = patient_reg_spinner_known_from.getSelectedItemPosition();
-                        if (sRefferalPos == 0) {
-                            HealthSpringReferralID = "0";
-                        } else if (sRefferalPos > 0) {
-                            sRefferalPos = sRefferalPos - 1;
-                            HealthSpringReferralID = elHealthspringReferralArrayList.get(sRefferalPos).getID();
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-            } else {
-                healthspringReferralAdapter = new SpinnerAdapter.HealthspringReferralAdapter(context, elHealthspringReferralArrayList);
-                patient_reg_spinner_known_from.setAdapter(healthspringReferralAdapter);
-            }
-
-            if (elCountryMasterArrayList != null && elCountryMasterArrayList.size() > 0) {
+            /*if (elCountryMasterArrayList != null && elCountryMasterArrayList.size() > 0) {
                 countryAdapter = new SpinnerAdapter.CountryAdapter(context, elCountryMasterArrayList);
                 patient_reg_spinner_country.setAdapter(countryAdapter);
                 countryAdapter.notifyDataSetChanged();
@@ -393,13 +369,13 @@ public class RegistrationPatientInformationFragment extends Fragment {
                 countryAdapter = new SpinnerAdapter.CountryAdapter(context, elCountryMasterArrayList);
                 patient_reg_spinner_country.setAdapter(countryAdapter);
                 CountryID = "0";
-            }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void setRegionDropdown(String countryID) {
+    /*private void setRegionDropdown(String countryID) {
         elRegionMasterArrayList = regionMasterAdapter.listAll(countryID);
         if (elRegionMasterArrayList != null && elRegionMasterArrayList.size() > 0) {
             regionAdapter = new SpinnerAdapter.RegionAdapter(context, elRegionMasterArrayList);
@@ -490,25 +466,6 @@ public class RegistrationPatientInformationFragment extends Fragment {
             patient_reg_spinner_city.setAdapter(cityAdapter);
             CityID = "0";
         }
-    }
-
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_toolbar, menu);
-        menu.findItem(R.id.menu_toolbar_save).setVisible(true);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_toolbar_save:
-                if (validateControls(context)) {
-                    PatientRegistration();
-                }
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }*/
 
     public static boolean validateControls(Context context) {
@@ -518,12 +475,7 @@ public class RegistrationPatientInformationFragment extends Fragment {
         } else if (!Validate.hasTextIn(patient_reg_edt_fname.getText().toString())) {
             Validate.Msgshow(context, "Please enter first name.");
             return false;
-        }
-        /*else if (!Validate.hasTextIn(patient_reg_edt_mname.getText().toString())) {
-            Validate.Msgshow(context, "Please enter middle name.");
-            return false;
-        }*/
-        else if (!Validate.hasTextIn(patient_reg_edt_lname.getText().toString())) {
+        } else if (!Validate.hasTextIn(patient_reg_edt_lname.getText().toString())) {
             Validate.Msgshow(context, "Please enter last name.");
             return false;
         } else if (!Validate.hasTextIn(patient_reg_edt_dob.getText().toString())) {
@@ -531,14 +483,6 @@ public class RegistrationPatientInformationFragment extends Fragment {
             return false;
         } else if (GenderID.equals("0")) {
             Validate.Msgshow(context, "Please select Gender.");
-            return false;
-        }
-        /*else if (MarriedStatusID.equals("")) {
-            Validate.Msgshow(context, "Please select Marital Status.");
-            return false;
-        }*/
-        else if (HealthSpringReferralID.equals("0")) {
-            Validate.Msgshow(context, "Please select known of Healthspring.");
             return false;
         } else if (!Validate.hasTextIn(patient_reg_edt_email.getText().toString())) {
             Validate.Msgshow(context, "Please enter email address.");
@@ -552,11 +496,11 @@ public class RegistrationPatientInformationFragment extends Fragment {
         } else if (patient_reg_edt_mobile.getText().toString().trim().length() != 10) {
             Validate.Msgshow(context, "Mobile number length must be 10 digit.");
             return false;
-        } else if (!Validate.hasTextIn(patient_reg_flat_building_name.getText().toString())) {
-            Validate.Msgshow(context, "Please enter flat and Building info.");
+        } else if (!Validate.hasTextIn(patient_reg_address.getText().toString())) {
+            Validate.Msgshow(context, "Please enter address.");
             return false;
-        } else if (!Validate.hasTextIn(patient_reg_street.getText().toString())) {
-            Validate.Msgshow(context, "Please enter street address.");
+        }else if (PCPDoctorID.equals("0")) {
+            Validate.Msgshow(context, "Please select PCP doctor.");
             return false;
         }
         return true;
@@ -567,110 +511,21 @@ public class RegistrationPatientInformationFragment extends Fragment {
         try {
             patient.setPrefixID(PrefixID);
             patient.setFirstName(patient_reg_edt_fname.getText().toString());
-            patient.setMiddleName(patient_reg_edt_mname.getText().toString());
             patient.setLastName(patient_reg_edt_lname.getText().toString());
             patient.setDateOfBirth(patient_reg_edt_dob.getText().toString().trim());
             patient.setGenderID(GenderID);
-            patient.setMaritalStatusID(MarriedStatusID);
-            patient.setBloodGroupID(BloodGroupID);
-            patient.setHealthSpringReferralID(HealthSpringReferralID);
             patient.setEmail(patient_reg_edt_email.getText().toString().trim());
             patient.setContactNo1(patient_reg_edt_mobile.getText().toString().trim());
-            patient.setFlatBuildingName(patient_reg_flat_building_name.getText().toString().trim());
-            patient.setStreetName(patient_reg_street.getText().toString().trim());
-            patient.setCountryID(CountryID);
-            patient.setRegionID(RegionID);
-            patient.setStateID(StateID);
-            patient.setCityID(CityID);
+            patient.setFlatBuildingName(patient_reg_address.getText().toString().trim());
+            patient.setPCPDoctorID(PCPDoctorID);
+            //patient.setCountryID(CountryID);
+            //patient.setRegionID(RegionID);
+            //patient.setStateID(StateID);
+            //patient.setCityID(CityID);
             patient.setRegistrationDate(formate.format(new Date()));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return patient;
     }
-
-    /*private void Clear() {
-        patient_reg_edt_fname.setText(null);
-        patient_reg_edt_mname.setText(null);
-        patient_reg_edt_lname.setText(null);
-        patient_reg_edt_dob.setText(null);
-        patient_reg_edt_email.setText(null);
-        patient_reg_edt_mobile.setText(null);
-        //patient_reg_edt_education.setText(null);
-        patient_reg_spinner_gender.setSelection(0);
-        patient_reg_spinner_perfix.setSelection(0);
-        patient_reg_spinner_maritalstatus.setSelection(0);
-        patient_reg_spinner_perfix.requestFocus();
-    }*/
-
-    /*public class PatientRegistrationTask extends AsyncTask<Void, Void, String> {
-        private int responseCode = 0;
-        private TransparentProgressDialog progressDialog = null;
-        private JsonObjectMapper objMapper = null;
-        private WebServiceConsumer serviceConsumer = null;
-        private Response response = null;
-        private String jSonData = null;
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = localSetting.showDialog(context);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String responseString = "";
-            try {
-                objMapper = new JsonObjectMapper();
-                jSonData = objMapper.unMap(patient);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
-                response = serviceConsumer.POST(Constants.PATIENT_REGISTRATION_URL, jSonData);
-                if (response != null) {
-                    responseString = response.body().string();
-                    responseCode = response.code();
-                    Log.d(Constants.TAG, "Response code:" + responseCode);
-                    Log.d(Constants.TAG, "Response string:" + responseString);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                if (responseCode == Constants.HTTP_CREATED_201) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Patient registered successfully.")
-                            .setCancelable(true)
-                            .setPositiveButton("Go to Patient List", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    *//*flag = flagAdapter.listCurrent();
-                                    flag.setFlag(Constants.PATIENT_LIST_TASK);
-                                    flagAdapter.create(flag);
-                                    SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);*//*
-                                    Clear();
-                                    Constants.refreshPatient = true;
-                                    //finish();
-                                    //startActivity(new Intent(context, PatientListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                                    //startActivity(new Intent(context, DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                                }
-                            })
-                            .setIcon(R.mipmap.ic_launcher).show();
-                } else {
-                    localSetting.hideDialog(progressDialog);
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            super.onPostExecute(result);
-        }
-    }*/
 }

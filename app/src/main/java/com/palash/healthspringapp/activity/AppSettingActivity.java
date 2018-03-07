@@ -29,6 +29,7 @@ import com.palash.healthspringapp.database.DatabaseAdapter;
 import com.palash.healthspringapp.database.DatabaseContract;
 import com.palash.healthspringapp.entity.ELCompanyName;
 import com.palash.healthspringapp.entity.ELDoctorMaster;
+import com.palash.healthspringapp.entity.ELHealthspringReferral;
 import com.palash.healthspringapp.entity.ELPackageValidity;
 import com.palash.healthspringapp.entity.ELPatientCategory;
 import com.palash.healthspringapp.entity.Patient;
@@ -53,21 +54,25 @@ public class AppSettingActivity extends AppCompatActivity {
 
     private DatabaseAdapter.PatientCategoryL1Adapter patientCategoryL1AdapterDB;
     private DatabaseAdapter.CompanyMasterAdapter companyMasterAdapterDB;
+    private DatabaseAdapter.HealthSpringReferralMasterAdapter healthSpringReferralMasterAdapter;
 
     private ArrayList<ELPatientCategory> elPatientCategoryL1ArrayList = new ArrayList<>();
     private ArrayList<ELCompanyName> elPatientCompanyArrayList = new ArrayList<>();
     private ArrayList<ELPatientCategory> elPatientCategoryL2ArrayList = new ArrayList<>();
     private ArrayList<ELPatientCategory> elPatientCategoryL3ArrayList = new ArrayList<>();
+    private ArrayList<ELHealthspringReferral> elHealthspringReferralArrayList;
 
     private MaterialSpinner patient_reg_category_L1;
     private MaterialSpinner patient_reg_category_company;
     private MaterialSpinner patient_reg_category_L2;
     private MaterialSpinner patient_reg_category_L3;
+    private MaterialSpinner patient_reg_spinner_known_from;
 
     private SpinnerAdapter.PatientCatogoryListAdapter patientCatogoryListAdapter;
     private SpinnerAdapter.CompanyListAdapter patientCompanyListAdapter;
     private SpinnerAdapter.PatientCatogoryListAdapter patientCatogoryL2ListAdapter;
     private SpinnerAdapter.PatientCatogoryListAdapter patientCatogoryL3ListAdapter;
+    private SpinnerAdapter.HealthspringReferralAdapter healthspringReferralAdapter;
 
     private static String CategoryL1ID = "0";
     private static String CategoryL1Name = "";
@@ -77,6 +82,8 @@ public class AppSettingActivity extends AppCompatActivity {
     private static String CategoryL2Name = "";
     private static String CategoryL3ID = "0";
     private static String CategoryL3Name = "";
+    private static String HealthSpringReferralID = "0";
+    private static String HealthSpringReferralName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +106,7 @@ public class AppSettingActivity extends AppCompatActivity {
             databaseAdapter = new DatabaseAdapter(databaseContract);
             patientCategoryL1AdapterDB = databaseAdapter.new PatientCategoryL1Adapter();
             companyMasterAdapterDB = databaseAdapter.new CompanyMasterAdapter();
+            healthSpringReferralMasterAdapter = databaseAdapter.new HealthSpringReferralMasterAdapter();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,10 +118,12 @@ public class AppSettingActivity extends AppCompatActivity {
             patient_reg_category_company = (MaterialSpinner) findViewById(R.id.patient_reg_category_company);
             patient_reg_category_L2 = (MaterialSpinner) findViewById(R.id.patient_reg_category_L2);
             patient_reg_category_L3 = (MaterialSpinner) findViewById(R.id.patient_reg_category_L3);
+            patient_reg_spinner_known_from = (MaterialSpinner) findViewById(R.id.patient_reg_spinner_known_from);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
@@ -135,7 +145,7 @@ public class AppSettingActivity extends AppCompatActivity {
         }
     }
 
-    private void addLocalData(){
+    private void addLocalData() {
         if (validateControls(context)) {
             SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.KEY_SHARED_Pref, 0); // 0 - for private mode
             final SharedPreferences.Editor editor = pref.edit();
@@ -144,44 +154,54 @@ public class AppSettingActivity extends AppCompatActivity {
                     .setTitleText("Are you sure?")
                     .setContentText("Do you really want to save data locally!")
                     .setConfirmText("Yes")
+                    .setCancelText("No")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-
-                            sDialog.setTitleText("Saved!")
-                                    .setContentText("Data saved successfully!")
-                                    .setConfirmText("OK")
-                                    .setConfirmClickListener(null)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                            sDialog.dismissWithAnimation();
+                            localSetting.showSuccessAlert(context, "Saved!", "Data saved successfully!");
 
                             editor.putString("CategoryL1ID", CategoryL1ID);
                             if (CategoryL1ID.equals("0")) {
-                                editor.putString("CategoryL1Name", CategoryL1Name);
+                                editor.putString("CategoryL1Name", "");
                             } else {
                                 editor.putString("CategoryL1Name", CategoryL1Name);
                             }
 
                             editor.putString("CompanyID", CompanyID);
                             if (CompanyID.equals("0")) {
-                                editor.putString("CompanyName", CompanyName);
+                                editor.putString("CompanyName", "");
                             } else {
                                 editor.putString("CompanyName", CompanyName);
                             }
 
                             editor.putString("CategoryL2ID", CategoryL2ID);
                             if (CategoryL2ID.equals("0")) {
-                                editor.putString("CategoryL2Name", CategoryL2Name);
+                                editor.putString("CategoryL2Name", "");
                             } else {
                                 editor.putString("CategoryL2Name", CategoryL2Name);
                             }
 
                             editor.putString("CategoryL3ID", CategoryL3ID);
                             if (CategoryL3ID.equals("0")) {
-                                editor.putString("CategoryL3Name", CategoryL3Name);
+                                editor.putString("CategoryL3Name", "");
                             } else {
                                 editor.putString("CategoryL3Name", CategoryL3Name);
                             }
+
+                            editor.putString("HealthSpringReferralID", HealthSpringReferralID);
+                            if (HealthSpringReferralID.equals("0")) {
+                                editor.putString("HealthSpringReferralName", "");
+                            } else {
+                                editor.putString("HealthSpringReferralName", HealthSpringReferralName);
+                            }
                             editor.commit();
+                        }
+                    })
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
                         }
                     })
                     .show();
@@ -192,6 +212,7 @@ public class AppSettingActivity extends AppCompatActivity {
         try {
             elPatientCategoryL1ArrayList = patientCategoryL1AdapterDB.listAll();
             elPatientCompanyArrayList = companyMasterAdapterDB.listAll();
+            elHealthspringReferralArrayList = healthSpringReferralMasterAdapter.listAll();
 
             //  --------------- Patient category L1 drop down  -------------------------
             if (elPatientCategoryL1ArrayList != null && elPatientCategoryL1ArrayList.size() > 0) {
@@ -287,6 +308,33 @@ public class AppSettingActivity extends AppCompatActivity {
                 patientCompanyListAdapter = new SpinnerAdapter.CompanyListAdapter(context, elPatientCompanyArrayList);
                 patient_reg_category_company.setAdapter(patientCompanyListAdapter);
             }
+
+            if (elHealthspringReferralArrayList != null && elHealthspringReferralArrayList.size() > 0) {
+                healthspringReferralAdapter = new SpinnerAdapter.HealthspringReferralAdapter(context, elHealthspringReferralArrayList);
+                patient_reg_spinner_known_from.setAdapter(healthspringReferralAdapter);
+                healthspringReferralAdapter.notifyDataSetChanged();
+
+                patient_reg_spinner_known_from.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sRefferalPos = patient_reg_spinner_known_from.getSelectedItemPosition();
+                        if (sRefferalPos == 0) {
+                            HealthSpringReferralID = "0";
+                        } else if (sRefferalPos > 0) {
+                            sRefferalPos = sRefferalPos - 1;
+                            HealthSpringReferralID = elHealthspringReferralArrayList.get(sRefferalPos).getID();
+                            HealthSpringReferralName = elHealthspringReferralArrayList.get(sRefferalPos).getDescription();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                healthspringReferralAdapter = new SpinnerAdapter.HealthspringReferralAdapter(context, elHealthspringReferralArrayList);
+                patient_reg_spinner_known_from.setAdapter(healthspringReferralAdapter);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -304,6 +352,9 @@ public class AppSettingActivity extends AppCompatActivity {
             return false;
         } else if (CategoryL3ID.equals("0")) {
             Validate.Msgshow(context, "Please select Category L3.");
+            return false;
+        } else if (HealthSpringReferralID.equals("0")) {
+            Validate.Msgshow(context, "Please select known Healthspring from.");
             return false;
         }
         return true;

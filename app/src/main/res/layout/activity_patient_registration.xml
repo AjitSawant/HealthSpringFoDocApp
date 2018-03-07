@@ -31,7 +31,7 @@
                 android:id="@+id/txt_profile_lable1"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="4dp"
                 android:layout_marginTop="2dp"
                 android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
@@ -119,42 +119,7 @@
                         android:singleLine="true"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="2dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:visibility="invisible" />
-
-                    <EditText
-                        android:id="@+id/patient_reg_edt_mname"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bnt_dashboard"
-                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                        android:gravity="center_vertical"
-                        android:hint="@string/profile_mname"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/text_color"
-                        android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -188,7 +153,7 @@
                         android:singleLine="true"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -223,7 +188,7 @@
                         android:singleLine="true"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -263,136 +228,15 @@
                             app:ms_multiline="false"
                             app:ms_thickness="0dp" />
                     </LinearLayout>
-
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="2dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:visibility="invisible" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/border_lighter_gray">
-
-                        <fr.ganfra.materialspinner.MaterialSpinner
-                            android:id="@+id/patient_reg_spinner_maritalstatus"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/small_text_size"
-                            android:visibility="visible"
-                            app:ms_arrowColor="@color/text_color"
-                            app:ms_arrowSize="12sp"
-                            app:ms_enableErrorLabel="false"
-                            app:ms_enableFloatingLabel="false"
-                            app:ms_hint="@string/profile_maritalstatus"
-                            app:ms_hintColor="@color/dark_gray"
-                            app:ms_multiline="false"
-                            app:ms_thickness="0dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="2dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:visibility="invisible" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/border_lighter_gray">
-
-                        <fr.ganfra.materialspinner.MaterialSpinner
-                            android:id="@+id/patient_reg_spinner_bloodgroup"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/small_text_size"
-                            android:visibility="visible"
-                            app:ms_arrowColor="@color/text_color"
-                            app:ms_arrowSize="12sp"
-                            app:ms_enableErrorLabel="false"
-                            app:ms_enableFloatingLabel="false"
-                            app:ms_hint="@string/profile_blood"
-                            app:ms_hintColor="@color/dark_gray"
-                            app:ms_multiline="false"
-                            app:ms_thickness="0dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="2dp"
-                        android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@android:color/holo_red_dark" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/border_lighter_gray">
-
-                        <fr.ganfra.materialspinner.MaterialSpinner
-                            android:id="@+id/patient_reg_spinner_known_from"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/small_text_size"
-                            android:visibility="visible"
-                            app:ms_arrowColor="@color/text_color"
-                            app:ms_arrowSize="12sp"
-                            app:ms_enableErrorLabel="false"
-                            app:ms_enableFloatingLabel="false"
-                            app:ms_hint="@string/profile_known"
-                            app:ms_hintColor="@color/dark_gray"
-                            app:ms_multiline="false"
-                            app:ms_thickness="0dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
             </LinearLayout>
 
             <TextView
                 android:id="@+id/txt_profile_lable3"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
                 android:background="@android:color/darker_gray"
                 android:gravity="center_vertical"
                 android:maxLines="1"
@@ -437,7 +281,7 @@
                         android:singleLine="true"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -471,7 +315,7 @@
                         android:singleLine="true"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -490,27 +334,33 @@
                         android:textColor="@android:color/holo_red_dark" />
 
                     <EditText
-                        android:id="@+id/patient_reg_flat_building_name"
+                        android:id="@+id/patient_reg_address"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/bnt_dashboard"
+                        android:drawableRight="@android:drawable/ic_menu_search"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:gravity="center_vertical"
-                        android:hint="@string/profile_flat_build"
+                        android:hint="Address"
                         android:imeOptions="actionNext"
                         android:inputType="textMultiLine"
+                        android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="6dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -518,25 +368,48 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="2dp"
                         android:gravity="center_vertical"
-                        android:text="*"
-                        android:textColor="@android:color/holo_red_dark" />
+                        android:text="PCP Doctor"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
 
-                    <EditText
-                        android:id="@+id/patient_reg_street"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bnt_dashboard"
-                        android:gravity="center_vertical"
-                        android:hint="@string/profile_street"
-                        android:imeOptions="actionDone"
-                        android:inputType="textMultiLine"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/text_color"
-                        android:textColorHint="@color/dark_gray"
-                        android:textSize="15sp" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="2dp"
+                            android:gravity="center_vertical"
+                            android:text="*"
+                            android:textColor="@android:color/holo_red_dark" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/border_lighter_gray">
+
+                            <fr.ganfra.materialspinner.MaterialSpinner
+                                android:id="@+id/patient_reg_pcp_doctor"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:textSize="@dimen/small_text_size"
+                                android:visibility="visible"
+                                app:ms_arrowColor="@color/text_color"
+                                app:ms_arrowSize="12sp"
+                                app:ms_enableErrorLabel="false"
+                                app:ms_enableFloatingLabel="false"
+                                app:ms_hint="@string/patient_pcp_doctor"
+                                app:ms_hintColor="@color/dark_gray"
+                                app:ms_multiline="false"
+                                app:ms_thickness="0dp" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 

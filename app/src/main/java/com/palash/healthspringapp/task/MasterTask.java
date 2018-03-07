@@ -234,16 +234,16 @@ public class MasterTask implements Task {
                                         masterdataflag.setMsg("Synchronizing Master");
                                         masterFlagAdapter.create(masterdataflag);
 
-                                        CountryMasterTask();
-                                        RegionMasterTask();
-                                        StateMatserTask();
-                                        CityMasterTask();
-                                        HealthSpringMasterTask();
+//                                        CountryMasterTask();
+//                                        RegionMasterTask();
+//                                        StateMatserTask();
+//                                        CityMasterTask();
 
                                         PrefixTask();
                                         GenderTask();
-                                        MaritalStatusTask();
-                                        BloodGroupTask();
+                                        HealthSpringMasterTask();
+                                        //MaritalStatusTask();
+                                        //BloodGroupTask();
 
                                         //Appointment related data
                                         masterdataflag = masterFlagAdapter.listCurrent();

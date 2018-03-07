@@ -661,19 +661,21 @@ public class PatientQueueActivity extends AppCompatActivity {
 
     private void RefreshList() {
         doctorProfileList = doctorProfileAdapter.listAll();
-        if (patientName != null && patientName.equals("")) {
-            patientName = null;
-        }
-        patientQueueArrayList = patientQueueAdapterDB.listToday(doctorProfileList.get(0).getUnitID(), patientName);
-        if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
-            patientQueueAdapter = new PatientQueueAdapter(context, patientQueueArrayList);
-            patient_queue_list.setAdapter(patientQueueAdapter);
-            patientQueueAdapter.notifyDataSetChanged();
-            patient_queue_list.setVisibility(View.VISIBLE);
-            patient_queue_empty.setVisibility(View.GONE);
-        } else {
-            patient_queue_list.setVisibility(View.GONE);
-            patient_queue_empty.setVisibility(View.VISIBLE);
+        if (doctorProfileList != null && doctorProfileList.size() > 0) {
+            if (patientName != null && patientName.equals("")) {
+                patientName = null;
+            }
+            patientQueueArrayList = patientQueueAdapterDB.listToday(doctorProfileList.get(0).getUnitID(), patientName);
+            if (patientQueueArrayList != null && patientQueueArrayList.size() > 0) {
+                patientQueueAdapter = new PatientQueueAdapter(context, patientQueueArrayList);
+                patient_queue_list.setAdapter(patientQueueAdapter);
+                patientQueueAdapter.notifyDataSetChanged();
+                patient_queue_list.setVisibility(View.VISIBLE);
+                patient_queue_empty.setVisibility(View.GONE);
+            } else {
+                patient_queue_list.setVisibility(View.GONE);
+                patient_queue_empty.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -708,27 +710,29 @@ public class PatientQueueActivity extends AppCompatActivity {
                 jsonObjectMapper = new JsonObjectMapper();
                 webServiceConsumer = new WebServiceConsumer(context, null, null);
 
-                ELFilter elFilter = new ELFilter();
-                elFilter.setUnitID(doctorProfileList.get(0).getUnitID());
-                elFilter.setMRNo(mrNO);
-                elFilter.setFirstName(firstName);
-                elFilter.setLastName(lastName);
-                elFilter.setMobileNo(mobileNo);
-                elFilter.setSelectedDoctorID(SelectedDoctorID);
-                elFilter.setSelectedDeptID(SelectedDeptID);
-                elFilter.setSelectedCategoryID(SelectedCategoryID);
-                elFilter.setSelectedVisitType(SelectedVisitType);
-                elFilter.setSelectedVisitStatus(SelectedVisitStatus);
-                elFilter.setFilterFlag(String.valueOf(checkRadio));
+                if (doctorProfileList != null && doctorProfileList.size() > 0) {
+                    ELFilter elFilter = new ELFilter();
+                    elFilter.setUnitID(doctorProfileList.get(0).getUnitID());
+                    elFilter.setMRNo(mrNO);
+                    elFilter.setFirstName(firstName);
+                    elFilter.setLastName(lastName);
+                    elFilter.setMobileNo(mobileNo);
+                    elFilter.setSelectedDoctorID(SelectedDoctorID);
+                    elFilter.setSelectedDeptID(SelectedDeptID);
+                    elFilter.setSelectedCategoryID(SelectedCategoryID);
+                    elFilter.setSelectedVisitType(SelectedVisitType);
+                    elFilter.setSelectedVisitStatus(SelectedVisitStatus);
+                    elFilter.setFilterFlag(String.valueOf(checkRadio));
 
-                jSonData = jsonObjectMapper.unMap(elFilter);
-                response = webServiceConsumer.POST(Constants.PATIENT_QUEUE_URL, jSonData);
+                    jSonData = jsonObjectMapper.unMap(elFilter);
+                    response = webServiceConsumer.POST(Constants.PATIENT_QUEUE_URL, jSonData);
 
-                if (response != null) {
-                    responseCode = response.code();
-                    responseString = response.body().string();
-                    Log.d(Constants.TAG, "Response Code :" + responseCode);
-                    Log.d(Constants.TAG, "Response String :" + responseString);
+                    if (response != null) {
+                        responseCode = response.code();
+                        responseString = response.body().string();
+                        Log.d(Constants.TAG, "Response Code :" + responseCode);
+                        Log.d(Constants.TAG, "Response String :" + responseString);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

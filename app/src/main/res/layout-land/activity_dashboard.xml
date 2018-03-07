@@ -148,7 +148,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_day_summery"
+                    android:id="@+id/layout_register_patient"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/five_margin"
@@ -160,18 +160,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:visibility="gone" />
+                        android:padding="12dp"
+                        android:src="@drawable/dash_search_patient" />
 
                     <TextView
-                        android:id="@+id/dash_tv_daysummery"
+                        android:id="@+id/dash_tv_register_patient"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="4dp"
+                        android:text="@string/dashboard_patientregistration"
                         android:textAllCaps="false"
-                        android:visibility="gone"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text_size" />
+                        android:textSize="@dimen/common_text_size" />
 
                 </LinearLayout>
 

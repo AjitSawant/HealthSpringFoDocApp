@@ -72,15 +72,7 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_SUBSPECIALIZTION = "SubSpecialization";
         public static final String COLUMN_NAME_DOCTORTYPE = "DoctorType";
         public static final String COLUMN_NAME_EMAIL_ID = "EmailId";
-        public static final String COLUMN_NAME_PFNUMBER = "PFNumber";
-        public static final String COLUMN_NAME_PANNUMBER = "PANNumber";
-        public static final String COLUMN_NAME_DATEOFJOINING = "DateOfJoining";
-        public static final String COLUMN_NAME_ACCESSCARDNUMBER = "AccessCardNumber";
-        public static final String COLUMN_NAME_PHOTO = "Photo";
-        public static final String COLUMN_NAME_DIGITALSIGNATURE = "DigitalSignature";
-        public static final String COLUMN_NAME_STATUS = "Status";
-        public static final String COLUMN_NAME_SYNCHRONIZED = "Synchronized";
-        public static final String COLUMN_NAME_REGESTRATIONNUMBER = "RegestrationNumber";
+        public static final String COLUMN_NAME_PFNumber = "PFNumber";
         public static final String COLUMN_NAME_MARITAL_STATUS = "MaritialStatus";
         public static final String COLUMN_NAME_REMEMBER_ME = "RememberMe";
         public static final String COLUMN_NAME_LOGIN_STATUS = "LoginStatus";
@@ -129,23 +121,7 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_EMAIL_ID
                 + " TEXT,"
-                + COLUMN_NAME_PFNUMBER
-                + " TEXT,"
-                + COLUMN_NAME_PANNUMBER
-                + " TEXT,"
-                + COLUMN_NAME_DATEOFJOINING
-                + " TEXT,"
-                + COLUMN_NAME_ACCESSCARDNUMBER
-                + " TEXT,"
-                + COLUMN_NAME_PHOTO
-                + " TEXT,"
-                + COLUMN_NAME_DIGITALSIGNATURE
-                + " TEXT,"
-                + COLUMN_NAME_STATUS
-                + " TEXT,"
-                + COLUMN_NAME_SYNCHRONIZED
-                + " TEXT,"
-                + COLUMN_NAME_REGESTRATIONNUMBER
+                 + COLUMN_NAME_PFNumber
                 + " TEXT,"
                 + COLUMN_NAME_MARITAL_STATUS
                 + " TEXT,"
