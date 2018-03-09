@@ -461,7 +461,7 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(diagnosisList);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.DIAGNOSIS_ADD_UPDATE_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();
@@ -563,7 +563,7 @@ public class DiagnosisAddUpdateActivity extends AppCompatActivity implements Vie
         protected String doInBackground(Void... params) {
             try {
                 objMapper = new JsonObjectMapper();
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 SearchText = SearchText.replaceAll(" ", "_");
                 response = serviceConsumer.GET(Constants.DAIGNOSISMASTER_URL + "?SearchText=" + SearchText);
                 if (response != null) {

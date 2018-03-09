@@ -204,7 +204,7 @@ public class RegistrationDashActivity extends AppCompatActivity {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(elPatient);
                 Log.d(Constants.TAG + "jSonData:", "" + jSonData);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.PATIENT_REGISTRATION_URL, jSonData);
                 if (response != null) {
                     responseString = response.body().string();

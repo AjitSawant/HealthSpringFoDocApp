@@ -24,10 +24,11 @@ public class WebServiceConsumer {
     private Context context;
     private String userLoginID = null;
     private String userPassword = null;
+    private String userLoginType = null;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private ArrayList<DoctorProfile> listProfile;
 
-    public WebServiceConsumer(Context contxt, String usrID, String pssword) {
+    public WebServiceConsumer(Context contxt, String usrID, String pssword, String loginType) {
         context = contxt;
         localSettings = new LocalSetting();
         client = new OkHttpClient();
@@ -35,13 +36,21 @@ public class WebServiceConsumer {
         if (usrID != null && pssword != null) {
             userLoginID = usrID;
             userPassword = pssword;
+            userLoginType = loginType;
             userLoginID = localSettings.encodeString(userLoginID);
             userPassword = localSettings.encodeString(userPassword);
+            userLoginType = localSettings.encodeString(userLoginType);
         } else {
             listProfile = doctorProfileAdapter.listAll();
             if (listProfile != null && listProfile.size() > 0) {
                 userLoginID = listProfile.get(0).getLoginName();
                 userPassword = listProfile.get(0).getPassword();
+
+                if (listProfile.get(0).getIsFrontOfficeUser() != null && (listProfile.get(0).getIsFrontOfficeUser().equals("True")|| listProfile.get(0).getIsFrontOfficeUser().equals("1"))) {
+                    userLoginType =  localSettings.encodeString("1");
+                } else {
+                    userLoginType  = localSettings.encodeString("0");
+                }
             }
         }
     }
@@ -53,13 +62,14 @@ public class WebServiceConsumer {
                     Constants.KEY_REQUEST_DATA, jSon).build();
             Request request = new Request.Builder().url(url).post(formBody)
                     .addHeader("username", userLoginID)
-                    .addHeader("password", userPassword).build();
+                    .addHeader("password", userPassword)
+                    .addHeader("logintype", userLoginType).build();
             Log.d(Constants.TAG, "Url:" + url);
             Log.d(Constants.TAG, "Username:" + userLoginID);
             Log.d(Constants.TAG, "Password:" + userPassword);
+            Log.d(Constants.TAG, "Logintype:" + userLoginType);
             Log.d(Constants.TAG, "Json:" + jSon);
             response = client.newCall(request).execute();
-            //Log.d(Constants.TAG, "Response:" + response.body().string());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,12 +81,15 @@ public class WebServiceConsumer {
         try {
             Request request = new Request.Builder()
                     .cacheControl(new CacheControl.Builder().noCache().build())
-                    .url(url).get().addHeader("username", userLoginID)
-                    .addHeader("password", userPassword).build();
+                    .url(url).get()
+                    .addHeader("username", userLoginID)
+                    .addHeader("password", userPassword)
+                    .addHeader("logintype", userLoginType).build();
             System.setProperty("http.keepAlive", "false");
             Log.d(Constants.TAG, "Url:" + url);
             Log.d(Constants.TAG, "Username:" + userLoginID);
             Log.d(Constants.TAG, "Password:" + userPassword);
+            Log.d(Constants.TAG, "Logintype:" + userLoginType);
             response = client.newCall(request).execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,13 +104,14 @@ public class WebServiceConsumer {
                     Constants.KEY_REQUEST_DATA, jSon).build();
             Request request = new Request.Builder().url(url).put(formBody)
                     .addHeader("username", userLoginID)
-                    .addHeader("password", userPassword).build();
+                    .addHeader("password", userPassword)
+                    .addHeader("logintype", userLoginType).build();
             Log.d(Constants.TAG, "Url:" + url);
             Log.d(Constants.TAG, "Username:" + userLoginID);
             Log.d(Constants.TAG, "Password:" + userPassword);
+            Log.d(Constants.TAG, "Logintype:" + userLoginType);
             Log.d(Constants.TAG, "Json:" + jSon);
             response = client.newCall(request).execute();
-            //Log.d(Constants.TAG, "Response:" + response.body().string());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,12 +123,13 @@ public class WebServiceConsumer {
         try {
             Request request = new Request.Builder().url(url).delete()
                     .addHeader("username", userLoginID)
-                    .addHeader("password", userPassword).build();
+                    .addHeader("password", userPassword)
+                    .addHeader("logintype", userLoginType).build();
             Log.d(Constants.TAG, "Url:" + url);
             Log.d(Constants.TAG, "Username:" + userLoginID);
             Log.d(Constants.TAG, "Password:" + userPassword);
+            Log.d(Constants.TAG, "Logintype:" + userLoginType);
             response = client.newCall(request).execute();
-            //Log.d(Constants.TAG, "Response:" + response.body().string());
         } catch (Exception e) {
             e.printStackTrace();
         }

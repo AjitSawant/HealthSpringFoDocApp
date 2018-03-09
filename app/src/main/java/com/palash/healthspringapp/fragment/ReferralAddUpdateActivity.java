@@ -446,7 +446,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
         protected String doInBackground(Void... params) {
             try {
                 objMapper = new JsonObjectMapper();
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 SearchText = SearchText.replaceAll(" ", "_");
                 response = serviceConsumer.GET(Constants.SERVICENAME_URL + "?SearchText=" + SearchText);
                 if (response != null) {
@@ -500,7 +500,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
         protected String doInBackground(Void... params) {
             try {
                 objMapper = new JsonObjectMapper();
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.GET(Constants.REFERRAL_DOCTOR_LIST_MASTER_PER_SERVICE_URL + "?UnitID=" + UnitID + "&DepartmentID=" + DeptID + "&ServiceID=" + serviceID);
                 if (response != null) {
                     responseCode = response.code();
@@ -586,7 +586,7 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(elReferralDoctorPerService);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.REFERRAL_DOCTOR_ADD_UPDATE_PER_SERVICE_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();

@@ -95,7 +95,7 @@ public class SynchronizationTask implements Task {
             localSetting.Load();
 
             objectMapper = new JsonObjectMapper();
-            serviceConsumer = new WebServiceConsumer(contextWrapper, null, null);
+            serviceConsumer = new WebServiceConsumer(contextWrapper, null, null, null);
 
             //Database initialization
             databaseContract = new DatabaseContract(contextWrapper);

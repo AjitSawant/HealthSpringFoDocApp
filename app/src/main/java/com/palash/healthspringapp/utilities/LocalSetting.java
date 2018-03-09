@@ -306,6 +306,12 @@ public class LocalSetting {
         return isFrontOfficeUser;
     }
 
+    public static void clearSharedPref(Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences(Constants.KEY_SHARED_Pref, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
+    }
+
     public String returnPDFUrl(String fromActivity, String UnitID, String PatientID, String PatientUnitID, String VisitID, String mrNo, String VisitType, String L1, String L3) {
         String pdfURL = "";
         if (fromActivity.equals("Summary")) {

@@ -398,7 +398,7 @@ public class RegistrationSponsorFragmentOld extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.COMPANY_NAME_URL);
                 if (response != null) {
                     responseString = response.body().string();
@@ -472,7 +472,7 @@ public class RegistrationSponsorFragmentOld extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.PATIENT_CATEGORY_L2_URL + CategoryL1ID);
                 if (response != null) {
                     responseString = response.body().string();
@@ -571,7 +571,7 @@ public class RegistrationSponsorFragmentOld extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.PATIENT_CATEGORY_L3_URL + CategoryL2ID);
                 if (response != null) {
                     responseString = response.body().string();
@@ -658,7 +658,7 @@ public class RegistrationSponsorFragmentOld extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.GET_PACKAGE_VALIDITY_URL + CategoryL3ID);
                 if (response != null) {
                     responseString = response.body().string();

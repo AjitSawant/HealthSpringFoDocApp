@@ -770,7 +770,7 @@ public class AppointmentListActivity extends AppCompatActivity {
             try {
                 if (doctorProfileList != null && doctorProfileList.size() > 0) {
                     jsonObjectMapper = new JsonObjectMapper();
-                    webServiceConsumer = new WebServiceConsumer(context, null, null);
+                    webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                     ELFilter elFilter = new ELFilter();
                     elFilter.setUnitID(doctorProfileList.get(0).getUnitID());
                     elFilter.setSelectedDoctorID(doctorProfileList.get(0).getDoctorID());

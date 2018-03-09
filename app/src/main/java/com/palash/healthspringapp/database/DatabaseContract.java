@@ -64,16 +64,11 @@ public class DatabaseContract {
         public static final String COLUMN_NAME_MIDDLE_NAME = "MiddleName";
         public static final String COLUMN_NAME_LAST_NAME = "LastName";
         public static final String COLUMN_NAME_GENDER = "Gender";
-        public static final String COLUMN_NAME_EMPLOYEENUMBER = "EmployeeNumber";
         public static final String COLUMN_NAME_DOB = "DOB";
         public static final String COLUMN_NAME_EDUCATION = "Education";
-        public static final String COLUMN_NAME_EXPERIENCE = "Experience";
         public static final String COLUMN_NAME_SPECIALIZTION = "Specialization";
-        public static final String COLUMN_NAME_SUBSPECIALIZTION = "SubSpecialization";
-        public static final String COLUMN_NAME_DOCTORTYPE = "DoctorType";
         public static final String COLUMN_NAME_EMAIL_ID = "EmailId";
         public static final String COLUMN_NAME_PFNumber = "PFNumber";
-        public static final String COLUMN_NAME_MARITAL_STATUS = "MaritialStatus";
         public static final String COLUMN_NAME_REMEMBER_ME = "RememberMe";
         public static final String COLUMN_NAME_LOGIN_STATUS = "LoginStatus";
         public static final String COLUMN_NAME_IsFrontOfficeUser = "IsFrontOfficeUser";
@@ -105,25 +100,15 @@ public class DatabaseContract {
                 + " TEXT,"
                 + COLUMN_NAME_GENDER
                 + " TEXT,"
-                + COLUMN_NAME_EMPLOYEENUMBER
-                + " TEXT,"
                 + COLUMN_NAME_DOB
                 + " TEXT,"
                 + COLUMN_NAME_EDUCATION
                 + " TEXT,"
-                + COLUMN_NAME_EXPERIENCE
-                + " TEXT,"
                 + COLUMN_NAME_SPECIALIZTION
-                + " TEXT,"
-                + COLUMN_NAME_SUBSPECIALIZTION
-                + " TEXT,"
-                + COLUMN_NAME_DOCTORTYPE
                 + " TEXT,"
                 + COLUMN_NAME_EMAIL_ID
                 + " TEXT,"
                  + COLUMN_NAME_PFNumber
-                + " TEXT,"
-                + COLUMN_NAME_MARITAL_STATUS
                 + " TEXT,"
                 + COLUMN_NAME_REMEMBER_ME
                 + " TEXT,"

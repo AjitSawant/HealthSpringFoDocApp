@@ -8,7 +8,6 @@ public class Visit {
     private String AppointmentId;
     private String PatientID;
     private String PatientUnitID;
-    private String Date;
     private String UnitID;
     private String VisitTypeID;
     private String Complaints;
@@ -19,6 +18,17 @@ public class Visit {
     private String AddedBy;
     private String VisitTypeServiceID;
     private String VisitDateTime;
+    private String AddedDateTime;
+    private String Date;
+
+    @JsonProperty("Date")
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
 
     @JsonProperty("AppointmentId")
     public String getAppointmentId() {
@@ -56,13 +66,13 @@ public class Visit {
         PatientUnitID = patientUnitID;
     }
 
-    @JsonProperty("Date")
-    public String getDate() {
-        return Date;
+    @JsonProperty("AddedDateTime")
+    public String getAddedDateTime() {
+        return AddedDateTime;
     }
 
-    public void setDate(String date) {
-        Date = date;
+    public void setAddedDateTime(String addedDateTime) {
+        AddedDateTime = addedDateTime;
     }
 
     @JsonProperty("VisitTypeID")
@@ -145,6 +155,4 @@ public class Visit {
     public void setVisitDateTime(String visitDateTime) {
         VisitDateTime = visitDateTime;
     }
-
-
 }

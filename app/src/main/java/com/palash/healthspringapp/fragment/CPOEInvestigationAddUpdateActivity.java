@@ -433,7 +433,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(cpoeService);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.CPOESERVICE_ADD_UPDATE_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();
@@ -521,7 +521,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         protected String doInBackground(Void... params) {
             try {
                 objMapper = new JsonObjectMapper();
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 SearchText = SearchText.replaceAll(" ", "_");
                 response = serviceConsumer.GET(Constants.SERVICENAME_URL + "?SearchText=" + SearchText);
                 if (response != null) {

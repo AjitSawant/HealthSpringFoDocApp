@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.palash.healthspringapp.R;
@@ -40,12 +41,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText login_edt_password;
     private Button login_btn_login;
     private CheckBox login_chkbx_remember;
+    private RadioButton login_type_front_office_user_rbtn;
+    private RadioButton login_type_doctor_rbtn;
 
     private ArrayList<DoctorProfile> listProfile;
 
     private String savedUserName;
     private String savedUserPassword;
     private boolean RememberMe;
+    private boolean isFrontOfficeUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             login_edt_password = (EditText) findViewById(R.id.login_edt_password);
             login_btn_login = (Button) findViewById(R.id.login_btn_login);
             login_chkbx_remember = (CheckBox) findViewById(R.id.login_chkbx_remember);
+            login_type_front_office_user_rbtn = (RadioButton) findViewById(R.id.login_type_front_office_user_rbtn);
+            login_type_doctor_rbtn = (RadioButton) findViewById(R.id.login_type_doctor_rbtn);
             login_btn_login.setOnClickListener(this);
 
             ShowLogin();
@@ -103,6 +109,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 login_edt_username.setText(localSetting.decodeString(listProfile.get(0).getLoginName()));
                 login_edt_password.setText(localSetting.decodeString(listProfile.get(0).getPassword()));
                 login_chkbx_remember.setChecked(true);
+
+                if (listProfile.get(0).getIsFrontOfficeUser() != null && (listProfile.get(0).getIsFrontOfficeUser().equals("True")
+                        || listProfile.get(0).getIsFrontOfficeUser().equals("true") || listProfile.get(0).getIsFrontOfficeUser().equals("1"))) {
+                    login_type_doctor_rbtn.setChecked(false);
+                    login_type_front_office_user_rbtn.setChecked(true);
+                } else {
+                    login_type_doctor_rbtn.setChecked(true);
+                    login_type_front_office_user_rbtn.setChecked(false);
+                }
             } else {
                 ClearView();
             }
@@ -116,6 +131,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             login_edt_username.setText(null);
             login_edt_password.setText(null);
             login_chkbx_remember.setChecked(false);
+            login_type_doctor_rbtn.setChecked(true);
+            login_type_front_office_user_rbtn.setChecked(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,6 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 savedUserName = login_edt_username.getText().toString();
                 savedUserPassword = login_edt_password.getText().toString();
                 RememberMe = login_chkbx_remember.isChecked();
+                isFrontOfficeUser = login_type_front_office_user_rbtn.isChecked();
                 if (Validate()) {
                     if (localSetting.isNetworkAvailable(context)) {
                         new LoginTask().execute();
@@ -181,9 +199,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected String doInBackground(Void... params) {
             try {
+                String mLoginByFrontOfficeUser = "0";
+                if (isFrontOfficeUser == true) {
+                    mLoginByFrontOfficeUser = "1";
+                } else {
+                    mLoginByFrontOfficeUser = "0";
+                }
+
                 Log.d(Constants.TAG, "savedUserName:" + savedUserName);
                 Log.d(Constants.TAG, "savedUserPassword:" + savedUserPassword);
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, savedUserName, savedUserPassword);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, savedUserName, savedUserPassword, mLoginByFrontOfficeUser);
                 Response response = serviceConsumer.GET(Constants.LOGIN_URL);
                 if (response != null) {
                     responseString = response.body().string();
@@ -233,7 +258,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 startActivity(new Intent(context, DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 finish();
-                Constants.isFromLogin=true;
+                Constants.isFromLogin = true;
                 Toast.makeText(context, "Login Successfully", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {

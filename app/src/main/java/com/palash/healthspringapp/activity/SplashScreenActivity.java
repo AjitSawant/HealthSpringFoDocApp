@@ -151,7 +151,7 @@ public class SplashScreenActivity
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, "", "");
+                webServiceConsumer = new WebServiceConsumer(context, "", "","");
                 response = webServiceConsumer.GET(Constants.APP_VERSION_URL);
                 if (response != null) {
                     responseCode = response.code();

@@ -708,7 +708,7 @@ public class PatientQueueActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
 
                 if (doctorProfileList != null && doctorProfileList.size() > 0) {
                     ELFilter elFilter = new ELFilter();

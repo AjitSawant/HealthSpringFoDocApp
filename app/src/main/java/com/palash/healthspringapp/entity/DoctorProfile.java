@@ -16,51 +16,15 @@ public class DoctorProfile {
     private String MiddleName;
     private String LastName;
     private String Gender;
-    private String EmployeeNumber;
     private String DOB;
     private String Education;
-    private String Experience;
     private String Specialization;
-    private String SubSpecialization;
-    private String DoctorType;
     private String EmailId;
     private String PFNumber;
-    private String MaritialStatus;
     private String LoginStatus;
     private String RememberMe;
-    private String SubSpecializationID;
-    private String DoctorTypeID;
-    private String AppointmentSlot;
     private String DepartmentID;
     private String IsFrontOfficeUser;
-
-
-    @JsonProperty("SubSpecializationID")
-    public String getSubSpecializationID() {
-        return SubSpecializationID;
-    }
-
-    public void setSubSpecializationID(String subSpecializationID) {
-        SubSpecializationID = subSpecializationID;
-    }
-
-    @JsonProperty("DoctorTypeID")
-    public String getDoctorTypeID() {
-        return DoctorTypeID;
-    }
-
-    public void setDoctorTypeID(String doctorTypeID) {
-        DoctorTypeID = doctorTypeID;
-    }
-
-    @JsonProperty("AppointmentSlot")
-    public String getAppointmentSlot() {
-        return AppointmentSlot;
-    }
-
-    public void setAppointmentSlot(String appointmentSlot) {
-        AppointmentSlot = appointmentSlot;
-    }
 
     @JsonProperty("DepartmentID")
     public String getDepartmentID() {
@@ -115,7 +79,6 @@ public class DoctorProfile {
     public void setRememberMe(String rememberMe) {
         RememberMe = rememberMe;
     }
-
 
     @JsonProperty("ID")
     public String getID() {
@@ -180,15 +143,6 @@ public class DoctorProfile {
         this.Gender = Gender;
     }
 
-    @JsonProperty("EmployeeNumber")
-    public String getEmployeeNumber() {
-        return EmployeeNumber;
-    }
-
-    public void setEmployeeNumber(String EmployeeNumber) {
-        this.EmployeeNumber = EmployeeNumber;
-    }
-
     @JsonProperty("DOB")
     public String getDOB() {
         return DOB;
@@ -207,15 +161,6 @@ public class DoctorProfile {
         this.Education = Education;
     }
 
-    @JsonProperty("Experience")
-    public String getExperience() {
-        return Experience;
-    }
-
-    public void setExperience(String Experience) {
-        this.Experience = Experience;
-    }
-
     @JsonProperty("Specialization")
     public String getSpecialization() {
         return Specialization;
@@ -223,24 +168,6 @@ public class DoctorProfile {
 
     public void setSpecialization(String Specialization) {
         this.Specialization = Specialization;
-    }
-
-    @JsonProperty("SubSpecialization")
-    public String getSubSpecialization() {
-        return SubSpecialization;
-    }
-
-    public void setSubSpecialization(String SubSpecialization) {
-        this.SubSpecialization = SubSpecialization;
-    }
-
-    @JsonProperty("DoctorType")
-    public String getDoctorType() {
-        return DoctorType;
-    }
-
-    public void setDoctorType(String DoctorType) {
-        this.DoctorType = DoctorType;
     }
 
     @JsonProperty("EmailId")
@@ -259,15 +186,6 @@ public class DoctorProfile {
 
     public void setPFNumber(String PFNumber) {
         this.PFNumber = PFNumber;
-    }
-
-    @JsonProperty("MaritialStatus")
-    public String getMaritialStatus() {
-        return MaritialStatus;
-    }
-
-    public void setMaritialStatus(String MaritialStatus) {
-        this.MaritialStatus = MaritialStatus;
     }
 
     @JsonProperty("IsFrontOfficeUser")

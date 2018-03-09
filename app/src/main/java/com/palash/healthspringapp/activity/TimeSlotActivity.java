@@ -215,7 +215,7 @@ public class TimeSlotActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 objectMapper = new JsonObjectMapper();
                 jSonData = objectMapper.unMap(timeSlot);
                 Response response = serviceConsumer.POST(Constants.TIME_SLOT_URL, jSonData);

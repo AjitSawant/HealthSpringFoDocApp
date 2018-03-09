@@ -432,7 +432,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(bookAppointment);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.BOOK_APPOINTMENT_URL, jSonData);
                 if (response != null) {
                     responseString = response.body().string();
@@ -511,7 +511,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(bookAppointment);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.RECHEDUAL_APPOINTMENT_URL, jSonData);
                 if (response != null) {
                     responseString = response.body().string();

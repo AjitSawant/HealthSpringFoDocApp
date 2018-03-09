@@ -459,7 +459,7 @@ public class AppointmentExpandListAdapter extends BaseExpandableListAdapter {
         protected String doInBackground(Void... params) {
             String responseString = "";
             try {
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.VISIT_MARK_APPOINTMENT_URL, jSonData);
                 if (response != null) {
                     responseString = response.body().string();

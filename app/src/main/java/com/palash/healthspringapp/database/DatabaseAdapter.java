@@ -683,16 +683,11 @@ public class DatabaseAdapter {
                 DatabaseContract.DoctorProfile.COLUMN_NAME_MIDDLE_NAME,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_LAST_NAME,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_GENDER,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_EMPLOYEENUMBER,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_DOB,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_EDUCATION,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_EXPERIENCE,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_SPECIALIZTION,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_SUBSPECIALIZTION,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_DOCTORTYPE,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_EMAIL_ID,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_PFNumber,
-                DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_IsFrontOfficeUser,
                 DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME
@@ -714,16 +709,11 @@ public class DatabaseAdapter {
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_MIDDLE_NAME, doctorProfile.getMiddleName());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_LAST_NAME, doctorProfile.getLastName());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_GENDER, doctorProfile.getGender());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_EMPLOYEENUMBER, doctorProfile.getEmployeeNumber());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_DOB, doctorProfile.getDOB());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_EDUCATION, doctorProfile.getEducation());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_EXPERIENCE, doctorProfile.getExperience());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_SPECIALIZTION, doctorProfile.getSpecialization());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_SUBSPECIALIZTION, doctorProfile.getSubSpecialization());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_DOCTORTYPE, doctorProfile.getDoctorType());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_EMAIL_ID, doctorProfile.getEmailId());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_PFNumber, doctorProfile.getPFNumber());
-                    values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS, doctorProfile.getMaritialStatus());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME, doctorProfile.getRememberMe());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS, doctorProfile.getLoginStatus());
                     values.put(DatabaseContract.DoctorProfile.COLUMN_NAME_IsFrontOfficeUser, doctorProfile.getIsFrontOfficeUser());
@@ -752,16 +742,11 @@ public class DatabaseAdapter {
                         doctorProfile.setMiddleName(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_MIDDLE_NAME)));
                         doctorProfile.setLastName(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_LAST_NAME)));
                         doctorProfile.setGender(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_GENDER)));
-                        doctorProfile.setEmployeeNumber(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_EMPLOYEENUMBER)));
                         doctorProfile.setDOB(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_DOB)));
                         doctorProfile.setEducation(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_EDUCATION)));
-                        doctorProfile.setExperience(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_EXPERIENCE)));
                         doctorProfile.setSpecialization(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_SPECIALIZTION)));
-                        doctorProfile.setSubSpecialization(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_SUBSPECIALIZTION)));
-                        doctorProfile.setDoctorType(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_DOCTORTYPE)));
                         doctorProfile.setEmailId(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_EMAIL_ID)));
                         doctorProfile.setPFNumber(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_PFNumber)));
-                        doctorProfile.setMaritialStatus(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_MARITAL_STATUS)));
                         doctorProfile.setLoginStatus(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_LOGIN_STATUS)));
                         doctorProfile.setRememberMe(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_REMEMBER_ME)));
                         doctorProfile.setIsFrontOfficeUser(result.getString(result.getColumnIndex(DatabaseContract.DoctorProfile.COLUMN_NAME_IsFrontOfficeUser)));

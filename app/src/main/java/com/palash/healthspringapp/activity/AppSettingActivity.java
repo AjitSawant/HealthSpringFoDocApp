@@ -389,7 +389,7 @@ public class AppSettingActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.COMPANY_NAME_URL);
                 if (response != null) {
                     responseString = response.body().string();
@@ -437,7 +437,7 @@ public class AppSettingActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.PATIENT_CATEGORY_L2_URL + CategoryL1ID);
                 if (response != null) {
                     responseString = response.body().string();
@@ -537,7 +537,7 @@ public class AppSettingActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.PATIENT_CATEGORY_L3_URL + CategoryL2ID + "&CompanyID=" + CompanyID);
                 if (response != null) {
                     responseString = response.body().string();

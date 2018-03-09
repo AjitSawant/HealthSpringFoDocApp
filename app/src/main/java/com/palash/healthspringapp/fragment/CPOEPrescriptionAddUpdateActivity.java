@@ -623,7 +623,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(cpoePrescription);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.CPOEMEDICINE_ADD_UPDATE_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();
@@ -711,7 +711,7 @@ public class CPOEPrescriptionAddUpdateActivity extends AppCompatActivity impleme
         protected String doInBackground(Void... params) {
             try {
                 objMapper = new JsonObjectMapper();
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 SearchText = SearchText.replaceAll(" ", "_");
                 response = serviceConsumer.GET(Constants.MEDICIENNAME_URL + "?SearchText=" + SearchText);
                 if (response != null) {

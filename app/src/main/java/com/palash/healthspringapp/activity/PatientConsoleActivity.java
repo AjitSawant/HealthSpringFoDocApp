@@ -383,7 +383,7 @@ public class PatientConsoleActivity extends AppCompatActivity implements View.On
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = webServiceConsumer.GET(Constants.GET_PATIENT_CONSOLE_LIST_URL + doctorProfile.getUnitID() + "&PatientID=" + bookAppointment.getPatientID()
                         + "&PatientUnitID=" + bookAppointment.getUnitID() + "&DoctorID=" + DoctorID + "&VisitedUnitID=" + selectedClinicID + "&FromDate="
                         + FromDate + "&ToDate=" + ToDate);

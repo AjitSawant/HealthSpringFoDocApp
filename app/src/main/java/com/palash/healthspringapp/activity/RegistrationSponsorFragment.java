@@ -135,19 +135,19 @@ public class RegistrationSponsorFragment extends Fragment {
     }
 
     public static boolean validateControls(Context context) {
-        if (CategoryL1ID.equals("0")) {
+        if (CategoryL1ID == null || CategoryL1ID.equals("") || CategoryL1ID.equals("0")) {
             Validate.Msgshow(context, "Please Select Category L1 from app setting.");
             return false;
-        } else if (CategoryL1ID.equals("1") && CompanyID.equals("0")) {
+        } else if (CategoryL1ID.equals("1") && (CompanyID == null || CompanyID.equals("") || CompanyID.equals("0"))) {
             Validate.Msgshow(context, "Please select company from app setting.");
             return false;
-        } else if (CategoryL2ID.equals("0")) {
+        } else if (CategoryL2ID == null || CategoryL2ID.equals("") || CategoryL2ID.equals("0")) {
             Validate.Msgshow(context, "Please select Category L2 from app setting.");
             return false;
-        } else if (CategoryL3ID.equals("0")) {
+        } else if (CategoryL3ID == null || CategoryL3ID.equals("") || CategoryL3ID.equals("0")) {
             Validate.Msgshow(context, "Please select Category L3 from app setting.");
             return false;
-        }else if (HealthSpringReferralID.equals("0")) {
+        } else if (HealthSpringReferralID == null || HealthSpringReferralID.equals("") || HealthSpringReferralID.equals("0")) {
             Validate.Msgshow(context, "Please select Healthspring known from app setting.");
             return false;
         }

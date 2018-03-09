@@ -348,7 +348,7 @@ public class EMRNavigationDrawerActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = webServiceConsumer.GET(Constants.GET_PAST_MEDICAL_HISTORY_CE_LIST_URL + bookAppointmentArrayList.get(0).getUnitID()
                         + "&PatientID=" +
                         bookAppointmentArrayList.get(0).getPatientID()

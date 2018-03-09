@@ -199,7 +199,7 @@ public class ReferralFragment extends Fragment {
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = webServiceConsumer.GET(Constants.REFERRAL_DOCTOR_EMR_LIST_PER_SERVICE_URL + doctorProfileList.get(0).getUnitID()
                         + "&PatientID=" +
                         bookAppointmentArrayList.get(0).getPatientID()

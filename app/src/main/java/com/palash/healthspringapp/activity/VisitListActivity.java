@@ -347,7 +347,7 @@ public class VisitListActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = webServiceConsumer.GET(Constants.VISIT_LISIT_URL + doctorProfileList.get(0).getUnitID() + "&PatientID=" +
                         bookAppointmentArrayList.get(0).getPatientID());
                 if (response != null) {

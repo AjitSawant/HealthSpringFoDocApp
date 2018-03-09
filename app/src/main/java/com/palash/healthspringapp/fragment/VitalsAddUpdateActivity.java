@@ -430,7 +430,7 @@ public class VitalsAddUpdateActivity extends AppCompatActivity implements View.O
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(elSaveVitalsList);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.MULTI_VITALS_ADD_UPDATE_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();

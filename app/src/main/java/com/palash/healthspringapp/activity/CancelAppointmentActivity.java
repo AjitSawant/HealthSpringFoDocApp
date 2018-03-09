@@ -130,7 +130,7 @@ public class CancelAppointmentActivity extends AppCompatActivity {
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(appointment);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.CANCLE_APPOINTMENT_URL, jSonData);
                 if (response != null) {
                     responseString = response.body().string();

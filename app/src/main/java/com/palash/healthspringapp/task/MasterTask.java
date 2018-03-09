@@ -144,7 +144,7 @@ public class MasterTask implements Task {
             localSetting.Init(contextWrapper);
             localSetting.Load();
             objectMapper = new JsonObjectMapper();
-            serviceConsumer = new WebServiceConsumer(contextWrapper, null, null);
+            serviceConsumer = new WebServiceConsumer(contextWrapper, null, null, null);
             //Database initialization
             databaseContract = new DatabaseContract(contextWrapper);
             databaseAdapter = new DatabaseAdapter(databaseContract);

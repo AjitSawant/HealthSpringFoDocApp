@@ -207,7 +207,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(doctorProfile);
                 response = serviceConsumer.POST(Constants.UPDATE_PASSWORD_URL, jSonData);

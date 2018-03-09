@@ -448,7 +448,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = webServiceConsumer.GET(Constants.GET_UNIT_MASTER_URL + listProfile.get(0).getID());
                 if (response != null) {
                     responseCode = response.code();
@@ -504,30 +504,4 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         }
     }
-
-    /*private void SynchOfflineData() {
-        if (localSetting.isNetworkAvailable(context)) {
-
-            ArrayList<VitalsList> vitalsArrayList = vitalsListDBAdapter.listAllUnSync("");
-            ArrayList<DiagnosisList> diagnosisArrayList = diagnosisListAdapter.listAllUnSync();
-            ArrayList<CPOEService> cpoeServiceArrayList = cpoeServiceAdapter.listAllUnSync();
-            ArrayList<CPOEPrescription> cpoeMedicineArrayList = cpoeMedicineAdapter.listAllUnSync();
-            ArrayList<ComplaintsList> complaintsArrayList = complaintsListDBAdapter.listAllUnSync();
-            ArrayList<ReferralDoctorPerService> referralServiceArrayList = referralServiceListDBAdapter.listAllUnSync();
-
-            if ((vitalsArrayList != null && vitalsArrayList.size() > 0) || (diagnosisArrayList != null && diagnosisArrayList.size() > 0)
-                    || (cpoeServiceArrayList != null && cpoeServiceArrayList.size() > 0) || (cpoeMedicineArrayList != null && cpoeMedicineArrayList.size() > 0)
-                    || (complaintsArrayList != null && complaintsArrayList.size() > 0) || (referralServiceArrayList != null && referralServiceArrayList.size() > 0)) {
-
-                try {
-                    Flag flag = flagAdapter.listCurrent();
-                    flag.setFlag(Constants.ONLINE_SYNC);
-                    flagAdapter.create(flag);
-                    SchedulerManager.getInstance().runNow(context, SynchronizationTask.class, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }*/
 }

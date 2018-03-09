@@ -276,16 +276,17 @@ public class VisitBookActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             visit = new Visit();
                             visit.setUnitID(bookAppointmentArrayList.get(0).getDoctorUnitID());
-                            visit.setDate(CurrentDate);
                             visit.setPatientID(bookAppointmentArrayList.get(0).getPatientID());
                             visit.setPatientUnitID(bookAppointmentArrayList.get(0).getUnitID());
-                            //visit.setDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
-                            // visit.setVisitTypeID(appointmentReasonslist.get(Posappointmnetreason).getID());
-                            // visit.setDepartmentID(departmentslist.get(Posdepartment).getID());
-                            // visit.setReferredDoctorID(bookAppointmentArrayList.get(0).getDoctorID());
-                            // visit.setReferredDoctor("Dr. " + bookAppointmentArrayList.get(0).getDoctorName());
-                            visit.setAddedBy(bookAppointmentArrayList.get(0).getID());
+                            visit.setVisitTypeID(SelectedVisitTypeID);
+                            visit.setVisitTypeServiceID(SelectedServiceID);
+                            visit.setDepartmentID(SelectedDepartmentID);
+                            visit.setDoctorID(SelectedDoctorID);
+                            visit.setReferredDoctor(visit_book_reference_doctor_edt.getText().toString());
+                            visit.setComplaints(visit_book_remark_edt.getText().toString());
+                            visit.setAddedDateTime(CurrentDate);
                             visit.setVisitDateTime(CurrentDate);
+                            visit.setAddedBy(bookAppointmentArrayList.get(0).getID());
                             new VisitBookTask().execute();
                         }
                     })
@@ -351,7 +352,7 @@ public class VisitBookActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null);
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 Response response = serviceConsumer.GET(Constants.VISIT_SCHEDULE_DOCTOR_NAME_URL + doctorProfileArrayList.get(0).getUnitID() + "&DepartmentID=" + SelectedDepartmentID);
                 if (response != null) {
                     responseString = response.body().string();
@@ -435,7 +436,7 @@ public class VisitBookActivity extends AppCompatActivity {
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(visit);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.VISIT_BOOK_URL, jSonData);
                 if (response != null) {
                     responseString = response.body().string();

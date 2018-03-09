@@ -476,7 +476,7 @@ public class ComplaintsFragment extends Fragment {
             try {
                 objMapper = new JsonObjectMapper();
                 jSonData = objMapper.unMap(elComplaintsList);
-                serviceConsumer = new WebServiceConsumer(context, null, null);
+                serviceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = serviceConsumer.POST(Constants.COMPLAINTS_ADD_UPDATE_URL, jSonData);
                 if (response != null) {
                     responseCode = response.code();
@@ -555,7 +555,7 @@ public class ComplaintsFragment extends Fragment {
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                 response = webServiceConsumer.GET(Constants.COMPLAINT_LIST_URL + doctorProfileList.get(0).getUnitID()
                         + "&PatientID=" +
                         bookAppointmentArrayList.get(0).getPatientID()

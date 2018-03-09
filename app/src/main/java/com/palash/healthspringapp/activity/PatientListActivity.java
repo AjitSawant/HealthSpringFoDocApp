@@ -641,7 +641,7 @@ public class PatientListActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 jsonObjectMapper = new JsonObjectMapper();
-                webServiceConsumer = new WebServiceConsumer(context, null, null);
+                webServiceConsumer = new WebServiceConsumer(context, null, null, null);
                 ELFilter elFilter = new ELFilter();
                 elFilter.setUnitID(doctorProfileList.get(0).getUnitID());
                 elFilter.setSelectedDoctorID(doctorProfileList.get(0).getDoctorID());

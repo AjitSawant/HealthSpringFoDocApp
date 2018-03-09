@@ -12,17 +12,59 @@
         android:layout_width="240dp"
         android:layout_height="64dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="24dp"
+        android:layout_marginTop="30dp"
         android:src="@drawable/ic_logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center"
         android:background="@drawable/border_bluedark"
+        android:orientation="vertical"
         android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4sp"
+            android:layout_marginTop="2sp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login As"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/login_type_doctor_rbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="Doctor"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/login_type_front_office_user_rbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Front User"
+                    android:textSize="11sp" />
+            </RadioGroup>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,13 +82,13 @@
                 style="@style/TextLabel_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
                 android:background="@drawable/border_lighter_gray"
+                android:paddingBottom="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="2dp"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1">
+                android:paddingTop="8dp">
 
                 <EditText
                     android:id="@+id/login_edt_username"
@@ -54,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@string/prompt_email"
+                    android:text="Kushilab"
                     android:maxLines="1"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp"
@@ -71,8 +114,8 @@
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="4dp"
-            android:visibility="gone"
-            android:background="@color/calendar_divider" />
+            android:background="@color/calendar_divider"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,12 +134,12 @@
                 style="@style/TextLabel_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:background="@drawable/border_lighter_gray"
+                android:paddingBottom="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="2dp"
-                android:layout_marginLeft="8dp">
+                android:paddingTop="8dp">
 
                 <EditText
                     android:id="@+id/login_edt_password"
@@ -104,6 +147,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@string/prompt_password"
+                    android:text="Kuhusona1"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:paddingTop="4dp"
@@ -120,19 +164,19 @@
             android:layout_height="0.1dp"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="32dp"
-            android:visibility="gone"
-            android:background="@color/calendar_divider" />
+            android:background="@color/calendar_divider"
+            android:visibility="gone" />
 
         <CheckBox
             android:id="@+id/login_chkbx_remember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="Remember me"
-            android:paddingLeft="2dp"
             android:layout_marginTop="14dp"
-            android:textSize="12sp"
+            android:checked="false"
+            android:paddingLeft="2dp"
+            android:text="Remember me"
             android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
             app:buttonTint="@color/blue_box" />
 
         <Button
