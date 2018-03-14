@@ -2175,14 +2175,13 @@ public class DatabaseAdapter {
             return rowId;
         }
 
-        public ArrayList<Department> listAll() {
+        public ArrayList<Department> listAll(String UnitID) {
             ArrayList<Department> listDepartment = null;
             Cursor result = null;
             try {
                 SQLiteDatabase db = databaseContract.open();
-                result = db.query(DatabaseContract.Department.TABLE_NAME,
-                        projection, null,
-                        null, null, null,
+                String whereClause = DatabaseContract.Department.COLUMN_NAME_UnitID + "='" + UnitID + "'";
+                result = db.query(DatabaseContract.Department.TABLE_NAME,projection, whereClause,null, null, null,
                         DatabaseContract.Department.DEFAULT_SORT_ORDER);
                 listDepartment = CursorToArrayList(result);
             } catch (SQLException e) {

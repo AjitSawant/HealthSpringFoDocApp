@@ -224,7 +224,6 @@ public class RegistrationDashActivity extends AppCompatActivity {
                 localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_CREATED_201) {
                     localSetting.showSuccessAlert(context, getResources().getString(R.string.app_name), "Patient registered successfully!");
-                    finish();
                 } else if (responseCode == Constants.HTTP_AMBIGUOUS_300) {
                     localSetting.showWarningAlert(context, context.getResources().getString(R.string.opps_alert), "Patient already exits!");
                 } else {

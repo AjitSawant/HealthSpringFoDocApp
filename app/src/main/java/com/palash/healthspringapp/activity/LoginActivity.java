@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.palash.healthspringapp.R;
@@ -23,6 +24,7 @@ import com.palash.healthspringapp.api.WebServiceConsumer;
 import com.palash.healthspringapp.database.DatabaseAdapter;
 import com.palash.healthspringapp.database.DatabaseContract;
 import com.palash.healthspringapp.entity.DoctorProfile;
+import com.palash.healthspringapp.entity.ELForgotPassword;
 import com.palash.healthspringapp.utilities.Constants;
 import com.palash.healthspringapp.utilities.LocalSetting;
 import com.palash.healthspringapp.utilities.TransparentProgressDialog;
@@ -40,11 +42,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText login_edt_username;
     private EditText login_edt_password;
     private Button login_btn_login;
+    private TextView forgot_password_btn;
     private CheckBox login_chkbx_remember;
     private RadioButton login_type_front_office_user_rbtn;
     private RadioButton login_type_doctor_rbtn;
 
     private ArrayList<DoctorProfile> listProfile;
+    private ArrayList<ELForgotPassword> elForgotPasswordArrayList;
 
     private String savedUserName;
     private String savedUserPassword;
@@ -91,10 +95,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             login_edt_username = (EditText) findViewById(R.id.login_edt_username);
             login_edt_password = (EditText) findViewById(R.id.login_edt_password);
             login_btn_login = (Button) findViewById(R.id.login_btn_login);
+            forgot_password_btn = (TextView) findViewById(R.id.forgot_password_btn);
             login_chkbx_remember = (CheckBox) findViewById(R.id.login_chkbx_remember);
             login_type_front_office_user_rbtn = (RadioButton) findViewById(R.id.login_type_front_office_user_rbtn);
             login_type_doctor_rbtn = (RadioButton) findViewById(R.id.login_type_doctor_rbtn);
             login_btn_login.setOnClickListener(this);
+            forgot_password_btn.setOnClickListener(this);
 
             ShowLogin();
         } catch (Exception e) {
@@ -149,6 +155,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (Validate()) {
                     if (localSetting.isNetworkAvailable(context)) {
                         new LoginTask().execute();
+                    } else {
+                        Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case R.id.forgot_password_btn:
+                savedUserName = login_edt_username.getText().toString();
+                isFrontOfficeUser = login_type_front_office_user_rbtn.isChecked();
+                if (login_edt_username.getText().toString().equals("")) {
+                    Validate.Msgshow(context, "Please enter username.");
+                } else {
+                    if (localSetting.isNetworkAvailable(context)) {
+                        new ValidUserTask().execute();
                     } else {
                         Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
                     }
@@ -263,6 +282,77 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public class ValidUserTask extends AsyncTask<Void, Void, String> {
+        private JsonObjectMapper objectMapper;
+        String responseString = "";
+        String responseMsg = "";
+        String jSonData = "";
+        private Response response = null;
+        private int responseCode = 0;
+        private TransparentProgressDialog progressDialog = null;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = localSetting.showDialog(context);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, "", "", "");
+                objectMapper = new JsonObjectMapper();
+
+                String mLoginByFrontOfficeUser = "0";
+                if (isFrontOfficeUser == true) {
+                    mLoginByFrontOfficeUser = "1";
+                } else {
+                    mLoginByFrontOfficeUser = "0";
+                }
+
+                ELForgotPassword elForgotPassord = new ELForgotPassword();
+                elForgotPassord.setIsFontOfficeUser(mLoginByFrontOfficeUser);
+                elForgotPassord.setLoginName(savedUserName);
+
+                jSonData = objectMapper.unMap(elForgotPassord);
+                response = serviceConsumer.POST(Constants.CHECK_VALID_USER_URL, jSonData);
+
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    responseMsg = response.message().toString();
+                    Log.d(Constants.TAG, "Response code:" + responseCode);
+                    Log.d(Constants.TAG, "Response string:" + responseString);
+                    Log.d(Constants.TAG, "Response Msg:" + responseMsg);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            localSetting.hideDialog(progressDialog);
+            if (responseCode == Constants.HTTP_OK_200 && responseMsg.equals("OK")) {
+                try {
+                    elForgotPasswordArrayList = objectMapper.map(responseString, ELForgotPassword.class);
+                    if (elForgotPasswordArrayList != null && elForgotPasswordArrayList.size() > 0) {
+                        startActivity(new Intent(context, ForgotPasswordActivity.class).putExtra("ForgotPasswordArrayList", elForgotPasswordArrayList));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else if(responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
+                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), "Username is invalid!");
+            } else {
+                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));
+            }
+            super.onPostExecute(result);
         }
     }
 }

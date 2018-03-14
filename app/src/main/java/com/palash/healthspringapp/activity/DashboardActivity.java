@@ -155,8 +155,20 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         TextDrawable drawable = TextDrawable.builder().buildRound(listProfile.get(0).getFirstName().charAt(0) + "".toString() + listProfile.get(0).getLastName().charAt(0) + "".toString(), Color.parseColor("#29B6F6"));
                         doctor_profile_image.setImageDrawable(drawable);
                         doctor_name.setText(listProfile.get(0).getFirstName() + " " + listProfile.get(0).getLastName());
-                        doctor_education.setText(listProfile.get(0).getEducation());
-                        doctor_email.setText(listProfile.get(0).getEmailId());
+
+                        if (listProfile.get(0).getEducation() != null && listProfile.get(0).getEducation().length() > 0) {
+                            doctor_education.setText(listProfile.get(0).getEducation());
+                            doctor_education.setVisibility(View.VISIBLE);
+                        } else {
+                            doctor_education.setVisibility(View.GONE);
+                        }
+
+                        if (listProfile.get(0).getEmailId() != null && listProfile.get(0).getEmailId().length() > 0) {
+                            doctor_email.setText(listProfile.get(0).getEmailId());
+                            doctor_email.setVisibility(View.VISIBLE);
+                        } else {
+                            doctor_email.setVisibility(View.GONE);
+                        }
                     }
                 }
 
@@ -181,8 +193,22 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         TextDrawable drawable = TextDrawable.builder().buildRound(listProfile.get(0).getFirstName().charAt(0) + "".toString() + listProfile.get(0).getLastName().charAt(0) + "".toString(), Color.parseColor("#29B6F6"));
                         doctor_profile_image.setImageDrawable(drawable);
                         doctor_name.setText(listProfile.get(0).getFirstName() + " " + listProfile.get(0).getLastName());
-                        doctor_education.setText(listProfile.get(0).getEducation());
-                        doctor_email.setText(listProfile.get(0).getEmailId());
+
+                        if (listProfile.get(0).getEducation() != null && listProfile.get(0).getEducation().length() > 0) {
+                            doctor_education.setText(listProfile.get(0).getEducation());
+                            doctor_education.setVisibility(View.VISIBLE);
+                        } else {
+                            doctor_education.setVisibility(View.GONE);
+
+                        }
+
+                        if (listProfile.get(0).getEmailId() != null && listProfile.get(0).getEmailId().length() > 0) {
+                            doctor_email.setText(listProfile.get(0).getEmailId());
+                            doctor_email.setVisibility(View.VISIBLE);
+                        } else {
+                            doctor_email.setVisibility(View.GONE);
+
+                        }
                     }
                 }
             };

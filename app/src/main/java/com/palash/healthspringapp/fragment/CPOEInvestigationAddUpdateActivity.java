@@ -30,6 +30,7 @@ import com.palash.healthspringapp.database.DatabaseContract;
 import com.palash.healthspringapp.entity.BookAppointment;
 import com.palash.healthspringapp.entity.CPOEService;
 import com.palash.healthspringapp.entity.Department;
+import com.palash.healthspringapp.entity.DoctorProfile;
 import com.palash.healthspringapp.entity.Flag;
 import com.palash.healthspringapp.entity.Priority;
 import com.palash.healthspringapp.entity.ServiceName;
@@ -51,6 +52,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
     private LocalSetting localSetting;
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
+    private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
     private DatabaseAdapter.MasterFlagAdapter masterFlagAdapter;
     private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapterDB;
     private DatabaseAdapter.CPOEServiceAdapter cpoeServiceAdapterDB;
@@ -59,6 +61,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
 
     private CPOEService cpoeService;
     private Flag masterflag;
+    private ArrayList<DoctorProfile> doctorProfileArrayList;
     private ArrayList<BookAppointment> bookAppointmentArrayList;
     private ArrayList<CPOEService> cpoeServiceArrayList;
     private ArrayList<ServiceName> serviceNameArrayList;
@@ -104,6 +107,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         localSetting = new LocalSetting();
         databaseContract = new DatabaseContract(context);
         databaseAdapter = new DatabaseAdapter(databaseContract);
+        doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
         masterFlagAdapter = databaseAdapter.new MasterFlagAdapter();
         bookAppointmentAdapterDB = databaseAdapter.new BookAppointmentAdapter();
         bookAppointmentArrayList = bookAppointmentAdapterDB.listLast();
@@ -111,6 +115,7 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         priorityAdapterDB = databaseAdapter.new PriorityAdapter();
         departmentAdapterDB = databaseAdapter.new DepartmentAdapter();
 
+        doctorProfileArrayList = doctorProfileAdapter.listAll();
         cpoeService = new CPOEService();
     }
 
@@ -135,7 +140,10 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
         try {
             //serviceNameArrayList = serviceNameAdapterDB.listAll();
             priorityArrayList = priorityAdapterDB.listAll();
-            departmentArrayList = departmentAdapterDB.listAll();
+            if (doctorProfileArrayList != null && doctorProfileArrayList.size() > 0) {
+                departmentArrayList = departmentAdapterDB.listAll(doctorProfileArrayList.get(0).getUnitID());
+            }
+
             serviceNameArrayList = EMRNavigationDrawerActivity.serviceNameArrayList;
             if (serviceNameArrayList != null && serviceNameArrayList.size() > 0) {
 
@@ -197,6 +205,9 @@ public class CPOEInvestigationAddUpdateActivity extends AppCompatActivity implem
                 departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentArrayList);
                 cpoeservice_spinner_type.setAdapter(departmentAdapter);
                 departmentAdapter.notifyDataSetChanged();
+            }else{
+                departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentArrayList);
+                cpoeservice_spinner_type.setAdapter(departmentAdapter);
             }
         } catch (Exception e) {
             e.printStackTrace();

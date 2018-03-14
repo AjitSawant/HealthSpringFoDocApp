@@ -161,7 +161,10 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
 
     private void SetSpinnerAdapter() {
         try {
-            departmentArrayList = departmentAdapterDB.listAll();
+            if (doctorProfileList != null && doctorProfileList.size() > 0) {
+                departmentArrayList = departmentAdapterDB.listAll(doctorProfileAdapter.listAll().get(0).getUnitID());
+            }
+
             referralServiceNameArrayList = EMRNavigationDrawerActivity.referralServiceNameArrayList;
             if (referralServiceNameArrayList != null && referralServiceNameArrayList.size() > 0) {
 
@@ -247,6 +250,9 @@ public class ReferralAddUpdateActivity extends AppCompatActivity implements View
                         // TODO Auto-generated method stub
                     }
                 });
+            }else{
+                departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentArrayList);
+                referral_spinner_department.setAdapter(departmentAdapter);
             }
         } catch (Exception e) {
             e.printStackTrace();

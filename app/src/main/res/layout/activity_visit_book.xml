@@ -48,7 +48,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.7"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -107,7 +107,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.7"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -197,8 +197,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginRight="4dp"
-                            android:src="@android:drawable/ic_menu_my_calendar"/>
+                            android:layout_marginRight="6dp"
+                            android:src="@android:drawable/ic_menu_my_calendar" />
 
                         <android.support.design.widget.TextInputLayout
                             style="@style/TextLabel_setting"
@@ -230,9 +230,9 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center_vertical"
-                            android:tint="@color/dark_gray"
-                            android:layout_marginRight="4dp"
-                            android:src="@android:drawable/ic_lock_idle_alarm"/>
+                            android:layout_marginRight="6dp"
+                            android:src="@android:drawable/ic_lock_idle_alarm"
+                            android:tint="@color/dark_gray" />
 
                         <android.support.design.widget.TextInputLayout
                             style="@style/TextLabel_setting"
@@ -312,6 +312,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_visit_book_spinner_department"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -368,6 +369,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_visit_book_spinner_doctor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -451,8 +453,8 @@
                             android:layout_marginRight="2dp"
                             android:gravity="center_vertical"
                             android:text="*"
-                            android:visibility="invisible"
-                            android:textColor="@android:color/holo_red_dark" />
+                            android:textColor="@android:color/holo_red_dark"
+                            android:visibility="invisible" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

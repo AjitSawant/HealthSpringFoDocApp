@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.SchedulerManager;
 import com.palash.healthspringapp.R;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 
@@ -77,6 +79,8 @@ public class VisitBookActivity extends AppCompatActivity {
     private MaterialSpinner visit_book_spinner_doctor;
     private EditText visit_book_remark_edt;
     private EditText visit_book_reference_doctor_edt;
+    private LinearLayout layout_visit_book_spinner_department;
+    private LinearLayout layout_visit_book_spinner_doctor;
 
     private SpinnerAdapter.VisitTypeListAdapter visitTypeListAdapter;
     private SpinnerAdapter.DepartmentAdapter departmentAdapter;
@@ -95,6 +99,7 @@ public class VisitBookActivity extends AppCompatActivity {
         InitSetting();
         InitView();
         InitAdapter();
+        isLoginAsDoctor();
     }
 
     private void InitSetting() {
@@ -133,6 +138,9 @@ public class VisitBookActivity extends AppCompatActivity {
             visit_book_remark_edt = (EditText) findViewById(R.id.visit_book_remark_edt);
             visit_book_reference_doctor_edt = (EditText) findViewById(R.id.visit_book_reference_doctor_edt);
 
+            layout_visit_book_spinner_department = (LinearLayout) findViewById(R.id.layout_visit_book_spinner_department);
+            layout_visit_book_spinner_doctor = (LinearLayout) findViewById(R.id.layout_visit_book_spinner_doctor);
+
             Bindview();
             disableView();
         } catch (Exception e) {
@@ -140,10 +148,26 @@ public class VisitBookActivity extends AppCompatActivity {
         }
     }
 
+    private void isLoginAsDoctor() {
+        if (doctorProfileArrayList != null && doctorProfileArrayList.size() > 0) {
+            if (LocalSetting.isFrontOfficeUser(doctorProfileArrayList.get(0))) {
+                layout_visit_book_spinner_department.setVisibility(View.VISIBLE);
+                layout_visit_book_spinner_doctor.setVisibility(View.VISIBLE);
+            } else {
+                layout_visit_book_spinner_doctor.setVisibility(View.GONE);
+
+                //SelectedDepartmentID = doctorProfileArrayList.get(0).getDepartmentID();
+                SelectedDoctorID = doctorProfileArrayList.get(0).getDoctorID();
+            }
+        }
+    }
+
     private void InitAdapter() {
         try {
             elVisitTypeArrayList = visitTypeMasterAdapterDB.listAll();
-            departmentslist = departmentAdapterBD.listAll();
+            if (doctorProfileArrayList != null && doctorProfileArrayList.size() > 0) {
+                departmentslist = departmentAdapterBD.listAll(doctorProfileArrayList.get(0).getUnitID());
+            }
 
             if (elVisitTypeArrayList != null && elVisitTypeArrayList.size() > 0) {
                 visitTypeListAdapter = new SpinnerAdapter.VisitTypeListAdapter(context, elVisitTypeArrayList);
@@ -169,6 +193,9 @@ public class VisitBookActivity extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
+            } else {
+                visitTypeListAdapter = new SpinnerAdapter.VisitTypeListAdapter(context, elVisitTypeArrayList);
+                visit_book_spinner_visit_type.setAdapter(visitTypeListAdapter);
             }
 
             if (departmentslist != null && departmentslist.size() > 0) {
@@ -200,19 +227,10 @@ public class VisitBookActivity extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
+            } else {
+                departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentslist);
+                visit_book_spinner_department.setAdapter(departmentAdapter);
             }
-
-            /*if (appointmentReasonslist != null && appointmentReasonslist.size() > 0) {
-                appointmentReasonAdapter = new SpinnerAdapter.AppointmentReasonAdapter(context, appointmentReasonslist);
-                visit_book_spinner_appointmetreason.setAdapter(appointmentReasonAdapter);
-                appointmentReasonAdapter.notifyDataSetChanged();
-            }
-
-            if (complaintslist != null && complaintslist.size() > 0) {
-                complaintAdapter = new SpinnerAdapter.ComplaintAdapter(context, complaintslist);
-                visit_book_spinner_complaint.setAdapter(complaintAdapter);
-                complaintAdapter.notifyDataSetChanged();
-            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -245,11 +263,13 @@ public class VisitBookActivity extends AppCompatActivity {
             visit_book_edt_patient_contact.setText(bookAppointmentArrayList.get(0).getContact1());
             visit_book_edt_patient_mail.setText(bookAppointmentArrayList.get(0).getEmailId());
 
-            if (bookAppointmentArrayList.get(0).getGenderID() != null && bookAppointmentArrayList.get(0).getGenderID().trim().length() > 0) {
-                if (bookAppointmentArrayList.get(0).getGenderID().equals("1")) {
+            if (bookAppointmentArrayList.get(0).getGenderID() != null && bookAppointmentArrayList.get(0).getGenderID().length() > 0) {
+                if (bookAppointmentArrayList.get(0).getGenderID().equals("1") || bookAppointmentArrayList.get(0).getGenderID().equals("True")) {
                     visit_book_edt_patient_gender.setText("Male");
-                } else {
+                } else if (bookAppointmentArrayList.get(0).getGenderID().equals("2")) {
                     visit_book_edt_patient_gender.setText("Female");
+                } else if (bookAppointmentArrayList.get(0).getGenderID().equals("3")) {
+                    visit_book_edt_patient_gender.setText("Other");
                 }
             }
 
@@ -266,32 +286,36 @@ public class VisitBookActivity extends AppCompatActivity {
 
     private void VisitBookBindView() {
         try {
-            new AlertDialog
-                    .Builder(context)
-                    .setTitle(getResources().getString(R.string.app_name))
-                    .setMessage("Do you really want to book visit?")
-                    .setCancelable(true)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Are you sure?")
+                    .setContentText("Do you really want to book visit?")
+                    .setConfirmText("Yes")
+                    .setCancelText("No")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            visit = new Visit();
-                            visit.setUnitID(bookAppointmentArrayList.get(0).getDoctorUnitID());
-                            visit.setPatientID(bookAppointmentArrayList.get(0).getPatientID());
-                            visit.setPatientUnitID(bookAppointmentArrayList.get(0).getUnitID());
-                            visit.setVisitTypeID(SelectedVisitTypeID);
-                            visit.setVisitTypeServiceID(SelectedServiceID);
-                            visit.setDepartmentID(SelectedDepartmentID);
-                            visit.setDoctorID(SelectedDoctorID);
-                            visit.setReferredDoctor(visit_book_reference_doctor_edt.getText().toString());
-                            visit.setComplaints(visit_book_remark_edt.getText().toString());
-                            visit.setAddedDateTime(CurrentDate);
-                            visit.setVisitDateTime(CurrentDate);
-                            visit.setAddedBy(bookAppointmentArrayList.get(0).getID());
-                            new VisitBookTask().execute();
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            if (localSetting.isNetworkAvailable(context)) {
+                                visit = new Visit();
+                                visit.setUnitID(bookAppointmentArrayList.get(0).getDoctorUnitID());
+                                visit.setPatientID(bookAppointmentArrayList.get(0).getPatientID());
+                                visit.setPatientUnitID(bookAppointmentArrayList.get(0).getUnitID());
+                                visit.setVisitTypeID(SelectedVisitTypeID);
+                                visit.setVisitTypeServiceID(SelectedServiceID);
+                                visit.setDepartmentID(SelectedDepartmentID);
+                                visit.setDoctorID(SelectedDoctorID);
+                                visit.setReferredDoctor(visit_book_reference_doctor_edt.getText().toString());
+                                visit.setComplaints(visit_book_remark_edt.getText().toString());
+                                visit.setAddedDateTime(CurrentDate);
+                                visit.setVisitDateTime(CurrentDate);
+                                visit.setAddedBy(bookAppointmentArrayList.get(0).getID());
+                                new VisitBookTask().execute();
+                            } else {
+                                Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     })
-                    .setNegativeButton(android.R.string.no, null)
-                    .setIcon(R.mipmap.ic_launcher)
+                    .setCancelClickListener(null)
                     .show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -453,24 +477,25 @@ public class VisitBookActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
+                localSetting.hideDialog(progressDialog);
                 if (responseCode == Constants.HTTP_OK_200) {
-                    localSetting.hideDialog(progressDialog);
-                    new AlertDialog
-                            .Builder(context)
-                            .setTitle(getResources().getString(R.string.app_name))
-                            .setMessage("Visit booked successfully.")
-                            .setCancelable(true)
-                            .setPositiveButton("Go to Patient Queue", new DialogInterface.OnClickListener() {
+                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(getResources().getString(R.string.app_name))
+                            .setContentText("Visit booked successfully.")
+                            .setConfirmText("Go to Queue")
+                            .setCancelText("No")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
                                     startActivity(new Intent(context, PatientQueueActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                     finish();
                                 }
                             })
-                            .setIcon(R.mipmap.ic_launcher).show();
+                            .setCancelClickListener(null)
+                            .show();
                 } else {
-                    localSetting.hideDialog(progressDialog);
-                    localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+                    localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

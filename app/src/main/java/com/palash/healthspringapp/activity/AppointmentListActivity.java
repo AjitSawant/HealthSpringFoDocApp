@@ -147,8 +147,10 @@ public class AppointmentListActivity extends AppCompatActivity {
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
             doctorProfileList = doctorProfileAdapter.listAll();
-            departmentslist = departmentAdapterBD.listAll();
 
+            if (doctorProfileList != null && doctorProfileList.size() > 0) {
+                departmentslist = departmentAdapterBD.listAll(doctorProfileList.get(0).getUnitID());
+            }
             elAppointment = new Appointment();
         } catch (Exception e) {
             e.printStackTrace();

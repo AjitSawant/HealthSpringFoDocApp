@@ -107,8 +107,8 @@ public class SplashScreenActivity
     @Override
     protected void onResume() {
         super.onResume();
-//        startActivity(new Intent(context, DashboardActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-//        finish();
+        //startActivity(new Intent(context, DashboardActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        //finish();
         if (localSetting.isNetworkAvailable(context)) {
             new GetAppVesion().execute();
         } else {

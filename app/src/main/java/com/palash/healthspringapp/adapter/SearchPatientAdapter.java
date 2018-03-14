@@ -205,7 +205,7 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                     bookAppointment.setMiddleName(elPatient.getMiddleName());
                     bookAppointment.setEmailId(elPatient.getEmail());
                     bookAppointment.setContact1(elPatient.getContactNo1());
-                    bookAppointment.setGenderID(elPatient.getGender());
+                    bookAppointment.setGenderID(elPatient.getGenderID());
                     bookAppointment.setBloodGroupID(elPatient.getBloodGroup());
                     bookAppointment.setDOB(elPatient.getDateOfBirth());
                     bookAppointment.setMaritalStatusID(elPatient.getMaritalStatus());

@@ -96,11 +96,11 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@string/prompt_email"
-                    android:text="Kushilab"
                     android:maxLines="1"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
                     android:singleLine="true"
+                    android:text="Kushilab"
                     android:textColor="@color/text_color"
                     android:textSize="14sp" />
 
@@ -139,6 +139,7 @@
                 android:paddingBottom="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                app:passwordToggleEnabled="true"
                 android:paddingTop="8dp">
 
                 <EditText
@@ -149,8 +150,8 @@
                     android:hint="@string/prompt_password"
                     android:text="Kuhusona1"
                     android:inputType="textPassword"
+                    android:password="true"
                     android:maxLines="1"
-                    android:paddingTop="4dp"
                     android:singleLine="true"
                     android:textColor="@color/text_color"
                     android:textSize="14sp" />
@@ -167,17 +168,36 @@
             android:background="@color/calendar_divider"
             android:visibility="gone" />
 
-        <CheckBox
-            android:id="@+id/login_chkbx_remember"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:checked="false"
-            android:paddingLeft="2dp"
-            android:text="Remember me"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
-            app:buttonTint="@color/blue_box" />
+            android:layout_marginTop="14dp">
+
+            <CheckBox
+                android:id="@+id/login_chkbx_remember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:paddingLeft="2dp"
+                android:text="Remember me"
+                android:layout_weight="1"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:buttonTint="@color/blue_box" />
+
+            <TextView
+                android:id="@+id/forgot_password_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Forgot Password"
+                android:textSize="12sp"
+                android:padding="4dp"
+                android:textColor="@android:color/holo_red_light"/>
+
+        </LinearLayout>
+
+
 
         <Button
             android:id="@+id/login_btn_login"

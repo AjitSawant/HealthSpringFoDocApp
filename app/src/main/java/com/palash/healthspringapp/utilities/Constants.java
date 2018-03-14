@@ -27,7 +27,8 @@ public class Constants {
     public static boolean isFromLogin = false;
 
     //localhost Test URL
-    public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
+    //public static final String BASE_URL = "http://192.168.1.133/HealthSpringDocApp/";
+    public static final String BASE_URL = "http://103.229.5.91/HealthSpringFOApp_Test/";
 
     // Test URL
     //public static final String BASE_URL = "http://103.229.5.99/HealthSpringDocApp/";
@@ -37,7 +38,7 @@ public class Constants {
     public static final String Patient_ICE_URL = "http://103.229.5.99/healthspring_test/Reports/OPD/PatientEmergencyForm.aspx?UnitID=";
     public static final String FTP_Link = "ftp://103.229.5.99:2121/&FtpUserName=customerexperience@healthspring.in&FtpPassword=Health$pring&MrNumber=";
 
-    //Live URL
+    // Live URL
     /*public static final String BASE_URL = "http://103.229.5.91/HealthSpringDocApp/";
     public static final String PATIENT_CONSOLE_DOCUMENT_FTP_PATH_URL = "http://ftp://103.229.5.91:2121";
     public static final String PATIENT_VISIT_SUMMARY_URL = "http://103.229.5.91/healthspring/Reports/EMR/PatientEMRReport.aspx?UnitID=";
@@ -48,6 +49,7 @@ public class Constants {
     public static final String LOGIN_URL = BASE_URL + "Profile/DoctorProfile";
     public static final String APP_VERSION_URL = BASE_URL + "Master/AppVersion";
     public static final String PATIENT_LIST_URL = BASE_URL + "Patient/PatientList";
+    public static final String CHECK_VALID_USER_URL = BASE_URL + "ForgotPassword/CheckValidUser";
     public static final String TIME_SLOT_URL = BASE_URL + "timeslot/timeslot";
     public static final String PATIENT_REGISTRATION_URL = BASE_URL + "Patient/PatientRegistration";
 

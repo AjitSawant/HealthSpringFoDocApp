@@ -160,8 +160,11 @@ public class PatientQueueActivity extends AppCompatActivity {
             departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
             visitTypeMasterAdapterDB = databaseAdapter.new VisitTypeMasterAdapter();
             doctorProfileList = doctorProfileAdapter.listAll();
-            departmentslist = departmentAdapterBD.listAll();
             elVisitTypeArrayList = visitTypeMasterAdapterDB.listAll();
+
+            if (doctorProfileList != null && doctorProfileList.size() > 0) {
+                departmentslist = departmentAdapterBD.listAll(doctorProfileList.get(0).getUnitID());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

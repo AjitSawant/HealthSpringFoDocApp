@@ -170,7 +170,7 @@ public class AppSettingActivity extends AppCompatActivity {
 
                             editor.putString("CompanyID", CompanyID);
                             if (CompanyID.equals("0")) {
-                                editor.putString("CompanyName", "");
+                                editor.putString("CompanyName", "Self");
                             } else {
                                 editor.putString("CompanyName", CompanyName);
                             }
@@ -222,7 +222,7 @@ public class AppSettingActivity extends AppCompatActivity {
                 patient_reg_category_L1.setSelection(2);
 
                 if (elPatientCompanyArrayList.size() > 0) {
-                    patient_reg_category_company.setSelection(1);
+                    //patient_reg_category_company.setSelection(1);
                 }
 
                 patient_reg_category_L1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -248,7 +248,7 @@ public class AppSettingActivity extends AppCompatActivity {
                         } else {
                             CompanyID = "0";
                             if (elPatientCompanyArrayList.size() > 0) {
-                                patient_reg_category_company.setSelection(1);
+                                //patient_reg_category_company.setSelection(1);
                             }
                             patient_reg_category_company.setEnabled(false);
                             patient_reg_category_company.setClickable(false);
@@ -276,7 +276,7 @@ public class AppSettingActivity extends AppCompatActivity {
                 patientCompanyListAdapter = new SpinnerAdapter.CompanyListAdapter(context, elPatientCompanyArrayList);
                 patient_reg_category_company.setAdapter(patientCompanyListAdapter);
                 patientCompanyListAdapter.notifyDataSetChanged();
-                patient_reg_category_company.setSelection(1);
+                //patient_reg_category_company.setSelection(1);
 
                 patient_reg_category_company.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -360,66 +360,6 @@ public class AppSettingActivity extends AppCompatActivity {
         return true;
     }
 
-    public static Patient SponsorInformation() {
-        Patient patient = new Patient();
-        try {
-            patient.setCategoryL1ID(CategoryL1ID);
-            patient.setCompanyID(CompanyID);
-            patient.setCategoryL2ID(CategoryL2ID);
-            patient.setCategoryL3ID(CategoryL3ID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return patient;
-    }
-
-    public class CompanyNameListTask extends AsyncTask<Void, Void, String> {
-        private JsonObjectMapper objectMapper;
-        private String responseString = "";
-        private int responseCode = 0;
-        private TransparentProgressDialog progressDialog = null;
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = localSetting.showDialog(context);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
-                Response response = serviceConsumer.GET(Constants.COMPANY_NAME_URL);
-                if (response != null) {
-                    responseString = response.body().string();
-                    responseCode = response.code();
-                    Log.d(Constants.TAG, "Response code:" + responseCode);
-                    Log.d(Constants.TAG, "Response string:" + responseString);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            localSetting.hideDialog(progressDialog);
-            if (responseCode == Constants.HTTP_OK_200) {
-                try {
-                    objectMapper = new JsonObjectMapper();
-                    elPatientCompanyArrayList = objectMapper.map(responseString, ELCompanyName.class);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                localSetting.alertbox(context, localSetting.handleError(responseCode), false);
-            }
-            super.onPostExecute(result);
-        }
-    }
 
     public class PatientCategoryL2Task extends AsyncTask<Void, Void, String> {
         private JsonObjectMapper objectMapper;
@@ -464,9 +404,10 @@ public class AppSettingActivity extends AppCompatActivity {
                         patientCatogoryL2ListAdapter = new SpinnerAdapter.PatientCatogoryListAdapter(context, elPatientCategoryL2ArrayList);
                         patient_reg_category_L2.setAdapter(patientCatogoryL2ListAdapter);
                         patientCatogoryL2ListAdapter.notifyDataSetChanged();
-                        if (CategoryL1ID.equals("2")) {
+
+                        /*if (CategoryL1ID.equals("2")) {
                             patient_reg_category_L2.setSelection(1);
-                        }
+                        }*/
 
                         patient_reg_category_L2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
@@ -602,4 +543,53 @@ public class AppSettingActivity extends AppCompatActivity {
             super.onPostExecute(result);
         }
     }
+
+    /*public class CompanyNameListTask extends AsyncTask<Void, Void, String> {
+        private JsonObjectMapper objectMapper;
+        private String responseString = "";
+        private int responseCode = 0;
+        private TransparentProgressDialog progressDialog = null;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = localSetting.showDialog(context);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
+                Response response = serviceConsumer.GET(Constants.COMPANY_NAME_URL);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    Log.d(Constants.TAG, "Response code:" + responseCode);
+                    Log.d(Constants.TAG, "Response string:" + responseString);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            localSetting.hideDialog(progressDialog);
+            if (responseCode == Constants.HTTP_OK_200) {
+                try {
+                    objectMapper = new JsonObjectMapper();
+                    elPatientCompanyArrayList = objectMapper.map(responseString, ELCompanyName.class);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                localSetting.alertbox(context, localSetting.handleError(responseCode), false);
+            }
+            super.onPostExecute(result);
+        }
+    }*/
+
 }

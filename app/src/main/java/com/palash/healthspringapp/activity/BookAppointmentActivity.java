@@ -104,12 +104,15 @@ public class BookAppointmentActivity extends AppCompatActivity {
             appointmentReasonAdapterDB = databaseAdapter.new AppointmentReasonAdapter();
             appointmentReasonslist = appointmentReasonAdapterDB.listAll();
             departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
-            departmentslist = departmentAdapterBD.listAll();
             complaintAdapterBD = databaseAdapter.new ComplaintAdapter();
-            //complaintslist = complaintAdapterBD.listAll();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
             doctorProfileArrayList = doctorProfileAdapter.listAll();
             bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
+
+            if (doctorProfileArrayList != null && doctorProfileArrayList.size() > 0) {
+                departmentslist = departmentAdapterBD.listAll(doctorProfileArrayList.get(0).getUnitID());
+            }
+
             flagAdapter = databaseAdapter.new FlagAdapter();
         } catch (Exception e) {
             e.printStackTrace();
