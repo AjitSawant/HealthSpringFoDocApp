@@ -21,7 +21,7 @@
         android:layout_weight="8"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/ten_margin">
+        android:paddingLeft="8dp">
 
         <TextView
             android:id="@+id/row_search_patient_name_txt"
@@ -46,14 +46,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/row_search_patient_unit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:textColor="@color/colorGreen"
-            android:textSize="12sp" />
-
-        <TextView
             android:id="@+id/row_search_patient_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,6 +60,17 @@
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/row_search_patient_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGreen"
+            android:text="fgndfngndfb"
+            android:padding="4dp"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:textSize="11sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

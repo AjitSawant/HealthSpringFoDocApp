@@ -157,6 +157,7 @@
     <string name="network_alert">Network is unreachable. Please check your network and try again.</string>
     <string name="booking_alert">Appointment booking functionality is not available for Head office</string>
     <string name="register_alert">Patient registration functionality is not available for Head office</string>
+    <string name="visit_alert">Visit booking functionality is not available for Head office.e</string>
     <string name="opps_alert">Oops...</string>
     <string name="login_alert">Invalid username or password. Please try again</string>
     <string name="filter_date_alter">"Date difference should be maximum 7 days"</string>

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="@dimen/ten_margin">
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/five_margin"
+                android:layout_marginBottom="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
@@ -85,7 +85,7 @@
                     android:id="@+id/layout_appointments"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/five_margin"
+                    android:layout_marginRight="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bnt_dashboard"
                     android:orientation="vertical">
@@ -103,6 +103,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="6dp"
+                        android:layout_marginBottom="4dp"
                         android:text="@string/dashboard_appointments"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color"
@@ -114,7 +115,7 @@
                     android:id="@+id/layout_patient_queue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/five_margin"
+                    android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bnt_dashboard"
                     android:orientation="vertical">
@@ -132,6 +133,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="6dp"
+                        android:layout_marginBottom="4dp"
                         android:text="@string/dashboard_patientqueue"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color"
@@ -144,7 +146,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/five_margin"
+                android:layout_marginTop="4dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -181,7 +183,7 @@
                     android:id="@+id/layout_search_patient"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/five_margin"
+                    android:layout_marginRight="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bnt_dashboard"
                     android:orientation="vertical">
@@ -199,6 +201,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="6dp"
+                        android:layout_marginBottom="4dp"
                         android:text="@string/dashboard_searchpatient"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color"
@@ -210,7 +213,7 @@
                     android:id="@+id/layout_register_patient"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/five_margin"
+                    android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bnt_dashboard"
                     android:orientation="vertical">
@@ -220,7 +223,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:padding="16dp"
-                        android:src="@drawable/dash_search_patient" />
+                        android:src="@drawable/dash_patient_registration" />
 
                     <TextView
                         android:id="@+id/dash_tv_register_patient"
@@ -228,6 +231,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="6dp"
+                        android:layout_marginBottom="4dp"
                         android:text="@string/dashboard_patientregistration"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color"

@@ -161,7 +161,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:padding="12dp"
-                        android:src="@drawable/dash_search_patient" />
+                        android:src="@drawable/dash_patient_registration" />
 
                     <TextView
                         android:id="@+id/dash_tv_register_patient"
