@@ -61,6 +61,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
+                        app:passwordToggleEnabled="true"
                         android:layout_weight="1">
 
                         <EditText
@@ -72,8 +73,6 @@
                             android:imeOptions="actionNext"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:paddingBottom="4dp"
-                            android:paddingTop="4dp"
                             android:singleLine="true"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/small_text_size" />
@@ -110,6 +109,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
+                        app:passwordToggleEnabled="true"
                         android:layout_weight="1">
 
                         <EditText
@@ -121,8 +121,6 @@
                             android:imeOptions="actionNext"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:paddingBottom="4dp"
-                            android:paddingTop="4dp"
                             android:singleLine="true"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/small_text_size" />
@@ -159,6 +157,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
+                        app:passwordToggleEnabled="true"
                         android:layout_weight="1">
 
                         <EditText
@@ -170,8 +169,6 @@
                             android:imeOptions="actionDone"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:paddingBottom="4dp"
-                            android:paddingTop="4dp"
                             android:singleLine="true"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/small_text_size" />

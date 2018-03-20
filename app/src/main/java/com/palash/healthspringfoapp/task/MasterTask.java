@@ -233,84 +233,76 @@ public class MasterTask implements Task {
                                             if (doctorProfileList.get(0).getIsFrontOfficeUser().equals("1")) {
                                                 //Master data
                                                 masterdataflag = masterFlagAdapter.listCurrent();
-                                                masterdataflag.setMsg("Synchronizing Master");
+                                                masterdataflag.setMsg("Synch Master");
                                                 masterFlagAdapter.create(masterdataflag);
                                                 PrefixTask();
                                                 GenderTask();
                                                 HealthSpringMasterTask();
 
                                                 masterdataflag = masterFlagAdapter.listCurrent();
-                                                masterdataflag.setMsg("Synchronizing Patient category");
+                                                masterdataflag.setMsg("Synch Patient category");
                                                 masterFlagAdapter.create(masterdataflag);
                                                 PatientCategoryL1Task();
 
                                                 masterdataflag = masterFlagAdapter.listCurrent();
-                                                masterdataflag.setMsg("Synchronizing PCP Doctor Master");
+                                                masterdataflag.setMsg("Synch PCP Doctor Master");
                                                 masterFlagAdapter.create(masterdataflag);
                                                 //DoctorNameTask();
                                                 PCPDoctorTask();
 
                                                 masterdataflag = masterFlagAdapter.listCurrent();
-                                                masterdataflag.setMsg("Synchronizing Company Master");
+                                                masterdataflag.setMsg("Synch Company Master");
                                                 masterFlagAdapter.create(masterdataflag);
                                                 CompanyNameTask();
                                             }
                                         }
 
-                                        //CountryMasterTask();
-                                        //RegionMasterTask();
-                                        //StateMatserTask();
-                                        //CityMasterTask();
-
-                                        //MaritalStatusTask();
-                                        //BloodGroupTask();
-
                                         //Appointment related data
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Unit Master");
+                                        masterdataflag.setMsg("Synch Unit Master");
                                         masterFlagAdapter.create(masterdataflag);
                                         UnitMasterTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Visit Type Master");
+                                        masterdataflag.setMsg("Synch Visit Type Master");
                                         masterFlagAdapter.create(masterdataflag);
                                         VisitTypeTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Appointment Reason");
+                                        masterdataflag.setMsg("Synch Appointment Reason");
                                         masterFlagAdapter.create(masterdataflag);
                                         AppointmentReasonTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Complaints ");
+                                        masterdataflag.setMsg("Synch Complaints ");
                                         masterFlagAdapter.create(masterdataflag);
                                         ComplaintTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Department ");
+                                        masterdataflag.setMsg("Synch Department ");
                                         masterFlagAdapter.create(masterdataflag);
                                         DepartmentTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Specialization ");
+                                        masterdataflag.setMsg("Synch Specialization ");
                                         masterFlagAdapter.create(masterdataflag);
                                         SpecializationTask();
                                         DoctorTypeTask();
 
                                         //Vital data
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Vital");
+                                        masterdataflag.setMsg("Synch Vital");
                                         masterFlagAdapter.create(masterdataflag);
                                         VitalTask();
 
                                         //medicine related data
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Medicine Route");
+                                        masterdataflag.setMsg("Synch Medicine Route");
                                         masterFlagAdapter.create(masterdataflag);
                                         MedicienRouteTask();
 
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Medicine Frequency");
+                                        masterdataflag.setMsg("Synch Medicine Frequency");
                                         masterFlagAdapter.create(masterdataflag);
                                         MedicineFrequencyTask();
 
@@ -318,26 +310,27 @@ public class MasterTask implements Task {
                                         masterdataflag.setMsg("Synchronizing Medicine Instruction");
                                         masterFlagAdapter.create(masterdataflag);
                                         MedicienInstructionTask();
-//                                        masterdataflag = masterFlagAdapter.listCurrent();
-//                                        masterdataflag.setMsg("Synchronizing Medicine Name");
-//                                        masterFlagAdapter.create(masterdataflag);
-//                                        MedicienNameTask();
+
+                                        /*masterdataflag = masterFlagAdapter.listCurrent();
+                                        masterdataflag.setMsg("Synchronizing Medicine Name");
+                                        masterFlagAdapter.create(masterdataflag);
+                                        MedicienNameTask();*/
 
                                         /*masterdataflag = masterFlagAdapter.listCurrent();
                                         masterdataflag.setMsg("Synchronizing Molecules ");
                                         masterFlagAdapter.create(masterdataflag);
-                                        MoleculeTask();
-*/
+                                        MoleculeTask();*/
+
                                         //Diagnosis data
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Diagnosis Type");
+                                        masterdataflag.setMsg("Synch Diagnosis Type");
                                         masterFlagAdapter.create(masterdataflag);
                                         DaignosisTypeTask();
                                         //DiagnosisTask();
 
                                         //Service data
                                         masterdataflag = masterFlagAdapter.listCurrent();
-                                        masterdataflag.setMsg("Synchronizing Service");
+                                        masterdataflag.setMsg("Synch Service");
                                         masterFlagAdapter.create(masterdataflag);
                                         PriorityTask();
                                         //ServiceNameTask();

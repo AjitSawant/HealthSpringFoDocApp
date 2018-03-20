@@ -416,6 +416,7 @@ public class VisitBookActivity extends AppCompatActivity {
                         });
                     } else {
                         SelectedDoctorID = "0";
+                        elDoctorMasterArrayList = new ArrayList<>();
                         doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
                         visit_book_spinner_doctor.setAdapter(doctorNameListAdapter);
                     }
@@ -424,6 +425,7 @@ public class VisitBookActivity extends AppCompatActivity {
                 }
             } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
                 SelectedDoctorID = "0";
+                elDoctorMasterArrayList = new ArrayList<>();
                 doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
                 visit_book_spinner_doctor.setAdapter(doctorNameListAdapter);
             } else {
@@ -477,7 +479,7 @@ public class VisitBookActivity extends AppCompatActivity {
                             .setTitleText(getResources().getString(R.string.app_name))
                             .setContentText("Visit booked successfully.")
                             .setConfirmText("Go to Queue")
-                            .setCancelText("No")
+                            .setCancelText("Dashboard")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -486,7 +488,14 @@ public class VisitBookActivity extends AppCompatActivity {
                                     finish();
                                 }
                             })
-                            .setCancelClickListener(null)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    startActivity(new Intent(context, DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                    finish();
+                                }
+                            })
                             .show();
                 } else {
                     localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));

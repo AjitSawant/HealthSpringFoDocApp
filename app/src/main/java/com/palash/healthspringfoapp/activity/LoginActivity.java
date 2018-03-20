@@ -153,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(context, context.getResources().getString(R.string.network_alert), Toast.LENGTH_SHORT).show();
                     }
                 }
+                //startActivity(new Intent(context, ForgotPasswordActivity.class));
                 break;
         }
     }
@@ -199,7 +200,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected String doInBackground(Void... params) {
             try {
-
                 Log.d(Constants.TAG, "savedUserName:" + savedUserName);
                 Log.d(Constants.TAG, "savedUserPassword:" + savedUserPassword);
                 WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, savedUserName, savedUserPassword, "1");
@@ -226,7 +226,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     objectMapper = new JsonObjectMapper();
                     profileList = objectMapper.map(responseString, DoctorProfile.class);
                     if (profileList != null && profileList.size() > 0) {
-                        saveProfile(profileList.get(0));
+                        if (profileList.get(0).getStatus() != null && (profileList.get(0).getStatus().equals("0") || profileList.get(0).getStatus().equals("False"))) {
+                            localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), "Login User is deactivate. Please call administrator to activate.");
+                        } else if (profileList.get(0).getLocked() != null && (profileList.get(0).getLocked().equals("1") || profileList.get(0).getLocked().equals("True"))) {
+                            localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), "Login User is locked. Please call administrator to unlock.");
+                        } else {
+                            saveProfile(profileList.get(0));
+                        }
                     } else {
                         localSetting.alertbox(context, context.getResources().getString(R.string.login_alert), false);
                     }
@@ -309,7 +315,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     elForgotPasswordArrayList = objectMapper.map(responseString, ELForgotPassword.class);
                     if (elForgotPasswordArrayList != null && elForgotPasswordArrayList.size() > 0) {
-                        startActivity(new Intent(context, ForgotPasswordActivity.class).putExtra("ForgotPasswordArrayList", elForgotPasswordArrayList));
+                        if (elForgotPasswordArrayList.get(0).getStatus() != null && (elForgotPasswordArrayList.get(0).getStatus().equals("0") || elForgotPasswordArrayList.get(0).getStatus().equals("False"))) {
+                            localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), "Login User is deactivate. Please call administrator to activate.");
+                        } else if (elForgotPasswordArrayList.get(0).getLocked() != null && (elForgotPasswordArrayList.get(0).getLocked().equals("1") || elForgotPasswordArrayList.get(0).getLocked().equals("True"))) {
+                            localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), "Login User is locked. Please call administrator to unlock.");
+                        } else {
+                            startActivity(new Intent(context, ForgotPasswordActivity.class).putExtra("ForgotPasswordArrayList", elForgotPasswordArrayList));
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

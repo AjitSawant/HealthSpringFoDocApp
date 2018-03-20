@@ -23,6 +23,8 @@ public class ELForgotPassword implements Serializable {
     private String Password;
     private String AddedDateTime;
     private String clickflag;
+    private String Status;
+    private String Locked;
 
     @JsonProperty("UserID")
     public String getUserID() {
@@ -130,5 +132,23 @@ public class ELForgotPassword implements Serializable {
 
     public void setClickflag(String clickflag) {
         this.clickflag = clickflag;
+    }
+
+    @JsonProperty("Status")
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    @JsonProperty("Locked")
+    public String getLocked() {
+        return Locked;
+    }
+
+    public void setLocked(String locked) {
+        Locked = locked;
     }
 }

@@ -25,6 +25,8 @@ public class DoctorProfile {
     private String RememberMe;
     private String DepartmentID;
     private String IsFrontOfficeUser;
+    private String Status;
+    private String Locked;
 
     @JsonProperty("DepartmentID")
     public String getDepartmentID() {
@@ -195,5 +197,23 @@ public class DoctorProfile {
 
     public void setIsFrontOfficeUser(String isFrontOfficeUser) {
         IsFrontOfficeUser = isFrontOfficeUser;
+    }
+
+    @JsonProperty("Status")
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    @JsonProperty("Locked")
+    public String getLocked() {
+        return Locked;
+    }
+
+    public void setLocked(String locked) {
+        Locked = locked;
     }
 }

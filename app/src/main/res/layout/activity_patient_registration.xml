@@ -113,9 +113,9 @@
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:gravity="center_vertical"
                         android:hint="@string/profile_fname"
+                        android:inputType="textCapWords"
                         android:imeOptions="actionNext"
                         android:longClickable="false"
-                        android:inputType="textPersonName"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
                         android:textColor="@color/text_color"
@@ -149,7 +149,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/profile_lname"
                         android:imeOptions="actionNext"
-                        android:inputType="textPersonName"
+                        android:inputType="textCapWords"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
                         android:longClickable="false"
@@ -321,7 +321,6 @@
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="14sp" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -347,11 +346,10 @@
                         android:layout_weight="1"
                         android:background="@drawable/bnt_dashboard"
                         android:drawableRight="@android:drawable/ic_menu_search"
-
                         android:gravity="center_vertical"
                         android:hint="Address"
-                        android:imeOptions="actionNext"
-                        android:inputType="textMultiLine"
+                        android:imeOptions="actionDone"
+                        android:inputType="textMultiLine|textCapWords"
                         android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"

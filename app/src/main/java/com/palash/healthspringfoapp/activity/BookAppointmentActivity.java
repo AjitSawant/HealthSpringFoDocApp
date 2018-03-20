@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.palash.healthspringfoapp.entity.AppointmentReason;
 import com.palash.healthspringfoapp.entity.BookAppointment;
 import com.palash.healthspringfoapp.entity.Department;
 import com.palash.healthspringfoapp.entity.DoctorProfile;
+import com.palash.healthspringfoapp.entity.ELDoctorMaster;
 import com.palash.healthspringfoapp.entity.Flag;
 import com.palash.healthspringfoapp.task.SynchronizationTask;
 import com.palash.healthspringfoapp.utilities.Constants;
@@ -45,39 +47,39 @@ public class BookAppointmentActivity extends AppCompatActivity {
     private LocalSetting localSetting;
     private DatabaseContract databaseContract;
     private DatabaseAdapter databaseAdapter;
-    private DatabaseAdapter.AppointmentReasonAdapter appointmentReasonAdapterDB;
-    private DatabaseAdapter.DepartmentAdapter departmentAdapterBD;
-    private DatabaseAdapter.ComplaintAdapter complaintAdapterBD;
-    private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
     private DatabaseAdapter.DoctorProfileAdapter doctorProfileAdapter;
+    private DatabaseAdapter.BookAppointmentAdapter bookAppointmentAdapter;
+    private DatabaseAdapter.DepartmentAdapter departmentAdapterBD;
+    private DatabaseAdapter.AppointmentReasonAdapter appointmentReasonAdapterDB;
 
-    private MaterialSpinner appointment_spinner_appointmetreason;
-    private MaterialSpinner appointment_spinner_department;
-    private MaterialSpinner appointment_spinner_complaint;
     private TextView appointment_edt_patient_name;
     private TextView appointment_edt_patient_gender;
     private TextView appointment_edt_patient_contact;
     private TextView appointment_edt_patient_mail;
-    private TextView appointment_edt_doctor_name;
-    private TextView appointment_edt_doctor_spcilization;
-    private TextView appointment_edt_doctor_education;
-    private TextView appointment_edt_doctor_contactno;
     private EditText appointment_edt_date;
     private EditText appointment_edt_time;
     private EditText appointment_edt_remark;
     private EditText appointment_edt_reschedule_reason;
-    private LinearLayout appointment_book_edt_doctor_mobile_layout;
+    private MaterialSpinner appointment_spinner_department;
+    private MaterialSpinner appointment_book_spinner_doctor;
+    private MaterialSpinner appointment_spinner_appointmetreason;
+    private LinearLayout layout_appointment_book_spinner_department;
+    private LinearLayout layout_appointment_book_spinner_doctor;
 
     private SpinnerAdapter.AppointmentReasonAdapter appointmentReasonAdapter;
     private SpinnerAdapter.DepartmentAdapter departmentAdapter;
+    private SpinnerAdapter.DoctorNameListAdapter doctorNameListAdapter;
 
-    private Flag flag;
     private BookAppointment bookAppointment;
-    private ArrayList<AppointmentReason> appointmentReasonslist;
-    private ArrayList<Department> departmentslist;
-    private ArrayList<BookAppointment> bookAppointmentArrayList;
+
     private ArrayList<DoctorProfile> doctorProfileArrayList;
-    private DatabaseAdapter.FlagAdapter flagAdapter;
+    private ArrayList<Department> departmentslist;
+    private ArrayList<ELDoctorMaster> elDoctorMasterArrayList;
+    private ArrayList<BookAppointment> bookAppointmentArrayList;
+    private ArrayList<AppointmentReason> appointmentReasonslist;
+
+    private String SelectedDepartmentID = "0";
+    private String SelectedDoctorID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         InitView();
         disableView();
         InitAdapter();
+        isLoginAsDoctor();
     }
 
     private void InitSetting() {
@@ -101,19 +104,16 @@ public class BookAppointmentActivity extends AppCompatActivity {
             localSetting.Load();
             databaseContract = new DatabaseContract(context);
             databaseAdapter = new DatabaseAdapter(databaseContract);
-            appointmentReasonAdapterDB = databaseAdapter.new AppointmentReasonAdapter();
-            appointmentReasonslist = appointmentReasonAdapterDB.listAll();
-            departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
-            complaintAdapterBD = databaseAdapter.new ComplaintAdapter();
             doctorProfileAdapter = databaseAdapter.new DoctorProfileAdapter();
-            doctorProfileArrayList = doctorProfileAdapter.listAll();
+            departmentAdapterBD = databaseAdapter.new DepartmentAdapter();
+            appointmentReasonAdapterDB = databaseAdapter.new AppointmentReasonAdapter();
             bookAppointmentAdapter = databaseAdapter.new BookAppointmentAdapter();
 
+            doctorProfileArrayList = doctorProfileAdapter.listAll();
+            appointmentReasonslist = appointmentReasonAdapterDB.listAll();
             if (doctorProfileArrayList != null && doctorProfileArrayList.size() > 0) {
                 departmentslist = departmentAdapterBD.listAll(doctorProfileArrayList.get(0).getUnitID());
             }
-
-            flagAdapter = databaseAdapter.new FlagAdapter();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,18 +125,15 @@ public class BookAppointmentActivity extends AppCompatActivity {
             appointment_edt_patient_gender = (TextView) findViewById(R.id.appointment_edt_patient_gender);
             appointment_edt_patient_contact = (TextView) findViewById(R.id.appointment_edt_patient_contact);
             appointment_edt_patient_mail = (TextView) findViewById(R.id.appointment_edt_patient_mail);
-            appointment_edt_doctor_name = (TextView) findViewById(R.id.appointment_edt_doctor_name);
-            appointment_edt_doctor_spcilization = (TextView) findViewById(R.id.appointment_edt_doctor_spcilization);
-            appointment_edt_doctor_education = (TextView) findViewById(R.id.appointment_edt_doctor_education);
-            appointment_edt_doctor_contactno = (TextView) findViewById(R.id.appointment_edt_doctor_contactno);
-            appointment_book_edt_doctor_mobile_layout = (LinearLayout) findViewById(R.id.appointment_book_edt_doctor_mobile_layout);
+            appointment_spinner_department = (MaterialSpinner) findViewById(R.id.appointment_spinner_department);
+            appointment_book_spinner_doctor = (MaterialSpinner) findViewById(R.id.appointment_book_spinner_doctor);
+            layout_appointment_book_spinner_department = (LinearLayout) findViewById(R.id.layout_appointment_book_spinner_department);
+            layout_appointment_book_spinner_doctor = (LinearLayout) findViewById(R.id.layout_appointment_book_spinner_doctor);
             appointment_edt_date = (EditText) findViewById(R.id.appointment_edt_date);
             appointment_edt_time = (EditText) findViewById(R.id.appointment_edt_time);
             appointment_edt_remark = (EditText) findViewById(R.id.appointment_edt_remark);
             appointment_edt_reschedule_reason = (EditText) findViewById(R.id.appointment_edt_reschedule_reason);
-            appointment_spinner_department = (MaterialSpinner) findViewById(R.id.appointment_spinner_department);
             appointment_spinner_appointmetreason = (MaterialSpinner) findViewById(R.id.appointment_spinner_appointmetreason);
-            appointment_spinner_complaint = (MaterialSpinner) findViewById(R.id.appointment_spinner_complaint);
 
             if (localSetting.Activityname.equals("PatientList")) {
                 setTitle(R.string.dashboard_Appointment);
@@ -147,7 +144,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
             }
 
             BindView();
-            appointment_spinner_complaint.setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,18 +151,64 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
     private void InitAdapter() {
         try {
+
+            if (departmentslist != null && departmentslist.size() > 0) {
+                departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentslist);
+                appointment_spinner_department.setAdapter(departmentAdapter);
+                departmentAdapter.notifyDataSetChanged();
+                appointment_spinner_department.setSelection(1);
+
+                appointment_spinner_department.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        int sVisitTypePos = appointment_spinner_department.getSelectedItemPosition();
+                        if (sVisitTypePos == 0) {
+                            SelectedDepartmentID = "0";
+                        } else if (sVisitTypePos > 0) {
+                            sVisitTypePos = sVisitTypePos - 1;
+                            SelectedDepartmentID = departmentslist.get(sVisitTypePos).getID();
+                        }
+                        if (doctorProfileArrayList != null && doctorProfileArrayList.size() > 0) {
+                            if (!SelectedDepartmentID.equals("0") && doctorProfileArrayList.get(0).getIsFrontOfficeUser().equals("1")) {
+                                new AppointmentDoctorScheduleTask().execute();
+                            } else {
+                                elDoctorMasterArrayList = new ArrayList<ELDoctorMaster>();
+                                doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                                appointment_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            } else {
+                departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentslist);
+                appointment_spinner_department.setAdapter(departmentAdapter);
+            }
+
             if (appointmentReasonslist != null && appointmentReasonslist.size() > 0) {
                 appointmentReasonAdapter = new SpinnerAdapter.AppointmentReasonAdapter(context, appointmentReasonslist);
                 appointment_spinner_appointmetreason.setAdapter(appointmentReasonAdapter);
                 appointmentReasonAdapter.notifyDataSetChanged();
             }
-            if (departmentslist != null && departmentslist.size() > 0) {
-                departmentAdapter = new SpinnerAdapter.DepartmentAdapter(context, departmentslist);
-                appointment_spinner_department.setAdapter(departmentAdapter);
-                departmentAdapter.notifyDataSetChanged();
-            }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void isLoginAsDoctor() {
+        if (doctorProfileArrayList != null && doctorProfileArrayList.size() > 0) {
+            if (LocalSetting.isFrontOfficeUser(doctorProfileArrayList.get(0))) {
+                layout_appointment_book_spinner_department.setVisibility(View.VISIBLE);
+                layout_appointment_book_spinner_doctor.setVisibility(View.VISIBLE);
+            } else {
+                layout_appointment_book_spinner_doctor.setVisibility(View.GONE);
+
+                //SelectedDepartmentID = doctorProfileArrayList.get(0).getDepartmentID();
+                SelectedDoctorID = doctorProfileArrayList.get(0).getDoctorID();
+            }
         }
     }
 
@@ -191,10 +233,10 @@ public class BookAppointmentActivity extends AppCompatActivity {
             appointment_edt_patient_name.setEnabled(false);
             appointment_edt_patient_contact.setEnabled(false);
             appointment_edt_patient_mail.setEnabled(false);
-            appointment_edt_doctor_name.setEnabled(false);
-            appointment_edt_doctor_spcilization.setEnabled(false);
-            appointment_edt_doctor_education.setEnabled(false);
-            appointment_edt_doctor_contactno.setEnabled(false);
+            //appointment_edt_doctor_name.setEnabled(false);
+            //appointment_edt_doctor_spcilization.setEnabled(false);
+            //appointment_edt_doctor_education.setEnabled(false);
+            //appointment_edt_doctor_contactno.setEnabled(false);
             appointment_edt_date.setEnabled(false);
             appointment_edt_time.setEnabled(false);
         } catch (Exception e) {
@@ -223,43 +265,18 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 appointment_edt_patient_name.setText(Name);
                 appointment_edt_patient_contact.setText(bookAppointmentArrayList.get(0).getContact1());
                 appointment_edt_patient_mail.setText(bookAppointmentArrayList.get(0).getEmailId());
-                appointment_edt_doctor_name.setText(bookAppointmentArrayList.get(0).getDoctorName());
-                appointment_edt_doctor_spcilization.setText(bookAppointmentArrayList.get(0).getSpecialization());
-                appointment_edt_doctor_education.setText(bookAppointmentArrayList.get(0).getDoctorEducation());
-                appointment_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
                 appointment_edt_time.setText(bookAppointmentArrayList.get(0).getFromTime() + " - " + bookAppointmentArrayList.get(0).getToTime());
                 appointment_edt_date.setText(bookAppointmentArrayList.get(0).getAppointmentDate());
                 appointment_edt_remark.setText(bookAppointmentArrayList.get(0).getRemark());
 
-                if (bookAppointmentArrayList.get(0).getDoctorMobileNo() != null && bookAppointmentArrayList.get(0).getDoctorMobileNo().trim().length() > 0) {
-                    appointment_edt_doctor_contactno.setText(bookAppointmentArrayList.get(0).getDoctorMobileNo());
-                    appointment_book_edt_doctor_mobile_layout.setVisibility(View.VISIBLE);
-                } else {
-                    appointment_book_edt_doctor_mobile_layout.setVisibility(View.GONE);
-                }
-
                 if (bookAppointmentArrayList.get(0).getGenderID() != null && bookAppointmentArrayList.get(0).getGenderID().trim().length() > 0) {
-                    if (bookAppointmentArrayList.get(0).getGenderID().equals("1") ) {
+                    if (bookAppointmentArrayList.get(0).getGenderID().equals("1")) {
                         appointment_edt_patient_gender.setText("Male");
-                    }else{
+                    } else {
                         appointment_edt_patient_gender.setText("Female");
                     }
                 }
                 try {
-                    if (departmentslist != null && departmentslist.size() > 0) {
-                        boolean matchFlag = false;
-                        int pos = 0;
-                        for (int i = 0; i < departmentslist.size(); i++) {
-                            if (bookAppointmentArrayList.get(0).getDepartmentID().equals(departmentslist.get(i).getID())) {
-                                matchFlag = true;
-                                pos = i;
-                            }
-                        }
-                        if (matchFlag == true) {
-                            pos = pos + 1;
-                            appointment_spinner_department.setSelection(pos);
-                        }
-                    }
                     if (appointmentReasonslist != null && appointmentReasonslist.size() > 0) {
                         appointment_spinner_appointmetreason.setSelection(Integer.parseInt(bookAppointmentArrayList.get(0).getAppointmentReasonID()));
                     }
@@ -400,9 +417,9 @@ public class BookAppointmentActivity extends AppCompatActivity {
             case R.id.menu_toolbar_save:
                 if (validateControls()) {
                     if (localSetting.Activityname.equals("PatientList")) {
-                        BookAppointmentBindView();
+                        //BookAppointmentBindView();
                     } else if (localSetting.Activityname.equals("RescheduleAppointment")) {
-                        RescheduleAppointmentBindView();
+                        //RescheduleAppointmentBindView();
                     }
                 }
                 return true;
@@ -552,6 +569,87 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+            super.onPostExecute(result);
+        }
+    }
+
+    public class AppointmentDoctorScheduleTask extends AsyncTask<Void, Void, String> {
+        private JsonObjectMapper objectMapper;
+        private String responseString = "";
+        private int responseCode = 0;
+        private TransparentProgressDialog progressDialog = null;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = localSetting.showDialog(context);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                WebServiceConsumer serviceConsumer = new WebServiceConsumer(context, null, null, null);
+                Response response = serviceConsumer.GET(Constants.VISIT_SCHEDULE_DOCTOR_NAME_URL + doctorProfileArrayList.get(0).getUnitID() + "&DepartmentID=" + SelectedDepartmentID);
+                if (response != null) {
+                    responseString = response.body().string();
+                    responseCode = response.code();
+                    Log.d(Constants.TAG, "Response code:" + responseCode);
+                    Log.d(Constants.TAG, "Response string:" + responseString);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            localSetting.hideDialog(progressDialog);
+            if (responseCode == Constants.HTTP_OK_200) {
+                try {
+                    objectMapper = new JsonObjectMapper();
+                    elDoctorMasterArrayList = objectMapper.map(responseString, ELDoctorMaster.class);
+
+                    //  --------------- Patient category L3 drop down  -------------------------
+                    if (elDoctorMasterArrayList != null && elDoctorMasterArrayList.size() > 0) {
+                        doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                        appointment_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+                        doctorNameListAdapter.notifyDataSetChanged();
+
+                        appointment_book_spinner_doctor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                int sCategoryL3Pos = appointment_book_spinner_doctor.getSelectedItemPosition();
+                                if (sCategoryL3Pos == 0) {
+                                    SelectedDoctorID = "0";
+                                } else if (sCategoryL3Pos > 0) {
+                                    sCategoryL3Pos = sCategoryL3Pos - 1;
+                                    SelectedDoctorID = elDoctorMasterArrayList.get(sCategoryL3Pos).getDoctorID();
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    } else {
+                        SelectedDoctorID = "0";
+                        elDoctorMasterArrayList = new ArrayList<>();
+                        doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                        appointment_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (responseCode == Constants.HTTP_NO_RECORD_FOUND_OK_204) {
+                SelectedDoctorID = "0";
+                elDoctorMasterArrayList = new ArrayList<>();
+                doctorNameListAdapter = new SpinnerAdapter.DoctorNameListAdapter(context, elDoctorMasterArrayList);
+                appointment_book_spinner_doctor.setAdapter(doctorNameListAdapter);
+            } else {
+                localSetting.alertbox(context, localSetting.handleError(responseCode), false);
             }
             super.onPostExecute(result);
         }

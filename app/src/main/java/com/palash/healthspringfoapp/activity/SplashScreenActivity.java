@@ -118,17 +118,6 @@ public class SplashScreenActivity extends AppCompatActivity
         super.onBackPressed();
     }
 
-    /*private void Permissions() {
-        SplashScreenActivity.super.requestAppPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, R.string.runtime_permissions_txt
-                , REQUEST_PERMISSIONS);
-    }
-
-    @Override
-    public void onPermissionsGranted(final int requestCode) {
-        //Toast.makeText(this, "Permissions Received.", Toast.LENGTH_LONG).show();
-        LauncherScreen();
-    }*/
-
     private class GetAppVesion extends AsyncTask<Void, Void, String> {
         private TransparentProgressDialog progressDialog;
         private JsonObjectMapper jsonObjectMapper;
@@ -180,14 +169,6 @@ public class SplashScreenActivity extends AppCompatActivity
             super.onPostExecute(result);
         }
     }
-
-   /* private void displaySplashScreen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Permissions();
-        } else {
-            LauncherScreen();
-        }
-    }*/
 
     private void CheckAppUpdate() {
         elSynchOfflineDataList = synchOfflineDataAdapter.listAll();

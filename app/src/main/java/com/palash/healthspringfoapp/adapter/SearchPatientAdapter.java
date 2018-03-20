@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.palash.healthspringfoapp.R;
+import com.palash.healthspringfoapp.activity.BookAppointmentActivity;
 import com.palash.healthspringfoapp.activity.PatientConsoleActivity;
 import com.palash.healthspringfoapp.activity.TimeSlotActivity;
 import com.palash.healthspringfoapp.activity.VisitListActivity;
@@ -180,8 +181,9 @@ public class SearchPatientAdapter extends BaseAdapter implements Filterable {
                         localSetting.Activityname = "PatientList";
                         localSetting.Save();
 
-                        context.startActivity(new Intent(context, TimeSlotActivity.class));
-                        Constants.refreshPatient = false;
+                        //context.startActivity(new Intent(context, TimeSlotActivity.class));
+                        //Constants.refreshPatient = false;
+                        context.startActivity(new Intent(context, BookAppointmentActivity.class));
                     }
                 }
             });

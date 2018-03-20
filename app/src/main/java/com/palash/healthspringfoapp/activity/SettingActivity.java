@@ -150,13 +150,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             Validate.Msgshow(context, "Current password and new password are same");
             return false;
         } else if (!Validate.hasMinimumCharInEditText(edt_set_new_password.getText().toString())) {
-            Validate.Msgshow(context, "Please enter new password min 6 and max 12 characters.");
+            Validate.Msgshow(context, "Please enter new password min 8 and max 25 characters.");
             return false;
         } else if (!Validate.hasTextIn(edt_set_confirm_password.getText().toString())) {
             Validate.Msgshow(context, "Please enter confirm password.");
             return false;
         } else if (!Validate.hasMinimumCharInEditText(edt_set_confirm_password.getText().toString())) {
-            Validate.Msgshow(context, "Please enter confirm password min 6 and max 12 characters.");
+            Validate.Msgshow(context, "Please enter confirm password min 8 and max 25 characters.");
             return false;
         } else if (!Validate.hasBothEditTextSame(edt_set_new_password.getText().toString(), edt_set_confirm_password.getText().toString())) {
             Validate.Msgshow(context, "Confirm password not matched.");
