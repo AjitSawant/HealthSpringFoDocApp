@@ -55,27 +55,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_weight="1"
-                    android:text="First name"
+                    android:text="Patient name"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
-
-                <RadioButton
-                    android:id="@+id/radio_button_by_lname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_weight="1"
-                    android:text="Last name"
-                    android:textSize="12sp"
-                    app:buttonTint="@android:color/darker_gray" />
-
-            </RadioGroup>
-
-            <RadioGroup
-                android:id="@+id/radio_group_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radio_button_by_mobileNo"
@@ -87,17 +69,13 @@
                     android:text="Mobile no"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
+            </RadioGroup>
 
-                <!--<RadioButton
-                    android:id="@+id/radio_button_by_doctor"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="4dp"
-                    android:checked="false"
-                    android:text="Doctor"
-                    android:textSize="12sp"
-                    app:buttonTint="@android:color/darker_gray" />-->
+            <RadioGroup
+                android:id="@+id/radio_group_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radio_button_by_dept"
@@ -122,15 +100,6 @@
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
 
-
-            </RadioGroup>
-
-            <RadioGroup
-                android:id="@+id/radio_group_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
                 <RadioButton
                     android:id="@+id/radio_button_by_visit_status"
                     android:layout_width="0dp"
@@ -141,6 +110,15 @@
                     android:text="Visit Status"
                     android:textSize="12sp"
                     app:buttonTint="@android:color/darker_gray" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/radio_group_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radio_button_by_category"
@@ -218,33 +196,42 @@
                 android:paddingLeft="8dp"
                 android:textSize="13sp" />
 
-            <EditText
-                android:id="@+id/patient_registration_firstname_edt"
+            <LinearLayout
+                android:id="@+id/layout_search_by_name_view"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/bnt_dashboard"
-                android:gravity="center_vertical"
-                android:hint="Enter first name"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:paddingLeft="8dp"
-                android:textSize="13sp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/patient_registration_lastname_edt"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/bnt_dashboard"
-                android:gravity="center_vertical"
-                android:hint="Enter last name"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:paddingLeft="8dp"
-                android:textSize="13sp" />
+                <EditText
+                    android:id="@+id/patient_registration_firstname_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:gravity="center_vertical"
+                    android:hint="Enter first name"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/patient_registration_lastname_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bnt_dashboard"
+                    android:gravity="center_vertical"
+                    android:hint="Enter last name"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/patient_registration_mobile_no_edt"

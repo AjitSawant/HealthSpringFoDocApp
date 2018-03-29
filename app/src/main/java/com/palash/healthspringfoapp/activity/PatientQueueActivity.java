@@ -93,9 +93,7 @@ public class PatientQueueActivity extends AppCompatActivity {
     private RadioGroup radio_group_3;
     private RadioButton radio_button_by_mrno;
     private RadioButton radio_button_by_fname;
-    private RadioButton radio_button_by_lname;
     private RadioButton radio_button_by_mobileNo;
-    //private RadioButton radio_button_by_doctor;
     private RadioButton radio_button_by_dept;
     private RadioButton radio_button_by_category;
     private RadioButton radio_button_by_visit_type;
@@ -236,7 +234,6 @@ public class PatientQueueActivity extends AppCompatActivity {
 
         radio_button_by_mrno = (RadioButton) view.findViewById(R.id.radio_button_by_mrno);
         radio_button_by_fname = (RadioButton) view.findViewById(R.id.radio_button_by_fname);
-        radio_button_by_lname = (RadioButton) view.findViewById(R.id.radio_button_by_lname);
         radio_button_by_mobileNo = (RadioButton) view.findViewById(R.id.radio_button_by_mobileNo);
         //radio_button_by_doctor = (RadioButton) view.findViewById(R.id.radio_button_by_doctor);
         radio_button_by_dept = (RadioButton) view.findViewById(R.id.radio_button_by_dept);
@@ -310,28 +307,6 @@ public class PatientQueueActivity extends AppCompatActivity {
             public void onClick(View view) {
                 patient_registration_mrno_edt.setVisibility(View.GONE);
                 patient_registration_firstname_edt.setVisibility(View.VISIBLE);
-                patient_registration_lastname_edt.setVisibility(View.GONE);
-                patient_registration_mobile_no_edt.setVisibility(View.GONE);
-                //layout_search_by_doctor.setVisibility(View.GONE);
-                layout_search_by_department.setVisibility(View.GONE);
-                patient_register_layout_category_L3.setVisibility(View.GONE);
-                layout_search_by_visit_type.setVisibility(View.GONE);
-                layout_search_by_visit_status.setVisibility(View.GONE);
-                radio_group_2.clearCheck();
-                radio_group_3.clearCheck();
-
-                filter_text_1.setVisibility(View.VISIBLE);
-                filter_text_2.setVisibility(View.GONE);
-                filter_text_1.setText("First Name");
-                checkRadio = 1;
-            }
-        });
-
-        radio_button_by_lname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                patient_registration_mrno_edt.setVisibility(View.GONE);
-                patient_registration_firstname_edt.setVisibility(View.GONE);
                 patient_registration_lastname_edt.setVisibility(View.VISIBLE);
                 patient_registration_mobile_no_edt.setVisibility(View.GONE);
                 //layout_search_by_doctor.setVisibility(View.GONE);
@@ -343,9 +318,10 @@ public class PatientQueueActivity extends AppCompatActivity {
                 radio_group_3.clearCheck();
 
                 filter_text_1.setVisibility(View.VISIBLE);
-                filter_text_2.setVisibility(View.GONE);
-                filter_text_1.setText("Last Name");
-                checkRadio = 2;
+                filter_text_2.setVisibility(View.VISIBLE);
+                filter_text_1.setText("First Name");
+                filter_text_2.setText("Last Name");
+                checkRadio = 1;
             }
         });
 
@@ -361,7 +337,7 @@ public class PatientQueueActivity extends AppCompatActivity {
                 patient_register_layout_category_L3.setVisibility(View.GONE);
                 layout_search_by_visit_type.setVisibility(View.GONE);
                 layout_search_by_visit_status.setVisibility(View.GONE);
-                radio_group_1.clearCheck();
+                radio_group_2.clearCheck();
                 radio_group_3.clearCheck();
 
                 filter_text_1.setVisibility(View.VISIBLE);
@@ -454,7 +430,7 @@ public class PatientQueueActivity extends AppCompatActivity {
                 layout_search_by_visit_type.setVisibility(View.GONE);
                 layout_search_by_visit_status.setVisibility(View.VISIBLE);
                 radio_group_1.clearCheck();
-                radio_group_2.clearCheck();
+                radio_group_3.clearCheck();
 
                 filter_text_1.setVisibility(View.VISIBLE);
                 filter_text_2.setVisibility(View.GONE);
@@ -512,8 +488,8 @@ public class PatientQueueActivity extends AppCompatActivity {
         }
 
         if (checkRadio == 1) {
-            if (firstName.equals("") || firstName.length() == 0) {
-                Toast.makeText(context, "Please enter first name", Toast.LENGTH_SHORT).show();
+            if ((firstName.equals("") || firstName.length() == 0) || (lastName.equals("") || lastName.length() == 0)) {
+                Toast.makeText(context, "Please enter first and last name", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }

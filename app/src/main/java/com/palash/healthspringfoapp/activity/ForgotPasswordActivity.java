@@ -67,8 +67,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     private String mEmail = "";
     private String mMobileNo = "";
     private String mMobileOtpUrl;
-    private String mEmailOtpUrl;
     private String mGeneratedOTP;
+
+    private Boolean isOTPbyMobile = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,8 +195,10 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                     forgot_password_footer_layout.setVisibility(View.GONE);
 
                     if (forgot_password_by_mobile_radio_btn.isChecked()) {
+                        isOTPbyMobile = true;
                         sendSMS();
                     } else {
+                        isOTPbyMobile = false;
                         sendEmail();
                     }
                 }
@@ -342,10 +345,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     }
 
     private class SendEmailOTPTask extends AsyncTask<String, String, Boolean> {
-        private String responseString = "";
-        private String responseMsg = "";
-        private int responseCode = 0;
-        private Response response = null;
         private TransparentProgressDialog progressDialog = null;
 
         @Override
@@ -359,23 +358,22 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         protected Boolean doInBackground(String... params) {
             boolean res = false;
             try {
-                String Otp = String.valueOf(GenerateRandomNo());
-
+                mGeneratedOTP = String.valueOf(GenerateRandomNo());
                 Mail m = new Mail("it@healthspring.in", "Health$pring");
                 String[] toArr = null;
-                m.set_from("frontoffice_thane@healthspring.in");
-                toArr = new String[]{mEmail};
+                m.set_from("it@healthspring.in");
+                toArr = new String[]{"ajits@palashhealthcare.com"};
                 m.set_to(toArr);
                 m.set_subject("One Time Password for palash account");
 
-                StringBuilder BodyContent = new StringBuilder("");
-                BodyContent.append("<br />");
-                BodyContent.append("<span class=" + "Normal" + "> Use <b>" + Otp + "</b>" + " as one time password (OTP) to login to your palash account. Do not share this OTP to anyone for security reasons. Valid for 15 minutes. </span>");
+                /*StringBuilder BodyContent = new StringBuilder("");
+                BodyContent.append("<html><body><br />");
+                BodyContent.append("<span class=" + "Normal" + "> Use <b>" + mGeneratedOTP + "</b>" + " as one time password (OTP) to login to your palash account. Do not share this OTP to anyone for security reasons. Valid for 15 minutes. </span>");
                 BodyContent.append("<span class=" + "Normal" + "></span>");
-                BodyContent.append("<br /><br />");
+                BodyContent.append("<br /><br /></body></html>");
+                m.set_body(BodyContent.toString());*/
 
-                //m.set_body(params[0]);
-                m.set_body(BodyContent.toString());
+                m.set_body("Use " + mGeneratedOTP + " as one time password (OTP) to login to your palash account. Do not share this OTP to anyone for security reasons. Valid for 15 minutes.");
 
                 res = m.send();
             } catch (Exception e) {
@@ -389,24 +387,10 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
             localSetting.hideDialog(progressDialog);
             if (b) {
                 new AddOTPTask().execute();
-                forgot_password_otp_layout.setVisibility(View.VISIBLE);
-                forgot_password_submit_otp_btn.setVisibility(View.VISIBLE);
-
-            /*if (responseCode == Constants.HTTP_OK_200 && responseMsg.equals("OK")) {
-                if (result != null && (result.contains("Success (1)") || result.contains("Fail (0)"))) {
-                    forgot_password_otp_layout.setVisibility(View.VISIBLE);
-                    forgot_password_submit_otp_btn.setVisibility(View.VISIBLE);
-                    forgot_password_send_otp_btn.setText("Resend OTP");
-
-                    new AddOTPTask().execute();
-                }
             } else {
                 forgot_password_otp_layout.setVisibility(View.GONE);
                 forgot_password_submit_otp_btn.setVisibility(View.GONE);
-                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), "Something wents wrong");
-            }*/
-            } else {
-                Toast.makeText(context, "Message not sent.", Toast.LENGTH_LONG).show();
+                localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), "OTP not sent.Something wents wrong");
             }
         }
     }
@@ -454,7 +438,14 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         protected void onPostExecute(String result) {
             localSetting.hideDialog(progressDialog);
             if (responseCode == Constants.HTTP_CREATED_201) {
-                localSetting.showSuccessAlert(context, context.getResources().getString(R.string.app_name), "OTP sent to your registered mobile");
+                forgot_password_otp_layout.setVisibility(View.VISIBLE);
+                forgot_password_submit_otp_btn.setVisibility(View.VISIBLE);
+                forgot_password_send_otp_btn.setText("Resend OTP");
+                if(isOTPbyMobile) {
+                    localSetting.showSuccessAlert(context, context.getResources().getString(R.string.app_name), "OTP sent to your registered mobile");
+                }else{
+                    localSetting.showSuccessAlert(context, context.getResources().getString(R.string.app_name), "OTP sent to your registered email address");
+                }
             } else {
                 localSetting.showErrorAlert(context, context.getResources().getString(R.string.opps_alert), localSetting.handleError(responseCode));
             }
